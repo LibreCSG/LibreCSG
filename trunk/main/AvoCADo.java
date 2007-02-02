@@ -1,7 +1,12 @@
 package main;
 
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+
+import ui.shells.MainAvoCADoShell;
+
 //
-// Copyright (C) 2007 Adam Kumpf
+// Copyright (C) 2007 AvoCADo (Adam Kumpf creator)
 // This code is distributed under the terms of the 
 // GNU General Public License (GPL).
 //
@@ -18,17 +23,40 @@ package main;
 //GNU General Public License for more details.
 //
 //You should have received a copy of the GNU General Public License
-//along with avoCADo; if not, write to the Free Software
+//along with AvoCADo; if not, write to the Free Software
 //Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-public class avoCADo {
+/*
+ * @author  Adam Kumpf
+ * @created Jan. 2007
+ */
 
+public class AvoCADo {
+
+	final Display display;
+	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		System.out.println("-- simple test --");
+		System.out.println("** Starting avoCADo **");
+		new AvoCADo();
+		System.out.println("** Exiting avoCADo  **");
 	}
+	
+	public AvoCADo(){
+		display = new Display();
+		
+		// create the main shell and display it
+		Shell mainShell = new MainAvoCADoShell(display);
+		
+		while (!mainShell.isDisposed()) {
+			if (!display.readAndDispatch())
+				display.sleep();
+		}
+		display.dispose();
+	}
+	
 
 }
