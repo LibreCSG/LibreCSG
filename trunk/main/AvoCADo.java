@@ -6,7 +6,7 @@ import org.eclipse.swt.widgets.Shell;
 import ui.shells.MainAvoCADoShell;
 
 //
-// Copyright (C) 2007 AvoCADo (Adam Kumpf creator)
+// Copyright (C) 2007 avoCADo (Adam Kumpf creator)
 // This code is distributed under the terms of the 
 // GNU General Public License (GPL).
 //
@@ -49,12 +49,8 @@ public class AvoCADo {
 		display = new Display();
 		
 		// create the main shell and display it
-		Shell mainShell = new MainAvoCADoShell(display);
+		new MainAvoCADoShell(display);
 		
-		while (!mainShell.isDisposed()) {
-			if (!display.readAndDispatch())
-				display.sleep();
-		}
 		display.dispose();
 	}
 	
