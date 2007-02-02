@@ -1,7 +1,7 @@
 package main;
 
 //
-// Copyright: Adam Kumpf, 2007
+// Copyright (C) 2007 Adam Kumpf
 // This code is distributed under the terms of the 
 // GNU General Public License (GPL).
 //
