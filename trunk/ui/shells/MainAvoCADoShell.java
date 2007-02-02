@@ -2,16 +2,16 @@ package ui.shells;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
+
+import ui.menubar.AvoMenuBar;
+import ui.menuet.Menuet;
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -79,12 +79,8 @@ public class MainAvoCADoShell{
 		//
 		Menu menu = new Menu(shell, SWT.BAR);
 		shell.setMenuBar(menu);
-		// TODO: populate the menubar
-		// HACK: just for now...
-		MenuItem miFile = new MenuItem(menu, SWT.CASCADE);
-		miFile.setText("&File");
-		MenuItem miEdit = new MenuItem(menu, SWT.CASCADE);
-		miEdit.setText("&Edit");
+		// populate the menubar
+		AvoMenuBar.populateMenuBar(menu);
 		
 		//
 		// break the shell into two pieces (left/right)
@@ -101,13 +97,12 @@ public class MainAvoCADoShell{
 		//
 		// set the small left piece as the menuet
 		//
-		// TODO: use menuet instead of a dummy composite
-		Composite menuet = new Composite(shell, SWT.NONE);
+		Menuet menuet = new Menuet(shell, SWT.NONE);
 		menuet.setBackground(new Color(shell.getDisplay(), 100, 200, 100));
 		GridData gd0 = new GridData(GridData.FILL_VERTICAL);
 		gd0.grabExcessVerticalSpace = true;
-		gd0.widthHint = 65;
-		gd0.minimumWidth = 65;
+		gd0.widthHint = Menuet.MENUET_WIDTH;
+		gd0.minimumWidth = Menuet.MENUET_WIDTH;
 		menuet.setLayoutData(gd0);
 		
 		//
