@@ -47,7 +47,7 @@ import ui.menuet.MenuetElement;
 public abstract class Tool {
 
 	public MenuetElement mElement = null;
-
+	
 	/**
 	 * once the MenuetElement and other
 	 * major components have been initialized,
@@ -56,5 +56,15 @@ public abstract class Tool {
 	 * to the tool gorup.
 	 */
 	abstract public void applyToolGroupSettings();
+	
+	/**
+	 * Defined by each tool group.  This
+	 * determines which mode the menuetElement
+	 * will be placed under for display.
+	 * @return
+	 */
+	abstract public int  getToolMode();
+	
+	abstract public void toolSelected();
 	
 }

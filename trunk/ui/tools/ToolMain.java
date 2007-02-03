@@ -6,7 +6,6 @@ import org.eclipse.swt.events.MouseListener;
 import backend.global.AvoGlobal;
 
 
-
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
 //This code is distributed under the terms of the 
@@ -33,12 +32,16 @@ import backend.global.AvoGlobal;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public abstract class Tool2D extends Tool {
+public abstract class ToolMain extends Tool {
 
-	// tool2D specific settings
-	public void applyToolGroupSettings(){
+	/**
+	 * This is applied only after the MenuetElement
+	 * has been created to add on functionality
+	 * common to all tools in the gorup.
+	 */
+	public void applyToolGroupSettings() {
 		if(mElement != null){
-			mElement.meColorBackground = AvoGlobal.COLOR_MENUET_2D;
+			mElement.meColorBackground = AvoGlobal.COLOR_MENUET_MAIN;
 			mElement.addMouseListener(new MouseListener(){
 				public void mouseDoubleClick(MouseEvent e) {
 				}
@@ -47,13 +50,13 @@ public abstract class Tool2D extends Tool {
 				}
 				public void mouseUp(MouseEvent e) {
 				}				
-			});			
-		}		
+			});
+		}
 	}
 
-	// tool2D mode
 	public int getToolMode() {
-		return AvoGlobal.MENUET_MODE_2D;
+		return AvoGlobal.MENUET_MODE_MAIN;
 	}
+
 	
 }

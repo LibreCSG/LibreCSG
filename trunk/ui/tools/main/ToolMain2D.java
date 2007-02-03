@@ -1,10 +1,14 @@
-package ui.tools;
+package ui.tools.main;
 
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 
+import ui.menuet.MEButton;
+import ui.menuet.Menuet;
+import ui.menuet.MenuetElement;
+import ui.tools.ToolMain;
+import backend.data.utilities.ImageUtils;
 import backend.global.AvoGlobal;
-
 
 
 //
@@ -33,27 +37,26 @@ import backend.global.AvoGlobal;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public abstract class Tool2D extends Tool {
+public class ToolMain2D extends ToolMain{
 
-	// tool2D specific settings
-	public void applyToolGroupSettings(){
-		if(mElement != null){
-			mElement.meColorBackground = AvoGlobal.COLOR_MENUET_2D;
-			mElement.addMouseListener(new MouseListener(){
-				public void mouseDoubleClick(MouseEvent e) {
-				}
-				public void mouseDown(MouseEvent e) {
-					toolSelected();
-				}
-				public void mouseUp(MouseEvent e) {
-				}				
-			});			
-		}		
+	public ToolMain2D(Menuet menuet){	
+		
+		// initialize GUI elements
+		mElement = new MEButton(menuet, this.getToolMode());
+		mElement.mePreferredHieght = 50;
+		mElement.meLabel = "2D";
+		mElement.meIcon = ImageUtils.getIcon("menuet/2D_Spline.png", 24, 24);
+		mElement.setToolTipText("2D Sketch Mode");
+		mElement.mePriority = 0; 	// 0 = always show element, >5 = never show element
+		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
+		
+		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
 	}
 
-	// tool2D mode
-	public int getToolMode() {
-		return AvoGlobal.MENUET_MODE_2D;
+	@Override
+	public void toolSelected() {
+		AvoGlobal.CURRENT_TOOL_MODE = AvoGlobal.MENUET_MODE_2D;	
+		AvoGlobal.menuet.updateToolModeDisplayed();
 	}
 	
 }
