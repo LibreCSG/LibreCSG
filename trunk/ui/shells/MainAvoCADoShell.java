@@ -105,6 +105,7 @@ public class MainAvoCADoShell{
 		gd0.minimumWidth = Menuet.MENUET_WIDTH;
 		menuet.setLayoutData(gd0);
 		
+		
 		//
 		// break the right piece into a top and bottom
 		//

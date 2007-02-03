@@ -1,6 +1,8 @@
-package ui.tools;
+package backend.global;
 
-import ui.menuet.MenuetElement;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Display;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -28,33 +30,21 @@ import ui.menuet.MenuetElement;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-
-/**
- * The abstract Tool class represents a set of 
- * functionality capable of handling user-interaction
- * and appropriately performing a given action.
- * 
- * Classes should extend Tool to form groups of
- * related functionality. (e.g., Tool2D for 2D
- * drawing tools like lines, circles, curves, etc.)
- * 
- * The main functionality of a tool includes:
- *   - User interface element (MenuetElement)
- *   - Parameter definitions with good defaults
- *   - handling of tool-related events in the GLview
- *   - construction of elements via GL primatives
- */
-public abstract class Tool {
-
-	public MenuetElement mElement = null;
+public class AvoGlobal {
 
 	/**
-	 * once the MenuetElement and other
-	 * major components have been initialized,
-	 * this should be called to apply colors,
-	 * patterns, etc. to elements specific
-	 * to the tool gorup.
+	 * Color of Menuet in <em>2D MODE</em>.
 	 */
-	abstract void applyToolGroupSettings();
+	public static final Color COLOR_MENUET_2D = new Color(Display.getCurrent(),  150,  220,  150);
+
+	/**
+	 * Color of Menuet in <em>2Dto3D MODE</em>.
+	 */
+	public static final Color COLOR_MENUET_2Dto3D = new Color(Display.getCurrent(),  150,  150,  220);
+	
+	/**
+	 * Color of Menuet in <em>3D MODE</em>.
+	 */
+	public static final Color COLOR_MENUET_3D = new Color(Display.getCurrent(),  220,  220,  150);
 	
 }

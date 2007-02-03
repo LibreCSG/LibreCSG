@@ -2,8 +2,10 @@ package ui.menuet;
 
 import java.io.File;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Canvas;
@@ -38,7 +40,34 @@ import org.eclipse.swt.widgets.Composite;
 */
 public abstract class MenuetElement extends Canvas{
 
-	public Image  meIcon        = null;
+	public final static int ME_ICON_ONLY  = 43071;
+	public final static int ME_TRY_TEXT   = 43072;
+	public final static int ME_TRY_ICON   = 43073;
+	public final static int ME_TEXT_ONLY  = 43074;	
+	
+	final int ALIGN_TOP    = 0;
+	final int ALIGN_MIDDLE = 1;
+	final int ALIGN_BOTTOM = 2;
+	
+	
+	public Image  meIcon     = null;
+	public String meLabel    = "???";
+	private int   meAlign    = ALIGN_TOP; 	// default alignment
+	public  int   mePriority = 0; 			// zero=top priority, >0=less important, >5=don't show
+	public int    meDispOptions = ME_TRY_TEXT;
+	
+	public Color meColorForeground = new Color(this.getDisplay(),   0,   0,   0);
+	public Color meColorBackground = new Color(this.getDisplay(), 255, 255, 255);
+	public Color meColorSelected   = new Color(this.getDisplay(), 210, 210, 210);
+	public Color meColorUnselected = new Color(this.getDisplay(), 235, 235, 235);
+	public Color meColorMouseOver  = new Color(this.getDisplay(), 230, 245, 230);	
+	public Color meColorOutline    = new Color(this.getDisplay(),  96,  96,  96);
+	public Color meColorOutline2   = new Color(this.getDisplay(), 150, 150, 150);
+	public Color meColorFocused    = this.getDisplay().getSystemColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT);
+	
+	public int mePreferredHieght = 50; // preferred height of element if possible.
+	public boolean isSelected  = false;
+	
 	
 	public MenuetElement(Composite parent, int style) {
 		super(parent, style);
@@ -65,4 +94,56 @@ public abstract class MenuetElement extends Canvas{
 		ImageData id = tempImage.getImageData().scaledTo(ICON_WIDTH,ICON_HEIGHT);
 		meIcon = new Image(this.getDisplay(),id);
 	}
+	
+	/**
+	 * align MenuetElement as close to the
+	 * top of the Menuet on which it is placed
+	 * as possible.
+	 */
+	public void meAlignToTop(){
+		meAlign = ALIGN_TOP;
+	}
+	
+	/**
+	 * align MenuetElement as close to the
+	 * middle of the Menuet on which it is placed
+	 * as possible.
+	 */
+	public void meAlignToMiddle(){
+		meAlign = ALIGN_MIDDLE;
+	}
+	
+	/**
+	 * align MenuetElement as close to the
+	 * bottom of the Menuet on which it is placed
+	 * as possible.
+	 */
+	public void meAlignToBottom(){
+		meAlign = ALIGN_BOTTOM;
+	}	
+	
+	/**
+	 * true if aligned to Top
+	 * @return
+	 */
+	public boolean meIsAlignedTop(){
+		return (meAlign == ALIGN_TOP);	
+	}
+	
+	/**
+	 * true if aligned to Middle
+	 * @return
+	 */	
+	public boolean meIsAlignedMiddle(){
+		return (meAlign == ALIGN_MIDDLE);
+	}
+	
+	/**
+	 * true if aligned to Bottom
+	 * @return
+	 */	
+	public boolean meIsAlignedBottom(){
+		return (meAlign == ALIGN_BOTTOM);
+	}
+	
 }
