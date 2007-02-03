@@ -4,6 +4,8 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.widgets.Composite;
 
+import ui.tools.Tool2DLine;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -47,6 +49,8 @@ public class Menuet extends Composite{
 				//respositionMenuetElements(Menuet.this.getBounds().height,Menuet.this.getBounds().width);		
 			}			
 		});
+		
+		new Tool2DLine(this);
 	}	
 	
 }

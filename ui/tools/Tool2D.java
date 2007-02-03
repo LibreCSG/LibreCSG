@@ -1,5 +1,8 @@
 package ui.tools;
 
+import backend.global.AvoGlobal;
+
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -28,5 +31,14 @@ package ui.tools;
 * @created Feb. 2007
 */
 public class Tool2D extends Tool {
+	
 
+	// tool2D specific settings
+	void applyToolGroupSettings(){
+		if(mElement != null){
+			mElement.meColorBackground = AvoGlobal.COLOR_MENUET_2D;
+		}
+		
+	}
+	
 }
