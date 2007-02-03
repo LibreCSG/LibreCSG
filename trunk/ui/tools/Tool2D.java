@@ -34,7 +34,7 @@ public class Tool2D extends Tool {
 	
 
 	// tool2D specific settings
-	void applyToolGroupSettings(){
+	public void applyToolGroupSettings(){
 		if(mElement != null){
 			mElement.meColorBackground = AvoGlobal.COLOR_MENUET_2D;
 		}

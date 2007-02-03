@@ -1,6 +1,11 @@
-package ui.tools;
+package backend.data.utilities;
 
-import ui.menuet.MenuetElement;
+import java.io.File;
+
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.widgets.Display;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -28,33 +33,21 @@ import ui.menuet.MenuetElement;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
+public class ImageUtils {
 
-/**
- * The abstract Tool class represents a set of 
- * functionality capable of handling user-interaction
- * and appropriately performing a given action.
- * 
- * Classes should extend Tool to form groups of
- * related functionality. (e.g., Tool2D for 2D
- * drawing tools like lines, circles, curves, etc.)
- * 
- * The main functionality of a tool includes:
- *   - User interface element (MenuetElement)
- *   - Parameter definitions with good defaults
- *   - handling of tool-related events in the GLview
- *   - construction of elements via GL primatives
- */
-public abstract class Tool {
-
-	public MenuetElement mElement = null;
-
-	/**
-	 * once the MenuetElement and other
-	 * major components have been initialized,
-	 * this should be called to apply colors,
-	 * patterns, etc. to elements specific
-	 * to the tool gorup.
-	 */
-	abstract public void applyToolGroupSettings();
+	
+	public static final String ICON_DIR = "./icons/";
+	
+	public static Image getIcon(String filename, int width, int height){
+		int ICON_WIDTH  = width;
+		int ICON_HEIGHT = height;
+		File test = new File(ICON_DIR + filename);
+		if(test.isFile() != true){
+			filename = "no-image.png";
+		}
+		Image tempImage = new Image(Display.getCurrent(), ICON_DIR + filename);
+		ImageData id = tempImage.getImageData().scaledTo(ICON_WIDTH,ICON_HEIGHT);
+		return new Image(Display.getCurrent(),id);
+	}
 	
 }

@@ -4,7 +4,7 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.widgets.Composite;
 
-import ui.tools.Tool2DLine;
+import ui.tools.DD.Tool2DLine;
 
 
 //
@@ -50,6 +50,7 @@ public class Menuet extends Composite{
 			}			
 		});
 		
+		//TODO: This belongs in the menuet particular to 2D only...
 		new Tool2DLine(this);
 	}	
 	
