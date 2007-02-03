@@ -59,7 +59,7 @@ public abstract class MenuetElement extends Canvas{
 	public Color meColorBackground = new Color(this.getDisplay(), 255, 255, 255);
 	public Color meColorSelected   = new Color(this.getDisplay(), 210, 210, 210);
 	public Color meColorUnselected = new Color(this.getDisplay(), 235, 235, 235);
-	public Color meColorMouseOver  = new Color(this.getDisplay(), 230, 245, 230);	
+	public Color meColorMouseOver  = new Color(this.getDisplay(), 240, 240, 240);	
 	public Color meColorOutline    = new Color(this.getDisplay(),  96,  96,  96);
 	public Color meColorOutline2   = new Color(this.getDisplay(), 150, 150, 150);
 	public Color meColorFocused    = this.getDisplay().getSystemColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT);
@@ -67,6 +67,7 @@ public abstract class MenuetElement extends Canvas{
 	public int mePreferredHieght = 50; // preferred height of element if possible.
 	public boolean isSelected  = false;
 	
+	private boolean isShown = false;
 	
 	public MenuetElement(Composite parent) {
 		super(parent, SWT.NONE);
@@ -78,7 +79,22 @@ public abstract class MenuetElement extends Canvas{
 		meIcon = ImageUtils.getIcon("", 24, 24); // load default icon
 	}
 
+	
+	/**
+	 * paint the element
+	 * @param e
+	 */
 	abstract void paintElement(PaintEvent e);
+	
+	
+	/**
+	 * for a given width, return the lowest possible
+	 * height that will still allow for the element
+	 * to be displayed.
+	 * @param width
+	 * @return
+	 */
+	abstract public int getMinDisplayHeight(int width);
 	
 	/**
 	 * align MenuetElement as close to the
@@ -129,6 +145,15 @@ public abstract class MenuetElement extends Canvas{
 	 */	
 	public boolean meIsAlignedBottom(){
 		return (meAlign == ALIGN_BOTTOM);
+	}
+	
+	
+	public void setShown(boolean shown){
+		isShown = shown;
+	}
+	
+	public boolean meIsShown(){
+		return isShown;
 	}
 	
 }

@@ -12,6 +12,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import ui.menubar.AvoMenuBar;
 import ui.menuet.Menuet;
+import backend.global.AvoGlobal;
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -97,13 +98,14 @@ public class MainAvoCADoShell{
 		//
 		// set the small left piece as the menuet
 		//
-		Menuet menuet = new Menuet(shell, SWT.NONE);
-		menuet.setBackground(new Color(shell.getDisplay(), 100, 200, 100));
+		AvoGlobal.menuet = new Menuet(shell, SWT.NONE);
+		AvoGlobal.menuet.setBackground(AvoGlobal.COLOR_MENUET_MAIN);
 		GridData gd0 = new GridData(GridData.FILL_VERTICAL);
 		gd0.grabExcessVerticalSpace = true;
 		gd0.widthHint = Menuet.MENUET_WIDTH;
 		gd0.minimumWidth = Menuet.MENUET_WIDTH;
-		menuet.setLayoutData(gd0);
+		AvoGlobal.menuet.setLayoutData(gd0);
+		AvoGlobal.menuet.updateToolModeDisplayed();
 		
 		
 		//

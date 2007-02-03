@@ -41,11 +41,11 @@ public class MEButton extends MenuetElement{
 	int MEB_SIDE_SPACE  = 8;	// unconsumed space to right of button
 	boolean mouseIsOver = false;
 	
-	public MEButton(Menuet menuet){
+	public MEButton(Menuet menuet, int mode){
 		super(menuet);
 		
 		// let menuet know about the new element
-		menuet.addMenuetElement(MEButton.this); 
+		menuet.addMenuetElement(this, mode); 
 		
 		this.addMouseTrackListener(new MouseTrackListener(){
 			public void mouseEnter(MouseEvent e) {
@@ -141,5 +141,12 @@ public class MEButton extends MenuetElement{
 			}		
 		}		
 	}
+
+	@Override
+	public int getMinDisplayHeight(int width) {
+		return 28;
+	}
+	
+	
 	
 }
