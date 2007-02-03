@@ -9,6 +9,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import ui.tools.DD.Tool2DLine;
 import ui.tools.main.ToolMain2D;
+import ui.utilities.ColorUtils;
 import backend.global.AvoGlobal;
 
 
@@ -226,7 +227,11 @@ public class Menuet extends Composite{
 
 		// each MenuetElement is now appropriately sized and hidden/shown
 		
-	
+		//
+		// BACKGROUND
+		//
+		this.setBackground(ColorUtils.getModeBGColor());		
+		
 		//
 		// TOP
 		//
