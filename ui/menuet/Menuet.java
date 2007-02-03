@@ -54,4 +54,14 @@ public class Menuet extends Composite{
 		new Tool2DLine(this);
 	}	
 	
+	/**
+	 * Let the menuet know about the addition of a new
+	 * element.  This is necessary so that the menuet 
+	 * can manage layout and sizing of the elements.
+	 * @param mElement
+	 */
+	public void addMenuetElement(MenuetElement mElement){
+		// TODO: Decide how to store/manage MenuetElements.
+	}
+	
 }

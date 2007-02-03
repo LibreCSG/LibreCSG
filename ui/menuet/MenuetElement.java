@@ -68,8 +68,8 @@ public abstract class MenuetElement extends Canvas{
 	public boolean isSelected  = false;
 	
 	
-	public MenuetElement(Composite parent, int style) {
-		super(parent, style);
+	public MenuetElement(Composite parent) {
+		super(parent, SWT.NONE);
 		this.addPaintListener(new PaintListener(){
 			public void paintControl(PaintEvent e) {
 				paintElement(e);

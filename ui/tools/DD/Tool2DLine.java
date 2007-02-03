@@ -1,8 +1,7 @@
 package ui.tools.DD;
 
-import org.eclipse.swt.widgets.Composite;
-
 import ui.menuet.MEButton;
+import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
 import ui.tools.Tool2D;
 import backend.data.utilities.ImageUtils;
@@ -36,17 +35,18 @@ import backend.data.utilities.ImageUtils;
 */
 public class Tool2DLine extends Tool2D{
 
-	public Tool2DLine(Composite menuet){	
+	public Tool2DLine(Menuet menuet){	
 		
 		// initialize GUI elements
-		mElement = new MEButton(menuet, MenuetElement.ME_TRY_TEXT);
+		mElement = new MEButton(menuet);
 		mElement.mePreferredHieght = 50;
-		mElement.meLabel = "Circle";
-		mElement.meIcon = ImageUtils.getIcon("menuet/2D_Circle.png", 24, 24);
-		mElement.setToolTipText("Center point circle");
+		mElement.meLabel = "Line";
+		mElement.meIcon = ImageUtils.getIcon("menuet/2D_Line.png", 24, 24);
+		mElement.setToolTipText("Line");
 		mElement.mePriority = 0; 	// 0 = always show element, >5 = never show element
+		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
 		// TODO: don't set bounds here! (menuet should automatically set this)
-		mElement.setBounds(0,0,65,75);
+		mElement.setBounds(0,0,65,50);
 		
 		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
 	}
