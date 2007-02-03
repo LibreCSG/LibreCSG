@@ -7,7 +7,6 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.Composite;
 
 
 //
@@ -42,8 +41,11 @@ public class MEButton extends MenuetElement{
 	int MEB_SIDE_SPACE  = 8;	// unconsumed space to right of button
 	boolean mouseIsOver = false;
 	
-	public MEButton(Composite parent, int style){
-		super(parent,style);
+	public MEButton(Menuet menuet){
+		super(menuet);
+		
+		// let menuet know about the new element
+		menuet.addMenuetElement(MEButton.this); 
 		
 		this.addMouseTrackListener(new MouseTrackListener(){
 			public void mouseEnter(MouseEvent e) {
@@ -64,7 +66,7 @@ public class MEButton extends MenuetElement{
 		GC g = e.gc;
 		g.setBackground(this.meColorBackground);
 		int width  = this.getBounds().width;
-		int height = this.getBounds().height-1;
+		int height = this.getBounds().height;
 		
 		// clear entire canvas where button will be painted
 		g.fillRectangle(0, 0, width, height);
@@ -96,20 +98,48 @@ public class MEButton extends MenuetElement{
 		g.setLineWidth(1);
 		g.drawRoundRectangle(-MEB_ARC_RADIUS,0,width-MEB_SIDE_SPACE+selShift+MEB_ARC_RADIUS, height-1, MEB_ARC_RADIUS, MEB_ARC_RADIUS);
 		
+		//
+		// handle position of Text/Icon within MEButton
+		//
+		int usableHeight = height-4;
 		// draw button text
 		g.setForeground(this.meColorForeground);
 		FontData fd = new FontData();
 		fd.setHeight(10);
 		g.setFont(new Font(this.getDisplay(), fd));
 		Point textPt = g.textExtent(this.meLabel);
-		if(this.meDispOptions != this.ME_ICON_ONLY){			
-			g.drawText(this.meLabel, 5, height-textPt.y-2);
-		}
-		
-		if(this.meDispOptions != this.ME_TEXT_ONLY){
-			g.drawImage(this.meIcon, (width - MEB_SIDE_SPACE - MEB_ARC_RADIUS/2 - this.meIcon.getBounds().width)/2, height-4-textPt.y-this.meIcon.getBounds().height);
+		switch(this.meDispOptions){
+			case(MenuetElement.ME_ICON_ONLY): 	{
+				g.drawImage(this.meIcon, (width-MEB_SIDE_SPACE-this.meIcon.getBounds().width-1)/2, (height-this.meIcon.getBounds().height)/2);
+				break;
+			}
+			case(MenuetElement.ME_TEXT_ONLY): 	{
+				g.drawText(this.meLabel, (width-textPt.x-MEB_SIDE_SPACE-1)/2, (height-textPt.y)/2);
+				break;
+			}
+			case(MenuetElement.ME_TRY_ICON): 	{
+				if(usableHeight >= (textPt.y+this.meIcon.getBounds().height+1)){
+					g.drawImage(this.meIcon, (width-MEB_SIDE_SPACE-this.meIcon.getBounds().width-1)/2, (height-(this.meIcon.getBounds().height+1+textPt.y))/2);
+					g.drawText(this.meLabel, (width-textPt.x-MEB_SIDE_SPACE-1)/2, (height-(this.meIcon.getBounds().height+1+textPt.y))/2 + this.meIcon.getBounds().height+1);
+				}else{
+					g.drawText(this.meLabel, (width-textPt.x-MEB_SIDE_SPACE-1)/2, (height-textPt.y)/2);
+				}
+				break;
+			}
+			case(MenuetElement.ME_TRY_TEXT):	{
+				if(usableHeight >= (textPt.y+this.meIcon.getBounds().height+1)){
+					g.drawImage(this.meIcon, (width-MEB_SIDE_SPACE-this.meIcon.getBounds().width-1)/2, (height-(this.meIcon.getBounds().height+1+textPt.y))/2);
+					g.drawText(this.meLabel, (width-textPt.x-MEB_SIDE_SPACE-1)/2, (height-(this.meIcon.getBounds().height+1+textPt.y))/2 + this.meIcon.getBounds().height+1);
+				}else{
+					g.drawImage(this.meIcon, (width-MEB_SIDE_SPACE-this.meIcon.getBounds().width-1)/2, (height-this.meIcon.getBounds().height)/2);
+				}
+				break;
+			}
+			default:{
+				g.drawText(this.meLabel, (width-textPt.x-MEB_SIDE_SPACE-1)/2, (height-textPt.y)/2);
+				break;
+			}		
 		}		
-		
 	}
 	
 }
