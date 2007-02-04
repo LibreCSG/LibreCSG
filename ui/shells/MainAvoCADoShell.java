@@ -2,6 +2,10 @@ package ui.shells;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.MouseMoveListener;
+import org.eclipse.swt.events.MouseTrackListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -46,6 +50,8 @@ public class MainAvoCADoShell{
 	
 	SashForm comp2topSash;
 	
+	// TODO: HACK, glView should take care of this...
+	boolean glMouseDown = false;
 	
 	/**
 	 * create the main avoCADo shell and display it
@@ -144,6 +150,46 @@ public class MainAvoCADoShell{
 		// TODO: use glview instead of dummy composite
 		Composite comp3left = new Composite(comp2topSash, SWT.NONE);
 		comp3left.setBackground(new Color(shell.getDisplay(), 50, 50, 50));
+		comp3left.addMouseListener(new MouseListener(){
+			public void mouseDoubleClick(MouseEvent e) {
+				// TODO Auto-generated method stub		
+			}
+			public void mouseDown(MouseEvent e) {
+				// TODO Auto-generated method stub	
+				glMouseDown = true;
+				if(AvoGlobal.currentTool != null){ 
+					AvoGlobal.currentTool.glMouseDown(e.x,e.y,0,e.x,e.y);
+				}
+			}
+			public void mouseUp(MouseEvent e) {
+				// TODO Auto-generated method stub	
+				glMouseDown = false;
+				if(AvoGlobal.currentTool != null){
+					AvoGlobal.currentTool.glMouseUp(e.x,e.y,0,e.x,e.y);
+				}
+			}			
+		});
+		comp3left.addMouseMoveListener(new MouseMoveListener(){
+			public void mouseMove(MouseEvent e) {
+				// TODO only send MouseMove when button is down...	
+				if(glMouseDown && AvoGlobal.currentTool != null){
+					AvoGlobal.currentTool.glMouseDrag(e.x,e.y,0,e.x,e.y);
+				}
+			}			
+		});
+		comp3left.addMouseTrackListener(new MouseTrackListener(){
+			public void mouseEnter(MouseEvent e) {
+				// TODO Auto-generated method stub
+				glMouseDown = false;
+			}
+			public void mouseExit(MouseEvent e) {
+				// TODO Auto-generated method stub
+				glMouseDown = false;
+			}
+			public void mouseHover(MouseEvent e) {
+				// TODO Auto-generated method stub				
+			}			
+		});
 		
 		
 		//

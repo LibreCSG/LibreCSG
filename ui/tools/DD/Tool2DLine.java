@@ -53,6 +53,28 @@ public class Tool2DLine extends Tool2D{
 	@Override
 	public void toolSelected() {
 		AvoGlobal.menuet.selectButton(mElement);
+		AvoGlobal.currentTool = this;
+	}
+
+	@Override
+	public void glMouseDown(double x, double y, double z, int mouseX, int mouseY) {
+		// TODO Auto-generated method stub
+		System.out.println("mousedown in line: x,y=" + x + "," + y);
+	}
+
+	@Override
+	public void glMouseDrag(double x, double y, double z, int mouseX, int mouseY) {
+		// TODO Auto-generated method stub	
+		System.out.println("mousemove in line: x,y=" + x + "," + y);
+	}
+
+	@Override
+	public void glMouseUp(double x, double y, double z, int mouseX, int mouseY) {
+		// TODO Auto-generated method stub		
+		System.out.println("mouseup in line: x,y=" + x + "," + y);
+		
+		// * finalize line's formation
+		// * store permanently in model
 	}
 	
 	

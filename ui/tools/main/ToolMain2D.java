@@ -1,8 +1,5 @@
 package ui.tools.main;
 
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
-
 import ui.menuet.MEButton;
 import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
@@ -55,8 +52,20 @@ public class ToolMain2D extends ToolMain{
 
 	@Override
 	public void toolSelected() {
-		AvoGlobal.CURRENT_TOOL_MODE = AvoGlobal.MENUET_MODE_2D;	
+		AvoGlobal.currentToolMode = AvoGlobal.MENUET_MODE_2D;	
 		AvoGlobal.menuet.updateToolModeDisplayed();
+	}
+
+	@Override
+	public void glMouseDown(double x, double y, double z, int mouseX, int mouseY) {
+	}
+
+	@Override
+	public void glMouseDrag(double x, double y, double z, int mouseX, int mouseY) {
+	}
+
+	@Override
+	public void glMouseUp(double x, double y, double z, int mouseX, int mouseY) {
 	}
 	
 }

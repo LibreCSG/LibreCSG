@@ -1,10 +1,4 @@
-package ui.utilities;
-
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Display;
-
-import backend.global.AvoGlobal;
-
+package backend.model.param;
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -32,38 +26,14 @@ import backend.global.AvoGlobal;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class ColorUtils {
+public abstract class Param {
 
-	/**
-	 * get the background color for the
-	 * current tool mode being used.
-	 * @return
-	 */
-	public static Color getModeBGColor(){
-		Color clr;
-		switch(AvoGlobal.currentToolMode){
-			case(AvoGlobal.MENUET_MODE_MAIN):{
-				clr = AvoGlobal.COLOR_MENUET_MAIN;
-				break;
-			}			
-			case(AvoGlobal.MENUET_MODE_2D):{
-				clr = AvoGlobal.COLOR_MENUET_2D;
-				break;
-			}
-			case(AvoGlobal.MENUET_MODE_2Dto3D):{
-				clr = AvoGlobal.COLOR_MENUET_2Dto3D;
-				break;
-			}
-			case(AvoGlobal.MENUET_MODE_3D):{
-				clr = AvoGlobal.COLOR_MENUET_3D;
-				break;
-			}
-			default:{
-				clr = new Color(Display.getCurrent(),0,0,0);
-				break;
-			}
-		}
-		return clr;
+	public enum PType {
+		Scalar, Pt2D, Pt3D, Boolean
 	}
+	
+	public PType  ptype = PType.Scalar;
+	public String pname  = "x";
+	public String plabel = "?";
 	
 }
