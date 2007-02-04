@@ -57,6 +57,7 @@ public abstract class Tool {
 	 */
 	abstract public void applyToolGroupSettings();
 	
+	
 	/**
 	 * Defined by each tool group.  This
 	 * determines which mode the menuetElement
@@ -66,5 +67,41 @@ public abstract class Tool {
 	abstract public int  getToolMode();
 	
 	abstract public void toolSelected();
+	
+	/**
+	 * glView calls this when it recieved a <em>mousedown</em> event.
+	 * Both mouse (screen) coordinates and absolute x,y,z 
+	 * coordinates are provided.
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param mouseX
+	 * @param mouseY
+	 */
+	abstract public void glMouseDown(double x, double y, double z, int mouseX, int mouseY);
+	
+	/**
+	 * glView calls this when it recieved a <em>mousemove</em> event.
+	 * Both mouse (screen) coordinates and absolute x,y,z 
+	 * coordinates are provided.
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param mouseX
+	 * @param mouseY
+	 */
+	abstract public void glMouseDrag(double x, double y, double z, int mouseX, int mouseY);
+	
+	/**
+	 * glView calls this when it recieved a <em>mouseup</em> event.
+	 * Both mouse (screen) coordinates and absolute x,y,z 
+	 * coordinates are provided.
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param mouseX
+	 * @param mouseY
+	 */
+	abstract public void glMouseUp  (double x, double y, double z, int mouseX, int mouseY);
 	
 }

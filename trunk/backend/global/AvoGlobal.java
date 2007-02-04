@@ -4,6 +4,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 
 import ui.menuet.Menuet;
+import ui.tools.Tool;
 
 
 //
@@ -56,7 +57,9 @@ public class AvoGlobal {
 	/**
 	 * Current tool mode being used (2D, 2Dto3D, 3D, etc.) 
 	 */
-	public static int CURRENT_TOOL_MODE = MENUET_MODE_MAIN; 
+	public static int currentToolMode = MENUET_MODE_MAIN; 
+	
+	public static Tool currentTool    = null;
 	
 	/**
 	 * The main interaction menu.

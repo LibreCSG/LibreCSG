@@ -102,7 +102,7 @@ public class Menuet extends Composite{
 	 * @param me
 	 */
 	public void selectButton(MenuetElement me){
-		Iterator iter = menuetElements[AvoGlobal.CURRENT_TOOL_MODE].iterator();
+		Iterator iter = menuetElements[AvoGlobal.currentToolMode].iterator();
 		while(iter.hasNext()){
 			MenuetElement mElement = (MenuetElement)iter.next();
 			if(mElement.equals(me)){
@@ -122,7 +122,7 @@ public class Menuet extends Composite{
 		
 		// System.out.println("repositioning elements...");
 		
-		int mode = AvoGlobal.CURRENT_TOOL_MODE;
+		int mode = AvoGlobal.currentToolMode;
 		
 		int totalMinHeight = 0;
 		Iterator iter = menuetElements[mode].iterator();
