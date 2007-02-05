@@ -59,26 +59,30 @@ public class GLView {
 			public void mouseDoubleClick(MouseEvent e) {
 			}
 			public void mouseDown(MouseEvent e) {
-				double[] coor = getWorldCoorFromMouse(e.x,e.y);
-				AvoGlobal.currentTool.toolInterface.glMouseDown(coor[0], coor[1], coor[2], e.x, e.y);
-				mouseIsDown = true;
+				if(AvoGlobal.currentTool != null && AvoGlobal.currentTool.toolInterface != null){
+					double[] coor = getWorldCoorFromMouse(e.x,e.y);
+					AvoGlobal.currentTool.toolInterface.glMouseDown(coor[0], coor[1], coor[2], e.x, e.y);
+					mouseIsDown = true;
+				}
 			}
 			public void mouseUp(MouseEvent e) {
-				double[] coor = getWorldCoorFromMouse(e.x,e.y);
-				AvoGlobal.currentTool.toolInterface.glMouseUp(coor[0], coor[1], coor[2], e.x, e.y);
+				if(AvoGlobal.currentTool != null && AvoGlobal.currentTool.toolInterface != null){
+					double[] coor = getWorldCoorFromMouse(e.x,e.y);
+					AvoGlobal.currentTool.toolInterface.glMouseUp(coor[0], coor[1], coor[2], e.x, e.y);
+				}
 				mouseIsDown = false;
 			}			
 		});
 		
 		glCanvas.addMouseMoveListener(new MouseMoveListener(){
-
 			public void mouseMove(MouseEvent e) {
-				if(mouseIsDown){
-					double[] coor = getWorldCoorFromMouse(e.x,e.y);
-					AvoGlobal.currentTool.toolInterface.glMouseDrag(coor[0], coor[1], coor[2], e.x, e.y);
+				if(AvoGlobal.currentTool != null && AvoGlobal.currentTool.toolInterface != null){
+					if(mouseIsDown && glCanvas.getBounds().contains(e.x,e.y)){
+						double[] coor = getWorldCoorFromMouse(e.x,e.y);
+						AvoGlobal.currentTool.toolInterface.glMouseDrag(coor[0], coor[1], coor[2], e.x, e.y);
+					}
 				}
-			}
-			
+			}			
 		});
 		
 	
@@ -128,8 +132,10 @@ public class GLView {
 							AvoGlobal.workingFeature.toolInterface.glDrawFeature(gl, AvoGlobal.workingFeature.paramSet);
 						}
 						
-						gl.glColor4f(1.0f,0.0f,0.0f, 0.0f);
+						
 						// invisible plane to catch mouse events at depth ~0.0
+						// this should be the last thing drawn in the 2D mode
+						gl.glColor4f(1.0f,0.0f,0.0f, 0.0f);
 						gl.glBegin(GL.GL_QUADS);
 							gl.glVertex3f(-100.0f, 100.0f, 0.0f);
 							gl.glVertex3f( 100.0f, 100.0f, 0.0f);
@@ -137,8 +143,8 @@ public class GLView {
 							gl.glVertex3f(-100.0f,-100.0f, 0.0f);
 						gl.glEnd();
 						
-						glCanvas.swapBuffers();
-						glContext.release();
+						glCanvas.swapBuffers(); // double buffering excitement!
+						glContext.release();	// go ahead, you can have it back.
 					}
 					Display.getCurrent().timerExec(50, this); // run "this" again in 50mSec.
 		        }				
