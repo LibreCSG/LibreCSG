@@ -2,6 +2,8 @@ package ui.tools.DD;
 
 import java.util.Iterator;
 
+import javax.media.opengl.GL;
+
 import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
@@ -48,7 +50,6 @@ public class Tool2DLineInt implements ToolInterface {
 	}
 	
 	public void glMouseDown(double x, double y, double z, int mouseX, int mouseY) {
-		// TODO Auto-generated method stub
 		System.out.println("mousedown in line: x,y=" + x + "," + y);
 		
 		//
@@ -65,14 +66,12 @@ public class Tool2DLineInt implements ToolInterface {
 	}
 
 	public void glMouseDrag(double x, double y, double z, int mouseX, int mouseY) {
-		// TODO Auto-generated method stub	
 		//System.out.println("mousemove in line: x,y=" + x + "," + y);
 		AvoGlobal.workingFeature.paramSet.changeParam("b", new Point2D(x,y));
 		
 	}
 
 	public void glMouseUp(double x, double y, double z, int mouseX, int mouseY) {
-		// TODO Auto-generated method stub		
 		System.out.println("mouseup in line: x,y=" + x + "," + y);
 		Iterator allP = AvoGlobal.workingFeature.paramSet.getIterator();
 		while(allP.hasNext()){
@@ -84,7 +83,20 @@ public class Tool2DLineInt implements ToolInterface {
 		AvoGlobal.workingFeature.paramSet.changeParam("b", new Point2D(x,y));
 		
 		// * store permanently in model
-		
-		
+		Point2D ptA = (Point2D)AvoGlobal.workingFeature.paramSet.getParam("a").getData();
+		Point2D ptB = (Point2D)AvoGlobal.workingFeature.paramSet.getParam("b").getData();
+		if(! ptA.equals(ptB)){
+			// the beginning and end of the segment are different... store the line.
+			// TODO: store the line more permenently (paramSet and type)
+			
+		}
+	}
+
+	public void glDrawFeature(GL gl, ParamSet p) {
+		gl.glColor4f(1.0f,0.5f,0.0f, 1.0f);
+		gl.glBegin(GL.GL_LINES);
+			gl.glVertex3f((float)((Point2D)p.getParam("a").getData()).getX(), (float)((Point2D)p.getParam("a").getData()).getY(), 0.0f);
+			gl.glVertex3f((float)((Point2D)p.getParam("b").getData()).getX(), (float)((Point2D)p.getParam("b").getData()).getY(), 0.0f);
+		gl.glEnd();
 	}
 }

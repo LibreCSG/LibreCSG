@@ -37,6 +37,6 @@ public class Feature {
 	
 	public Feature(ToolInterface toolInt, ParamSet pset){
 		toolInterface = toolInt;
-		paramSet  = pset;
+		paramSet      = pset;
 	}
 }

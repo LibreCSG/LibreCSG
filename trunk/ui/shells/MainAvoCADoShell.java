@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import ui.menubar.AvoMenuBar;
 import ui.menuet.Menuet;
+import ui.opengl.GLView;
 import ui.utilities.SWTUtils;
 import backend.global.AvoGlobal;
 
@@ -149,7 +150,8 @@ public class MainAvoCADoShell{
 		// large left piece is glview
 		//
 		// TODO: use glview instead of dummy composite
-		AvoGlobal.glView = new Composite(comp2topSash, SWT.NONE);
+		AvoGlobal.glView = new GLView(comp2topSash);
+		/*
 		AvoGlobal.glView.setBackground(new Color(shell.getDisplay(), 50, 50, 50));
 		AvoGlobal.glView.addMouseListener(new MouseListener(){
 			public void mouseDoubleClick(MouseEvent e) {
@@ -193,7 +195,7 @@ public class MainAvoCADoShell{
 				// TODO Auto-generated method stub				
 			}			
 		});
-		
+		*/
 		
 		//
 		// right piece is treeviewer

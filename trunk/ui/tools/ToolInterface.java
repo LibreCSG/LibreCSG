@@ -1,5 +1,9 @@
 package ui.tools;
 
+import javax.media.opengl.GL;
+
+import backend.adt.ParamSet;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -63,7 +67,14 @@ public interface ToolInterface {
 	 * @param mouseX
 	 * @param mouseY
 	 */
-	abstract public void glMouseUp  (double x, double y, double z, int mouseX, int mouseY);
+	abstract public void glMouseUp(double x, double y, double z, int mouseX, int mouseY);
 	
+	/**
+	 * draw the feature on the glView given a set of
+	 * parameters that define the feature.
+	 * @param gl
+	 * @param p
+	 */
+	public void glDrawFeature(GL gl, ParamSet p);
 	
 }

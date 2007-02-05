@@ -1,10 +1,11 @@
 package backend.global;
 
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 
 import ui.menuet.Menuet;
+import ui.opengl.GLView;
+import ui.opengl.RenderLevel;
 import ui.tools.Tool;
 import backend.model.Feature;
 
@@ -70,10 +71,18 @@ public class AvoGlobal {
 	 */
 	public static Menuet menuet;
 	
-	// TODO: use glView instead of dummy composite
-	public static Composite glView;
+	/**
+	 * The main 3D viewport
+	 */
+	public static GLView glView;
 	
 
 	public static Feature workingFeature;
+	
+	/**
+	 * precision of rendering... higher levels take longs,
+	 * but more accurately follow shapes, cureves, etc.
+	 */
+	public static RenderLevel renderLevel = RenderLevel.Medium;
 	
 }
