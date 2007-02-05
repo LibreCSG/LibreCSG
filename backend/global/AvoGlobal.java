@@ -85,4 +85,7 @@ public class AvoGlobal {
 	 */
 	public static RenderLevel renderLevel = RenderLevel.Medium;
 	
+	public static double  snapSize    = 0.5;
+	public static boolean snapEnabled = true;
+	
 }

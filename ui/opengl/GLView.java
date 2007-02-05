@@ -40,6 +40,8 @@ public class GLView {
 	static float dist_from_center = -30.0f;
 	static float viewing_angle = 45.0f;
 	
+	double lastMousePos3D[] = new double[] {0.0, 0.0, 0.0};
+	
 	public GLView(Composite comp){
 		GLData data = new GLData ();
 		data.doubleBuffer = true;
@@ -55,6 +57,10 @@ public class GLView {
 		glCanvas.setCurrent();
 		glContext = GLDrawableFactory.getFactory().createExternalGLContext();
 		
+		//
+		// Mouse events get sent to the active tool, along with
+		// information about where the view was clicked.
+		//
 		glCanvas.addMouseListener(new MouseListener(){
 			public void mouseDoubleClick(MouseEvent e) {
 			}
@@ -66,7 +72,7 @@ public class GLView {
 				}
 			}
 			public void mouseUp(MouseEvent e) {
-				if(AvoGlobal.currentTool != null && AvoGlobal.currentTool.toolInterface != null){
+				if(mouseIsDown && glCanvas.getBounds().contains(e.x,e.y) && (AvoGlobal.currentTool != null && AvoGlobal.currentTool.toolInterface != null)){
 					double[] coor = getWorldCoorFromMouse(e.x,e.y);
 					AvoGlobal.currentTool.toolInterface.glMouseUp(coor[0], coor[1], coor[2], e.x, e.y);
 				}
@@ -76,10 +82,12 @@ public class GLView {
 		
 		glCanvas.addMouseMoveListener(new MouseMoveListener(){
 			public void mouseMove(MouseEvent e) {
-				if(AvoGlobal.currentTool != null && AvoGlobal.currentTool.toolInterface != null){
-					if(mouseIsDown && glCanvas.getBounds().contains(e.x,e.y)){
-						double[] coor = getWorldCoorFromMouse(e.x,e.y);
-						AvoGlobal.currentTool.toolInterface.glMouseDrag(coor[0], coor[1], coor[2], e.x, e.y);
+				if(glCanvas.getBounds().contains(e.x,e.y)){
+					double[] coor = getWorldCoorFromMouse(e.x,e.y);
+					if(AvoGlobal.currentTool != null && AvoGlobal.currentTool.toolInterface != null){
+						if(mouseIsDown){
+							AvoGlobal.currentTool.toolInterface.glMouseDrag(coor[0], coor[1], coor[2], e.x, e.y);
+						}
 					}
 				}
 			}			
@@ -143,6 +151,8 @@ public class GLView {
 							gl.glVertex3f(-100.0f,-100.0f, 0.0f);
 						gl.glEnd();
 						
+						drawToolEndPos();
+						
 						glCanvas.swapBuffers(); // double buffering excitement!
 						glContext.release();	// go ahead, you can have it back.
 					}
@@ -153,6 +163,10 @@ public class GLView {
 		
 	}
 	
+	private void drawToolEndPos(){
+		gl.glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+		cad_3DX((float)lastMousePos3D[0], (float)lastMousePos3D[1], (float)lastMousePos3D[2], 0.125f);
+	}
 	
 	public void cad_3DX(float x, float y, float z, float size){
 		gl.glBegin(GL.GL_LINES);
@@ -220,9 +234,18 @@ public class GLView {
 		gl.glReadPixels( mouseX, (int)winY, 1, 1, GL.GL_DEPTH_COMPONENT, GL.GL_FLOAT, winZ );
 		glu.gluUnProject((double)winX, (double)winY, (double)(winZ.get()), modelview, 0, projection, 0, viewport, 0, wcoord, 0);
 		
-        System.out.println("World coords: (" //
-				+ wcoord[0] + ", " + wcoord[1] + ", " + wcoord[2]
-				                                               + ")");		
+        //System.out.println("World coords: (" + wcoord[0] + ", " + wcoord[1] + ", " + wcoord[2] + ")");
+		
+		//
+		// Map coord's to snap if snap is enabled
+		//
+		if(AvoGlobal.snapEnabled){
+			wcoord[0] = Math.floor((wcoord[0]+AvoGlobal.snapSize/2.0)/AvoGlobal.snapSize)*AvoGlobal.snapSize;
+			wcoord[1] = Math.floor((wcoord[1]+AvoGlobal.snapSize/2.0)/AvoGlobal.snapSize)*AvoGlobal.snapSize;
+			wcoord[2] = Math.floor((wcoord[2]+AvoGlobal.snapSize/2.0)/AvoGlobal.snapSize)*AvoGlobal.snapSize;
+		}
+		
+        lastMousePos3D = wcoord;
 		return wcoord;
 	}
 }
