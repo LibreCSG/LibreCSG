@@ -1,9 +1,14 @@
 package ui.tools.DD;
 
+import java.util.Iterator;
+
 import ui.menuet.MEButton;
 import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
 import ui.tools.Tool2D;
+import backend.adt.Param;
+import backend.adt.ParamSet;
+import backend.adt.Point2D;
 import backend.data.utilities.ImageUtils;
 import backend.global.AvoGlobal;
 
@@ -36,6 +41,8 @@ import backend.global.AvoGlobal;
 */
 public class Tool2DLine extends Tool2D{
 
+	ParamSet pSet;
+	
 	public Tool2DLine(Menuet menuet){	
 		
 		// initialize GUI elements
@@ -60,18 +67,29 @@ public class Tool2DLine extends Tool2D{
 	public void glMouseDown(double x, double y, double z, int mouseX, int mouseY) {
 		// TODO Auto-generated method stub
 		System.out.println("mousedown in line: x,y=" + x + "," + y);
+		pSet = new ParamSet();
+		pSet.addParam("c", new Param("center", new Point2D(x,y)));
+		pSet.addParam("r", new Param("radius", 0.0));
 	}
 
 	@Override
 	public void glMouseDrag(double x, double y, double z, int mouseX, int mouseY) {
 		// TODO Auto-generated method stub	
-		System.out.println("mousemove in line: x,y=" + x + "," + y);
+		//System.out.println("mousemove in line: x,y=" + x + "," + y);
+		double dist = ((Point2D)pSet.getParam("c").getData()).computeDist(new Point2D(x,y));
+		pSet.changeParam("r", dist);
+		System.out.println("Dist: " + dist);
 	}
 
 	@Override
 	public void glMouseUp(double x, double y, double z, int mouseX, int mouseY) {
 		// TODO Auto-generated method stub		
 		System.out.println("mouseup in line: x,y=" + x + "," + y);
+		Iterator allP = pSet.getIterator();
+		while(allP.hasNext()){
+			Param p = (Param)allP.next();
+			System.out.println("param ** TYPE:" + p.getType() + " \tLABEL:" + p.getLabel() + " \tDATA:" + p.getData().toString());
+		}
 		
 		// * finalize line's formation
 		// * store permanently in model

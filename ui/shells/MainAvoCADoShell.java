@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import ui.menubar.AvoMenuBar;
 import ui.menuet.Menuet;
+import ui.utilities.SWTUtils;
 import backend.global.AvoGlobal;
 
 //
@@ -148,9 +149,9 @@ public class MainAvoCADoShell{
 		// large left piece is glview
 		//
 		// TODO: use glview instead of dummy composite
-		Composite comp3left = new Composite(comp2topSash, SWT.NONE);
-		comp3left.setBackground(new Color(shell.getDisplay(), 50, 50, 50));
-		comp3left.addMouseListener(new MouseListener(){
+		AvoGlobal.glView = new Composite(comp2topSash, SWT.NONE);
+		AvoGlobal.glView.setBackground(new Color(shell.getDisplay(), 50, 50, 50));
+		AvoGlobal.glView.addMouseListener(new MouseListener(){
 			public void mouseDoubleClick(MouseEvent e) {
 				// TODO Auto-generated method stub		
 			}
@@ -169,7 +170,7 @@ public class MainAvoCADoShell{
 				}
 			}			
 		});
-		comp3left.addMouseMoveListener(new MouseMoveListener(){
+		AvoGlobal.glView.addMouseMoveListener(new MouseMoveListener(){
 			public void mouseMove(MouseEvent e) {
 				// TODO only send MouseMove when button is down...	
 				if(glMouseDown && AvoGlobal.currentTool != null){
@@ -177,14 +178,16 @@ public class MainAvoCADoShell{
 				}
 			}			
 		});
-		comp3left.addMouseTrackListener(new MouseTrackListener(){
+		AvoGlobal.glView.addMouseTrackListener(new MouseTrackListener(){
 			public void mouseEnter(MouseEvent e) {
 				// TODO Auto-generated method stub
 				glMouseDown = false;
+				SWTUtils.setCursorCrosshair(AvoGlobal.glView);
 			}
 			public void mouseExit(MouseEvent e) {
 				// TODO Auto-generated method stub
 				glMouseDown = false;
+				SWTUtils.setCursorNormal(AvoGlobal.glView);
 			}
 			public void mouseHover(MouseEvent e) {
 				// TODO Auto-generated method stub				

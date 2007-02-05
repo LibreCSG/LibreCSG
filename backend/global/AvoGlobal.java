@@ -1,6 +1,7 @@
 package backend.global;
 
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 
 import ui.menuet.Menuet;
@@ -67,6 +68,9 @@ public class AvoGlobal {
 	 * prioritization of elements.
 	 */
 	public static Menuet menuet;
+	
+	// TODO: use glView instead of dummy composite
+	public static Composite glView;
 	
 	
 }
