@@ -88,6 +88,17 @@ public class Point2D {
 	}
 	
 	/**
+	 * returns <code>true</code> if the current
+	 * point is equal in value to the point
+	 * given as an argument to the method.
+	 * @param p2
+	 * @return
+	 */
+	public boolean equalsPt(Point2D p2){
+		return ((x == p2.x) && (y == p2.y));
+	}
+	
+	/**
 	 * get the X value
 	 * @return
 	 */
