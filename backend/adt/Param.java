@@ -29,10 +29,6 @@ package backend.adt;
 */
 public class Param {
 
-	public static enum PType {
-		Boolean, Int, Double, String, Point2D, Point3D
-	}
-	
 	protected PType  ptype;
 	protected String plabel;
 	protected Object pdata;
