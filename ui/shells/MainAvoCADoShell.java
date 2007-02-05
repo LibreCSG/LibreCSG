@@ -52,9 +52,6 @@ public class MainAvoCADoShell{
 	
 	SashForm comp2topSash;
 	
-	// TODO: HACK, glView should take care of this...
-	boolean glMouseDown = false;
-	
 	/**
 	 * create the main avoCADo shell and display it
 	 * @param display
@@ -149,53 +146,7 @@ public class MainAvoCADoShell{
 		//
 		// large left piece is glview
 		//
-		// TODO: use glview instead of dummy composite
 		AvoGlobal.glView = new GLView(comp2topSash);
-		/*
-		AvoGlobal.glView.setBackground(new Color(shell.getDisplay(), 50, 50, 50));
-		AvoGlobal.glView.addMouseListener(new MouseListener(){
-			public void mouseDoubleClick(MouseEvent e) {
-				// TODO Auto-generated method stub		
-			}
-			public void mouseDown(MouseEvent e) {
-				// TODO Auto-generated method stub	
-				glMouseDown = true;
-				if(AvoGlobal.currentTool != null){ 
-					AvoGlobal.currentTool.toolInterface.glMouseDown(e.x,e.y,0,e.x,e.y);
-				}
-			}
-			public void mouseUp(MouseEvent e) {
-				// TODO Auto-generated method stub	
-				glMouseDown = false;
-				if(AvoGlobal.currentTool != null){
-					AvoGlobal.currentTool.toolInterface.glMouseUp(e.x,e.y,0,e.x,e.y);
-				}
-			}			
-		});
-		AvoGlobal.glView.addMouseMoveListener(new MouseMoveListener(){
-			public void mouseMove(MouseEvent e) {
-				// TODO only send MouseMove when button is down...	
-				if(glMouseDown && AvoGlobal.currentTool != null){
-					AvoGlobal.currentTool.toolInterface.glMouseDrag(e.x,e.y,0,e.x,e.y);
-				}
-			}			
-		});
-		AvoGlobal.glView.addMouseTrackListener(new MouseTrackListener(){
-			public void mouseEnter(MouseEvent e) {
-				// TODO Auto-generated method stub
-				glMouseDown = false;
-				SWTUtils.setCursorCrosshair(AvoGlobal.glView);
-			}
-			public void mouseExit(MouseEvent e) {
-				// TODO Auto-generated method stub
-				glMouseDown = false;
-				SWTUtils.setCursorNormal(AvoGlobal.glView);
-			}
-			public void mouseHover(MouseEvent e) {
-				// TODO Auto-generated method stub				
-			}			
-		});
-		*/
 		
 		//
 		// right piece is treeviewer

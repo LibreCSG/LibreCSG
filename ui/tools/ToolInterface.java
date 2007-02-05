@@ -71,7 +71,8 @@ public interface ToolInterface {
 	
 	/**
 	 * draw the feature on the glView given a set of
-	 * parameters that define the feature.
+	 * parameters that define the feature.  Only DynamicPrimitives
+	 * should be used for drawing.
 	 * @param gl
 	 * @param p
 	 */
