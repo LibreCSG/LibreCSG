@@ -41,10 +41,10 @@ public class AvoGlobal {
 	/**
 	 * Background color of Menuet in various modes.
 	 */
-	public static final Color COLOR_MENUET_MAIN = new Color(Display.getCurrent(),  230,  230,  230);
-	public static final Color COLOR_MENUET_2D = new Color(Display.getCurrent(),  150,  220,  150);
+	public static final Color COLOR_MENUET_MAIN   = new Color(Display.getCurrent(),  230,  230,  230);
+	public static final Color COLOR_MENUET_2D     = new Color(Display.getCurrent(),  150,  220,  150);
 	public static final Color COLOR_MENUET_2Dto3D = new Color(Display.getCurrent(),  150,  150,  220);
-	public static final Color COLOR_MENUET_3D = new Color(Display.getCurrent(),  220,  220,  150);
+	public static final Color COLOR_MENUET_3D     = new Color(Display.getCurrent(),  220,  220,  150);
 	
 	/**
 	 * Tool mode identifiers 
@@ -53,12 +53,12 @@ public class AvoGlobal {
 	public static final int MENUET_MODE_MAIN   = 0;
 	public static final int MENUET_MODE_2D     = 1;
 	public static final int MENUET_MODE_2Dto3D = 2;
-	public static final int MENUET_MODE_3D     = 3;
-	
+	public static final int MENUET_MODE_3D     = 3;	
 	public static final int MENUET_TOTAL_MODES = 4; // always the highest mode number + 1
 	
 	/**
 	 * Current tool mode being used (2D, 2Dto3D, 3D, etc.) 
+	 * This determines which mode the menuet displays.
 	 */
 	public static int currentToolMode = MENUET_MODE_MAIN; 
 	

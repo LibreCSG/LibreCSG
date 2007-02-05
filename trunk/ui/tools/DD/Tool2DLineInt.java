@@ -4,12 +4,13 @@ import java.util.Iterator;
 
 import javax.media.opengl.GL;
 
+import ui.opengl.GLDynPrim;
+import ui.tools.ToolInterface;
 import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
 import backend.global.AvoGlobal;
 import backend.model.Feature;
-import ui.tools.ToolInterface;
 
 
 //
@@ -94,9 +95,11 @@ public class Tool2DLineInt implements ToolInterface {
 
 	public void glDrawFeature(GL gl, ParamSet p) {
 		gl.glColor4f(1.0f,0.5f,0.0f, 1.0f);
-		gl.glBegin(GL.GL_LINES);
-			gl.glVertex3f((float)((Point2D)p.getParam("a").getData()).getX(), (float)((Point2D)p.getParam("a").getData()).getY(), 0.0f);
-			gl.glVertex3f((float)((Point2D)p.getParam("b").getData()).getX(), (float)((Point2D)p.getParam("b").getData()).getY(), 0.0f);
-		gl.glEnd();
+		GLDynPrim.circle2D(gl, new Point2D(0.0, 0.0),  1.0, 0.0);
+		GLDynPrim.circle2D(gl, new Point2D(0.0, 0.0),  5.0, 0.0);
+		GLDynPrim.circle2D(gl, new Point2D(0.0, 0.0), 10.0, 0.0);
+		GLDynPrim.circle2D(gl, new Point2D(0.0, 0.0), 20.0, 0.0);
+		GLDynPrim.cad_Arc(gl, 11.0f, 0.0f, 227.5f);
+		GLDynPrim.line2D(gl, (Point2D)p.getParam("a").getData(), (Point2D)p.getParam("b").getData(), 0.0);
 	}
 }

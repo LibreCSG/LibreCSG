@@ -103,6 +103,7 @@ public class GLView {
 				if (glCanvas.isDisposed()) return;
 				else{
 					if(updateGLView){
+						Long startTime = System.nanoTime();
 						glCanvas.setCurrent();
 						glContext.makeCurrent();
 						gl = glContext.getGL ();
@@ -129,7 +130,7 @@ public class GLView {
 						gl.glLineWidth(2.0f);
 
 						gl.glColor3f(1.0f,0.0f,0.0f);
-						cad_3DX(1.0f,1.0f,1.0f,0.50f);
+						cad_3DX(0.0f,0.0f,0.0f,0.25f);
 						
 						
 					    //updateGLView = false;
@@ -155,6 +156,10 @@ public class GLView {
 						
 						glCanvas.swapBuffers(); // double buffering excitement!
 						glContext.release();	// go ahead, you can have it back.
+						
+						Long timeDiff = System.nanoTime() - startTime;
+						// TODO: dynamically change RenderLevel based on time to render!
+						//System.out.println("Time to render: " + timeDiff);
 					}
 					Display.getCurrent().timerExec(50, this); // run "this" again in 50mSec.
 		        }				
@@ -228,8 +233,7 @@ public class GLView {
 
 		
 		winX = (float)mouseX;
-		winY = (float)viewport[3] - (float)mouseY;
-		
+		winY = (float)viewport[3] - (float)mouseY;		
 
 		gl.glReadPixels( mouseX, (int)winY, 1, 1, GL.GL_DEPTH_COMPONENT, GL.GL_FLOAT, winZ );
 		glu.gluUnProject((double)winX, (double)winY, (double)(winZ.get()), modelview, 0, projection, 0, viewport, 0, wcoord, 0);
