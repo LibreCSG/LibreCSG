@@ -6,6 +6,7 @@ import org.eclipse.swt.widgets.Display;
 
 import ui.menuet.Menuet;
 import ui.tools.Tool;
+import backend.model.Feature;
 
 
 //
@@ -72,5 +73,7 @@ public class AvoGlobal {
 	// TODO: use glView instead of dummy composite
 	public static Composite glView;
 	
+
+	public static Feature workingFeature;
 	
 }

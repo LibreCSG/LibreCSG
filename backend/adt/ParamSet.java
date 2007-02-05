@@ -98,5 +98,30 @@ public class ParamSet {
 			System.out.println("  --> Name: " + name);
 		}		
 	}
+
 	
+	/**
+	 * Check to see if parameter set contains a parameter
+	 * with the given name and type.
+	 * @param name
+	 * @param type
+	 * @return
+	 */
+	public boolean hasParam(String name, PType type){
+		if(paramSet.get(name) != null){
+			if(paramSet.get(name).getType() == type){
+				return true;
+			}else{
+				// found param with that name, but type
+				// does not match...
+				System.out.println("ParamSet.hasParam: found param, but type does not match. " +
+						paramSet.get(name).getType() + " != " + type );
+				return false;
+			}
+		}else{
+			// param with that name was not in the set
+			System.out.println("ParamSet.hasParam: no param found in set with the name: " + name);
+			return false;
+		}		
+	}
 }

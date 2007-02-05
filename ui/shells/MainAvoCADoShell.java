@@ -159,14 +159,14 @@ public class MainAvoCADoShell{
 				// TODO Auto-generated method stub	
 				glMouseDown = true;
 				if(AvoGlobal.currentTool != null){ 
-					AvoGlobal.currentTool.glMouseDown(e.x,e.y,0,e.x,e.y);
+					AvoGlobal.currentTool.toolInterface.glMouseDown(e.x,e.y,0,e.x,e.y);
 				}
 			}
 			public void mouseUp(MouseEvent e) {
 				// TODO Auto-generated method stub	
 				glMouseDown = false;
 				if(AvoGlobal.currentTool != null){
-					AvoGlobal.currentTool.glMouseUp(e.x,e.y,0,e.x,e.y);
+					AvoGlobal.currentTool.toolInterface.glMouseUp(e.x,e.y,0,e.x,e.y);
 				}
 			}			
 		});
@@ -174,7 +174,7 @@ public class MainAvoCADoShell{
 			public void mouseMove(MouseEvent e) {
 				// TODO only send MouseMove when button is down...	
 				if(glMouseDown && AvoGlobal.currentTool != null){
-					AvoGlobal.currentTool.glMouseDrag(e.x,e.y,0,e.x,e.y);
+					AvoGlobal.currentTool.toolInterface.glMouseDrag(e.x,e.y,0,e.x,e.y);
 				}
 			}			
 		});

@@ -56,15 +56,15 @@ public class ToolMain2D extends ToolMain{
 		AvoGlobal.menuet.updateToolModeDisplayed();
 	}
 
-	@Override
+
 	public void glMouseDown(double x, double y, double z, int mouseX, int mouseY) {
 	}
 
-	@Override
+
 	public void glMouseDrag(double x, double y, double z, int mouseX, int mouseY) {
 	}
 
-	@Override
+
 	public void glMouseUp(double x, double y, double z, int mouseX, int mouseY) {
 	}
 	
