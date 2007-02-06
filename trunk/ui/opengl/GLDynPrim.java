@@ -6,6 +6,33 @@ import backend.adt.Point2D;
 import backend.adt.Point3D;
 import backend.global.AvoGlobal;
 
+
+//
+//Copyright (C) 2007 avoCADo (Adam Kumpf creator)
+//This code is distributed under the terms of the 
+//GNU General Public License (GPL).
+//
+//This file is part of avoADo.
+//
+//AvoCADo is free software; you can redistribute it and/or modify
+//it under the terms of the GNU General Public License as published by
+//the Free Software Foundation; either version 2 of the License, or
+//(at your option) any later version.
+//
+//AvoCADo is distributed in the hope that it will be useful,
+//but WITHOUT ANY WARRANTY; without even the implied warranty of
+//MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//GNU General Public License for more details.
+//
+//You should have received a copy of the GNU General Public License
+//along with AvoCADo; if not, write to the Free Software
+//Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+//
+
+/*
+* @author  Adam Kumpf
+* @created Feb. 2007
+*/
 public class GLDynPrim {
 
 	
@@ -117,6 +144,28 @@ public class GLDynPrim {
 		gl.glMapGrid1d(segments, 0.0, 1.0);
 		gl.glEvalMesh1(GL.GL_LINE, 0, segments);	
 
-		}
+	}
+
+	public static void mesh(GL gl, double xstart, double xend, double ystart, double yend, int xsteps, int ysteps){
+		double grid[] =  new double[] {xstart, ystart, 0.0, xstart, yend, 0.0, xend, ystart, 0.0, xend, yend, 0.0};
+  
+		gl.glEnable(GL.GL_MAP2_VERTEX_3);
+		gl.glLineWidth(1.0f);
+		gl.glMap2d(GL.GL_MAP2_VERTEX_3,
+				0.0, 1.0,  /* U ranges 0..1 */
+				3,         /* U stride, 3 floats per coord */
+				2,         /* U is 2nd order, ie. linear */
+				0.0, 1.0,  /* V ranges 0..1 */
+				2 * 3,     /* V stride, row is 2 coords, 3 floats per coord */
+				2,         /* V is 2nd order, ie linear */
+				grid,0);  /* control points */
+	  
+		gl.glMapGrid2d(
+			    ysteps, 0.0, 1.0,
+			    xsteps, 0.0, 1.0);
+	  
+		gl.glEvalMesh2(GL.GL_LINE, 0, ysteps, 0, xsteps); 
+		  
+	}
 	
 }

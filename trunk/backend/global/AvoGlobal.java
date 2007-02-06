@@ -88,4 +88,11 @@ public class AvoGlobal {
 	public static double  snapSize    = 0.5;
 	public static boolean snapEnabled = true;
 	
+	public static final float[] GL_COLOR4_BACKGND    = new float[] {0.95f, 0.95f, 1.0f, 1.0f}; 
+	public static final float[] GL_COLOR4_GRID_DARK  = new float[] {0.6f, 0.6f, 0.6f, 1.0f}; 
+	public static final float[] GL_COLOR4_GRID_LIGHT = new float[] {0.8f, 0.8f, 0.8f, 1.0f}; 
+	
+	public static boolean glViewNeedsUpdated = true;
+	
+	
 }
