@@ -1,6 +1,7 @@
 package ui.opengl;
 
 import java.nio.FloatBuffer;
+import java.util.Iterator;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLCapabilities;
@@ -25,6 +26,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
 import backend.global.AvoGlobal;
+import backend.model.Feature;
 
 
 //
@@ -107,45 +109,6 @@ public class GLView {
 		glCanvas.setCurrent();
 		glContext = GLDrawableFactory.getFactory().createExternalGLContext();
 		
-		//
-		// Mouse events get sent to the active tool, along with
-		// information about where the view was clicked.
-		//
-		glCanvas.addMouseListener(new MouseListener(){
-			public void mouseDoubleClick(MouseEvent e) {
-			}
-			public void mouseDown(MouseEvent e) {
-				if(AvoGlobal.currentTool != null && AvoGlobal.currentTool.toolInterface != null){
-					double[] coor = getWorldCoorFromMouse(e.x,e.y);
-					AvoGlobal.currentTool.toolInterface.glMouseDown(coor[0], coor[1], coor[2], e.x, e.y);
-					AvoGlobal.glViewNeedsUpdated = true;
-					mouseIsDown = true;
-				}
-			}
-			public void mouseUp(MouseEvent e) {
-				if(mouseIsDown && glCanvas.getBounds().contains(e.x,e.y) && (AvoGlobal.currentTool != null && AvoGlobal.currentTool.toolInterface != null)){
-					double[] coor = getWorldCoorFromMouse(e.x,e.y);
-					AvoGlobal.currentTool.toolInterface.glMouseUp(coor[0], coor[1], coor[2], e.x, e.y);
-					AvoGlobal.glViewNeedsUpdated = true;
-				}
-				mouseIsDown = false;
-			}			
-		});
-		
-		glCanvas.addMouseMoveListener(new MouseMoveListener(){
-			public void mouseMove(MouseEvent e) {
-				if(glCanvas.getBounds().contains(e.x,e.y)){
-					AvoGlobal.glViewNeedsUpdated = true;
-					double[] coor = getWorldCoorFromMouse(e.x,e.y);
-					if(AvoGlobal.currentTool != null && AvoGlobal.currentTool.toolInterface != null){
-						if(mouseIsDown){
-							AvoGlobal.currentTool.toolInterface.glMouseDrag(coor[0], coor[1], coor[2], e.x, e.y);
-						}
-					}
-				}
-			}			
-		});
-		
 		glCanvas.addControlListener(new ControlListener(){
 			public void controlMoved(ControlEvent e) {
 				AvoGlobal.glViewNeedsUpdated = true;				
@@ -187,9 +150,27 @@ public class GLView {
 				trans_init_x = translation_x;
 				trans_init_y = translation_y;
 				System.out.println("mouse button: " + e.button);
+				
+				//
+				// let current tool know that the left mouse has been clicked
+				//
+				if(mouse_down_button == MOUSE_LEFT && 
+						AvoGlobal.currentTool != null && 
+						AvoGlobal.currentTool.toolInterface != null){
+					double[] coor = getWorldCoorFromMouse(e.x,e.y);
+					AvoGlobal.currentTool.toolInterface.glMouseDown(coor[0], coor[1], coor[2], e.x, e.y);
+					AvoGlobal.glViewNeedsUpdated = true;
+				}				
 			}
 			public void mouseUp(MouseEvent e) {
+				if(mouse_down_button == MOUSE_LEFT && 
+						glCanvas.getBounds().contains(e.x,e.y) && 
+						(AvoGlobal.currentTool != null && AvoGlobal.currentTool.toolInterface != null)){
+					double[] coor = getWorldCoorFromMouse(e.x,e.y);
+					AvoGlobal.currentTool.toolInterface.glMouseUp(coor[0], coor[1], coor[2], e.x, e.y);					
+				}
 				mouse_down_button = -1;
+				AvoGlobal.glViewNeedsUpdated = true;
 			}			
 		});
 		glCanvas.addMouseMoveListener(new MouseMoveListener(){
@@ -223,7 +204,22 @@ public class GLView {
 					rotation_z =  sensitivity*ydif + sensitivity*xdif + rot_init_z;
 				}
 				if(mouse_down_button == MOUSE_RIGHT){					
-				}			
+				}		
+				
+				//
+				// if mouse is inside glView, send the mouseMove event
+				// the the currently active tool
+				//
+				if(glCanvas.getBounds().contains(e.x,e.y)){
+					AvoGlobal.glViewNeedsUpdated = true;
+					double[] coor = getWorldCoorFromMouse(e.x,e.y);
+					if(AvoGlobal.currentTool != null && AvoGlobal.currentTool.toolInterface != null){
+						if(mouse_down_button == MOUSE_LEFT){
+							AvoGlobal.currentTool.toolInterface.glMouseDrag(coor[0], coor[1], coor[2], e.x, e.y);
+						}
+					}
+				}
+				
 			}			
 		});
 		glCanvas.addListener(SWT.MouseWheel, new Listener(){
@@ -284,23 +280,38 @@ public class GLView {
 						gl.glColor4f(AvoGlobal.GL_COLOR4_GRID_LIGHT[0], AvoGlobal.GL_COLOR4_GRID_LIGHT[1],
 					  			AvoGlobal.GL_COLOR4_GRID_LIGHT[2], AvoGlobal.GL_COLOR4_GRID_LIGHT[3]);
 						// draw grid
-						GLDynPrim.mesh(gl, -10.0, 10.0, -10.0, 10.0, 20, 20);			
+						gl.glDisable(GL.GL_LINE_SMOOTH);
+						GLDynPrim.mesh(gl, -10.0, 10.0, -10.0, 10.0, 20, 20);
+						gl.glEnable(GL.GL_LINE_SMOOTH);
 						gl.glEnable(GL.GL_DEPTH_TEST);
 						
 						
 						gl.glColor4f(0.7f, 0.7f, 0.7f, 1.0f);
-						gl.glLineWidth(1.5f);
+						gl.glLineWidth(1.75f);
 
 						gl.glColor3f(1.0f,0.0f,0.0f);
 						cad_3DX(0.0f,0.0f,0.0f,0.25f);
 						
 						
-					    gl.glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
+						gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_NONACT[0], AvoGlobal.GL_COLOR4_2D_NONACT[1],
+					  					AvoGlobal.GL_COLOR4_2D_NONACT[2], AvoGlobal.GL_COLOR4_2D_NONACT[3]);
+					    Iterator iter = AvoGlobal.workingFSet.iterator();
+					    while(iter.hasNext()){
+					    	Feature feat = (Feature)iter.next();
+					    	feat.toolInterface.glDrawFeature(gl, feat.paramSet);
+					    }
+					    
+						gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_ACTIVE[0], AvoGlobal.GL_COLOR4_2D_ACTIVE[1],
+			  							AvoGlobal.GL_COLOR4_2D_ACTIVE[2], AvoGlobal.GL_COLOR4_2D_ACTIVE[3]);
 						if(AvoGlobal.workingFeature != null){
 							AvoGlobal.workingFeature.toolInterface.glDrawFeature(gl, AvoGlobal.workingFeature.paramSet);
 						}
 
-						drawToolEndPos();
+						if(mouse_down_button != MOUSE_MIDDLE && 
+								mouse_down_button != MOUSE_MIDDLE_SHIFT && 
+								mouse_down_button != MOUSE_MIDDLE_CTRL){
+							drawToolEndPos();
+						}
 
 						// invisible plane to catch mouse events at depth ~0.0
 						// this should be the last thing drawn in the 2D mode
