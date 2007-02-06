@@ -313,8 +313,11 @@ public class GLView {
 							drawToolEndPos();
 						}
 
+						//
 						// invisible plane to catch mouse events at depth ~0.0
 						// this should be the last thing drawn in the 2D mode
+						// TODO: HACK, this should be sized according to the grid, which should also be dynamic!
+						//
 						gl.glColor4f(1.0f,0.0f,0.0f, 0.0f);
 						gl.glBegin(GL.GL_QUADS);
 							gl.glVertex3f(-100.0f, 100.0f, 0.0f);
@@ -344,40 +347,6 @@ public class GLView {
 		cad_3DX((float)lastMousePos3D[0], (float)lastMousePos3D[1], (float)lastMousePos3D[2], 0.125f);
 	}
 	
-	private static void drawGrid(){
-		  double xstart = -15.0;
-		  double xend   =  15.0;
-		  double ystart = -10.0;
-		  double yend   =  10.0; 
-		  
-		  double grid[] =  new double[] {xstart, ystart, 0.0, xstart, yend, 0.0, xend, ystart, 0.0, xend, yend, 0.0};
-		  int xsteps = (int)((xend-xstart)/AvoGlobal.snapSize);
-		  int ysteps = (int)((yend-ystart)/AvoGlobal.snapSize);
-		  
-		  gl.glEnable(GL.GL_MAP2_VERTEX_3);
-		  gl.glLineWidth(1.0f);
-		  gl.glColor4f(	AvoGlobal.GL_COLOR4_GRID_DARK[0], AvoGlobal.GL_COLOR4_GRID_DARK[1],
-				  		AvoGlobal.GL_COLOR4_GRID_DARK[2], AvoGlobal.GL_COLOR4_GRID_DARK[3]);
-		  gl.glColor4f(	AvoGlobal.GL_COLOR4_GRID_LIGHT[0], AvoGlobal.GL_COLOR4_GRID_LIGHT[1],
-			  			AvoGlobal.GL_COLOR4_GRID_LIGHT[2], AvoGlobal.GL_COLOR4_GRID_LIGHT[3]);
-		  gl.glMap2d(GL.GL_MAP2_VERTEX_3,
-		    0.0, 1.0,  /* U ranges 0..1 */
-		    3,         /* U stride, 3 floats per coord */
-		    2,         /* U is 2nd order, ie. linear */
-		    0.0, 1.0,  /* V ranges 0..1 */
-		    2 * 3,     /* V stride, row is 2 coords, 3 floats per coord */
-		    2,         /* V is 2nd order, ie linear */
-		    grid,0);  /* control points */
-		  
-		  gl.glMapGrid2d(
-				    ysteps, 0.0, 1.0,
-				    xsteps, 0.0, 1.0);
-		  
-		  gl.glEvalMesh2(GL.GL_LINE,
-				    0, ysteps,   /* Starting at 0 mesh 5 steps (rows). */
-				    0, xsteps);  /* Starting at 0 mesh 6 steps (columns). */
-		  
-	}
 	
 	public void cad_3DX(float x, float y, float z, float size){
 		gl.glBegin(GL.GL_LINES);
