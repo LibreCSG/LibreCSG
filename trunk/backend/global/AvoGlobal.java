@@ -8,6 +8,7 @@ import ui.opengl.GLView;
 import ui.opengl.RenderLevel;
 import ui.tools.Tool;
 import backend.model.Feature;
+import backend.model.FeatureSet;
 
 
 //
@@ -77,7 +78,18 @@ public class AvoGlobal {
 	public static GLView glView;
 	
 
+	/**
+	 * feature currently being controlled in the glView
+	 */
 	public static Feature workingFeature;
+	
+	/**
+	 * set of features currently being used in the glView.
+	 * For example, this would be all of the features associated
+	 * with a particular tool group (like 2D features) when
+	 * building a new 2D sketch that have been completed.
+	 */
+	public static FeatureSet workingFSet = new FeatureSet();
 	
 	/**
 	 * precision of rendering... higher levels take longs,
@@ -85,12 +97,24 @@ public class AvoGlobal {
 	 */
 	public static RenderLevel renderLevel = RenderLevel.Medium;
 	
+	/**
+	 * mouse snaps to positions in multiples of the <code>snapSize</code> 
+	 * when <code>snapEnabled</code> is set to <code>true</code>.
+	 */
 	public static double  snapSize    = 0.5;
 	public static boolean snapEnabled = true;
 	
-	public static final float[] GL_COLOR4_BACKGND    = new float[] {0.95f, 0.95f, 1.0f, 1.0f}; 
+	//
+	//  glView Colors
+	//
+	public static final float[] GL_COLOR4_BACKGND    = new float[] {0.95f, 0.95f, 1.0f, 1.0f};
+	
 	public static final float[] GL_COLOR4_GRID_DARK  = new float[] {0.6f, 0.6f, 0.6f, 1.0f}; 
 	public static final float[] GL_COLOR4_GRID_LIGHT = new float[] {0.8f, 0.8f, 0.8f, 1.0f}; 
+	
+	public static final float[] GL_COLOR4_2D_NONACT  = new float[] {0.9f, 0.4f, 0.2f, 1.0f}; 
+	public static final float[] GL_COLOR4_2D_ACTIVE  = new float[] {1.0f, 0.5f, 0.0f, 1.0f}; 
+	
 	
 	public static boolean glViewNeedsUpdated = true;
 	

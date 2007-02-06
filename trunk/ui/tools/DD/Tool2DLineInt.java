@@ -1,7 +1,5 @@
 package ui.tools.DD;
 
-import java.util.Iterator;
-
 import javax.media.opengl.GL;
 
 import ui.opengl.GLDynPrim;
@@ -74,11 +72,13 @@ public class Tool2DLineInt implements ToolInterface {
 
 	public void glMouseUp(double x, double y, double z, int mouseX, int mouseY) {
 		System.out.println("mouseup in line: x,y=" + x + "," + y);
+		/*
 		Iterator allP = AvoGlobal.workingFeature.paramSet.getIterator();
 		while(allP.hasNext()){
 			Param p = (Param)allP.next();
 			System.out.println("param ** TYPE:" + p.getType() + " \tLABEL:" + p.getLabel() + " \tDATA:" + p.getData().toString());
 		}
+		*/
 		
 		// * finalize line's formation
 		AvoGlobal.workingFeature.paramSet.changeParam("b", new Point2D(x,y));
@@ -88,18 +88,12 @@ public class Tool2DLineInt implements ToolInterface {
 		Point2D ptB = (Point2D)AvoGlobal.workingFeature.paramSet.getParam("b").getData();
 		if(! ptA.equals(ptB)){
 			// the beginning and end of the segment are different... store the line.
-			// TODO: store the line more permenently (paramSet and type)
-			
+			// store the line more permenently (paramSet and type)
+			AvoGlobal.workingFSet.addFeature(AvoGlobal.workingFeature);
 		}
 	}
 
 	public void glDrawFeature(GL gl, ParamSet p) {
-		gl.glColor4f(1.0f,0.5f,0.0f, 1.0f);
-		GLDynPrim.circle2D(gl, new Point2D(0.0, 0.0),  1.0, 0.0);
-		GLDynPrim.circle2D(gl, new Point2D(0.0, 0.0),  5.0, 0.0);
-		GLDynPrim.circle2D(gl, new Point2D(0.0, 0.0), 10.0, 0.0);
-		GLDynPrim.circle2D(gl, new Point2D(0.0, 0.0), 20.0, 0.0);
-		GLDynPrim.cad_Arc(gl, 11.0f, 0.0f, 227.5f);
 		GLDynPrim.line2D(gl, (Point2D)p.getParam("a").getData(), (Point2D)p.getParam("b").getData(), 0.0);
 	}
 }
