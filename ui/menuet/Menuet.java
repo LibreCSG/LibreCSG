@@ -7,6 +7,7 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.widgets.Composite;
 
+import ui.tools.DD.Tool2DCircle;
 import ui.tools.DD.Tool2DLine;
 import ui.tools.main.ToolMain2D;
 import ui.utilities.ColorUtils;
@@ -70,8 +71,7 @@ public class Menuet extends Composite{
 		
 		//TODO: This belongs in the menuet particular to 2D only...
 		new Tool2DLine(this);
-		new Tool2DLine(this);
-		new Tool2DLine(this);
+		new Tool2DCircle(this);
 		new ToolMain2D(this);
 	}	
 	
