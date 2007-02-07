@@ -53,7 +53,10 @@ public class AvoGlobal {
 	public static final Color COLOR_MENUET_DONE_MO = new Color(Display.getCurrent(),  200,  255,  200);
 	public static final Color COLOR_MENUET_DONE_US = new Color(Display.getCurrent(),  230,  255,  230);
 	public static final Color COLOR_MENUET_CNCL_MO = new Color(Display.getCurrent(),  255,  200,  200);
-	public static final Color COLOR_MENUET_CNCL_US = new Color(Display.getCurrent(),  255,  230,  230);
+	public static final Color COLOR_MENUET_CNCL_US = new Color(Display.getCurrent(),  255,  230,  230);	
+	public static final Color COLOR_MENUET_TLBX_MO = new Color(Display.getCurrent(),  200,  200,  255);
+	public static final Color COLOR_MENUET_TLBX_US = new Color(Display.getCurrent(),  220,  220,  255);
+	
 	
 	/**
 	 * Tool mode identifiers 

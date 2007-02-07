@@ -43,7 +43,7 @@ public class Tool2DCancel extends Tool2D{
 		
 		// initialize GUI elements
 		mElement = new MEButton(menuet, this.getToolMode());
-		mElement.mePreferredHieght = 25;
+		mElement.mePreferredHeight = 25;
 		mElement.meColorMouseOver  = AvoGlobal.COLOR_MENUET_CNCL_MO;
 		mElement.meColorUnselected = AvoGlobal.COLOR_MENUET_CNCL_US; 
 		mElement.meLabel = "Cancel";

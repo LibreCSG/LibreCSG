@@ -35,13 +35,14 @@ import backend.global.AvoGlobal;
 public class ColorUtils {
 
 	/**
-	 * get the background color for the
-	 * current tool mode being used.
+	 * get the background color for the specified
+	 * tool mode.
+	 * @param mode
 	 * @return
 	 */
-	public static Color getModeBGColor(){
+	public static Color getModeBGColorByMode(int mode){
 		Color clr;
-		switch(AvoGlobal.currentToolMode){
+		switch(mode){
 			case(AvoGlobal.MENUET_MODE_MAIN):{
 				clr = AvoGlobal.COLOR_MENUET_MAIN;
 				break;
@@ -64,6 +65,16 @@ public class ColorUtils {
 			}
 		}
 		return clr;
+	}
+	
+	
+	/**
+	 * get the background color for the
+	 * current tool mode being used.
+	 * @return
+	 */
+	public static Color getModeBGColor(){
+		return getModeBGColorByMode(AvoGlobal.currentToolMode);
 	}
 	
 }

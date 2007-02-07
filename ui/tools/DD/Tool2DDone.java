@@ -40,7 +40,7 @@ public class Tool2DDone extends Tool2D{
 		
 		// initialize GUI elements
 		mElement = new MEButton(menuet, this.getToolMode());
-		mElement.mePreferredHieght = 100;
+		mElement.mePreferredHeight = 100;
 		mElement.meColorMouseOver  = AvoGlobal.COLOR_MENUET_DONE_MO;
 		mElement.meColorUnselected = AvoGlobal.COLOR_MENUET_DONE_US; 
 		mElement.meLabel = "Done";

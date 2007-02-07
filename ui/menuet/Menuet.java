@@ -7,11 +7,6 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.widgets.Composite;
 
-import ui.tools.DD.Tool2DCancel;
-import ui.tools.DD.Tool2DCircle;
-import ui.tools.DD.Tool2DDone;
-import ui.tools.DD.Tool2DLine;
-import ui.tools.main.ToolMain2D;
 import ui.utilities.ColorUtils;
 import backend.global.AvoGlobal;
 
@@ -193,10 +188,10 @@ public class Menuet extends Composite{
 			if(mElement.meIsShown()){
 				float newHeightF = (float)mElement.getMinDisplayHeight(totalWidth) + (float)freePixels/(float)visibleElements;
 				int newHeight = (int)Math.floor(newHeightF);
-				int newHeightB = Math.max(mElement.getMinDisplayHeight(totalWidth), Math.min(newHeight, mElement.mePreferredHieght));
+				int newHeightB = Math.max(mElement.getMinDisplayHeight(totalWidth), Math.min(newHeight, mElement.mePreferredHeight));
 				mElement.setBounds(0,0,0,newHeightB);
 				unusedPixels += newHeightF - (float)newHeightB;
-				if(newHeightB == mElement.mePreferredHieght){
+				if(newHeightB == mElement.mePreferredHeight){
 					constrainedElements++;
 				}
 			}
@@ -210,13 +205,13 @@ public class Menuet extends Composite{
 			iter = menuetElements[mode].iterator();
 			while(iter.hasNext()){ 
 				MenuetElement mElement = (MenuetElement)iter.next();
-				if(mElement.meIsShown() && mElement.getBounds().height != mElement.mePreferredHieght){
+				if(mElement.meIsShown() && mElement.getBounds().height != mElement.mePreferredHeight){
 					float newHeightF = (float)mElement.getBounds().height + (float)unusedPixels/(float)unconstrainedElements;
 					int newHeight = (int)Math.floor(newHeightF);
-					int newHeightB = Math.max(mElement.getMinDisplayHeight(totalWidth), Math.min(newHeight, mElement.mePreferredHieght));
+					int newHeightB = Math.max(mElement.getMinDisplayHeight(totalWidth), Math.min(newHeight, mElement.mePreferredHeight));
 					mElement.setBounds(0,0,0,newHeightB);
 					unusedPixels2 += newHeight - (float)newHeightB;
-					if(newHeightB == mElement.mePreferredHieght){
+					if(newHeightB == mElement.mePreferredHeight){
 						constrainedElements++;
 					}					
 				}
@@ -229,10 +224,10 @@ public class Menuet extends Composite{
 			iter = menuetElements[mode].iterator();
 			while(iter.hasNext()){ 
 				MenuetElement mElement = (MenuetElement)iter.next();
-				if(mElement.meIsShown() && mElement.getBounds().height != mElement.mePreferredHieght){
+				if(mElement.meIsShown() && mElement.getBounds().height != mElement.mePreferredHeight){
 					float newHeightF = (float)mElement.getBounds().height + (float)unusedPixels2/(float)unconstrainedElements;
 					int newHeight = (int)Math.floor(newHeightF);
-					int newHeightB = Math.max(mElement.getMinDisplayHeight(totalWidth), Math.min(newHeight, mElement.mePreferredHieght));
+					int newHeightB = Math.max(mElement.getMinDisplayHeight(totalWidth), Math.min(newHeight, mElement.mePreferredHeight));
 					mElement.setBounds(0,0,0,newHeightB);				
 				}
 			}				
@@ -257,6 +252,9 @@ public class Menuet extends Composite{
 				heightMarker += mElement.getBounds().height;
 			}
 		}		
+		
+		
+		// TODO: Allow for MIDDLE aligned MenuetElements
 		
 		//
 		// BOTTOM

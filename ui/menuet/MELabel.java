@@ -42,7 +42,7 @@ public class MELabel extends MenuetElement{
 		super(menuet);		
 		// let menuet know about the new element
 		menuet.addMenuetElement(this, mode);
-		this.mePreferredHieght = 30;
+		this.mePreferredHeight = 30;
 	}
 	
 	
