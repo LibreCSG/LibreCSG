@@ -4,7 +4,6 @@ import ui.menuet.MEButton;
 import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
 import ui.tools.Tool2D;
-import backend.adt.ParamSet;
 import backend.data.utilities.ImageUtils;
 import backend.global.AvoGlobal;
 
@@ -41,7 +40,7 @@ public class Tool2DLine extends Tool2D{
 		
 		// initialize GUI elements
 		mElement = new MEButton(menuet, this.getToolMode());
-		mElement.mePreferredHieght = 50;
+		mElement.mePreferredHeight = 50;
 		mElement.meLabel = "Line";
 		mElement.meIcon = ImageUtils.getIcon("menuet/2D_Line.png", 24, 24);
 		mElement.setToolTipText("Line");

@@ -64,7 +64,7 @@ public abstract class MenuetElement extends Canvas{
 	public Color meColorOutline2   = new Color(this.getDisplay(), 150, 150, 150);
 	public Color meColorFocused    = this.getDisplay().getSystemColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT);
 	
-	public int mePreferredHieght = 50; // preferred height of element if possible.
+	public int mePreferredHeight = 50; // preferred height of element if possible.
 	public boolean isSelected  = false;
 	
 	private boolean isShown = false;

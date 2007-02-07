@@ -41,7 +41,7 @@ public class Tool2DCircle extends Tool2D{
 		
 		// initialize GUI elements
 		mElement = new MEButton(menuet, this.getToolMode());
-		mElement.mePreferredHieght = 50;
+		mElement.mePreferredHeight = 50;
 		mElement.meLabel = "Circle";
 		mElement.meIcon = ImageUtils.getIcon("menuet/2D_Circle.png", 24, 24);
 		mElement.setToolTipText("Circle");
