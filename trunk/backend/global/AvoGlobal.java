@@ -48,6 +48,14 @@ public class AvoGlobal {
 	public static final Color COLOR_MENUET_3D     = new Color(Display.getCurrent(),  220,  220,  150);
 	
 	/**
+	 * colors for special menuet buttons
+	 */
+	public static final Color COLOR_MENUET_DONE_MO = new Color(Display.getCurrent(),  200,  255,  200);
+	public static final Color COLOR_MENUET_DONE_US = new Color(Display.getCurrent(),  230,  255,  230);
+	public static final Color COLOR_MENUET_CNCL_MO = new Color(Display.getCurrent(),  255,  200,  200);
+	public static final Color COLOR_MENUET_CNCL_US = new Color(Display.getCurrent(),  255,  230,  230);
+	
+	/**
 	 * Tool mode identifiers 
 	 * (used as index in Menuet's LinkedList, so keep them sequential)
 	 */

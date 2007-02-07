@@ -1,12 +1,14 @@
 package ui.tools.DD;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.MessageBox;
+
 import ui.menuet.MEButton;
 import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
 import ui.tools.Tool2D;
-import backend.adt.ParamSet;
-import backend.data.utilities.ImageUtils;
 import backend.global.AvoGlobal;
+import backend.model.FeatureSet;
 
 
 //
@@ -35,28 +37,38 @@ import backend.global.AvoGlobal;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DCircle extends Tool2D{
+public class Tool2DCancel extends Tool2D{
 
-	public Tool2DCircle(Menuet menuet){	
+	public Tool2DCancel(Menuet menuet){	
 		
 		// initialize GUI elements
 		mElement = new MEButton(menuet, this.getToolMode());
-		mElement.mePreferredHieght = 50;
-		mElement.meLabel = "Circle";
-		mElement.meIcon = ImageUtils.getIcon("menuet/2D_Circle.png", 24, 24);
-		mElement.setToolTipText("Circle");
+		mElement.mePreferredHieght = 25;
+		mElement.meColorMouseOver  = AvoGlobal.COLOR_MENUET_CNCL_MO;
+		mElement.meColorUnselected = AvoGlobal.COLOR_MENUET_CNCL_US; 
+		mElement.meLabel = "Cancel";
+		mElement.setToolTipText("Cancel ALL changes made \nin the 2D drawing mode.");
 		mElement.mePriority = 0; 	// 0 = always show element, >5 = never show element
-		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
+		mElement.meDispOptions = MenuetElement.ME_TEXT_ONLY;
 		
 		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
 		
-		toolInterface = new Tool2DCircleInt();
+		toolInterface = new Tool2DCancelInt();
 	}
-	
+
 	@Override
 	public void toolSelected() {
-		AvoGlobal.menuet.selectButton(mElement);
-		AvoGlobal.currentTool = this;
+		MessageBox m = new MessageBox(AvoGlobal.menuet.getShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+		m.setMessage("Are you sure you want to discard ALL changes\nand exit the 2D drawing mode?");
+		m.setText("Discard ALL Changes?");
+		if(m.open() == SWT.YES){		
+			AvoGlobal.menuet.disableAllTools();
+			AvoGlobal.currentToolMode = AvoGlobal.MENUET_MODE_MAIN;
+			AvoGlobal.workingFSet = new FeatureSet();
+			AvoGlobal.workingFeature = null;
+			AvoGlobal.currentTool = null;			
+			AvoGlobal.menuet.updateToolModeDisplayed();
+			AvoGlobal.glViewNeedsUpdated = true;
+		}
 	}
-	
 }

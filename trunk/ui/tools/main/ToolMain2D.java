@@ -52,7 +52,7 @@ public class ToolMain2D extends ToolMain{
 
 	@Override
 	public void toolSelected() {
-		AvoGlobal.currentToolMode = AvoGlobal.MENUET_MODE_2D;	
+		AvoGlobal.currentToolMode = AvoGlobal.MENUET_MODE_2D;
 		AvoGlobal.menuet.updateToolModeDisplayed();
 	}
 

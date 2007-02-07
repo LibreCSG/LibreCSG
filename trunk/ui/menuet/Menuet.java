@@ -7,6 +7,7 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.widgets.Composite;
 
+import ui.tools.DD.Tool2DCancel;
 import ui.tools.DD.Tool2DCircle;
 import ui.tools.DD.Tool2DLine;
 import ui.tools.main.ToolMain2D;
@@ -70,6 +71,7 @@ public class Menuet extends Composite{
 		});
 		
 		//TODO: This belongs in the menuet particular to 2D only...
+		new Tool2DCancel(this);
 		new Tool2DLine(this);
 		new Tool2DCircle(this);
 		new ToolMain2D(this);
@@ -94,6 +96,18 @@ public class Menuet extends Composite{
 	
 	public void updateToolModeDisplayed(){
 		respositionMenuetElements(Menuet.this.getBounds().height,Menuet.this.getBounds().width);
+	}
+	
+	public void disableAllTools(){
+		for(int i=0; i<AvoGlobal.MENUET_TOTAL_MODES; i++){
+			Iterator iter = menuetElements[i].iterator();
+			while(iter.hasNext()){
+				MenuetElement mElement = (MenuetElement)iter.next();
+				mElement.setShown(false);
+				mElement.setVisible(false);
+				mElement.isSelected = false;
+			}
+		}
 	}
 	
 	/**
@@ -131,8 +145,10 @@ public class Menuet extends Composite{
 			totalMinHeight += mElement.getMinDisplayHeight(totalWidth);
 			if(mElement.mePriority > 5){
 				mElement.setShown(false);
+				mElement.setVisible(false);
 			}else{
 				mElement.setShown(true);
+				mElement.setVisible(true);
 			}
 		}	
 

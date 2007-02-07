@@ -37,8 +37,6 @@ import backend.global.AvoGlobal;
 */
 public class Tool2DLine extends Tool2D{
 
-	ParamSet pSet;
-	
 	public Tool2DLine(Menuet menuet){	
 		
 		// initialize GUI elements
