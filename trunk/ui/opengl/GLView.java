@@ -309,7 +309,8 @@ public class GLView {
 
 						if(mouse_down_button != MOUSE_MIDDLE && 
 								mouse_down_button != MOUSE_MIDDLE_SHIFT && 
-								mouse_down_button != MOUSE_MIDDLE_CTRL){
+								mouse_down_button != MOUSE_MIDDLE_CTRL &&
+								AvoGlobal.currentTool != null){
 							drawToolEndPos();
 						}
 

@@ -42,7 +42,7 @@ public class ToolMain2D extends ToolMain{
 		mElement = new MEButton(menuet, this.getToolMode());
 		mElement.mePreferredHeight = 50;
 		mElement.meLabel = "2D";
-		mElement.meIcon = ImageUtils.getIcon("menuet/2D_Spline.png", 24, 24);
+		mElement.meIcon = ImageUtils.getIcon("menuet/MAIN_2D.png", 24, 24);
 		mElement.setToolTipText("2D Sketch Mode");
 		mElement.mePriority = 0; 	// 0 = always show element, >5 = never show element
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
