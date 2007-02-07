@@ -270,21 +270,21 @@ public class GLView {
 						gl.glLoadIdentity();
 						gl.glPolygonMode(GL.GL_FRONT, GL.GL_FILL);
 						
-						// disable depth test so that overlapped items at
-						// the same depth (in particular, 0.0) still get drawn.
-						gl.glDisable(GL.GL_DEPTH_TEST);
-						
-						// set grid color						
-						gl.glColor4f(AvoGlobal.GL_COLOR4_GRID_DARK[0], AvoGlobal.GL_COLOR4_GRID_DARK[1],
-						  		AvoGlobal.GL_COLOR4_GRID_DARK[2], AvoGlobal.GL_COLOR4_GRID_DARK[3]);
-						gl.glColor4f(AvoGlobal.GL_COLOR4_GRID_LIGHT[0], AvoGlobal.GL_COLOR4_GRID_LIGHT[1],
-					  			AvoGlobal.GL_COLOR4_GRID_LIGHT[2], AvoGlobal.GL_COLOR4_GRID_LIGHT[3]);
-						// draw grid
-						gl.glDisable(GL.GL_LINE_SMOOTH);
-						GLDynPrim.mesh(gl, -10.0, 10.0, -10.0, 10.0, 20, 20);
-						gl.glEnable(GL.GL_LINE_SMOOTH);
-						gl.glEnable(GL.GL_DEPTH_TEST);
-						
+						if(AvoGlobal.currentToolMode == AvoGlobal.MENUET_MODE_2D){
+							// disable depth test so that overlapped items at
+							// the same depth (in particular, 0.0) still get drawn.
+							gl.glDisable(GL.GL_DEPTH_TEST);
+							// set grid color						
+							gl.glColor4f(AvoGlobal.GL_COLOR4_GRID_DARK[0], AvoGlobal.GL_COLOR4_GRID_DARK[1],
+							  		AvoGlobal.GL_COLOR4_GRID_DARK[2], AvoGlobal.GL_COLOR4_GRID_DARK[3]);
+							gl.glColor4f(AvoGlobal.GL_COLOR4_GRID_LIGHT[0], AvoGlobal.GL_COLOR4_GRID_LIGHT[1],
+						  			AvoGlobal.GL_COLOR4_GRID_LIGHT[2], AvoGlobal.GL_COLOR4_GRID_LIGHT[3]);
+							// draw grid
+							gl.glDisable(GL.GL_LINE_SMOOTH);
+							GLDynPrim.mesh(gl, -10.0, 10.0, -10.0, 10.0, 20, 20);
+							gl.glEnable(GL.GL_LINE_SMOOTH);
+							gl.glEnable(GL.GL_DEPTH_TEST);
+						}
 						
 						gl.glColor4f(0.7f, 0.7f, 0.7f, 1.0f);
 						gl.glLineWidth(1.75f);
@@ -319,13 +319,15 @@ public class GLView {
 						// this should be the last thing drawn in the 2D mode
 						// TODO: HACK, this should be sized according to the grid, which should also be dynamic!
 						//
-						gl.glColor4f(1.0f,0.0f,0.0f, 0.0f);
-						gl.glBegin(GL.GL_QUADS);
-							gl.glVertex3f(-100.0f, 100.0f, 0.0f);
-							gl.glVertex3f( 100.0f, 100.0f, 0.0f);
-							gl.glVertex3f( 100.0f,-100.0f, 0.0f);
-							gl.glVertex3f(-100.0f,-100.0f, 0.0f);
-						gl.glEnd();
+						if(AvoGlobal.currentToolMode == AvoGlobal.MENUET_MODE_2D){
+							gl.glColor4f(1.0f,0.0f,0.0f, 0.0f);
+							gl.glBegin(GL.GL_QUADS);
+								gl.glVertex3f(-100.0f, 100.0f, 0.0f);
+								gl.glVertex3f( 100.0f, 100.0f, 0.0f);
+								gl.glVertex3f( 100.0f,-100.0f, 0.0f);
+								gl.glVertex3f(-100.0f,-100.0f, 0.0f);
+							gl.glEnd();
+						}
 						
 						glCanvas.swapBuffers(); // double buffering excitement!
 						glContext.release();	// go ahead, you can have it back.
