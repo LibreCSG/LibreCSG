@@ -1,12 +1,9 @@
 package ui.tools.DD;
 
-import ui.menuet.MEButton;
-import ui.menuet.Menuet;
-import ui.menuet.MenuetElement;
-import ui.tools.Tool2D;
+import javax.media.opengl.GL;
+
+import ui.tools.ToolInterface;
 import backend.adt.ParamSet;
-import backend.data.utilities.ImageUtils;
-import backend.global.AvoGlobal;
 
 
 //
@@ -35,28 +32,27 @@ import backend.global.AvoGlobal;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DCircle extends Tool2D{
+public class Tool2DCancelInt implements ToolInterface {
+	/**
+	 * All of the tool's main functionality
+	 * mouse handling, glView drawing, 
+	 * parameter storage, etc.
+	 *
+	 */
+	public Tool2DCancelInt(){
+	}
+	
+	
+	public void glMouseDown(double x, double y, double z, int mouseX, int mouseY) {
+	}
 
-	public Tool2DCircle(Menuet menuet){	
-		
-		// initialize GUI elements
-		mElement = new MEButton(menuet, this.getToolMode());
-		mElement.mePreferredHieght = 50;
-		mElement.meLabel = "Circle";
-		mElement.meIcon = ImageUtils.getIcon("menuet/2D_Circle.png", 24, 24);
-		mElement.setToolTipText("Circle");
-		mElement.mePriority = 0; 	// 0 = always show element, >5 = never show element
-		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
-		
-		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
-		
-		toolInterface = new Tool2DCircleInt();
+	public void glMouseDrag(double x, double y, double z, int mouseX, int mouseY) {		
 	}
-	
-	@Override
-	public void toolSelected() {
-		AvoGlobal.menuet.selectButton(mElement);
-		AvoGlobal.currentTool = this;
+
+	public void glMouseUp(double x, double y, double z, int mouseX, int mouseY) {
 	}
-	
+
+	public void glDrawFeature(GL gl, ParamSet p) {
+		System.out.println("This is the 2D Cancel button.. it should never be drawn!");
+	}
 }
