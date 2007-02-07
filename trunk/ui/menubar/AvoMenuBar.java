@@ -66,6 +66,8 @@ public class AvoMenuBar {
 		
 		MenuItem miEdit = new MenuItem(menu, SWT.CASCADE);
 		miEdit.setText("&Edit");
+		MenuItem miView = new MenuItem(menu, SWT.CASCADE);
+		miView.setText("&View");
 		MenuItem miHelp = new MenuItem(menu, SWT.CASCADE);
 		miHelp.setText("&Help");
 	}

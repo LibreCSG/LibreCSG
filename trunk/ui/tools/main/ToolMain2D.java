@@ -40,7 +40,7 @@ public class ToolMain2D extends ToolMain{
 		
 		// initialize GUI elements
 		mElement = new MEButton(menuet, this.getToolMode());
-		mElement.mePreferredHeight = 50;
+		mElement.mePreferredHeight = 100;
 		mElement.meLabel = "2D";
 		mElement.meIcon = ImageUtils.getIcon("menuet/MAIN_2D.png", 24, 24);
 		mElement.setToolTipText("2D Sketch Mode");

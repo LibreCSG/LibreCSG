@@ -63,6 +63,11 @@ public class MenuetBuilder {
 		//
 		//  TOOL MODE:  Main
 		//
+		MELabel labelMAIN = new MELabel(menuet,AvoGlobal.MENUET_MODE_MAIN);
+		labelMAIN.meColorBackground = AvoGlobal.COLOR_MENUET_MAIN;
+		labelMAIN.meLabel = "Tools";
+		labelMAIN.textIsBold = true;
+		
 		new ToolMain2D(menuet);
 		
 		
