@@ -2,10 +2,6 @@ package ui.shells;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
-import org.eclipse.swt.events.MouseMoveListener;
-import org.eclipse.swt.events.MouseTrackListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -16,8 +12,8 @@ import org.eclipse.swt.widgets.Shell;
 
 import ui.menubar.AvoMenuBar;
 import ui.menuet.Menuet;
+import ui.menuet.MenuetBuilder;
 import ui.opengl.GLView;
-import ui.utilities.SWTUtils;
 import backend.global.AvoGlobal;
 
 //
@@ -104,6 +100,8 @@ public class MainAvoCADoShell{
 		// set the small left piece as the menuet
 		//
 		AvoGlobal.menuet = new Menuet(shell, SWT.NONE);
+		// put all of the elements onto the menuet!	
+		MenuetBuilder.buildMenuet(AvoGlobal.menuet); 
 		AvoGlobal.menuet.setBackground(AvoGlobal.COLOR_MENUET_MAIN);
 		GridData gd0 = new GridData(GridData.FILL_VERTICAL);
 		gd0.grabExcessVerticalSpace = true;

@@ -9,6 +9,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import ui.tools.DD.Tool2DCancel;
 import ui.tools.DD.Tool2DCircle;
+import ui.tools.DD.Tool2DDone;
 import ui.tools.DD.Tool2DLine;
 import ui.tools.main.ToolMain2D;
 import ui.utilities.ColorUtils;
@@ -51,8 +52,9 @@ public class Menuet extends Composite{
 	 */
 	LinkedList <MenuetElement>menuetElements[] = new LinkedList[AvoGlobal.MENUET_TOTAL_MODES];
 
-	// TODO: build menuet class
-	
+	/**
+	 * Construct a new <b>menuet</b>: Mode based menu system
+	 */
 	public Menuet(Composite c, int type){
 		super(c,type);
 		
@@ -70,11 +72,6 @@ public class Menuet extends Composite{
 			}			
 		});
 		
-		//TODO: This belongs in the menuet particular to 2D only...
-		new Tool2DCancel(this);
-		new Tool2DLine(this);
-		new Tool2DCircle(this);
-		new ToolMain2D(this);
 	}	
 	
 	/**
