@@ -64,8 +64,8 @@ public class Tool2DCancel extends Tool2D{
 		if(m.open() == SWT.YES){		
 			AvoGlobal.menuet.disableAllTools();
 			AvoGlobal.currentToolMode = AvoGlobal.MENUET_MODE_MAIN;
-			AvoGlobal.workingFSet = new FeatureSet();
-			AvoGlobal.workingFeature = null;
+			AvoGlobal.clearFetureSet();
+			AvoGlobal.setWorkingFeature(null);
 			AvoGlobal.currentTool = null;			
 			AvoGlobal.menuet.updateToolModeDisplayed();
 			AvoGlobal.glViewNeedsUpdated = true;

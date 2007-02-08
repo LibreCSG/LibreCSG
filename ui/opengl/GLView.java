@@ -295,7 +295,7 @@ public class GLView {
 						
 						gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_NONACT[0], AvoGlobal.GL_COLOR4_2D_NONACT[1],
 					  					AvoGlobal.GL_COLOR4_2D_NONACT[2], AvoGlobal.GL_COLOR4_2D_NONACT[3]);
-					    Iterator iter = AvoGlobal.workingFSet.iterator();
+					    Iterator iter = AvoGlobal.getFeatureSet().iterator();
 					    while(iter.hasNext()){
 					    	Feature feat = (Feature)iter.next();
 					    	feat.toolInterface.glDrawFeature(gl, feat.paramSet);
@@ -303,8 +303,9 @@ public class GLView {
 					    
 						gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_ACTIVE[0], AvoGlobal.GL_COLOR4_2D_ACTIVE[1],
 			  							AvoGlobal.GL_COLOR4_2D_ACTIVE[2], AvoGlobal.GL_COLOR4_2D_ACTIVE[3]);
-						if(AvoGlobal.workingFeature != null){
-							AvoGlobal.workingFeature.toolInterface.glDrawFeature(gl, AvoGlobal.workingFeature.paramSet);
+						Feature workingFeature = AvoGlobal.getWorkingFeature(); 
+						if(workingFeature != null){
+							workingFeature.toolInterface.glDrawFeature(gl, workingFeature.paramSet);
 						}
 
 						if(mouse_down_button != MOUSE_MIDDLE && 

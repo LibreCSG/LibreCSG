@@ -61,12 +61,12 @@ public class Tool2DLineInt implements ToolInterface {
 		//
 		// set the workingFeature to the 2D Line
 		//
-		AvoGlobal.workingFeature = new Feature(this, pSet);
+		AvoGlobal.setWorkingFeature(new Feature(this, pSet));
 	}
 
 	public void glMouseDrag(double x, double y, double z, int mouseX, int mouseY) {
 		//System.out.println("mousemove in line: x,y=" + x + "," + y);
-		AvoGlobal.workingFeature.paramSet.changeParam("b", new Point2D(x,y));
+		AvoGlobal.getWorkingFeature().paramSet.changeParam("b", new Point2D(x,y));
 		
 	}
 
@@ -81,15 +81,15 @@ public class Tool2DLineInt implements ToolInterface {
 		*/
 		
 		// * finalize line's formation
-		AvoGlobal.workingFeature.paramSet.changeParam("b", new Point2D(x,y));
+		AvoGlobal.getWorkingFeature().paramSet.changeParam("b", new Point2D(x,y));
 		
 		// * store permanently in model
-		Point2D ptA = (Point2D)AvoGlobal.workingFeature.paramSet.getParam("a").getData();
-		Point2D ptB = (Point2D)AvoGlobal.workingFeature.paramSet.getParam("b").getData();
+		Point2D ptA = (Point2D)AvoGlobal.getWorkingFeature().paramSet.getParam("a").getData();
+		Point2D ptB = (Point2D)AvoGlobal.getWorkingFeature().paramSet.getParam("b").getData();
 		if(! ptA.equals(ptB)){
 			// the beginning and end of the segment are different... store the line.
 			// store the line more permenently (paramSet and type)
-			AvoGlobal.workingFSet.addFeature(AvoGlobal.workingFeature);
+			AvoGlobal.pushWorkFeatToSet();
 		}
 	}
 
