@@ -60,26 +60,25 @@ public class Tool2DCircleInt implements ToolInterface  {
 		//
 		// set the workingFeature to this feature
 		//
-		AvoGlobal.workingFeature = new Feature(this, pSet);
-		AvoGlobal.paramDialog.updateParams(AvoGlobal.workingFeature);
+		AvoGlobal.setWorkingFeature(new Feature(this, pSet));
 	}
 
 	public void glMouseDrag(double x, double y, double z, int mouseX, int mouseY) {
-		Point2D ptC = (Point2D)AvoGlobal.workingFeature.paramSet.getParam("c").getData();
-		AvoGlobal.workingFeature.paramSet.changeParam("r", ptC.computeDist(new Point2D(x,y)));		
+		Point2D ptC = (Point2D)AvoGlobal.getWorkingFeature().paramSet.getParam("c").getData();
+		AvoGlobal.getWorkingFeature().paramSet.changeParam("r", ptC.computeDist(new Point2D(x,y)));		
 	}
 
 	public void glMouseUp(double x, double y, double z, int mouseX, int mouseY) {		
 		// * finalize feature's formation
-		Point2D ptC = (Point2D)AvoGlobal.workingFeature.paramSet.getParam("c").getData();
-		AvoGlobal.workingFeature.paramSet.changeParam("r", ptC.computeDist(new Point2D(x,y)));	
+		Point2D ptC = (Point2D)AvoGlobal.getWorkingFeature().paramSet.getParam("c").getData();
+		AvoGlobal.getWorkingFeature().paramSet.changeParam("r", ptC.computeDist(new Point2D(x,y)));	
 		
 		// * store permanently in model
-		double radius = (Double)AvoGlobal.workingFeature.paramSet.getParam("r").getData();
+		double radius = (Double)AvoGlobal.getWorkingFeature().paramSet.getParam("r").getData();
 		if(!(radius == 0.0)){
 			// the beginning and end of the segment are different... store the line.
 			// store the line more permenently (paramSet and type)
-			AvoGlobal.workingFSet.addFeature(AvoGlobal.workingFeature);
+			AvoGlobal.pushWorkFeatToSet();
 		}else{
 			System.out.println("radius was zero?!?!");
 		}

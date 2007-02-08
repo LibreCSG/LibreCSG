@@ -142,12 +142,6 @@ public class DynParamDialog {
 	
 	
 	private void buildParamComposite(Feature f){
-		// make sure feature is not null
-		if(AvoGlobal.workingFeature == null){
-			return;
-		}
-		
-		
 		// remove all of the old children from the composite.
 		Control[] cList = paramComp.getChildren();
 		for(int i=0; i<cList.length; i++){
@@ -162,11 +156,19 @@ public class DynParamDialog {
 		paramComp.setLayout(rl);
 		paramComp.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_BLUE));
 		
+		// make sure feature is not null
+		Feature workingFeature = AvoGlobal.getWorkingFeature();
+		if(workingFeature == null){
+			// feature was null, hide the paramDialog and return.
+			animator.animateBackwards(1);
+			return;
+		}
+		
 		//
 		// add all parameters from the current feature to 
 		// the paramDialog for display/modification
 		//
-		pSet = AvoGlobal.workingFeature.paramSet;
+		pSet = workingFeature.paramSet;
 		Iterator iter = pSet.getIterator();
 		while(iter.hasNext()){
 			Param p = (Param)iter.next();

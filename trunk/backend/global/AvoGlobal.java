@@ -98,7 +98,26 @@ public class AvoGlobal {
 	/**
 	 * feature currently being controlled in the glView
 	 */
-	public static Feature workingFeature;
+	private static Feature workingFeature;
+	public static void setWorkingFeature(Feature f){
+		workingFeature = f;
+		paramDialog.updateParams(f);
+	}
+	public static Feature getWorkingFeature(){
+		return workingFeature;
+	}	
+	public static void pushWorkFeatToSet(){
+		workingFSet.addFeature(workingFeature);
+		workingFeature = null;
+		paramDialog.updateParams(null);
+	}	
+	public static FeatureSet getFeatureSet(){
+		return workingFSet;
+	}
+	public static void clearFetureSet(){
+		workingFSet = new FeatureSet();
+	}
+	
 	
 	/**
 	 * set of features currently being used in the glView.
@@ -106,7 +125,7 @@ public class AvoGlobal {
 	 * with a particular tool group (like 2D features) when
 	 * building a new 2D sketch that have been completed.
 	 */
-	public static FeatureSet workingFSet = new FeatureSet();
+	private static FeatureSet workingFSet = new FeatureSet();
 	
 	/**
 	 * precision of rendering... higher levels take longs,
@@ -136,6 +155,7 @@ public class AvoGlobal {
 	public static boolean glViewNeedsUpdated = true;
 	
 	
-	public static DynParamDialog paramDialog = null; 
+	public static DynParamDialog paramDialog = null;
+	
 	
 }
