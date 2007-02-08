@@ -2,6 +2,8 @@ package ui.shells;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -49,6 +51,7 @@ public class MainAvoCADoShell{
 	Shell shell;
 	
 	SashForm comp2topSash;
+	Composite mainViewComp;
 	
 	/**
 	 * create the main avoCADo shell and display it
@@ -146,9 +149,33 @@ public class MainAvoCADoShell{
 		comp2topSash.setLayoutData(gd2top);
 		
 		//
-		// large left piece is glview
+		// mainViewComp fills left side of SashForm
+		// and will hold glView and the paramDialog
+		// (paramDialog is placed on top of glView)
 		//
-		AvoGlobal.glView = new GLView(comp2topSash);
+		mainViewComp = new Composite(comp2topSash,SWT.NONE);
+		
+		//
+		// Add the paramDialog
+		//
+		AvoGlobal.paramDialog = new DynParamDialog(mainViewComp);
+		
+		//
+		// Add the glView
+		//
+		AvoGlobal.glView = new GLView(mainViewComp);
+		mainViewComp.addControlListener(new ControlListener(){
+			public void controlMoved(ControlEvent e) {			
+			}
+			public void controlResized(ControlEvent e) {
+				// resize glView to fill entire mainViewComp
+				// (can't use FillLayout since another component,
+				//  the paramDialog is placed over the glView).
+				AvoGlobal.glView.glCanvas.setBounds(mainViewComp.getBounds());
+				AvoGlobal.paramDialog.positionParamDialog();
+			}			
+		});
+		
 		
 		//
 		// right piece is treeviewer
@@ -173,9 +200,6 @@ public class MainAvoCADoShell{
 		gd2bot.heightHint = 25;
 		gd2bot.minimumHeight = 25;
 		comp2bot.setLayoutData(gd2bot);
-		
-		// TODO: HACK, put parameter dialog in appropriate place. 
-		AvoGlobal.paramDialog = new DynParamDialog(shell);
 		
 	}
 	

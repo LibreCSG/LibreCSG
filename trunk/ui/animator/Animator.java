@@ -34,20 +34,23 @@ public abstract class Animator {
 	int mSec = 25;	// 40Hz animation framerate (ideally)
 	long timeBegin = 0L;
 	long duration  = 0L;
+	float lastPercentComplete = 0.0f;
 	
 	public void animateForwards(long mSecDuration){
 		timeBegin = System.currentTimeMillis();
 		duration  = mSecDuration; 
-		
-		animatorTransition(0.0f);
+		timeBegin -= (long)(lastPercentComplete*(float)duration);
+
 		new Runnable() {
 			public void run() {		
 				float percentComplete = (float)(System.currentTimeMillis()-timeBegin) / (float)duration;
 				if(percentComplete <= 1.0){
 					animatorTransition(percentComplete);
+					lastPercentComplete = percentComplete;
 					Display.getCurrent().timerExec(mSec,this);
 				}else{
 					animatorTransition(1.0f);
+					lastPercentComplete = 1.0f;
 				}
 			}
 		}.run();
@@ -55,16 +58,19 @@ public abstract class Animator {
 	
 	public void animateBackwards(long mSecDuration){
 		timeBegin = System.currentTimeMillis();
-		duration  = mSecDuration; 		
-		animatorTransition(1.0f);
+		duration  = mSecDuration; 	
+		timeBegin -= (long)((1.0f-lastPercentComplete)*(float)duration);
+		
 		new Runnable() {
 			public void run() {		
 				float percentComplete = (float)(System.currentTimeMillis()-timeBegin) / (float)duration;
 				if(percentComplete <= 1.0){
 					animatorTransition(1.0f - percentComplete);
+					lastPercentComplete = (1.0f - percentComplete);
 					Display.getCurrent().timerExec(mSec,this);
 				}else{
 					animatorTransition(0.0f);
+					lastPercentComplete = 0.0f;
 				}
 			}
 		}.run();

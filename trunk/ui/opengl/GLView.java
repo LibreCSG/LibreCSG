@@ -59,7 +59,7 @@ public class GLView {
 
 	static GL  gl;
 	static GLU glu;
-	final  GLCanvas  glCanvas;
+	public final  GLCanvas  glCanvas;
 	final  GLContext glContext;
 	
 	boolean mouseIsDown = false;
