@@ -14,6 +14,8 @@ import ui.menubar.AvoMenuBar;
 import ui.menuet.Menuet;
 import ui.menuet.MenuetBuilder;
 import ui.opengl.GLView;
+import ui.paramdialog.DynParamDialog;
+import backend.data.utilities.ImageUtils;
 import backend.global.AvoGlobal;
 
 //
@@ -59,6 +61,8 @@ public class MainAvoCADoShell{
 		
 		shell.setText("avoCADo");
 		shell.setSize(800, 600);	//TODO: set intial size to last known size
+		shell.setMinimumSize(640, 480);
+		shell.setImage(ImageUtils.getIcon("./avoCADo.png", 32, 32));
 		shell.open();
 		
 		// handle events while the shell is not disposed
@@ -169,6 +173,9 @@ public class MainAvoCADoShell{
 		gd2bot.heightHint = 25;
 		gd2bot.minimumHeight = 25;
 		comp2bot.setLayoutData(gd2bot);
+		
+		// TODO: HACK, put parameter dialog in appropriate place. 
+		AvoGlobal.paramDialog = new DynParamDialog(shell);
 		
 	}
 	

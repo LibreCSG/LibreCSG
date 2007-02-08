@@ -6,6 +6,7 @@ import org.eclipse.swt.widgets.Display;
 import ui.menuet.Menuet;
 import ui.opengl.GLView;
 import ui.opengl.RenderLevel;
+import ui.paramdialog.DynParamDialog;
 import ui.tools.Tool;
 import backend.model.Feature;
 import backend.model.FeatureSet;
@@ -56,6 +57,11 @@ public class AvoGlobal {
 	public static final Color COLOR_MENUET_CNCL_US = new Color(Display.getCurrent(),  255,  230,  230);	
 	public static final Color COLOR_MENUET_TLBX_MO = new Color(Display.getCurrent(),  200,  200,  255);
 	public static final Color COLOR_MENUET_TLBX_US = new Color(Display.getCurrent(),  220,  220,  255);
+	
+	/**
+	 * colors for parameter dialog
+	 */
+	public static final Color COLOR_PARAM_BG = new Color(Display.getCurrent(),  200,  170,  170);
 	
 	
 	/**
@@ -129,5 +135,7 @@ public class AvoGlobal {
 	
 	public static boolean glViewNeedsUpdated = true;
 	
+	
+	public static DynParamDialog paramDialog = null; 
 	
 }

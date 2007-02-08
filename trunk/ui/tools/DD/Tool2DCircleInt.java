@@ -61,6 +61,7 @@ public class Tool2DCircleInt implements ToolInterface  {
 		// set the workingFeature to this feature
 		//
 		AvoGlobal.workingFeature = new Feature(this, pSet);
+		AvoGlobal.paramDialog.updateParams(AvoGlobal.workingFeature);
 	}
 
 	public void glMouseDrag(double x, double y, double z, int mouseX, int mouseY) {
