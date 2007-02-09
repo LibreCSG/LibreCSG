@@ -16,10 +16,12 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 
 import ui.animator.Animator;
 import backend.adt.Param;
+import backend.adt.ParamEvents;
 import backend.adt.ParamSet;
 import backend.data.utilities.ImageUtils;
 import backend.global.AvoGlobal;
@@ -88,7 +90,6 @@ public class DynParamDialog {
 		RowLayout rl = new RowLayout();
 		rl.wrap = true;
 		paramComp.setLayout(rl);
-		
 		
 		
 		paramCompTab = new Composite(comp,SWT.NONE);
@@ -165,6 +166,9 @@ public class DynParamDialog {
 		Control[] cList = paramComp.getChildren();
 		for(int i=0; i<cList.length; i++){
 			Control c = cList[i];
+			if(c instanceof ParamComp){
+				((ParamComp)c).removeParamListener();
+			}
 			c.dispose();
 		}
 		
@@ -234,6 +238,11 @@ public class DynParamDialog {
 			paramCompTab.setLocation((int)(percentComplete*bodyWidth)-bodyWidth,parentComp.getBounds().height-bodyHeight-TAB_HEIGHT);
 			//System.out.println("transistioned @ " +  percentComplete);			
 		}		
+	}
+	
+	public void notifyParamChangeListener(){
+		// TODO: NOTIFY PARAM CHANGE LISTENERS SOMEHOW
+		AvoGlobal.paramEvents.notifyParamChanged();
 	}
 	
 }

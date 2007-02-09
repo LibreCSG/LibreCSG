@@ -14,6 +14,7 @@ import org.eclipse.swt.widgets.Text;
 import ui.utilities.NumUtils;
 import backend.adt.PType;
 import backend.adt.Param;
+import backend.adt.ParamListener;
 import backend.adt.Point2D;
 import backend.global.AvoGlobal;
 
@@ -44,11 +45,10 @@ import backend.global.AvoGlobal;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class PCompPoint2D extends Composite{
+public class PCompPoint2D extends ParamComp{
 
-	private static Text tx;
-	private static Text ty;
-	private Param param;
+	private Text tx;
+	private Text ty;	
 	
 	public PCompPoint2D(Composite parent, int style, Param p){
 		super(parent,style);
@@ -107,6 +107,7 @@ public class PCompPoint2D extends Composite{
 				}
 			}			
 		});
+
 		
 		Label ly = new Label(this, SWT.NONE);
 		ly.setText("y");		
@@ -148,8 +149,24 @@ public class PCompPoint2D extends Composite{
 			}			
 		});
 		
+		
+		//
+		// Add param listener!
+		//
+		
+		paramListener = new ParamListener(){
+			public void paramChanged() {
+				// TODO Auto-generated method stub
+				Point2D pt = (Point2D)param.getData();
+				tx.setText(NumUtils.doubleToFixedString(pt.getX(),6));
+				ty.setText(NumUtils.doubleToFixedString(pt.getY(),6));
+			}			
+		};	
+		AvoGlobal.paramEvents.addParamListener(paramListener);
+		
 	}
 	
+
 
 	
 }

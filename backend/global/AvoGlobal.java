@@ -8,6 +8,7 @@ import ui.opengl.GLView;
 import ui.opengl.RenderLevel;
 import ui.paramdialog.DynParamDialog;
 import ui.tools.Tool;
+import backend.adt.ParamEvents;
 import backend.model.Feature;
 import backend.model.FeatureSet;
 
@@ -157,5 +158,6 @@ public class AvoGlobal {
 	
 	public static DynParamDialog paramDialog = null;
 	
+	public static ParamEvents paramEvents = new ParamEvents();
 	
 }

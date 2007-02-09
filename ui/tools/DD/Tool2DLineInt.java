@@ -71,8 +71,7 @@ public class Tool2DLineInt implements ToolInterface {
 
 	public void glMouseDrag(double x, double y, double z, int mouseX, int mouseY) {
 		//System.out.println("mousemove in line: x,y=" + x + "," + y);
-		AvoGlobal.getWorkingFeature().paramSet.changeParam("b", new Point2D(x,y));
-		
+		AvoGlobal.getWorkingFeature().paramSet.changeParam("b", new Point2D(x,y));	
 	}
 
 	public void glMouseUp(double x, double y, double z, int mouseX, int mouseY) {
@@ -93,7 +92,7 @@ public class Tool2DLineInt implements ToolInterface {
 		Point2D ptB = (Point2D)AvoGlobal.getWorkingFeature().paramSet.getParam("b").getData();
 		if(ptA.equals(ptB)){
 			// end point are the same... discard
-			System.out.println("end point of line are the same... discarding feature");
+			System.out.println("end points of line are the same... discarding feature");
 			AvoGlobal.setWorkingFeature(null);
 		}
 	}
