@@ -54,10 +54,16 @@ public class PCompPoint2D extends ParamComp{
 		super(parent,style);
 		param = p;
 		
+		//
+		// Setup the component's layout
+		//
 		RowLayout rl = new RowLayout();
 		rl.wrap = false;
 		this.setLayout(rl);
 		
+		//
+		// check to make sure param is of correct type
+		//
 		if(p.getType() != PType.Point2D){
 			System.out.println("trying to display a non-point2D in a PCompPoint2D (paramDialog)");
 			return;
@@ -65,15 +71,23 @@ public class PCompPoint2D extends ParamComp{
 		
 		Point2D pt = (Point2D)param.getData();
 		
+		//
+		// Param label display
+		//
 		Label l = new Label(this, SWT.NONE);
 		l.setText(p.getLabel() + ": ");
 		
+		//
+		// X Coor:
+		//
 		Label lx = new Label(this, SWT.NONE);
 		lx.setText("x");
 		tx = new Text(this, SWT.BORDER);
-		tx.setText(NumUtils.doubleToFixedString(pt.getX(),6));
+		tx.setText(NumUtils.doubleToFixedString(pt.getX(),7));
 		
-		// handle key presses
+		//
+		// X Coor: handle key presses
+		//
 		tx.addKeyListener(new KeyListener(){
 			public void keyPressed(KeyEvent e) {
 				if(e.character == '\r'){
@@ -84,14 +98,17 @@ public class PCompPoint2D extends ParamComp{
 						param.change(pt);
 						AvoGlobal.glViewNeedsUpdated = true;
 					}else{
-						tx.setText(NumUtils.doubleToFixedString(((Point2D)param.getData()).getX(),6));
+						tx.setText(NumUtils.doubleToFixedString(((Point2D)param.getData()).getX(),7));
 					}
 				}
 			}
 			public void keyReleased(KeyEvent e) {		
 			}			
 		});
-		// perform field validation
+		
+		//
+		// X Coor: perform field validation
+		//
 		tx.addFocusListener(new FocusListener(){
 			public void focusGained(FocusEvent e) {			
 			}
@@ -103,18 +120,22 @@ public class PCompPoint2D extends ParamComp{
 					param.change(pt);
 					AvoGlobal.glViewNeedsUpdated = true;
 				}else{
-					tx.setText(NumUtils.doubleToFixedString(((Point2D)param.getData()).getX(),6));
+					tx.setText(NumUtils.doubleToFixedString(((Point2D)param.getData()).getX(),7));
 				}
 			}			
 		});
 
-		
+		//
+		// Y Coor:
+		//
 		Label ly = new Label(this, SWT.NONE);
 		ly.setText("y");		
 		ty = new Text(this, SWT.BORDER);
-		ty.setText(NumUtils.doubleToFixedString(pt.getY(),6));	
+		ty.setText(NumUtils.doubleToFixedString(pt.getY(),7));	
 		
+		//
 		// handle key presses
+		//
 		ty.addKeyListener(new KeyListener(){
 			public void keyPressed(KeyEvent e) {
 				if(e.character == '\r'){
@@ -125,14 +146,17 @@ public class PCompPoint2D extends ParamComp{
 						param.change(pt);
 						AvoGlobal.glViewNeedsUpdated = true;
 					}else{
-						ty.setText(NumUtils.doubleToFixedString(((Point2D)param.getData()).getY(),6));
+						ty.setText(NumUtils.doubleToFixedString(((Point2D)param.getData()).getY(),7));
 					}
 				}
 			}
 			public void keyReleased(KeyEvent e) {		
 			}			
 		});
+		
+		//
 		// perform field validation
+		//
 		ty.addFocusListener(new FocusListener(){
 			public void focusGained(FocusEvent e) {			
 			}
@@ -144,22 +168,30 @@ public class PCompPoint2D extends ParamComp{
 					param.change(pt);
 					AvoGlobal.glViewNeedsUpdated = true;
 				}else{
-					ty.setText(NumUtils.doubleToFixedString(((Point2D)param.getData()).getY(),6));
+					ty.setText(NumUtils.doubleToFixedString(((Point2D)param.getData()).getY(),7));
 				}
 			}			
 		});
 		
+		//
+		// Disable user alteration if the parameter is derived
+		//
+		if(p.isDerivedParam()){
+			tx.setEditable(false);
+			tx.setBackground(AvoGlobal.COLOR_PARAM_DERIVED);	
+			ty.setEditable(false);
+			ty.setBackground(AvoGlobal.COLOR_PARAM_DERIVED);
+		}
 		
 		//
 		// Add param listener!
-		//
-		
+		//		
 		paramListener = new ParamListener(){
 			public void paramChanged() {
 				// TODO Auto-generated method stub
 				Point2D pt = (Point2D)param.getData();
-				tx.setText(NumUtils.doubleToFixedString(pt.getX(),6));
-				ty.setText(NumUtils.doubleToFixedString(pt.getY(),6));
+				tx.setText(NumUtils.doubleToFixedString(pt.getX(),7));
+				ty.setText(NumUtils.doubleToFixedString(pt.getY(),7));
 			}			
 		};	
 		AvoGlobal.paramEvents.addParamListener(paramListener);

@@ -34,6 +34,7 @@ public class Param {
 	protected PType  ptype;
 	protected String plabel;
 	protected Object pdata;
+	protected boolean derivedParam = false;
 
 	/**
 	 * A parameter encapsulates data with both
@@ -112,6 +113,26 @@ public class Param {
 			System.out.println("No change made in Param.change since data was not same type as originally constructed.");
 			System.out.println("  --> " + data.getClass().getName() + " != " + pdata.getClass().getName());
 		}
+	}
+	
+	/**
+	 * test to see if the parameter is derived from
+	 * others and therefore should not be altered
+	 * directly by the user.
+	 * @return
+	 */
+	public boolean isDerivedParam(){
+		return derivedParam;
+	}
+	
+	/**
+	 * specify if the parameter is derived frrom
+	 * others and therefore should not be altered
+	 * directly by the user.
+	 * @param isDerived
+	 */
+	public void setParamIsDerived(boolean isDerived){
+		derivedParam = isDerived;
 	}
 	
 }

@@ -62,8 +62,8 @@ public class AvoGlobal {
 	/**
 	 * colors for parameter dialog
 	 */
-	public static final Color COLOR_PARAM_BG = new Color(Display.getCurrent(),  200,  170,  170);
-	
+	public static final Color COLOR_PARAM_BG       = new Color(Display.getCurrent(),  220,  190,  190);
+	public static final Color COLOR_PARAM_DERIVED  = new Color(Display.getCurrent(),  220,  220,  240);
 	
 	/**
 	 * Tool mode identifiers 

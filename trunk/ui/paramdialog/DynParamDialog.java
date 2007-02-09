@@ -4,6 +4,8 @@ import java.util.Iterator;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.PaintEvent;
@@ -11,17 +13,16 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 
 import ui.animator.Animator;
 import backend.adt.Param;
-import backend.adt.ParamEvents;
 import backend.adt.ParamSet;
 import backend.data.utilities.ImageUtils;
 import backend.global.AvoGlobal;
@@ -86,10 +87,10 @@ public class DynParamDialog {
 		spComp = new ScrolledComposite(paramCompMain, SWT.V_SCROLL);
 		spComp.setBounds(BORDER_WIDTH,BORDER_WIDTH,bodyWidth-2*BORDER_WIDTH,bodyHeight-2*BORDER_WIDTH);
 		paramComp = new Composite(spComp, SWT.NONE);
+		paramComp.setLayout(new RowLayout(SWT.HORIZONTAL));
 		spComp.setContent(paramComp);
-		RowLayout rl = new RowLayout();
-		rl.wrap = true;
-		paramComp.setLayout(rl);
+	    spComp.setExpandVertical(true);
+	    spComp.setExpandHorizontal(true);
 		
 		
 		paramCompTab = new Composite(comp,SWT.NONE);
@@ -143,6 +144,11 @@ public class DynParamDialog {
 		buildParamComposite(null);
 	}
 	
+	/**
+	 * move the paramDialog to it's appropriate position
+	 * on the screen.. this only should need to be done
+	 * if the window is resized.
+	 */
 	public void positionParamDialog(){
 		animator.setToLastValue();
 	}
@@ -173,11 +179,8 @@ public class DynParamDialog {
 		}
 		
 		// setup the composite for rowLayout.
-		spComp.setContent(paramComp);
-		RowLayout rl = new RowLayout();
-		rl.wrap = true;
-		paramComp.setLayout(rl);
-		paramComp.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_BLUE));
+		paramComp.setLayout(new RowLayout(SWT.HORIZONTAL));
+		//paramComp.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_BLUE));
 		
 		// make sure feature is not null
 		Feature workingFeature = AvoGlobal.getWorkingFeature();
@@ -201,15 +204,19 @@ public class DynParamDialog {
 			Param p = (Param)iter.next();
 			switch(p.getType()){
 				case Boolean : {
+					// TODO: PCompBoolean
 					break;
 				}
 				case Int : {
+					// TODO: PCompInt
 					break;
 				}
 				case Double : {
+					new PCompDouble(paramComp, SWT.BORDER, p);
 					break;
 				}
 				case String : {
+					// TODO: PCompString
 					break;
 				}
 				case Point2D : {
@@ -217,17 +224,21 @@ public class DynParamDialog {
 					break;
 				}
 				case Point3D : {
+					// TODO: PCompPoint3D
 					break;
 				}
 				default : {
 					Label l = new Label(paramComp, SWT.SINGLE);
 					l.setText(p.getLabel());
-					System.out.println("Parameter was of unknown type! ## " + p.getType());
+					System.out.println("Parameter was of unknown type! ## " + p.getType() + " ++ " + p.getLabel());
 					break;
 				}
 			}
 		}
+		
 		paramComp.pack();
+		
+        spComp.setMinSize(paramComp.computeSize(spComp.getClientArea().width-10, SWT.DEFAULT));
 		
 	}
 	
@@ -239,9 +250,13 @@ public class DynParamDialog {
 			//System.out.println("transistioned @ " +  percentComplete);			
 		}		
 	}
-	
+
+	/**
+	 * let parameter display elements know that
+	 * values may have changed and therefor should
+	 * be check for updating to the screen.
+	 */
 	public void notifyParamChangeListener(){
-		// TODO: NOTIFY PARAM CHANGE LISTENERS SOMEHOW
 		AvoGlobal.paramEvents.notifyParamChanged();
 	}
 	
