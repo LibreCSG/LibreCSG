@@ -429,6 +429,10 @@ public class GLView {
 			wcoord[2] = Math.floor((wcoord[2]+AvoGlobal.snapSize/2.0)/AvoGlobal.snapSize)*AvoGlobal.snapSize;
 		}
 		
+		if(AvoGlobal.currentToolMode == AvoGlobal.MENUET_MODE_2D && wcoord[2] < 0.25 && wcoord[2] > -0.25){
+			wcoord[2] = 0.0; // tie z-value to zero if close enough to located on the drawing plane.
+		}
+		
         AvoGlobal.glCursor3DPos = wcoord;
         AvoGlobal.glViewEventHandler.notifyCursorMoved();
 		return wcoord;

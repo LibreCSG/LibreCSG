@@ -50,6 +50,9 @@ public class NumUtils {
 	
 	public static String doubleToFixedString(double d, int length){
 		String s = doubleToAtLeastString(d, length);
+		if(s.charAt(0) != '-'){
+			return " " + s.substring(0,length-1);
+		}
 		return s.substring(0,length);
 	}
 	

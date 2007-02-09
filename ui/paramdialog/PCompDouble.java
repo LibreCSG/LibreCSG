@@ -5,6 +5,8 @@ import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -75,10 +77,19 @@ public class PCompDouble extends ParamComp{
 		l.setText(p.getLabel() + ": ");
 		
 		//
+		// Create font to use for text boxes
+		//
+		FontData fd = new FontData();
+		fd.setHeight(10);
+		fd.setName("courier");
+		Font textF = new Font(this.getDisplay(), fd);	
+		
+		//
 		// Value:
 		//
 		tD = new Text(this, SWT.BORDER);
-		tD.setText(NumUtils.doubleToAtLeastString(pD,7));
+		tD.setText(NumUtils.doubleToFixedString(pD,8));
+		tD.setFont(textF);
 		
 		//
 		// Value: handle key presses
@@ -93,7 +104,7 @@ public class PCompDouble extends ParamComp{
 						param.change(pD);
 						AvoGlobal.glViewNeedsUpdated = true;
 					}else{
-						tD.setText(NumUtils.doubleToAtLeastString((Double)param.getData(),7));
+						tD.setText(NumUtils.doubleToFixedString((Double)param.getData(),8));
 					}
 				}
 			}
@@ -115,7 +126,7 @@ public class PCompDouble extends ParamComp{
 					param.change(pD);
 					AvoGlobal.glViewNeedsUpdated = true;
 				}else{
-					tD.setText(NumUtils.doubleToAtLeastString((Double)param.getData(),7));
+					tD.setText(NumUtils.doubleToFixedString((Double)param.getData(),8));
 				}
 			}			
 		});
@@ -134,7 +145,7 @@ public class PCompDouble extends ParamComp{
 		paramListener = new ParamListener(){
 			public void paramChanged() {
 				// TODO Auto-generated method stub
-				tD.setText(NumUtils.doubleToAtLeastString((Double)param.getData(),7));
+				tD.setText(NumUtils.doubleToFixedString((Double)param.getData(),8));
 			}			
 		};	
 		AvoGlobal.paramEventHandler.addParamListener(paramListener);

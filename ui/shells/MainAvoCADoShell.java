@@ -198,8 +198,8 @@ public class MainAvoCADoShell{
 		//comp2bot.setBackground(new Color(shell.getDisplay(), 150, 50, 150));
 		GridData gd2bot = new GridData(GridData.FILL_HORIZONTAL);
 		gd2bot.grabExcessHorizontalSpace = true;
-		gd2bot.heightHint = 25;
-		gd2bot.minimumHeight = 25;
+		gd2bot.heightHint = 30;
+		gd2bot.minimumHeight = 30;
 		comp2bot.setLayoutData(gd2bot);
 		
 	}
