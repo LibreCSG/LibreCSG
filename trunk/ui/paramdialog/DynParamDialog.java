@@ -79,6 +79,7 @@ public class DynParamDialog {
 		paramCompMain = new Composite(comp,SWT.NONE);
 		paramCompMain.setBounds(10,10,bodyWidth,bodyHeight);
 		paramCompMain.setBackground(AvoGlobal.COLOR_PARAM_BG);
+		paramCompMain.setBounds(1,1,bodyWidth,bodyHeight);
 		spComp = new ScrolledComposite(paramCompMain, SWT.V_SCROLL);
 		spComp.setBounds(BORDER_WIDTH,BORDER_WIDTH,bodyWidth-2*BORDER_WIDTH,bodyHeight-2*BORDER_WIDTH);
 		paramComp = new Composite(spComp, SWT.NONE);
@@ -88,11 +89,13 @@ public class DynParamDialog {
 		paramComp.setLayout(rl);
 		
 		
+		
 		paramCompTab = new Composite(comp,SWT.NONE);
 		paramCompTab.setBounds(10,0,TAB_WIDTH,TAB_HEIGHT);
 		paramCompTab.setBackground(AvoGlobal.COLOR_PARAM_BG);	
+		paramCompTab.setBounds(1,1,TAB_WIDTH,TAB_HEIGHT);
 		tabLabel = new Label(paramCompTab, SWT.NONE);
-		tabLabel.setText("???Yy");
+		tabLabel.setText("");
 		tabLabel.setBounds(BORDER_WIDTH,BORDER_WIDTH,TAB_TEXT_WIDTH-2*BORDER_WIDTH,TAB_HEIGHT-2*BORDER_WIDTH);
 		tabLabel.setBackground(AvoGlobal.COLOR_PARAM_BG);
 		
@@ -112,6 +115,10 @@ public class DynParamDialog {
 			}
 			public void mouseDown(MouseEvent e) {
 				// TODO handle "OK" click in paramDialog
+				if(AvoGlobal.getWorkingFeature() != null){
+					AvoGlobal.pushWorkFeatToSet();
+					AvoGlobal.setWorkingFeature(null);
+				}
 				animator.animateBackwards(0);
 			}
 			public void mouseUp(MouseEvent e) {				
@@ -119,12 +126,11 @@ public class DynParamDialog {
 		});
 		
 		animator = new ParamAnim(); 
+		buildParamComposite(null);
 	}
 	
 	public void positionParamDialog(){
-		Rectangle pB = parentComp.getBounds();
-		paramCompMain.setBounds(0,pB.height-bodyHeight,bodyWidth,bodyHeight);
-		paramCompTab.setBounds(0,pB.height-bodyHeight-TAB_HEIGHT,TAB_WIDTH,TAB_HEIGHT);
+		animator.setToLastValue();
 	}
 	
 	/**
@@ -134,10 +140,10 @@ public class DynParamDialog {
 	 * or being drawn.
 	 */
 	public void updateParams(Feature f){
-		tabLabel.setText(AvoGlobal.currentTool.mElement.meLabel);
-		animator.animateForwards(300);
-		//TODO: update pComp.
 		buildParamComposite(f);
+		if(f != null){
+			animator.animateForwards(200);
+		}
 	}
 	
 	
@@ -160,9 +166,13 @@ public class DynParamDialog {
 		Feature workingFeature = AvoGlobal.getWorkingFeature();
 		if(workingFeature == null){
 			// feature was null, hide the paramDialog and return.
-			animator.animateBackwards(1);
+			animator.animateBackwards(0);
+			tabLabel.setText("null");
 			return;
 		}
+		
+		
+		tabLabel.setText(f.label);
 		
 		//
 		// add all parameters from the current feature to 
@@ -187,7 +197,7 @@ public class DynParamDialog {
 				}
 				case Point2D : {
 					Label l = new Label(paramComp, SWT.SINGLE);
-					l.setText(p.getLabel());
+					l.setText(p.getLabel() + ":");
 					break;
 				}
 				case Point3D : {
@@ -202,19 +212,15 @@ public class DynParamDialog {
 			}
 		}
 		paramComp.pack();
+		
 	}
 	
 	
 	class ParamAnim extends Animator{
-		public void animatorTransition(float percentComplete) {	
-			Rectangle mainB = paramCompMain.getBounds();
-			Rectangle tabB  = paramCompTab.getBounds();
-			
-			paramCompMain.setLocation((int)(percentComplete*bodyWidth)-bodyWidth,mainB.y);
-			paramCompTab.setLocation((int)(percentComplete*bodyWidth)-bodyWidth,tabB.y);
-			
-			System.out.println("transistioned @ " +  percentComplete);
-			
+		public void animatorTransition(float percentComplete) {				
+			paramCompMain.setLocation((int)(percentComplete*bodyWidth)-bodyWidth,parentComp.getBounds().height-bodyHeight);
+			paramCompTab.setLocation((int)(percentComplete*bodyWidth)-bodyWidth,parentComp.getBounds().height-bodyHeight-TAB_HEIGHT);
+			//System.out.println("transistioned @ " +  percentComplete);			
 		}		
 	}
 	

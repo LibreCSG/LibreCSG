@@ -164,8 +164,14 @@ public class GLDynPrim {
 			    ysteps, 0.0, 1.0,
 			    xsteps, 0.0, 1.0);
 	  
-		gl.glEvalMesh2(GL.GL_LINE, 0, ysteps, 0, xsteps); 
-		  
+		gl.glEvalMesh2(GL.GL_LINE, 0, ysteps, 0, xsteps); 	  
+	}
+	
+	public static void point(GL gl, double x, double y, double z, double size){
+		gl.glPointSize((float)size);
+		gl.glBegin(GL.GL_POINTS);
+			gl.glVertex3d(x, y, z);
+		gl.glEnd();
 	}
 	
 }

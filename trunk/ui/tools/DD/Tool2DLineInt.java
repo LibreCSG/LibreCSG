@@ -49,7 +49,12 @@ public class Tool2DLineInt implements ToolInterface {
 	}
 	
 	public void glMouseDown(double x, double y, double z, int mouseX, int mouseY) {
-		System.out.println("mousedown in line: x,y=" + x + "," + y);
+		//System.out.println("mousedown in line: x,y=" + x + "," + y);
+		
+		if(AvoGlobal.getWorkingFeature() != null){
+			// store the last feature more permenently (paramSet and type)
+			AvoGlobal.pushWorkFeatToSet();
+		}
 		
 		//
 		// Build parameter set for 2D Line
@@ -61,7 +66,7 @@ public class Tool2DLineInt implements ToolInterface {
 		//
 		// set the workingFeature to the 2D Line
 		//
-		AvoGlobal.setWorkingFeature(new Feature(this, pSet));
+		AvoGlobal.setWorkingFeature(new Feature(this, pSet, "Line"));
 	}
 
 	public void glMouseDrag(double x, double y, double z, int mouseX, int mouseY) {
@@ -71,7 +76,7 @@ public class Tool2DLineInt implements ToolInterface {
 	}
 
 	public void glMouseUp(double x, double y, double z, int mouseX, int mouseY) {
-		System.out.println("mouseup in line: x,y=" + x + "," + y);
+		//System.out.println("mouseup in line: x,y=" + x + "," + y);
 		/*
 		Iterator allP = AvoGlobal.workingFeature.paramSet.getIterator();
 		while(allP.hasNext()){
@@ -86,10 +91,10 @@ public class Tool2DLineInt implements ToolInterface {
 		// * store permanently in model
 		Point2D ptA = (Point2D)AvoGlobal.getWorkingFeature().paramSet.getParam("a").getData();
 		Point2D ptB = (Point2D)AvoGlobal.getWorkingFeature().paramSet.getParam("b").getData();
-		if(! ptA.equals(ptB)){
-			// the beginning and end of the segment are different... store the line.
-			// store the line more permenently (paramSet and type)
-			AvoGlobal.pushWorkFeatToSet();
+		if(ptA.equals(ptB)){
+			// end point are the same... discard
+			System.out.println("end point of line are the same... discarding feature");
+			AvoGlobal.setWorkingFeature(null);
 		}
 	}
 

@@ -34,9 +34,11 @@ public class Feature {
 
 	public ToolInterface  toolInterface; 
 	public ParamSet       paramSet;
+	public String		  label;
 	
-	public Feature(ToolInterface toolInt, ParamSet pset){
+	public Feature(ToolInterface toolInt, ParamSet pset, String labelName){
 		toolInterface = toolInt;
 		paramSet      = pset;
+		label         = labelName;
 	}
 }
