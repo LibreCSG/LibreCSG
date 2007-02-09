@@ -8,8 +8,9 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -114,7 +115,7 @@ public class DynParamDialog {
 			public void mouseDoubleClick(MouseEvent e) {			
 			}
 			public void mouseDown(MouseEvent e) {
-				// TODO handle "OK" click in paramDialog
+				// handle "OK" click in paramDialog
 				if(AvoGlobal.getWorkingFeature() != null){
 					AvoGlobal.pushWorkFeatToSet();
 					AvoGlobal.setWorkingFeature(null);
@@ -122,6 +123,18 @@ public class DynParamDialog {
 				animator.animateBackwards(0);
 			}
 			public void mouseUp(MouseEvent e) {				
+			}			
+		});
+		bOK.addSelectionListener(new SelectionListener(){
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+			public void widgetSelected(SelectionEvent e) {
+				// handle "OK" click in paramDialog
+				if(AvoGlobal.getWorkingFeature() != null){
+					AvoGlobal.pushWorkFeatToSet();
+					AvoGlobal.setWorkingFeature(null);
+				}
+				animator.animateBackwards(0);
 			}			
 		});
 		
@@ -196,8 +209,7 @@ public class DynParamDialog {
 					break;
 				}
 				case Point2D : {
-					Label l = new Label(paramComp, SWT.SINGLE);
-					l.setText(p.getLabel() + ":");
+					new PCompPoint2D(paramComp, SWT.BORDER, p);
 					break;
 				}
 				case Point3D : {
