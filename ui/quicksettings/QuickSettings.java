@@ -1,9 +1,9 @@
-package ui.paramdialog;
+package ui.quicksettings;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 
-import ui.event.ParamListener;
-import backend.adt.Param;
 import backend.global.AvoGlobal;
 
 
@@ -33,18 +33,19 @@ import backend.global.AvoGlobal;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class ParamComp extends Composite{
+public class QuickSettings extends Composite{
 
-	protected Param param;
-	
-	public ParamComp(Composite parent, int style){
+	public QuickSettings(Composite parent, int style){
 		super(parent, style);
 		
+		this.setLayout(new RowLayout(SWT.HORIZONTAL));
+		
+		
+		
+		new XYZDisplayComp(this, SWT.BORDER);
 	}
 	
-	public ParamListener paramListener;
 	
-	public void removeParamListener(){
-		AvoGlobal.paramEventHandler.removeParamListener(paramListener);
-	}
+
+	
 }

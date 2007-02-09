@@ -39,7 +39,7 @@ public class NumUtils {
 	 * @param length
 	 * @return
 	 */
-	public static String doubleToFixedString(double d, int length){
+	public static String doubleToAtLeastString(double d, int length){
 		String s = String.valueOf(d);
 		for(int i=s.length(); i<length; i++){
 			s += "0";
@@ -47,6 +47,12 @@ public class NumUtils {
 		return s;
 	}
 
+	
+	public static String doubleToFixedString(double d, int length){
+		String s = doubleToAtLeastString(d, length);
+		return s.substring(0,length);
+	}
+	
 	
 	public static boolean stringIsNumber(String s){
 		try{

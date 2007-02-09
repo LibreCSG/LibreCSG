@@ -1,4 +1,4 @@
-package backend.adt;
+package ui.event;
 
 import java.util.Observable;
 
@@ -29,34 +29,13 @@ import java.util.Observable;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class ParamEvents extends Observable{
-	
-	public final static int PARAM_CHANGED = 423376;
-	
-	public ParamEvents(){
+public class CustObservable extends Observable{
+
+	public CustObservable(){
 		super();
 	}
 	
-	
-	public void notifyParamChanged(){
-		notifyObservers(PARAM_CHANGED);
-		setChanged();
-	}
-	
-	public void addParamListener(ParamListener p){
-		if(p != null){
-			addObserver(p);
-			setChanged(); // update the model since a new listener has been added
-		}else{
-			System.out.println("you can only add non-NULL ParamListeners!");
-		}
-	}
-	
-	public void removeParamListener(ParamListener p){
-		if(p != null){
-			deleteObserver(p);
-		}else{
-			System.out.println("param listener could not be removed because it was NULL!");
-		}
+	public void setChanged(){
+		super.setChanged();
 	}
 }

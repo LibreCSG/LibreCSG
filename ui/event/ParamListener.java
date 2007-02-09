@@ -1,10 +1,9 @@
-package ui.paramdialog;
+package ui.event;
 
-import org.eclipse.swt.widgets.Composite;
+import java.util.Observable;
+import java.util.Observer;
 
-import ui.event.ParamListener;
-import backend.adt.Param;
-import backend.global.AvoGlobal;
+
 
 
 //
@@ -33,18 +32,13 @@ import backend.global.AvoGlobal;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class ParamComp extends Composite{
+public abstract class ParamListener implements Observer {
+	
+	public void update(Observable o, Object arg) {
+		if(arg.equals(ParamEventHandler.PARAM_CHANGED)){
+			paramChanged();
+		}		
+	}
 
-	protected Param param;
-	
-	public ParamComp(Composite parent, int style){
-		super(parent, style);
-		
-	}
-	
-	public ParamListener paramListener;
-	
-	public void removeParamListener(){
-		AvoGlobal.paramEventHandler.removeParamListener(paramListener);
-	}
+	public abstract void paramChanged();
 }

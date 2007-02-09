@@ -11,10 +11,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
+import ui.event.ParamListener;
 import ui.utilities.NumUtils;
 import backend.adt.PType;
 import backend.adt.Param;
-import backend.adt.ParamListener;
 import backend.adt.Point2D;
 import backend.global.AvoGlobal;
 
@@ -83,7 +83,7 @@ public class PCompPoint2D extends ParamComp{
 		Label lx = new Label(this, SWT.NONE);
 		lx.setText("x");
 		tx = new Text(this, SWT.BORDER);
-		tx.setText(NumUtils.doubleToFixedString(pt.getX(),7));
+		tx.setText(NumUtils.doubleToAtLeastString(pt.getX(),7));
 		
 		//
 		// X Coor: handle key presses
@@ -98,7 +98,7 @@ public class PCompPoint2D extends ParamComp{
 						param.change(pt);
 						AvoGlobal.glViewNeedsUpdated = true;
 					}else{
-						tx.setText(NumUtils.doubleToFixedString(((Point2D)param.getData()).getX(),7));
+						tx.setText(NumUtils.doubleToAtLeastString(((Point2D)param.getData()).getX(),7));
 					}
 				}
 			}
@@ -120,7 +120,7 @@ public class PCompPoint2D extends ParamComp{
 					param.change(pt);
 					AvoGlobal.glViewNeedsUpdated = true;
 				}else{
-					tx.setText(NumUtils.doubleToFixedString(((Point2D)param.getData()).getX(),7));
+					tx.setText(NumUtils.doubleToAtLeastString(((Point2D)param.getData()).getX(),7));
 				}
 			}			
 		});
@@ -131,7 +131,7 @@ public class PCompPoint2D extends ParamComp{
 		Label ly = new Label(this, SWT.NONE);
 		ly.setText("y");		
 		ty = new Text(this, SWT.BORDER);
-		ty.setText(NumUtils.doubleToFixedString(pt.getY(),7));	
+		ty.setText(NumUtils.doubleToAtLeastString(pt.getY(),7));	
 		
 		//
 		// handle key presses
@@ -146,7 +146,7 @@ public class PCompPoint2D extends ParamComp{
 						param.change(pt);
 						AvoGlobal.glViewNeedsUpdated = true;
 					}else{
-						ty.setText(NumUtils.doubleToFixedString(((Point2D)param.getData()).getY(),7));
+						ty.setText(NumUtils.doubleToAtLeastString(((Point2D)param.getData()).getY(),7));
 					}
 				}
 			}
@@ -168,7 +168,7 @@ public class PCompPoint2D extends ParamComp{
 					param.change(pt);
 					AvoGlobal.glViewNeedsUpdated = true;
 				}else{
-					ty.setText(NumUtils.doubleToFixedString(((Point2D)param.getData()).getY(),7));
+					ty.setText(NumUtils.doubleToAtLeastString(((Point2D)param.getData()).getY(),7));
 				}
 			}			
 		});
@@ -190,11 +190,11 @@ public class PCompPoint2D extends ParamComp{
 			public void paramChanged() {
 				// TODO Auto-generated method stub
 				Point2D pt = (Point2D)param.getData();
-				tx.setText(NumUtils.doubleToFixedString(pt.getX(),7));
-				ty.setText(NumUtils.doubleToFixedString(pt.getY(),7));
+				tx.setText(NumUtils.doubleToAtLeastString(pt.getX(),7));
+				ty.setText(NumUtils.doubleToAtLeastString(pt.getY(),7));
 			}			
 		};	
-		AvoGlobal.paramEvents.addParamListener(paramListener);
+		AvoGlobal.paramEventHandler.addParamListener(paramListener);
 		
 	}
 	

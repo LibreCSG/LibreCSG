@@ -10,10 +10,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
+import ui.event.ParamListener;
 import ui.utilities.NumUtils;
 import backend.adt.PType;
 import backend.adt.Param;
-import backend.adt.ParamListener;
 import backend.global.AvoGlobal;
 
 
@@ -78,7 +78,7 @@ public class PCompDouble extends ParamComp{
 		// Value:
 		//
 		tD = new Text(this, SWT.BORDER);
-		tD.setText(NumUtils.doubleToFixedString(pD,7));
+		tD.setText(NumUtils.doubleToAtLeastString(pD,7));
 		
 		//
 		// Value: handle key presses
@@ -93,7 +93,7 @@ public class PCompDouble extends ParamComp{
 						param.change(pD);
 						AvoGlobal.glViewNeedsUpdated = true;
 					}else{
-						tD.setText(NumUtils.doubleToFixedString((Double)param.getData(),7));
+						tD.setText(NumUtils.doubleToAtLeastString((Double)param.getData(),7));
 					}
 				}
 			}
@@ -115,7 +115,7 @@ public class PCompDouble extends ParamComp{
 					param.change(pD);
 					AvoGlobal.glViewNeedsUpdated = true;
 				}else{
-					tD.setText(NumUtils.doubleToFixedString((Double)param.getData(),7));
+					tD.setText(NumUtils.doubleToAtLeastString((Double)param.getData(),7));
 				}
 			}			
 		});
@@ -134,10 +134,10 @@ public class PCompDouble extends ParamComp{
 		paramListener = new ParamListener(){
 			public void paramChanged() {
 				// TODO Auto-generated method stub
-				tD.setText(NumUtils.doubleToFixedString((Double)param.getData(),7));
+				tD.setText(NumUtils.doubleToAtLeastString((Double)param.getData(),7));
 			}			
 		};	
-		AvoGlobal.paramEvents.addParamListener(paramListener);
+		AvoGlobal.paramEventHandler.addParamListener(paramListener);
 		
 	}
 	

@@ -75,7 +75,7 @@ public class GLView {
 	static float dist_from_center = -30.0f;
 	static float viewing_angle = 45.0f;
 	
-	double lastMousePos3D[] = new double[] {0.0, 0.0, 0.0};
+	//double lastMousePos3D[] = new double[] {0.0, 0.0, 0.0};
 	
 	
 	static int mouse_down_button 	= -1;
@@ -348,7 +348,7 @@ public class GLView {
 	
 	private void drawToolEndPos(){
 		gl.glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
-		cad_3DX((float)lastMousePos3D[0], (float)lastMousePos3D[1], (float)lastMousePos3D[2], 0.125f);
+		cad_3DX((float)AvoGlobal.glCursor3DPos[0], (float)AvoGlobal.glCursor3DPos[1], (float)AvoGlobal.glCursor3DPos[2], 0.125f);
 	}
 	
 	
@@ -429,7 +429,8 @@ public class GLView {
 			wcoord[2] = Math.floor((wcoord[2]+AvoGlobal.snapSize/2.0)/AvoGlobal.snapSize)*AvoGlobal.snapSize;
 		}
 		
-        lastMousePos3D = wcoord;
+        AvoGlobal.glCursor3DPos = wcoord;
+        AvoGlobal.glViewEventHandler.notifyCursorMoved();
 		return wcoord;
 	}
 }

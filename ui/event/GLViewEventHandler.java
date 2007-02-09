@@ -1,7 +1,4 @@
-package backend.adt;
-
-import java.util.Observable;
-import java.util.Observer;
+package ui.event;
 
 
 //
@@ -30,14 +27,35 @@ import java.util.Observer;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public abstract class ParamListener implements Observer{
-
-	public void update(Observable o, Object arg) {
-		if(arg.equals(ParamEvents.PARAM_CHANGED)){
-			paramChanged();
-		}		
-	}
-
-	public abstract void paramChanged();
+public class GLViewEventHandler {
+	public final static int CURSOR_MOVED = 453676;
 	
+	protected CustObservable observable;
+	
+	public GLViewEventHandler(){
+		observable = new CustObservable();
+	}
+	
+	
+	public void notifyCursorMoved(){
+		observable.notifyObservers(CURSOR_MOVED);
+		observable.setChanged();
+	}
+	
+	public void addGLViewListener(GLViewListener g){
+		if(g != null){
+			observable.addObserver(g);
+			observable.setChanged(); // update the model since a new listener has been added
+		}else{
+			System.out.println("you can only add non-NULL GLViewListeners!");
+		}
+	}
+	
+	public void removeGLViewListener(GLViewListener g){
+		if(g != null){
+			observable.deleteObserver(g);
+		}else{
+			System.out.println("GLView listener could not be removed because it was NULL!");
+		}
+	}
 }

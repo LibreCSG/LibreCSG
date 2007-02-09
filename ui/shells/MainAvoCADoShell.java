@@ -17,6 +17,7 @@ import ui.menuet.Menuet;
 import ui.menuet.MenuetBuilder;
 import ui.opengl.GLView;
 import ui.paramdialog.DynParamDialog;
+import ui.quicksettings.QuickSettings;
 import backend.data.utilities.ImageUtils;
 import backend.global.AvoGlobal;
 
@@ -193,8 +194,8 @@ public class MainAvoCADoShell{
 		// remaining little section on the bottom is quicksetting bar
 		//
 		// TODO: use quicksetting instead of dummy composite
-		Composite comp2bot = new Composite(comp2, SWT.NONE);
-		comp2bot.setBackground(new Color(shell.getDisplay(), 150, 50, 150));
+		QuickSettings comp2bot = new QuickSettings(comp2, SWT.NONE);
+		//comp2bot.setBackground(new Color(shell.getDisplay(), 150, 50, 150));
 		GridData gd2bot = new GridData(GridData.FILL_HORIZONTAL);
 		gd2bot.grabExcessHorizontalSpace = true;
 		gd2bot.heightHint = 25;
