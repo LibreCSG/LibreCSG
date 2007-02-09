@@ -162,7 +162,7 @@ public class DynParamDialog {
 	public void updateParams(Feature f){
 		buildParamComposite(f);
 		if(f != null){
-			animator.animateForwards(200);
+			animator.animateForwards(250);
 		}
 	}
 	
@@ -186,7 +186,7 @@ public class DynParamDialog {
 		Feature workingFeature = AvoGlobal.getWorkingFeature();
 		if(workingFeature == null){
 			// feature was null, hide the paramDialog and return.
-			animator.animateBackwards(0);
+			animator.animateBackwards(250);
 			tabLabel.setText("null");
 			return;
 		}
