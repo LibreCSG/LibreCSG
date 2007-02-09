@@ -287,7 +287,7 @@ public class GLView {
 						}
 						
 						gl.glColor4f(0.7f, 0.7f, 0.7f, 1.0f);
-						gl.glLineWidth(1.75f);
+						gl.glLineWidth(2.25f);
 
 						gl.glColor3f(1.0f,0.0f,0.0f);
 						cad_3DX(0.0f,0.0f,0.0f,0.25f);

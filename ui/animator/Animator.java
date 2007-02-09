@@ -41,6 +41,11 @@ public abstract class Animator {
 		duration  = mSecDuration; 
 		timeBegin -= (long)(lastPercentComplete*(float)duration);
 
+		if(duration <= 0){
+			animatorTransition(1.0f);
+			lastPercentComplete = 1.0f;
+			return;
+		}
 		new Runnable() {
 			public void run() {		
 				float percentComplete = (float)(System.currentTimeMillis()-timeBegin) / (float)duration;
@@ -61,6 +66,11 @@ public abstract class Animator {
 		duration  = mSecDuration; 	
 		timeBegin -= (long)((1.0f-lastPercentComplete)*(float)duration);
 		
+		if(duration <= 0){
+			animatorTransition(0.0f);
+			lastPercentComplete = 0.0f;
+			return;
+		}
 		new Runnable() {
 			public void run() {		
 				float percentComplete = (float)(System.currentTimeMillis()-timeBegin) / (float)duration;
@@ -75,6 +85,10 @@ public abstract class Animator {
 			}
 		}.run();
 	}	
+	
+	public void setToLastValue(){
+		animatorTransition(lastPercentComplete);
+	}
 	
 	public abstract void animatorTransition(float percentComplete);
 	

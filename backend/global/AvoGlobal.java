@@ -108,8 +108,8 @@ public class AvoGlobal {
 	}	
 	public static void pushWorkFeatToSet(){
 		workingFSet.addFeature(workingFeature);
-		workingFeature = null;
-		paramDialog.updateParams(null);
+		//workingFeature = null;
+		//paramDialog.updateParams(null);
 	}	
 	public static FeatureSet getFeatureSet(){
 		return workingFSet;
@@ -148,7 +148,7 @@ public class AvoGlobal {
 	public static final float[] GL_COLOR4_GRID_DARK  = new float[] {0.6f, 0.6f, 0.6f, 1.0f}; 
 	public static final float[] GL_COLOR4_GRID_LIGHT = new float[] {0.8f, 0.8f, 0.8f, 1.0f}; 
 	
-	public static final float[] GL_COLOR4_2D_NONACT  = new float[] {0.9f, 0.4f, 0.2f, 1.0f}; 
+	public static final float[] GL_COLOR4_2D_NONACT  = new float[] {0.2f, 0.4f, 0.9f, 1.0f}; 
 	public static final float[] GL_COLOR4_2D_ACTIVE  = new float[] {1.0f, 0.5f, 0.0f, 1.0f}; 
 	
 	

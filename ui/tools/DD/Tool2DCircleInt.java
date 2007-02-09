@@ -50,6 +50,10 @@ public class Tool2DCircleInt implements ToolInterface  {
 	
 	
 	public void glMouseDown(double x, double y, double z, int mouseX, int mouseY) {
+		if(AvoGlobal.getWorkingFeature() != null){
+			// store the last feature more permenently (paramSet and type)
+			AvoGlobal.pushWorkFeatToSet();
+		}
 		//
 		// Build parameter set for this feature
 		//
@@ -60,7 +64,7 @@ public class Tool2DCircleInt implements ToolInterface  {
 		//
 		// set the workingFeature to this feature
 		//
-		AvoGlobal.setWorkingFeature(new Feature(this, pSet));
+		AvoGlobal.setWorkingFeature(new Feature(this, pSet,"Circle"));
 	}
 
 	public void glMouseDrag(double x, double y, double z, int mouseX, int mouseY) {
@@ -75,17 +79,16 @@ public class Tool2DCircleInt implements ToolInterface  {
 		
 		// * store permanently in model
 		double radius = (Double)AvoGlobal.getWorkingFeature().paramSet.getParam("r").getData();
-		if(!(radius == 0.0)){
-			// the beginning and end of the segment are different... store the line.
-			// store the line more permenently (paramSet and type)
-			AvoGlobal.pushWorkFeatToSet();
-		}else{
-			System.out.println("radius was zero?!?!");
+		if(radius == 0.0){
+			System.out.println("radius was zero... feature discarded");
+			AvoGlobal.setWorkingFeature(null);
 		}
 	}
 
 	public void glDrawFeature(GL gl, ParamSet p) {
-		GLDynPrim.circle2D(gl, (Point2D)p.getParam("c").getData(), (Double)p.getParam("r").getData(), 0.0);
+		Point2D c = (Point2D)p.getParam("c").getData();
+		GLDynPrim.circle2D(gl, c, (Double)p.getParam("r").getData(), 0.0);
+		GLDynPrim.point(gl, c.getX(), c.getY(), 0.0, 3.0);
 	}
 	
 }
