@@ -49,8 +49,6 @@ public class Tool2DLineInt implements ToolInterface {
 	}
 	
 	public void glMouseDown(double x, double y, double z, int mouseX, int mouseY) {
-		//System.out.println("mousedown in line: x,y=" + x + "," + y);
-		
 		if(AvoGlobal.getWorkingFeature() != null){
 			// store the last feature more permenently (paramSet and type)
 			AvoGlobal.pushWorkFeatToSet();
@@ -62,6 +60,9 @@ public class Tool2DLineInt implements ToolInterface {
 		ParamSet pSet = new ParamSet();
 		pSet.addParam("a", new Param("Pt.A", new Point2D(x,y)));
 		pSet.addParam("b", new Param("Pt.B", new Point2D(x,y)));
+		Param dist = new Param("Dist", 0.0);
+		dist.setParamIsDerived(true);
+		pSet.addParam("d", dist);
 		
 		//
 		// set the workingFeature to the 2D Line
@@ -70,26 +71,20 @@ public class Tool2DLineInt implements ToolInterface {
 	}
 
 	public void glMouseDrag(double x, double y, double z, int mouseX, int mouseY) {
-		//System.out.println("mousemove in line: x,y=" + x + "," + y);
-		AvoGlobal.getWorkingFeature().paramSet.changeParam("b", new Point2D(x,y));	
+		AvoGlobal.getWorkingFeature().paramSet.changeParam("b", new Point2D(x,y));
+		Point2D ptA = (Point2D)AvoGlobal.getWorkingFeature().paramSet.getParam("a").getData();
+		Point2D ptB = (Point2D)AvoGlobal.getWorkingFeature().paramSet.getParam("b").getData();
+		AvoGlobal.getWorkingFeature().paramSet.changeParam("d", ptA.computeDist(ptB));
 	}
 
 	public void glMouseUp(double x, double y, double z, int mouseX, int mouseY) {
-		//System.out.println("mouseup in line: x,y=" + x + "," + y);
-		/*
-		Iterator allP = AvoGlobal.workingFeature.paramSet.getIterator();
-		while(allP.hasNext()){
-			Param p = (Param)allP.next();
-			System.out.println("param ** TYPE:" + p.getType() + " \tLABEL:" + p.getLabel() + " \tDATA:" + p.getData().toString());
-		}
-		*/
-		
 		// * finalize line's formation
 		AvoGlobal.getWorkingFeature().paramSet.changeParam("b", new Point2D(x,y));
-		
-		// * store permanently in model
 		Point2D ptA = (Point2D)AvoGlobal.getWorkingFeature().paramSet.getParam("a").getData();
 		Point2D ptB = (Point2D)AvoGlobal.getWorkingFeature().paramSet.getParam("b").getData();
+		AvoGlobal.getWorkingFeature().paramSet.changeParam("d", ptA.computeDist(ptB));
+		
+		// * discard if start point is the same as the end point
 		if(ptA.equals(ptB)){
 			// end point are the same... discard
 			System.out.println("end points of line are the same... discarding feature");
