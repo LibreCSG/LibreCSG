@@ -1,10 +1,5 @@
-package ui.paramdialog;
+package ui.event;
 
-import org.eclipse.swt.widgets.Composite;
-
-import ui.event.ParamListener;
-import backend.adt.Param;
-import backend.global.AvoGlobal;
 
 
 //
@@ -33,18 +28,35 @@ import backend.global.AvoGlobal;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class ParamComp extends Composite{
-
-	protected Param param;
+public class ParamEventHandler {
+	public final static int PARAM_CHANGED = 423376;
 	
-	public ParamComp(Composite parent, int style){
-		super(parent, style);
-		
+	protected CustObservable observable;
+	
+	public ParamEventHandler(){
+		observable = new CustObservable();
 	}
 	
-	public ParamListener paramListener;
 	
-	public void removeParamListener(){
-		AvoGlobal.paramEventHandler.removeParamListener(paramListener);
+	public void notifyParamChanged(){
+		observable.notifyObservers(PARAM_CHANGED);
+		observable.setChanged();
+	}
+	
+	public void addParamListener(ParamListener p){
+		if(p != null){
+			observable.addObserver(p);
+			observable.setChanged(); // update the model since a new listener has been added
+		}else{
+			System.out.println("you can only add non-NULL ParamListeners!");
+		}
+	}
+	
+	public void removeParamListener(ParamListener p){
+		if(p != null){
+			observable.deleteObserver(p);
+		}else{
+			System.out.println("param listener could not be removed because it was NULL!");
+		}
 	}
 }

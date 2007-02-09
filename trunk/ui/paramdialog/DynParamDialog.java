@@ -205,10 +205,14 @@ public class DynParamDialog {
 			switch(p.getType()){
 				case Boolean : {
 					// TODO: PCompBoolean
+					Label l = new Label(paramComp, SWT.SINGLE);
+					l.setText(p.getLabel());
 					break;
 				}
 				case Int : {
 					// TODO: PCompInt
+					Label l = new Label(paramComp, SWT.SINGLE);
+					l.setText(p.getLabel());
 					break;
 				}
 				case Double : {
@@ -217,6 +221,8 @@ public class DynParamDialog {
 				}
 				case String : {
 					// TODO: PCompString
+					Label l = new Label(paramComp, SWT.SINGLE);
+					l.setText(p.getLabel());
 					break;
 				}
 				case Point2D : {
@@ -225,6 +231,8 @@ public class DynParamDialog {
 				}
 				case Point3D : {
 					// TODO: PCompPoint3D
+					Label l = new Label(paramComp, SWT.SINGLE);
+					l.setText(p.getLabel());
 					break;
 				}
 				default : {
@@ -257,7 +265,7 @@ public class DynParamDialog {
 	 * be check for updating to the screen.
 	 */
 	public void notifyParamChangeListener(){
-		AvoGlobal.paramEvents.notifyParamChanged();
+		AvoGlobal.paramEventHandler.notifyParamChanged();
 	}
 	
 }

@@ -3,12 +3,13 @@ package backend.global;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 
+import ui.event.GLViewEventHandler;
+import ui.event.ParamEventHandler;
 import ui.menuet.Menuet;
 import ui.opengl.GLView;
 import ui.opengl.RenderLevel;
 import ui.paramdialog.DynParamDialog;
 import ui.tools.Tool;
-import backend.adt.ParamEvents;
 import backend.model.Feature;
 import backend.model.FeatureSet;
 
@@ -64,6 +65,11 @@ public class AvoGlobal {
 	 */
 	public static final Color COLOR_PARAM_BG       = new Color(Display.getCurrent(),  220,  190,  190);
 	public static final Color COLOR_PARAM_DERIVED  = new Color(Display.getCurrent(),  220,  220,  240);
+	
+	/**
+	 * colors for QuickSettings bar
+	 */
+	public static final Color COLOR_QSET_BG = new Color(Display.getCurrent(),  220,  220,  240);
 	
 	/**
 	 * Tool mode identifiers 
@@ -158,6 +164,9 @@ public class AvoGlobal {
 	
 	public static DynParamDialog paramDialog = null;
 	
-	public static ParamEvents paramEvents = new ParamEvents();
+	public static ParamEventHandler paramEventHandler   = new ParamEventHandler();
+	public static GLViewEventHandler glViewEventHandler = new GLViewEventHandler(); 
+	
+	public static double[] glCursor3DPos = new double[] {0.0, 0.0, 0.0}; 
 	
 }
