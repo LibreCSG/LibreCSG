@@ -112,6 +112,7 @@ public class FeatureSet {
 	public void removeLastFeature(){
 		if(featSet.size() > 0){
 			featSet.removeLast();
+			AvoGlobal.paramDialog.updateParams(null);
 		}else{
 			System.out.println("tried to remove the last feature from the FeatureSet, but there were NO features!!");
 		}

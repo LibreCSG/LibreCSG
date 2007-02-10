@@ -103,7 +103,7 @@ public class Tool2DLineInt implements ToolInterface {
 		paramSet.changeParam("d", ptA.computeDist(ptB));
 		
 		// * discard if start point is the same as the end point
-		if(ptA.equals(ptB)){
+		if(ptA.equalsPt(ptB)){
 			// end point are the same... discard
 			System.out.println("end points of line are the same... discarding feature");
 			AvoGlobal.getFeatureSet().removeLastFeature();
