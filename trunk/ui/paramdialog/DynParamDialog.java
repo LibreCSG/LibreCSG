@@ -176,7 +176,7 @@ public class DynParamDialog {
 		Feature selectedFeature = AvoGlobal.getFeatureSet().getLastFeature();
 		if(selectedFeature == null || selectedFeature.isSelected == false){
 			// feature was null, hide the paramDialog and return.
-			animator.animateBackwards(200);
+			animator.animateBackwards(0);
 			tabLabel.setText("null");
 			return;
 		}

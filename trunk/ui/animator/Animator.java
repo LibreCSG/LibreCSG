@@ -35,8 +35,10 @@ public abstract class Animator {
 	long timeBegin = 0L;
 	long duration  = 0L;
 	float lastPercentComplete = 0.0f;
+	boolean goingFwd = true;
 	
 	public void animateForwards(long mSecDuration){
+		goingFwd = true;
 		timeBegin = System.currentTimeMillis();
 		duration  = mSecDuration; 
 		timeBegin -= (long)(lastPercentComplete*(float)duration);
@@ -48,20 +50,23 @@ public abstract class Animator {
 		}
 		new Runnable() {
 			public void run() {		
-				float percentComplete = (float)(System.currentTimeMillis()-timeBegin) / (float)duration;
-				if(percentComplete <= 1.0){
-					animatorTransition(percentComplete);
-					lastPercentComplete = percentComplete;
-					Display.getCurrent().timerExec(mSec,this);
-				}else{
-					animatorTransition(1.0f);
-					lastPercentComplete = 1.0f;
+				if(goingFwd){
+					float percentComplete = (float)(System.currentTimeMillis()-timeBegin) / (float)duration;
+					if(percentComplete <= 1.0){
+						animatorTransition(percentComplete);
+						lastPercentComplete = percentComplete;
+						Display.getCurrent().timerExec(mSec,this);
+					}else{
+						animatorTransition(1.0f);
+						lastPercentComplete = 1.0f;
+					}
 				}
 			}
 		}.run();
 	}
 	
 	public void animateBackwards(long mSecDuration){
+		goingFwd = false;
 		timeBegin = System.currentTimeMillis();
 		duration  = mSecDuration; 	
 		timeBegin -= (long)((1.0f-lastPercentComplete)*(float)duration);
@@ -72,15 +77,17 @@ public abstract class Animator {
 			return;
 		}
 		new Runnable() {
-			public void run() {		
-				float percentComplete = (float)(System.currentTimeMillis()-timeBegin) / (float)duration;
-				if(percentComplete <= 1.0){
-					animatorTransition(1.0f - percentComplete);
-					lastPercentComplete = (1.0f - percentComplete);
-					Display.getCurrent().timerExec(mSec,this);
-				}else{
-					animatorTransition(0.0f);
-					lastPercentComplete = 0.0f;
+			public void run() {
+				if(!goingFwd){
+					float percentComplete = (float)(System.currentTimeMillis()-timeBegin) / (float)duration;
+					if(percentComplete <= 1.0){
+						animatorTransition(1.0f - percentComplete);
+						lastPercentComplete = (1.0f - percentComplete);
+						Display.getCurrent().timerExec(mSec,this);
+					}else{
+						animatorTransition(0.0f);
+						lastPercentComplete = 0.0f;
+					}
 				}
 			}
 		}.run();
