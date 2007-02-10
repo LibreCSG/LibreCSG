@@ -27,7 +27,7 @@ public class Geometry2D {
 		
 		// now compute distance from line...
 		double alpha = (distA*distA - distB*distB + segLength*segLength) / (2.0*segLength);
-		double distFromLine = distA*distA - alpha*alpha;
+		double distFromLine = Math.sqrt(distA*distA - alpha*alpha);
 		if(distFromLine <= err){
 			return true;
 		}else{

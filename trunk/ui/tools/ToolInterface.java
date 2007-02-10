@@ -2,6 +2,8 @@ package ui.tools;
 
 import javax.media.opengl.GL;
 
+import org.eclipse.swt.events.MouseEvent;
+
 import backend.adt.ParamSet;
 
 
@@ -43,7 +45,7 @@ public interface ToolInterface {
 	 * @param mouseX
 	 * @param mouseY
 	 */
-	abstract public void glMouseDown(double x, double y, double z, int mouseX, int mouseY);
+	abstract public void glMouseDown(double x, double y, double z, MouseEvent e);
 	
 	/**
 	 * glView calls this when it recieved a <em>mousemove</em> event.
@@ -55,7 +57,7 @@ public interface ToolInterface {
 	 * @param mouseX
 	 * @param mouseY
 	 */
-	abstract public void glMouseDrag(double x, double y, double z, int mouseX, int mouseY);
+	abstract public void glMouseDrag(double x, double y, double z,  MouseEvent e);
 	
 	/**
 	 * glView calls this when it recieved a <em>mouseup</em> event.
@@ -67,7 +69,7 @@ public interface ToolInterface {
 	 * @param mouseX
 	 * @param mouseY
 	 */
-	abstract public void glMouseUp(double x, double y, double z, int mouseX, int mouseY);
+	abstract public void glMouseUp(double x, double y, double z,  MouseEvent e);
 	
 	/**
 	 * draw the feature on the glView given a set of
