@@ -4,8 +4,6 @@ import java.util.Iterator;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.events.ControlAdapter;
-import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.PaintEvent;
@@ -13,12 +11,10 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 
 import ui.animator.Animator;
@@ -118,10 +114,7 @@ public class DynParamDialog {
 			}
 			public void mouseDown(MouseEvent e) {
 				// handle "OK" click in paramDialog
-				if(AvoGlobal.getWorkingFeature() != null){
-					AvoGlobal.pushWorkFeatToSet();
-					AvoGlobal.setWorkingFeature(null);
-				}
+				AvoGlobal.getFeatureSet().deselectAll();
 				animator.animateBackwards(0);
 			}
 			public void mouseUp(MouseEvent e) {				
@@ -132,10 +125,7 @@ public class DynParamDialog {
 			}
 			public void widgetSelected(SelectionEvent e) {
 				// handle "OK" click in paramDialog
-				if(AvoGlobal.getWorkingFeature() != null){
-					AvoGlobal.pushWorkFeatToSet();
-					AvoGlobal.setWorkingFeature(null);
-				}
+				AvoGlobal.getFeatureSet().deselectAll();
 				animator.animateBackwards(0);
 			}			
 		});
@@ -182,9 +172,9 @@ public class DynParamDialog {
 		paramComp.setLayout(new RowLayout(SWT.HORIZONTAL));
 		//paramComp.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_BLUE));
 		
-		// make sure feature is not null
-		Feature workingFeature = AvoGlobal.getWorkingFeature();
-		if(workingFeature == null){
+		// make sure feature is not null or deselected
+		Feature selectedFeature = AvoGlobal.getFeatureSet().getLastFeature();
+		if(selectedFeature == null || selectedFeature.isSelected == false){
 			// feature was null, hide the paramDialog and return.
 			animator.animateBackwards(200);
 			tabLabel.setText("null");
@@ -198,7 +188,7 @@ public class DynParamDialog {
 		// add all parameters from the current feature to 
 		// the paramDialog for display/modification
 		//
-		pSet = workingFeature.paramSet;
+		pSet = selectedFeature.paramSet;
 		Iterator iter = pSet.getIterator();
 		while(iter.hasNext()){
 			Param p = (Param)iter.next();

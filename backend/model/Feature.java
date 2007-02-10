@@ -35,6 +35,7 @@ public class Feature {
 	public ToolInterface  toolInterface; 
 	public ParamSet       paramSet;
 	public String		  label;
+	public boolean		  isSelected = true;
 	
 	public Feature(ToolInterface toolInt, ParamSet pset, String labelName){
 		toolInterface = toolInt;

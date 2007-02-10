@@ -49,13 +49,13 @@ public class Tool2DRectInt implements ToolInterface {
 	}
 	
 	public void glMouseDown(double x, double y, double z, int mouseX, int mouseY) {
-		if(AvoGlobal.getWorkingFeature() != null){
-			// store the last feature more permenently (paramSet and type)
-			AvoGlobal.pushWorkFeatToSet();
-		}
+		//
+		// starting to draw a new feature... deselect all other features.
+		//
+		AvoGlobal.getFeatureSet().deselectAll();
 		
 		//
-		// Build parameter set for 2D Line
+		// Build parameter set for this feature
 		//
 		ParamSet pSet = new ParamSet();
 		pSet.addParam("a", new Param("Pt.A", new Point2D(x,y)));
@@ -68,32 +68,47 @@ public class Tool2DRectInt implements ToolInterface {
 		pSet.addParam("h", height);
 		
 		//
-		// set the workingFeature to the 2D Line
+		// add the new feature to the end of the feature set
 		//
-		AvoGlobal.setWorkingFeature(new Feature(this, pSet, "Rectangle"));
+		AvoGlobal.getFeatureSet().addFeature(new Feature(this, pSet, "Rectangle"));
 	}
 
 	public void glMouseDrag(double x, double y, double z, int mouseX, int mouseY) {
-		AvoGlobal.getWorkingFeature().paramSet.changeParam("b", new Point2D(x,y));
-		Point2D ptA = (Point2D)AvoGlobal.getWorkingFeature().paramSet.getParam("a").getData();
-		Point2D ptB = (Point2D)AvoGlobal.getWorkingFeature().paramSet.getParam("b").getData();		
-		AvoGlobal.getWorkingFeature().paramSet.changeParam("w", Math.abs(ptA.getX() - ptB.getX()));
-		AvoGlobal.getWorkingFeature().paramSet.changeParam("h", Math.abs(ptA.getY() - ptB.getY()));
+		//
+		// get parameter set
+		//
+		ParamSet paramSet = AvoGlobal.getFeatureSet().getLastFeature().paramSet;
+		
+		//
+		// update param values
+		//
+		paramSet.changeParam("b", new Point2D(x,y));
+		Point2D ptA = (Point2D)paramSet.getParam("a").getData();
+		Point2D ptB = (Point2D)paramSet.getParam("b").getData();		
+		paramSet.changeParam("w", Math.abs(ptA.getX() - ptB.getX()));
+		paramSet.changeParam("h", Math.abs(ptA.getY() - ptB.getY()));
 	}
 
 	public void glMouseUp(double x, double y, double z, int mouseX, int mouseY) {
-		// * finalize line's formation
-		AvoGlobal.getWorkingFeature().paramSet.changeParam("b", new Point2D(x,y));
-		Point2D ptA = (Point2D)AvoGlobal.getWorkingFeature().paramSet.getParam("a").getData();
-		Point2D ptB = (Point2D)AvoGlobal.getWorkingFeature().paramSet.getParam("b").getData();
-		AvoGlobal.getWorkingFeature().paramSet.changeParam("w", Math.abs(ptA.getX() - ptB.getX()));
-		AvoGlobal.getWorkingFeature().paramSet.changeParam("h", Math.abs(ptA.getY() - ptB.getY()));
+		//
+		// get parameter set
+		//
+		ParamSet paramSet = AvoGlobal.getFeatureSet().getLastFeature().paramSet;
+		
+		//
+		// finalize the feature's formation
+		//
+		paramSet.changeParam("b", new Point2D(x,y));
+		Point2D ptA = (Point2D)paramSet.getParam("a").getData();
+		Point2D ptB = (Point2D)paramSet.getParam("b").getData();
+		paramSet.changeParam("w", Math.abs(ptA.getX() - ptB.getX()));
+		paramSet.changeParam("h", Math.abs(ptA.getY() - ptB.getY()));
 		
 		// * discard if start point is the same as the end point
 		if(ptA.getX() == ptB.getX() || ptA.getY() == ptB.getY()){
 			// end point are the same... discard
 			System.out.println("Reactangle has zero area... discarding feature");
-			AvoGlobal.setWorkingFeature(null);
+			AvoGlobal.getFeatureSet().removeLastFeature();
 		}
 	}
 
@@ -104,6 +119,11 @@ public class Tool2DRectInt implements ToolInterface {
 		GLDynPrim.line2D(gl, ptA, new Point2D(ptB.getX(),ptA.getY()), 0.0);
 		GLDynPrim.line2D(gl, ptB, new Point2D(ptA.getX(),ptB.getY()), 0.0);
 		GLDynPrim.line2D(gl, ptB, new Point2D(ptB.getX(),ptA.getY()), 0.0);
+	}
+
+	public boolean mouseIsOver(ParamSet p, double x, double y, double z, int mouseX, int mouseY, double err) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 }

@@ -1,9 +1,13 @@
 package ui.tools.DD;
 
+import java.util.Iterator;
+
 import javax.media.opengl.GL;
 
 import ui.tools.ToolInterface;
 import backend.adt.ParamSet;
+import backend.global.AvoGlobal;
+import backend.model.Feature;
 
 
 //
@@ -32,30 +36,38 @@ import backend.adt.ParamSet;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DCancelInt implements ToolInterface {
+public class Tool2DSelectInt implements ToolInterface {
+	
 	/**
 	 * All of the tool's main functionality
 	 * mouse handling, glView drawing, 
 	 * parameter storage, etc.
 	 *
 	 */
-	public Tool2DCancelInt(){
+	public Tool2DSelectInt(){		
 	}
-	
 	
 	public void glMouseDown(double x, double y, double z, int mouseX, int mouseY) {
+		// iterate over all features in the current set to see if they've been clicked
+		Iterator allFeats = AvoGlobal.getFeatureSet().iterator();
+		while(allFeats.hasNext()){
+			Feature f = (Feature)allFeats.next();
+			if(f.toolInterface.mouseIsOver(f.paramSet, x, y, z, mouseX, mouseY, 0.1)){
+				f.isSelected = true;
+			}else{
+				//System.out.println("not over featere.  go fish.");
+			}
+		}
 	}
 
-	public void glMouseDrag(double x, double y, double z, int mouseX, int mouseY) {		
+	public void glMouseDrag(double x, double y, double z, int mouseX, int mouseY) {
 	}
 
 	public void glMouseUp(double x, double y, double z, int mouseX, int mouseY) {
 	}
 
 	public void glDrawFeature(GL gl, ParamSet p) {
-		System.out.println("This is the 2D Cancel button.. it should never be drawn!");
 	}
-
 
 	public boolean mouseIsOver(ParamSet p, double x, double y, double z, int mouseX, int mouseY, double err) {
 		return false;

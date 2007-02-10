@@ -7,6 +7,7 @@ import ui.tools.ToolInterface;
 import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
+import backend.geometry.Geometry2D;
 import backend.global.AvoGlobal;
 import backend.model.Feature;
 
@@ -49,13 +50,13 @@ public class Tool2DLineInt implements ToolInterface {
 	}
 	
 	public void glMouseDown(double x, double y, double z, int mouseX, int mouseY) {
-		if(AvoGlobal.getWorkingFeature() != null){
-			// store the last feature more permenently (paramSet and type)
-			AvoGlobal.pushWorkFeatToSet();
-		}
+		//
+		// starting to draw a new feature... deselect all other features.
+		//
+		AvoGlobal.getFeatureSet().deselectAll();
 		
 		//
-		// Build parameter set for 2D Line
+		// Build parameter set for this feature
 		//
 		ParamSet pSet = new ParamSet();
 		pSet.addParam("a", new Param("Pt.A", new Point2D(x,y)));
@@ -65,34 +66,55 @@ public class Tool2DLineInt implements ToolInterface {
 		pSet.addParam("d", dist);
 		
 		//
-		// set the workingFeature to the 2D Line
+		// add the new feature to the end of the feature set
 		//
-		AvoGlobal.setWorkingFeature(new Feature(this, pSet, "Line"));
+		AvoGlobal.getFeatureSet().addFeature(new Feature(this, pSet, "Line"));
 	}
 
 	public void glMouseDrag(double x, double y, double z, int mouseX, int mouseY) {
-		AvoGlobal.getWorkingFeature().paramSet.changeParam("b", new Point2D(x,y));
-		Point2D ptA = (Point2D)AvoGlobal.getWorkingFeature().paramSet.getParam("a").getData();
-		Point2D ptB = (Point2D)AvoGlobal.getWorkingFeature().paramSet.getParam("b").getData();
-		AvoGlobal.getWorkingFeature().paramSet.changeParam("d", ptA.computeDist(ptB));
+		//
+		// get parameter set
+		//
+		ParamSet paramSet = AvoGlobal.getFeatureSet().getLastFeature().paramSet;
+		
+		//
+		// update param values
+		//
+		paramSet.changeParam("b", new Point2D(x,y));
+		Point2D ptA = (Point2D)paramSet.getParam("a").getData();
+		Point2D ptB = (Point2D)paramSet.getParam("b").getData();
+		paramSet.changeParam("d", ptA.computeDist(ptB));
 	}
 
 	public void glMouseUp(double x, double y, double z, int mouseX, int mouseY) {
-		// * finalize line's formation
-		AvoGlobal.getWorkingFeature().paramSet.changeParam("b", new Point2D(x,y));
-		Point2D ptA = (Point2D)AvoGlobal.getWorkingFeature().paramSet.getParam("a").getData();
-		Point2D ptB = (Point2D)AvoGlobal.getWorkingFeature().paramSet.getParam("b").getData();
-		AvoGlobal.getWorkingFeature().paramSet.changeParam("d", ptA.computeDist(ptB));
+		//
+		// get parameter set
+		//
+		ParamSet paramSet = AvoGlobal.getFeatureSet().getLastFeature().paramSet;
+		
+		//
+		// finalize the feature's formation
+		//
+		paramSet.changeParam("b", new Point2D(x,y));
+		Point2D ptA = (Point2D)paramSet.getParam("a").getData();
+		Point2D ptB = (Point2D)paramSet.getParam("b").getData();
+		paramSet.changeParam("d", ptA.computeDist(ptB));
 		
 		// * discard if start point is the same as the end point
 		if(ptA.equals(ptB)){
 			// end point are the same... discard
 			System.out.println("end points of line are the same... discarding feature");
-			AvoGlobal.setWorkingFeature(null);
+			AvoGlobal.getFeatureSet().removeLastFeature();
 		}
 	}
 
 	public void glDrawFeature(GL gl, ParamSet p) {
 		GLDynPrim.line2D(gl, (Point2D)p.getParam("a").getData(), (Point2D)p.getParam("b").getData(), 0.0);
+	}
+
+	public boolean mouseIsOver(ParamSet p, double x, double y, double z, int mouseX, int mouseY, double err) {
+		Point2D ptA = (Point2D)p.getParam("a").getData();
+		Point2D ptB = (Point2D)p.getParam("b").getData();
+		return Geometry2D.pointOnLine(ptA, ptB, new Point2D(x,y), err);
 	}
 }
