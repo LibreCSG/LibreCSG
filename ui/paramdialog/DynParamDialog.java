@@ -99,7 +99,7 @@ public class DynParamDialog {
 		paramCompTab.setBounds(1,1,TAB_WIDTH,TAB_HEIGHT);
 		tabLabel = new Label(paramCompTab, SWT.NONE);
 		tabLabel.setText("");
-		tabLabel.setBounds(BORDER_WIDTH,BORDER_WIDTH,TAB_TEXT_WIDTH-2*BORDER_WIDTH,TAB_HEIGHT-2*BORDER_WIDTH);
+		tabLabel.setBounds(BORDER_WIDTH,BORDER_WIDTH,TAB_TEXT_WIDTH-2*BORDER_WIDTH,TAB_HEIGHT-BORDER_WIDTH);
 		tabLabel.setBackground(AvoGlobal.COLOR_PARAM_BG);
 		
 		int bWidth = TAB_WIDTH-TAB_TEXT_WIDTH-BORDER_WIDTH;
@@ -162,7 +162,7 @@ public class DynParamDialog {
 	public void updateParams(Feature f){
 		buildParamComposite(f);
 		if(f != null){
-			animator.animateForwards(250);
+			animator.animateForwards(200);
 		}
 	}
 	
@@ -186,7 +186,7 @@ public class DynParamDialog {
 		Feature workingFeature = AvoGlobal.getWorkingFeature();
 		if(workingFeature == null){
 			// feature was null, hide the paramDialog and return.
-			animator.animateBackwards(250);
+			animator.animateBackwards(200);
 			tabLabel.setText("null");
 			return;
 		}

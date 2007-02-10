@@ -144,6 +144,7 @@ public class AvoGlobal {
 	 * mouse snaps to positions in multiples of the <code>snapSize</code> 
 	 * when <code>snapEnabled</code> is set to <code>true</code>.
 	 */
+	public static double  gridSize    = 1.0;  
 	public static double  snapSize    = 0.5;
 	public static boolean snapEnabled = true;
 	
