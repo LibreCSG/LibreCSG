@@ -9,6 +9,7 @@ import ui.tools.ToolInterface;
 import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
+import backend.geometry.Geometry2D;
 import backend.global.AvoGlobal;
 import backend.model.Feature;
 
@@ -124,8 +125,18 @@ public class Tool2DRectInt implements ToolInterface {
 	}
 
 	public boolean mouseIsOver(ParamSet p, double x, double y, double z, int mouseX, int mouseY, double err) {
-		// TODO Auto-generated method stub
-		return false;
+		Point2D ptA  = (Point2D)p.getParam("a").getData();
+		Point2D ptB  = (Point2D)p.getParam("b").getData();
+		Point2D ptAB = new Point2D(ptA.getX(),ptB.getY());
+		Point2D ptBA = new Point2D(ptB.getX(),ptA.getY());
+		
+		
+		double dist1 = Geometry2D.distFromLineSeg(ptA, ptAB, new Point2D(x,y));
+		double dist2 = Geometry2D.distFromLineSeg(ptA, ptBA, new Point2D(x,y));
+		double dist3 = Geometry2D.distFromLineSeg(ptB, ptAB, new Point2D(x,y));
+		double dist4 = Geometry2D.distFromLineSeg(ptB, ptBA, new Point2D(x,y));
+		
+		return (dist1 <= err) || (dist2 <= err) || (dist3 <= err) || (dist4 <= err);
 	}
 	
 }

@@ -227,7 +227,7 @@ public class GLView {
 				System.out.println("Got mouse wheel: " + event.count);
 				float zoom_smoothness = 1.50f; // closer to 1.0 is smoother
 				if(event.count > 0){
-					viewing_angle = Math.max(0.001f, viewing_angle / zoom_smoothness);
+					viewing_angle = Math.max(0.025f, viewing_angle / zoom_smoothness);
 				}else{
 					viewing_angle = Math.min(135.0f, viewing_angle * zoom_smoothness);
 				}
@@ -349,7 +349,8 @@ public class GLView {
 	
 	private void drawToolEndPos(){
 		gl.glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
-		cad_3DX((float)AvoGlobal.glCursor3DPos[0], (float)AvoGlobal.glCursor3DPos[1], (float)AvoGlobal.glCursor3DPos[2], 0.125f);
+		float size = (float)(AvoGlobal.gridSize / 4.0);
+		cad_2DCross((float)AvoGlobal.glCursor3DPos[0], (float)AvoGlobal.glCursor3DPos[1], (float)AvoGlobal.glCursor3DPos[2], size);
 	}
 	
 	
@@ -364,6 +365,24 @@ public class GLView {
 			gl.glVertex3f(x+size, y+size, z-size);
 			gl.glVertex3f(x-size, y-size, z+size);			
 		gl.glEnd();		
+	}
+	
+	public void cad_2DCross(float x, float y, float z, float size){
+		float sizeB = size*0.7f;
+		gl.glLineWidth(1.0f);
+		gl.glBegin(GL.GL_LINES);
+			gl.glVertex3f(x+sizeB, y+sizeB, z);
+			gl.glVertex3f(x-sizeB, y-sizeB, z);
+			gl.glVertex3f(x-sizeB, y+sizeB, z);
+			gl.glVertex3f(x+sizeB, y-sizeB, z);			
+		gl.glEnd();	
+		gl.glLineWidth(2.25f);
+		gl.glBegin(GL.GL_LINES);
+			gl.glVertex3f(x, y+size, z);
+			gl.glVertex3f(x, y-size, z);
+			gl.glVertex3f(x+size, y, z);
+			gl.glVertex3f(x-size, y, z);			
+		gl.glEnd();	
 	}
 
 	private void glInit(){
