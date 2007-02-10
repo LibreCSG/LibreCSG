@@ -4,13 +4,14 @@ import javax.media.opengl.GL;
 
 import org.eclipse.swt.events.MouseEvent;
 
+import ui.opengl.GLDynPrim;
+import ui.tools.ToolInterface;
 import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
+import backend.geometry.Geometry2D;
 import backend.global.AvoGlobal;
 import backend.model.Feature;
-import ui.opengl.GLDynPrim;
-import ui.tools.ToolInterface;
 
 
 //
@@ -111,8 +112,10 @@ public class Tool2DCircleInt implements ToolInterface  {
 
 
 	public boolean mouseIsOver(ParamSet p, double x, double y, double z, int mouseX, int mouseY, double err) {
-		// TODO Auto-generated method stub
-		return false;
+		Point2D ptC = (Point2D)p.getParam("c").getData();
+		double  r   = (Double)p.getParam("r").getData();
+		double dist = Geometry2D.distFromCircle(ptC, r, new Point2D(x,y));
+		return (dist <= err) || (ptC.computeDist(new Point2D(x,y)) < err);
 	}
 	
 }

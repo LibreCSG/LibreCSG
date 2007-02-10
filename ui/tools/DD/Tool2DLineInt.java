@@ -117,6 +117,7 @@ public class Tool2DLineInt implements ToolInterface {
 	public boolean mouseIsOver(ParamSet p, double x, double y, double z, int mouseX, int mouseY, double err) {
 		Point2D ptA = (Point2D)p.getParam("a").getData();
 		Point2D ptB = (Point2D)p.getParam("b").getData();
-		return Geometry2D.pointOnLine(ptA, ptB, new Point2D(x,y), err);
+		double dist = Geometry2D.distFromLineSeg(ptA, ptB, new Point2D(x,y));
+		return (dist <= err);
 	}
 }
