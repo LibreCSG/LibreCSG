@@ -105,19 +105,22 @@ public class AvoGlobal {
 	/**
 	 * feature currently being controlled in the glView
 	 */
-	private static Feature workingFeature;
+	/*private static Feature workingFeature;
 	public static void setWorkingFeature(Feature f){
-		workingFeature = f;
+		workingFSet.addFeature(f);
 		paramDialog.updateParams(f);
 	}
 	public static Feature getWorkingFeature(){
-		return workingFeature;
+		return workingFSet.getLastFeature();
 	}	
 	public static void pushWorkFeatToSet(){
-		workingFSet.addFeature(workingFeature);
+		workingFSet.getLastFeature().isSelected = false;
+		//workingFSet.addFeature(workingFeature);
 		//workingFeature = null;
 		//paramDialog.updateParams(null);
-	}	
+	}
+	*/
+	
 	public static FeatureSet getFeatureSet(){
 		return workingFSet;
 	}

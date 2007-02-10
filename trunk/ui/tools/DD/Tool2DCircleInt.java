@@ -50,10 +50,11 @@ public class Tool2DCircleInt implements ToolInterface  {
 	
 	
 	public void glMouseDown(double x, double y, double z, int mouseX, int mouseY) {
-		if(AvoGlobal.getWorkingFeature() != null){
-			// store the last feature more permenently (paramSet and type)
-			AvoGlobal.pushWorkFeatToSet();
-		}
+		//
+		// starting to draw a new feature... deselect all other features.
+		//
+		AvoGlobal.getFeatureSet().deselectAll();
+		
 		//
 		// Build parameter set for this feature
 		//
@@ -62,26 +63,41 @@ public class Tool2DCircleInt implements ToolInterface  {
 		pSet.addParam("r", new Param("radius", 0.0));
 		
 		//
-		// set the workingFeature to this feature
+		// add the new feature to the end of the feature set
 		//
-		AvoGlobal.setWorkingFeature(new Feature(this, pSet,"Circle"));
+		AvoGlobal.getFeatureSet().addFeature(new Feature(this, pSet,"Circle"));
 	}
 
 	public void glMouseDrag(double x, double y, double z, int mouseX, int mouseY) {
-		Point2D ptC = (Point2D)AvoGlobal.getWorkingFeature().paramSet.getParam("c").getData();
-		AvoGlobal.getWorkingFeature().paramSet.changeParam("r", ptC.computeDist(new Point2D(x,y)));		
+		//
+		// get parameter set
+		//
+		ParamSet paramSet = AvoGlobal.getFeatureSet().getLastFeature().paramSet;
+		
+		//
+		// update param values
+		//
+		Point2D ptC = (Point2D)paramSet.getParam("c").getData();
+		paramSet.changeParam("r", ptC.computeDist(new Point2D(x,y)));		
 	}
 
-	public void glMouseUp(double x, double y, double z, int mouseX, int mouseY) {		
-		// * finalize feature's formation
-		Point2D ptC = (Point2D)AvoGlobal.getWorkingFeature().paramSet.getParam("c").getData();
-		AvoGlobal.getWorkingFeature().paramSet.changeParam("r", ptC.computeDist(new Point2D(x,y)));	
+	public void glMouseUp(double x, double y, double z, int mouseX, int mouseY) {	
+		//
+		// get parameter set
+		//
+		ParamSet paramSet = AvoGlobal.getFeatureSet().getLastFeature().paramSet;
+		
+		//
+		// finalize the feature's formation
+		//
+		Point2D ptC = (Point2D)paramSet.getParam("c").getData();
+		paramSet.changeParam("r", ptC.computeDist(new Point2D(x,y)));	
 		
 		// * store permanently in model
-		double radius = (Double)AvoGlobal.getWorkingFeature().paramSet.getParam("r").getData();
+		double radius = (Double)paramSet.getParam("r").getData();
 		if(radius == 0.0){
 			System.out.println("radius was zero... feature discarded");
-			AvoGlobal.setWorkingFeature(null);
+			AvoGlobal.getFeatureSet().removeLastFeature();
 		}
 	}
 
@@ -89,6 +105,12 @@ public class Tool2DCircleInt implements ToolInterface  {
 		Point2D c = (Point2D)p.getParam("c").getData();
 		GLDynPrim.circle2D(gl, c, (Double)p.getParam("r").getData(), 0.0);
 		GLDynPrim.point(gl, c.getX(), c.getY(), 0.0, 3.0);
+	}
+
+
+	public boolean mouseIsOver(ParamSet p, double x, double y, double z, int mouseX, int mouseY, double err) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 }

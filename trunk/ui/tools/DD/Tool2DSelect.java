@@ -1,14 +1,11 @@
 package ui.tools.DD;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.MessageBox;
-
 import ui.menuet.MEButton;
 import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
 import ui.tools.Tool2D;
+import backend.data.utilities.ImageUtils;
 import backend.global.AvoGlobal;
-import backend.model.FeatureSet;
 
 
 //
@@ -37,37 +34,29 @@ import backend.model.FeatureSet;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DCancel extends Tool2D{
+public class Tool2DSelect extends Tool2D{
 
-	public Tool2DCancel(Menuet menuet){	
+	public Tool2DSelect(Menuet menuet){	
 		
 		// initialize GUI elements
 		mElement = new MEButton(menuet, this.getToolMode());
-		mElement.mePreferredHeight = 25;
-		mElement.meColorMouseOver  = AvoGlobal.COLOR_MENUET_CNCL_MO;
-		mElement.meColorUnselected = AvoGlobal.COLOR_MENUET_CNCL_US; 
-		mElement.meLabel = "Cancel";
-		mElement.setToolTipText("Cancel ALL changes made \nin the 2D drawing mode.");
+		mElement.mePreferredHeight = 50;
+		mElement.meLabel = "Select";
+		mElement.meIcon = ImageUtils.getIcon("menuet/Select.png", 24, 24);
+		mElement.setToolTipText("Select objects to \nmodify their properties.");
 		mElement.mePriority = 0; 	// 0 = always show element, >5 = never show element
-		mElement.meDispOptions = MenuetElement.ME_TEXT_ONLY;
+		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
+		mElement.meAlignToBottom();
 		
 		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
 		
-		toolInterface = new Tool2DCancelInt();
+		toolInterface = new Tool2DSelectInt();
 	}
 
 	@Override
 	public void toolSelected() {
-		MessageBox m = new MessageBox(AvoGlobal.menuet.getShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO);
-		m.setMessage("Are you sure you want to discard ALL changes\nand exit the 2D drawing mode?");
-		m.setText("Discard ALL Changes?");
-		if(m.open() == SWT.YES){		
-			AvoGlobal.menuet.disableAllTools();
-			AvoGlobal.currentToolMode = AvoGlobal.MENUET_MODE_MAIN;
-			AvoGlobal.clearFetureSet();
-			AvoGlobal.currentTool = null;			
-			AvoGlobal.menuet.updateToolModeDisplayed();
-			AvoGlobal.glViewNeedsUpdated = true;
-		}
+		AvoGlobal.menuet.selectButton(mElement);
+		AvoGlobal.currentTool = this;
 	}
+	
 }

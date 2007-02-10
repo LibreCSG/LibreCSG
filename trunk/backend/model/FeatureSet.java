@@ -3,6 +3,8 @@ package backend.model;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import backend.global.AvoGlobal;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -32,6 +34,11 @@ import java.util.LinkedList;
 */
 public class FeatureSet {
 	
+	/**
+	 * implementation of the set of features.  this is abstracted away
+	 * so that it can be changed "under the cover" at a later time if
+	 * speed/memory are a concern.
+	 */
 	protected LinkedList <Feature>featSet = new LinkedList<Feature>();
 	
 	/**
@@ -43,18 +50,71 @@ public class FeatureSet {
 	public FeatureSet(){
 	}
 	
-	
+	/**
+	 * add a new feature to the set
+	 * @param newFeature
+	 */
 	public void addFeature(Feature newFeature){
 		featSet.add(newFeature);
 		System.out.println("added feature! type:" + newFeature.toolInterface.getClass().getCanonicalName());
+		AvoGlobal.paramDialog.updateParams(newFeature);
 	}
 	
+	/**
+	 * get the last feature that was added to the set.
+	 * The returned feature points to the actual feature 
+	 * in the set, so changing it does not require additional
+	 * re-placement in the set after an attribute has been modified.
+	 * @return
+	 */
 	public Feature getLastFeature(){
-		return featSet.getLast();
+		if(featSet != null && featSet.size() > 0){
+			return featSet.getLast();
+		}else{
+			return null;
+		}
 	}
 	
+	/**
+	 * returns an iterator over all of the features
+	 * in the set.  Useful when access to all of 
+	 * the features is required. (i.e., drawing)
+	 * @return
+	 */
 	public Iterator iterator(){
 		return featSet.iterator();
+	}
+	
+	/**
+	 * deselect all of the features in the feature set.
+	 *
+	 */
+	public void deselectAll(){
+		for(Feature f : featSet){
+			f.isSelected = false;
+		}
+	}
+	
+	/**
+	 * select all of the features in the feature set.
+	 *
+	 */
+	public void selectAll(){
+		for(Feature f : featSet){
+			f.isSelected = true;
+		}
+	}
+	
+	/**
+	 * remove the last feature from the feature set.
+	 *
+	 */
+	public void removeLastFeature(){
+		if(featSet.size() > 0){
+			featSet.removeLast();
+		}else{
+			System.out.println("tried to remove the last feature from the FeatureSet, but there were NO features!!");
+		}
 	}
 	
 }

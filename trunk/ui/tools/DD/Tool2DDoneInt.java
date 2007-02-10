@@ -2,8 +2,8 @@ package ui.tools.DD;
 
 import javax.media.opengl.GL;
 
-import backend.adt.ParamSet;
 import ui.tools.ToolInterface;
+import backend.adt.ParamSet;
 
 
 //
@@ -54,5 +54,10 @@ public class Tool2DDoneInt implements ToolInterface {
 
 	public void glDrawFeature(GL gl, ParamSet p) {
 		System.out.println("This is the 2D Done button.. it should never be drawn!");
+	}
+
+
+	public boolean mouseIsOver(ParamSet p, double x, double y, double z, int mouseX, int mouseY, double err) {
+		return false;
 	}
 }

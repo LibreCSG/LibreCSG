@@ -293,20 +293,21 @@ public class GLView {
 						cad_3DX(0.0f,0.0f,0.0f,0.25f);
 						
 						
-						gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_NONACT[0], AvoGlobal.GL_COLOR4_2D_NONACT[1],
-					  					AvoGlobal.GL_COLOR4_2D_NONACT[2], AvoGlobal.GL_COLOR4_2D_NONACT[3]);
+						
 					    Iterator iter = AvoGlobal.getFeatureSet().iterator();
 					    while(iter.hasNext()){
 					    	Feature feat = (Feature)iter.next();
-					    	feat.toolInterface.glDrawFeature(gl, feat.paramSet);
+					    	if(feat != null){
+						    	if(feat.isSelected){
+						    		gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_ACTIVE[0], AvoGlobal.GL_COLOR4_2D_ACTIVE[1],
+				  									AvoGlobal.GL_COLOR4_2D_ACTIVE[2], AvoGlobal.GL_COLOR4_2D_ACTIVE[3]);
+						    	}else{
+						    		gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_NONACT[0], AvoGlobal.GL_COLOR4_2D_NONACT[1],
+						  							AvoGlobal.GL_COLOR4_2D_NONACT[2], AvoGlobal.GL_COLOR4_2D_NONACT[3]);
+						    	}
+						    	feat.toolInterface.glDrawFeature(gl, feat.paramSet);
+					    	}
 					    }
-					    
-						gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_ACTIVE[0], AvoGlobal.GL_COLOR4_2D_ACTIVE[1],
-			  							AvoGlobal.GL_COLOR4_2D_ACTIVE[2], AvoGlobal.GL_COLOR4_2D_ACTIVE[3]);
-						Feature workingFeature = AvoGlobal.getWorkingFeature(); 
-						if(workingFeature != null){
-							workingFeature.toolInterface.glDrawFeature(gl, workingFeature.paramSet);
-						}
 
 						if(mouse_down_button != MOUSE_MIDDLE && 
 								mouse_down_button != MOUSE_MIDDLE_SHIFT && 
