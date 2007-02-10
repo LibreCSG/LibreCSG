@@ -4,6 +4,9 @@ import java.util.Iterator;
 
 import javax.media.opengl.GL;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
+
 import ui.tools.ToolInterface;
 import backend.adt.ParamSet;
 import backend.global.AvoGlobal;
@@ -38,6 +41,8 @@ import backend.model.Feature;
 */
 public class Tool2DSelectInt implements ToolInterface {
 	
+	boolean shiftIsDown = false;
+	
 	/**
 	 * All of the tool's main functionality
 	 * mouse handling, glView drawing, 
@@ -47,12 +52,22 @@ public class Tool2DSelectInt implements ToolInterface {
 	public Tool2DSelectInt(){		
 	}
 	
-	public void glMouseDown(double x, double y, double z, int mouseX, int mouseY) {
+	public void glMouseDown(double x, double y, double z,  MouseEvent e) {
+		
+		if((e.stateMask & SWT.SHIFT) != 0){
+			shiftIsDown = true;
+		}else{
+			shiftIsDown = false;
+		}
+		if(!shiftIsDown){
+			AvoGlobal.getFeatureSet().deselectAll();
+		}
+
 		// iterate over all features in the current set to see if they've been clicked
 		Iterator allFeats = AvoGlobal.getFeatureSet().iterator();
 		while(allFeats.hasNext()){
 			Feature f = (Feature)allFeats.next();
-			if(f.toolInterface.mouseIsOver(f.paramSet, x, y, z, mouseX, mouseY, 0.1)){
+			if(f.toolInterface.mouseIsOver(f.paramSet, x, y, z, e.x, e.y, 0.1)){
 				f.isSelected = true;
 			}else{
 				//System.out.println("not over featere.  go fish.");
@@ -60,10 +75,10 @@ public class Tool2DSelectInt implements ToolInterface {
 		}
 	}
 
-	public void glMouseDrag(double x, double y, double z, int mouseX, int mouseY) {
+	public void glMouseDrag(double x, double y, double z,  MouseEvent e) {
 	}
 
-	public void glMouseUp(double x, double y, double z, int mouseX, int mouseY) {
+	public void glMouseUp(double x, double y, double z,  MouseEvent e) {
 	}
 
 	public void glDrawFeature(GL gl, ParamSet p) {

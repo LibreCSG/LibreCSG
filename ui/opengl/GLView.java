@@ -158,7 +158,7 @@ public class GLView {
 						AvoGlobal.currentTool != null && 
 						AvoGlobal.currentTool.toolInterface != null){
 					double[] coor = getWorldCoorFromMouse(e.x,e.y);
-					AvoGlobal.currentTool.toolInterface.glMouseDown(coor[0], coor[1], coor[2], e.x, e.y);
+					AvoGlobal.currentTool.toolInterface.glMouseDown(coor[0], coor[1], coor[2], e);
 					AvoGlobal.glViewNeedsUpdated = true;
 				}				
 			}
@@ -167,7 +167,7 @@ public class GLView {
 						glCanvas.getBounds().contains(e.x,e.y) && 
 						(AvoGlobal.currentTool != null && AvoGlobal.currentTool.toolInterface != null)){
 					double[] coor = getWorldCoorFromMouse(e.x,e.y);
-					AvoGlobal.currentTool.toolInterface.glMouseUp(coor[0], coor[1], coor[2], e.x, e.y);					
+					AvoGlobal.currentTool.toolInterface.glMouseUp(coor[0], coor[1], coor[2], e);					
 				}
 				mouse_down_button = -1;
 				AvoGlobal.glViewNeedsUpdated = true;
@@ -215,7 +215,7 @@ public class GLView {
 					double[] coor = getWorldCoorFromMouse(e.x,e.y);
 					if(AvoGlobal.currentTool != null && AvoGlobal.currentTool.toolInterface != null){
 						if(mouse_down_button == MOUSE_LEFT){
-							AvoGlobal.currentTool.toolInterface.glMouseDrag(coor[0], coor[1], coor[2], e.x, e.y);
+							AvoGlobal.currentTool.toolInterface.glMouseDrag(coor[0], coor[1], coor[2], e);
 						}
 					}
 				}

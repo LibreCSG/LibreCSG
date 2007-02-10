@@ -2,6 +2,8 @@ package ui.tools.DD;
 
 import javax.media.opengl.GL;
 
+import org.eclipse.swt.events.MouseEvent;
+
 import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
@@ -49,7 +51,7 @@ public class Tool2DCircleInt implements ToolInterface  {
 	}
 	
 	
-	public void glMouseDown(double x, double y, double z, int mouseX, int mouseY) {
+	public void glMouseDown(double x, double y, double z,  MouseEvent e) {
 		//
 		// starting to draw a new feature... deselect all other features.
 		//
@@ -68,7 +70,7 @@ public class Tool2DCircleInt implements ToolInterface  {
 		AvoGlobal.getFeatureSet().addFeature(new Feature(this, pSet,"Circle"));
 	}
 
-	public void glMouseDrag(double x, double y, double z, int mouseX, int mouseY) {
+	public void glMouseDrag(double x, double y, double z,  MouseEvent e) {
 		//
 		// get parameter set
 		//
@@ -81,7 +83,7 @@ public class Tool2DCircleInt implements ToolInterface  {
 		paramSet.changeParam("r", ptC.computeDist(new Point2D(x,y)));		
 	}
 
-	public void glMouseUp(double x, double y, double z, int mouseX, int mouseY) {	
+	public void glMouseUp(double x, double y, double z,  MouseEvent e) {	
 		//
 		// get parameter set
 		//

@@ -2,6 +2,8 @@ package ui.tools.DD;
 
 import javax.media.opengl.GL;
 
+import org.eclipse.swt.events.MouseEvent;
+
 import ui.tools.ToolInterface;
 import backend.adt.ParamSet;
 
@@ -43,13 +45,13 @@ public class Tool2DDoneInt implements ToolInterface {
 	}
 	
 	
-	public void glMouseDown(double x, double y, double z, int mouseX, int mouseY) {
+	public void glMouseDown(double x, double y, double z,  MouseEvent e) {
 	}
 
-	public void glMouseDrag(double x, double y, double z, int mouseX, int mouseY) {		
+	public void glMouseDrag(double x, double y, double z,  MouseEvent e) {		
 	}
 
-	public void glMouseUp(double x, double y, double z, int mouseX, int mouseY) {
+	public void glMouseUp(double x, double y, double z,  MouseEvent e) {
 	}
 
 	public void glDrawFeature(GL gl, ParamSet p) {

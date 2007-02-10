@@ -2,6 +2,8 @@ package ui.tools.DD;
 
 import javax.media.opengl.GL;
 
+import org.eclipse.swt.events.MouseEvent;
+
 import ui.opengl.GLDynPrim;
 import ui.tools.ToolInterface;
 import backend.adt.Param;
@@ -48,7 +50,7 @@ public class Tool2DRectInt implements ToolInterface {
 	public Tool2DRectInt(){		
 	}
 	
-	public void glMouseDown(double x, double y, double z, int mouseX, int mouseY) {
+	public void glMouseDown(double x, double y, double z,  MouseEvent e) {
 		//
 		// starting to draw a new feature... deselect all other features.
 		//
@@ -73,7 +75,7 @@ public class Tool2DRectInt implements ToolInterface {
 		AvoGlobal.getFeatureSet().addFeature(new Feature(this, pSet, "Rectangle"));
 	}
 
-	public void glMouseDrag(double x, double y, double z, int mouseX, int mouseY) {
+	public void glMouseDrag(double x, double y, double z, MouseEvent e) {
 		//
 		// get parameter set
 		//
@@ -89,7 +91,7 @@ public class Tool2DRectInt implements ToolInterface {
 		paramSet.changeParam("h", Math.abs(ptA.getY() - ptB.getY()));
 	}
 
-	public void glMouseUp(double x, double y, double z, int mouseX, int mouseY) {
+	public void glMouseUp(double x, double y, double z,  MouseEvent e) {
 		//
 		// get parameter set
 		//

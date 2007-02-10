@@ -2,6 +2,8 @@ package ui.tools.DD;
 
 import javax.media.opengl.GL;
 
+import org.eclipse.swt.events.MouseEvent;
+
 import ui.opengl.GLDynPrim;
 import ui.tools.ToolInterface;
 import backend.adt.Param;
@@ -49,7 +51,7 @@ public class Tool2DLineInt implements ToolInterface {
 	public Tool2DLineInt(){		
 	}
 	
-	public void glMouseDown(double x, double y, double z, int mouseX, int mouseY) {
+	public void glMouseDown(double x, double y, double z,  MouseEvent e) {
 		//
 		// starting to draw a new feature... deselect all other features.
 		//
@@ -71,7 +73,7 @@ public class Tool2DLineInt implements ToolInterface {
 		AvoGlobal.getFeatureSet().addFeature(new Feature(this, pSet, "Line"));
 	}
 
-	public void glMouseDrag(double x, double y, double z, int mouseX, int mouseY) {
+	public void glMouseDrag(double x, double y, double z,  MouseEvent e) {
 		//
 		// get parameter set
 		//
@@ -86,7 +88,7 @@ public class Tool2DLineInt implements ToolInterface {
 		paramSet.changeParam("d", ptA.computeDist(ptB));
 	}
 
-	public void glMouseUp(double x, double y, double z, int mouseX, int mouseY) {
+	public void glMouseUp(double x, double y, double z,  MouseEvent e) {
 		//
 		// get parameter set
 		//
