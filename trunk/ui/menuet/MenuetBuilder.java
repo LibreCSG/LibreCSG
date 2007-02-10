@@ -4,6 +4,7 @@ import ui.tools.DD.Tool2DCancel;
 import ui.tools.DD.Tool2DCircle;
 import ui.tools.DD.Tool2DDone;
 import ui.tools.DD.Tool2DLine;
+import ui.tools.DD.Tool2DRect;
 import ui.tools.main.ToolMain2D;
 import backend.global.AvoGlobal;
 
@@ -57,6 +58,7 @@ public class MenuetBuilder {
 		
 		new Tool2DLine(menuet);
 		new Tool2DCircle(menuet);
+		new Tool2DRect(menuet);
 		
 		new METoolbox(menuet,AvoGlobal.MENUET_MODE_2D);
 		

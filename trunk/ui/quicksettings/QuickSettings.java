@@ -1,7 +1,6 @@
 package ui.quicksettings;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Font;
@@ -69,7 +68,7 @@ public class QuickSettings extends Composite{
 		cSnap = new Combo(this, SWT.READ_ONLY);
 		cSnap.setItems(new String[] {"off", "0.25x", "0.5x", "1.0x"});
 		cSnap.setFont(f);
-		cSnap.select(3);
+		cSnap.select(2);
 		cSnap.setBackground(this.getBackground());
 		cSnap.addSelectionListener(new SelectionListener(){
 			public void widgetDefaultSelected(SelectionEvent e) {
