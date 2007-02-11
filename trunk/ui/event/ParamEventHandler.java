@@ -29,7 +29,8 @@ package ui.event;
 * @created Feb. 2007
 */
 public class ParamEventHandler {
-	public final static int PARAM_CHANGED = 423376;
+	public final static int PARAM_MODIFIED = 423376;
+	public final static int PARAM_SWITCHED = 429832;
 	
 	protected CustObservable observable;
 	
@@ -37,11 +38,26 @@ public class ParamEventHandler {
 		observable = new CustObservable();
 	}
 	
-	
-	public void notifyParamChanged(){
-		observable.notifyObservers(PARAM_CHANGED);
+	/**
+	 * Notify listeners that the data within the
+	 * currently active ParamSet has been modified
+	 * and should be updated on the dispaly accordingly.
+	 */
+	public void notifyParamModified(){
+		observable.notifyObservers(PARAM_MODIFIED);
 		observable.setChanged();
 	}
+	
+	/**
+	 * Notify listeners that the ParamSet has been 
+	 * switched (i.e., changed to a new tool or null).
+	 */
+	public void notifyParamSwitched(){
+		observable.notifyObservers(PARAM_SWITCHED);
+		observable.setChanged();
+	}
+	
+	
 	
 	public void addParamListener(ParamListener p){
 		if(p != null){

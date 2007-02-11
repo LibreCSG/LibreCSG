@@ -10,8 +10,8 @@ import ui.opengl.GLView;
 import ui.opengl.RenderLevel;
 import ui.paramdialog.DynParamDialog;
 import ui.tools.Tool;
-import backend.model.Feature;
-import backend.model.FeatureSet;
+import backend.adt.ParamSet;
+import backend.model.Assembly;
 
 
 //
@@ -103,6 +103,24 @@ public class AvoGlobal {
 	
 
 	/**
+	 * The main assembly of parts in the workspace!
+	 */
+	public static Assembly assembly = new Assembly();
+	
+	/**
+	 * the active parameter set..  this is used for
+	 * the dynamic param dialog.
+	 */
+	private static ParamSet activeParamSet = null;
+	public  static void setActiveParamSet(ParamSet pSet){
+		activeParamSet = pSet;
+		paramEventHandler.notifyParamSwitched();
+	}
+	public  static ParamSet getActiveParamSet(){
+		return activeParamSet;
+	}
+	
+	/**
 	 * feature currently being controlled in the glView
 	 */
 	/*private static Feature workingFeature;
@@ -119,7 +137,6 @@ public class AvoGlobal {
 		//workingFeature = null;
 		//paramDialog.updateParams(null);
 	}
-	*/
 	
 	public static FeatureSet getFeatureSet(){
 		return workingFSet;
@@ -127,7 +144,7 @@ public class AvoGlobal {
 	public static void clearFetureSet(){
 		workingFSet = new FeatureSet();
 	}
-	
+	*/
 	
 	/**
 	 * set of features currently being used in the glView.
@@ -135,7 +152,9 @@ public class AvoGlobal {
 	 * with a particular tool group (like 2D features) when
 	 * building a new 2D sketch that have been completed.
 	 */
-	private static FeatureSet workingFSet = new FeatureSet();
+	
+	//private static FeatureSet workingFSet = new FeatureSet();
+
 	
 	/**
 	 * precision of rendering... higher levels take longs,

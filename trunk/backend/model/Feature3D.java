@@ -1,7 +1,6 @@
 package backend.model;
 
-import ui.tools.ToolInterface;
-import backend.adt.ParamSet;
+import java.util.LinkedList;
 
 
 //
@@ -30,16 +29,18 @@ import backend.adt.ParamSet;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public abstract class Feature {
+public class Feature3D {
 
-	public ToolInterface  toolInterface; 
-	public ParamSet       paramSet;
-	public String		  label;
-	public boolean		  isSelected = true;
+	public LinkedList<Feature2D> feat2DList   = new LinkedList<Feature2D>();
+	public LinkedList<Region2D>  region2DList = new LinkedList<Region2D>();
 	
-	public Feature(ToolInterface toolInt, ParamSet pSet, String labelName){
-		toolInterface = toolInt;
-		paramSet      = pSet;
-		label         = labelName;
+	public Feature3D(){
 	}
+	
+	public void deselectAll2DFeatures(){
+		for(Feature2D f : feat2DList){
+			f.isSelected = false;
+		}
+	}
+	
 }

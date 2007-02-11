@@ -18,11 +18,11 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 
 import ui.animator.Animator;
+import ui.event.ParamListener;
 import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.data.utilities.ImageUtils;
 import backend.global.AvoGlobal;
-import backend.model.Feature;
 
 
 //
@@ -114,7 +114,6 @@ public class DynParamDialog {
 			}
 			public void mouseDown(MouseEvent e) {
 				// handle "OK" click in paramDialog
-				AvoGlobal.getFeatureSet().deselectAll();
 				animator.animateBackwards(0);
 			}
 			public void mouseUp(MouseEvent e) {				
@@ -125,13 +124,24 @@ public class DynParamDialog {
 			}
 			public void widgetSelected(SelectionEvent e) {
 				// handle "OK" click in paramDialog
-				AvoGlobal.getFeatureSet().deselectAll();
 				animator.animateBackwards(0);
 			}			
 		});
 		
 		animator = new ParamAnim(); 
-		buildParamComposite(null);
+		buildParamComposite();
+		
+		//
+		// Add param listener!
+		//		
+		AvoGlobal.paramEventHandler.addParamListener(new ParamListener(){
+			public void paramModified() {
+			}
+			public void paramSwitched() {
+				updateParams();
+			}			
+		});
+		
 	}
 	
 	/**
@@ -149,15 +159,15 @@ public class DynParamDialog {
 	 * called when a new item is selected
 	 * or being drawn.
 	 */
-	public void updateParams(Feature f){
-		buildParamComposite(f);
-		if(f != null){
+	public void updateParams(){
+		buildParamComposite();
+		if(AvoGlobal.getActiveParamSet() != null){
 			animator.animateForwards(200);
 		}
 	}
 	
 	
-	private void buildParamComposite(Feature f){
+	private void buildParamComposite(){
 		// remove all of the old children from the composite.
 		Control[] cList = paramComp.getChildren();
 		for(int i=0; i<cList.length; i++){
@@ -172,24 +182,20 @@ public class DynParamDialog {
 		paramComp.setLayout(new RowLayout(SWT.HORIZONTAL));
 		//paramComp.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_BLUE));
 		
-		// make sure feature is not null or deselected
-		Feature selectedFeature = AvoGlobal.getFeatureSet().getLastFeature();
-		if(selectedFeature == null || selectedFeature.isSelected == false){
-			// feature was null, hide the paramDialog and return.
+		// make sure ParamSet is not null
+		if(AvoGlobal.getActiveParamSet() == null){
 			animator.animateBackwards(0);
 			tabLabel.setText("null");
 			return;
 		}
 		
-		
-		tabLabel.setText(f.label);
+		tabLabel.setText(AvoGlobal.getActiveParamSet().label);
 		
 		//
 		// add all parameters from the current feature to 
 		// the paramDialog for display/modification
 		//
-		pSet = selectedFeature.paramSet;
-		Iterator iter = pSet.getIterator();
+		Iterator iter = AvoGlobal.getActiveParamSet().getIterator();
 		while(iter.hasNext()){
 			Param p = (Param)iter.next();
 			switch(p.getType()){
@@ -249,13 +255,15 @@ public class DynParamDialog {
 		}		
 	}
 
+	
+	// TODO:  Does this really need to be here?!?!
 	/**
 	 * let parameter display elements know that
 	 * values may have changed and therefor should
 	 * be check for updating to the screen.
 	 */
 	public void notifyParamChangeListener(){
-		AvoGlobal.paramEventHandler.notifyParamChanged();
+		AvoGlobal.paramEventHandler.notifyParamModified();
 	}
 	
 }

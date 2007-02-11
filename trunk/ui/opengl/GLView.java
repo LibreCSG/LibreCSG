@@ -2,6 +2,7 @@ package ui.opengl;
 
 import java.nio.FloatBuffer;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLCapabilities;
@@ -25,9 +26,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
-import ui.tools.ToolInterface2D;
 import backend.global.AvoGlobal;
-import backend.model.Feature;
 import backend.model.Feature2D;
 import backend.primatives.Prim2D;
 
@@ -152,7 +151,7 @@ public class GLView {
 				rot_init_z = rotation_z;
 				trans_init_x = translation_x;
 				trans_init_y = translation_y;
-				System.out.println("mouse button: " + e.button);
+				//System.out.println("mouse button: " + e.button);
 				
 				//
 				// let current tool know that the left mouse has been clicked
@@ -296,33 +295,29 @@ public class GLView {
 						cad_3DX(0.0f,0.0f,0.0f,0.25f);
 						
 						
-						
-					    Iterator iter = AvoGlobal.getFeatureSet().iterator();
-					    while(iter.hasNext()){
-					    	Feature feat = (Feature)iter.next();
-					    	if(feat != null){
-					    		if(feat instanceof Feature2D){
-							    	if(feat.isSelected){
-							    		gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_ACTIVE[0], AvoGlobal.GL_COLOR4_2D_ACTIVE[1],
-					  									AvoGlobal.GL_COLOR4_2D_ACTIVE[2], AvoGlobal.GL_COLOR4_2D_ACTIVE[3]);
-//							    		 TODO: HACK, don't build here.. build when created!
-							    		((Feature2D)feat).buildPrim2DList();
-							    	}else{
-							    		gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_NONACT[0], AvoGlobal.GL_COLOR4_2D_NONACT[1],
-							  							AvoGlobal.GL_COLOR4_2D_NONACT[2], AvoGlobal.GL_COLOR4_2D_NONACT[3]);
-							    	}
-							    	
-							    	//
-							    	// Draw 2D features!
-							    	//
-							    	if(((Feature2D)feat).prim2DList != null){
-								    	for(Prim2D prim : ((Feature2D)feat).prim2DList){
-								    		prim.glDraw(gl);
-								    	}
-							    	}
-					    		}
+						// TODO: HACK for now to show 2D
+						LinkedList<Feature2D> ll = AvoGlobal.assembly.partList.getLast().feat3DList.getLast().feat2DList;
+						for(Feature2D feat : ll){
+							if(feat.isSelected){
+					    		gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_ACTIVE[0], AvoGlobal.GL_COLOR4_2D_ACTIVE[1],
+			  									AvoGlobal.GL_COLOR4_2D_ACTIVE[2], AvoGlobal.GL_COLOR4_2D_ACTIVE[3]);
+					    		// TODO: HACK, don't build primatives here.. build when created/modified!
+					    		((Feature2D)feat).buildPrim2DList();
+					    	}else{
+					    		gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_NONACT[0], AvoGlobal.GL_COLOR4_2D_NONACT[1],
+					  							AvoGlobal.GL_COLOR4_2D_NONACT[2], AvoGlobal.GL_COLOR4_2D_NONACT[3]);
 					    	}
-					    }
+					    	
+					    	//
+					    	// Draw 2D features!
+					    	//
+					    	if(((Feature2D)feat).prim2DList != null){
+						    	for(Prim2D prim : ((Feature2D)feat).prim2DList){
+						    		prim.glDraw(gl);
+						    	}
+					    	}
+						}
+						
 
 						if(mouse_down_button != MOUSE_MIDDLE && 
 								mouse_down_button != MOUSE_MIDDLE_SHIFT && 

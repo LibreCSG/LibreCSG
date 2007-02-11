@@ -2,9 +2,6 @@ package backend.model;
 
 import java.util.LinkedList;
 
-import ui.tools.ToolInterface;
-import ui.tools.ToolInterface2D;
-import backend.adt.ParamSet;
 import backend.primatives.Prim2D;
 
 
@@ -34,23 +31,8 @@ import backend.primatives.Prim2D;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Feature2D{
+public class Region2D {
 
-	public ToolInterface2D    toolInterface; 
-	public ParamSet           paramSet;
-	public String		      label;
-	public boolean		      isSelected = true;
 	public LinkedList <Prim2D>prim2DList = new LinkedList<Prim2D>();
 	
-	public Feature2D(ToolInterface2D toolInt, ParamSet pSet, String labelName){
-		toolInterface = toolInt;
-		paramSet      = pSet;
-		label         = labelName;
-	}
-	
-	public void buildPrim2DList(){
-		if(toolInterface != null && paramSet != null){
-			prim2DList = this.toolInterface.buildPrimList(paramSet);
-		}
-	}
 }

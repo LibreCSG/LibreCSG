@@ -200,11 +200,12 @@ public class PCompPoint2D extends ParamComp{
 		// Add param listener!
 		//		
 		paramListener = new ParamListener(){
-			public void paramChanged() {
-				// TODO Auto-generated method stub
+			public void paramModified() {
 				Point2D pt = (Point2D)param.getData();
 				tx.setText(NumUtils.doubleToFixedString(pt.getX(),8));
 				ty.setText(NumUtils.doubleToFixedString(pt.getY(),8));
+			}
+			public void paramSwitched() {
 			}			
 		};	
 		AvoGlobal.paramEventHandler.addParamListener(paramListener);

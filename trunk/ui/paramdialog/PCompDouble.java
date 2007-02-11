@@ -143,9 +143,10 @@ public class PCompDouble extends ParamComp{
 		// Add param listener!
 		//		
 		paramListener = new ParamListener(){
-			public void paramChanged() {
-				// TODO Auto-generated method stub
+			public void paramModified() {
 				tD.setText(NumUtils.doubleToFixedString((Double)param.getData(),8));
+			}
+			public void paramSwitched() {
 			}			
 		};	
 		AvoGlobal.paramEventHandler.addParamListener(paramListener);

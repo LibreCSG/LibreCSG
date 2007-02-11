@@ -35,10 +35,15 @@ import java.util.Observer;
 public abstract class ParamListener implements Observer {
 	
 	public void update(Observable o, Object arg) {
-		if(arg.equals(ParamEventHandler.PARAM_CHANGED)){
-			paramChanged();
+		if(arg.equals(ParamEventHandler.PARAM_MODIFIED)){
+			paramModified();
 		}		
+		if(arg.equals(ParamEventHandler.PARAM_SWITCHED)){
+			paramSwitched();
+		}
 	}
 
-	public abstract void paramChanged();
+	public abstract void paramModified();
+	
+	public abstract void paramSwitched();
 }
