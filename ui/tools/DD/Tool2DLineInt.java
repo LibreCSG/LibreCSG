@@ -55,12 +55,12 @@ public class Tool2DLineInt implements ToolInterface2D {
 		//
 		// starting to draw a new feature... deselect all other features.
 		//
-		AvoGlobal.getFeatureSet().deselectAll();
+		AvoGlobal.assembly.partList.getLast().feat3DList.getLast().deselectAll2DFeatures();
 		
 		//
 		// Build parameter set for this feature
 		//
-		ParamSet pSet = new ParamSet();
+		ParamSet pSet = new ParamSet("Line");
 		pSet.addParam("a", new Param("Pt.A", new Point2D(x,y)));
 		pSet.addParam("b", new Param("Pt.B", new Point2D(x,y)));
 		Param dist = new Param("Dist", 0.0);
@@ -70,14 +70,15 @@ public class Tool2DLineInt implements ToolInterface2D {
 		//
 		// add the new feature to the end of the feature set
 		//
-		AvoGlobal.getFeatureSet().addFeature(new Feature2D(this, pSet, "Line"));
+		AvoGlobal.assembly.partList.getLast().feat3DList.getLast().feat2DList.add(new Feature2D(this, pSet, "Line"));
+		AvoGlobal.setActiveParamSet(pSet);
 	}
 
 	public void glMouseDrag(double x, double y, double z,  MouseEvent e) {
 		//
 		// get parameter set
 		//
-		ParamSet paramSet = AvoGlobal.getFeatureSet().getLastFeature().paramSet;
+		ParamSet paramSet = AvoGlobal.assembly.partList.getLast().feat3DList.getLast().feat2DList.getLast().paramSet;
 		
 		//
 		// update param values
@@ -92,7 +93,7 @@ public class Tool2DLineInt implements ToolInterface2D {
 		//
 		// get parameter set
 		//
-		ParamSet paramSet = AvoGlobal.getFeatureSet().getLastFeature().paramSet;
+		ParamSet paramSet = AvoGlobal.assembly.partList.getLast().feat3DList.getLast().feat2DList.getLast().paramSet;
 		
 		//
 		// finalize the feature's formation
@@ -106,7 +107,8 @@ public class Tool2DLineInt implements ToolInterface2D {
 		if(ptA.equalsPt(ptB)){
 			// end point are the same... discard
 			System.out.println("end points of line are the same... discarding feature");
-			AvoGlobal.getFeatureSet().removeLastFeature();
+			AvoGlobal.assembly.partList.getLast().feat3DList.getLast().feat2DList.removeLast();
+			AvoGlobal.setActiveParamSet(null);
 		}
 	}
 

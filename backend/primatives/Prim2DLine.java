@@ -52,12 +52,12 @@ public class Prim2DLine implements Prim2D{
 	}
 
 	public Point2D intersectsArc(Prim2DArc arc) {
-		// TODO Auto-generated method stub
+		// TODO need Intersection code!
 		return null;
 	}
 
 	public Point2D intersectsLine(Prim2DLine ln) {
-		// TODO Auto-generated method stub
+		// need Intersection code!
 		return null;
 	}
 	

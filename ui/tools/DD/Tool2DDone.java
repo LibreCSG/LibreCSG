@@ -57,5 +57,11 @@ public class Tool2DDone extends Tool2D{
 	@Override
 	public void toolSelected() {
 		// TODO: Push all new items into main backend.model
+		AvoGlobal.menuet.disableAllTools();
+		AvoGlobal.currentToolMode = AvoGlobal.MENUET_MODE_MAIN;
+		AvoGlobal.setActiveParamSet(null);
+		AvoGlobal.currentTool = null;			
+		AvoGlobal.menuet.updateToolModeDisplayed();
+		AvoGlobal.glViewNeedsUpdated = true;
 	}
 }

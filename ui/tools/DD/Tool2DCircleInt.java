@@ -56,26 +56,27 @@ public class Tool2DCircleInt implements ToolInterface2D  {
 		//
 		// starting to draw a new feature... deselect all other features.
 		//
-		AvoGlobal.getFeatureSet().deselectAll();
+		AvoGlobal.assembly.partList.getLast().feat3DList.getLast().deselectAll2DFeatures();
 		
 		//
 		// Build parameter set for this feature
 		//
-		ParamSet pSet = new ParamSet();
+		ParamSet pSet = new ParamSet("Circle");
 		pSet.addParam("c", new Param("center", new Point2D(x,y)));
 		pSet.addParam("r", new Param("radius", 0.0));
 		
 		//
 		// add the new feature to the end of the feature set
 		//
-		AvoGlobal.getFeatureSet().addFeature(new Feature2D(this, pSet,"Circle"));
+		AvoGlobal.assembly.partList.getLast().feat3DList.getLast().feat2DList.add(new Feature2D(this, pSet, "Circle"));
+		AvoGlobal.setActiveParamSet(pSet);
 	}
 
 	public void glMouseDrag(double x, double y, double z,  MouseEvent e) {
 		//
 		// get parameter set
 		//
-		ParamSet paramSet = AvoGlobal.getFeatureSet().getLastFeature().paramSet;
+		ParamSet paramSet = AvoGlobal.assembly.partList.getLast().feat3DList.getLast().feat2DList.getLast().paramSet;
 		
 		//
 		// update param values
@@ -88,7 +89,7 @@ public class Tool2DCircleInt implements ToolInterface2D  {
 		//
 		// get parameter set
 		//
-		ParamSet paramSet = AvoGlobal.getFeatureSet().getLastFeature().paramSet;
+		ParamSet paramSet = AvoGlobal.assembly.partList.getLast().feat3DList.getLast().feat2DList.getLast().paramSet;
 		
 		//
 		// finalize the feature's formation
@@ -100,7 +101,8 @@ public class Tool2DCircleInt implements ToolInterface2D  {
 		double radius = (Double)paramSet.getParam("r").getData();
 		if(radius == 0.0){
 			System.out.println("radius was zero... feature discarded");
-			AvoGlobal.getFeatureSet().removeLastFeature();
+			AvoGlobal.assembly.partList.getLast().feat3DList.getLast().feat2DList.removeLast();
+			AvoGlobal.setActiveParamSet(null);
 		}
 	}
 

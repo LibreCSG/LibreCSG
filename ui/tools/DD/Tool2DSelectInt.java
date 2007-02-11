@@ -1,9 +1,6 @@
 package ui.tools.DD;
 
-import java.util.Iterator;
 import java.util.LinkedList;
-
-import javax.media.opengl.GL;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
@@ -11,7 +8,6 @@ import org.eclipse.swt.events.MouseEvent;
 import ui.tools.ToolInterface2D;
 import backend.adt.ParamSet;
 import backend.global.AvoGlobal;
-import backend.model.Feature;
 import backend.primatives.Prim2D;
 
 
@@ -62,7 +58,7 @@ public class Tool2DSelectInt implements ToolInterface2D {
 			shiftIsDown = false;
 		}
 		if(!shiftIsDown){
-			AvoGlobal.getFeatureSet().deselectAll();
+			AvoGlobal.assembly.partList.getLast().feat3DList.getLast().deselectAll2DFeatures();
 		}
 
 		// TODO: iterate over all features in the current set to see if they've been clicked

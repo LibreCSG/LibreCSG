@@ -32,12 +32,14 @@ import java.util.LinkedHashMap;
 */
 public class ParamSet {
 
+	public String label;
 	protected LinkedHashMap <String,Param>paramSet = new LinkedHashMap<String,Param>();
 	
 	/**
 	 * construct a new parameter set.
 	 */
-	public ParamSet(){
+	public ParamSet(String label){
+		this.label = label;
 	}
 	
 	/**

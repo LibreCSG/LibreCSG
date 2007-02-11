@@ -1,5 +1,7 @@
 package ui.tools.DD;
 
+import java.util.LinkedList;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
 
@@ -8,7 +10,7 @@ import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
 import ui.tools.Tool2D;
 import backend.global.AvoGlobal;
-import backend.model.FeatureSet;
+import backend.model.Feature2D;
 
 
 //
@@ -64,7 +66,8 @@ public class Tool2DCancel extends Tool2D{
 		if(m.open() == SWT.YES){		
 			AvoGlobal.menuet.disableAllTools();
 			AvoGlobal.currentToolMode = AvoGlobal.MENUET_MODE_MAIN;
-			AvoGlobal.clearFetureSet();
+			AvoGlobal.assembly.partList.getLast().feat3DList.getLast().feat2DList = new LinkedList<Feature2D>();
+			AvoGlobal.setActiveParamSet(null);
 			AvoGlobal.currentTool = null;			
 			AvoGlobal.menuet.updateToolModeDisplayed();
 			AvoGlobal.glViewNeedsUpdated = true;
