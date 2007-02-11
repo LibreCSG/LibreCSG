@@ -55,5 +55,6 @@ public abstract class Tool2D extends Tool {
 	public int getToolMode() {
 		return AvoGlobal.MENUET_MODE_2D;
 	}
+
 	
 }

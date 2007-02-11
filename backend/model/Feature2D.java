@@ -1,17 +1,9 @@
-package ui.tools.DD;
+package backend.model;
 
-import java.util.Iterator;
 import java.util.LinkedList;
-
-import javax.media.opengl.GL;
-
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolInterface2D;
 import backend.adt.ParamSet;
-import backend.global.AvoGlobal;
-import backend.model.Feature;
 import backend.primatives.Prim2D;
 
 
@@ -41,42 +33,17 @@ import backend.primatives.Prim2D;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DSelectInt implements ToolInterface2D {
+public class Feature2D extends Feature{
+
+	public LinkedList <Prim2D>prim2DList = new LinkedList<Prim2D>();
 	
-	boolean shiftIsDown = false;
-	
-	/**
-	 * All of the tool's main functionality
-	 * mouse handling, glView drawing, 
-	 * parameter storage, etc.
-	 *
-	 */
-	public Tool2DSelectInt(){		
+	public Feature2D(ToolInterface2D toolInt, ParamSet pSet, String labelName){
+		super(toolInt, pSet, labelName);
 	}
 	
-	public void glMouseDown(double x, double y, double z,  MouseEvent e) {
-		
-		if((e.stateMask & SWT.SHIFT) != 0){
-			shiftIsDown = true;
-		}else{
-			shiftIsDown = false;
+	public void buildPrim2DList(){
+		if(this.toolInterface instanceof ToolInterface2D){
+			prim2DList = ((ToolInterface2D)this.toolInterface).buildPrimList(paramSet);
 		}
-		if(!shiftIsDown){
-			AvoGlobal.getFeatureSet().deselectAll();
-		}
-
-		// TODO: iterate over all features in the current set to see if they've been clicked
-
 	}
-
-	public void glMouseDrag(double x, double y, double z,  MouseEvent e) {
-	}
-
-	public void glMouseUp(double x, double y, double z,  MouseEvent e) {
-	}
-
-	public LinkedList<Prim2D> buildPrimList(ParamSet p) {
-		return null;
-	}
-
 }

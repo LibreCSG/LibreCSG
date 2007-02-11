@@ -1,17 +1,17 @@
 package ui.tools.DD;
 
-import javax.media.opengl.GL;
+import java.util.LinkedList;
 
 import org.eclipse.swt.events.MouseEvent;
 
-import ui.opengl.GLDynPrim;
-import ui.tools.ToolInterface;
+import ui.tools.ToolInterface2D;
 import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
-import backend.geometry.Geometry2D;
 import backend.global.AvoGlobal;
-import backend.model.Feature;
+import backend.model.Feature2D;
+import backend.primatives.Prim2D;
+import backend.primatives.Prim2DArc;
 
 
 //
@@ -40,7 +40,7 @@ import backend.model.Feature;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DCircleInt implements ToolInterface  {
+public class Tool2DCircleInt implements ToolInterface2D  {
 
 	/**
 	 * All of the tool's main functionality
@@ -68,7 +68,7 @@ public class Tool2DCircleInt implements ToolInterface  {
 		//
 		// add the new feature to the end of the feature set
 		//
-		AvoGlobal.getFeatureSet().addFeature(new Feature(this, pSet,"Circle"));
+		AvoGlobal.getFeatureSet().addFeature(new Feature2D(this, pSet,"Circle"));
 	}
 
 	public void glMouseDrag(double x, double y, double z,  MouseEvent e) {
@@ -81,7 +81,7 @@ public class Tool2DCircleInt implements ToolInterface  {
 		// update param values
 		//
 		Point2D ptC = (Point2D)paramSet.getParam("c").getData();
-		paramSet.changeParam("r", ptC.computeDist(new Point2D(x,y)));		
+		paramSet.changeParam("r", ptC.computeDist(new Point2D(x,y)));
 	}
 
 	public void glMouseUp(double x, double y, double z,  MouseEvent e) {	
@@ -104,18 +104,11 @@ public class Tool2DCircleInt implements ToolInterface  {
 		}
 	}
 
-	public void glDrawFeature(GL gl, ParamSet p) {
-		Point2D c = (Point2D)p.getParam("c").getData();
-		GLDynPrim.circle2D(gl, c, (Double)p.getParam("r").getData(), 0.0);
-		GLDynPrim.point(gl, c.getX(), c.getY(), 0.0, 3.0);
-	}
-
-
-	public boolean mouseIsOver(ParamSet p, double x, double y, double z, int mouseX, int mouseY, double err) {
+	public LinkedList<Prim2D> buildPrimList(ParamSet p) {
 		Point2D ptC = (Point2D)p.getParam("c").getData();
-		double  r   = (Double)p.getParam("r").getData();
-		double dist = Geometry2D.distFromCircle(ptC, r, new Point2D(x,y));
-		return (dist <= err) || (ptC.computeDist(new Point2D(x,y)) < err);
+		double    r = (Double)p.getParam("r").getData();
+		LinkedList<Prim2D> ll = new LinkedList<Prim2D>();
+		ll.add(new Prim2DArc(ptC,r,0.0,360.0));
+		return ll;
 	}
-	
 }

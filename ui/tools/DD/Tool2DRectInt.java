@@ -1,17 +1,17 @@
 package ui.tools.DD;
 
-import javax.media.opengl.GL;
+import java.util.LinkedList;
 
 import org.eclipse.swt.events.MouseEvent;
 
-import ui.opengl.GLDynPrim;
-import ui.tools.ToolInterface;
+import ui.tools.ToolInterface2D;
 import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
-import backend.geometry.Geometry2D;
 import backend.global.AvoGlobal;
-import backend.model.Feature;
+import backend.model.Feature2D;
+import backend.primatives.Prim2D;
+import backend.primatives.Prim2DLine;
 
 
 //
@@ -40,7 +40,7 @@ import backend.model.Feature;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DRectInt implements ToolInterface {
+public class Tool2DRectInt implements ToolInterface2D {
 
 	/**
 	 * All of the tool's main functionality
@@ -73,7 +73,7 @@ public class Tool2DRectInt implements ToolInterface {
 		//
 		// add the new feature to the end of the feature set
 		//
-		AvoGlobal.getFeatureSet().addFeature(new Feature(this, pSet, "Rectangle"));
+		AvoGlobal.getFeatureSet().addFeature(new Feature2D(this, pSet, "Rectangle"));
 	}
 
 	public void glMouseDrag(double x, double y, double z, MouseEvent e) {
@@ -115,28 +115,16 @@ public class Tool2DRectInt implements ToolInterface {
 		}
 	}
 
-	public void glDrawFeature(GL gl, ParamSet p) {
-		Point2D ptA = (Point2D)p.getParam("a").getData();
-		Point2D ptB = (Point2D)p.getParam("b").getData();
-		GLDynPrim.line2D(gl, ptA, new Point2D(ptA.getX(),ptB.getY()), 0.0);
-		GLDynPrim.line2D(gl, ptA, new Point2D(ptB.getX(),ptA.getY()), 0.0);
-		GLDynPrim.line2D(gl, ptB, new Point2D(ptA.getX(),ptB.getY()), 0.0);
-		GLDynPrim.line2D(gl, ptB, new Point2D(ptB.getX(),ptA.getY()), 0.0);
-	}
-
-	public boolean mouseIsOver(ParamSet p, double x, double y, double z, int mouseX, int mouseY, double err) {
+	public LinkedList<Prim2D> buildPrimList(ParamSet p) {
 		Point2D ptA  = (Point2D)p.getParam("a").getData();
 		Point2D ptB  = (Point2D)p.getParam("b").getData();
 		Point2D ptAB = new Point2D(ptA.getX(),ptB.getY());
 		Point2D ptBA = new Point2D(ptB.getX(),ptA.getY());
-		
-		
-		double dist1 = Geometry2D.distFromLineSeg(ptA, ptAB, new Point2D(x,y));
-		double dist2 = Geometry2D.distFromLineSeg(ptA, ptBA, new Point2D(x,y));
-		double dist3 = Geometry2D.distFromLineSeg(ptB, ptAB, new Point2D(x,y));
-		double dist4 = Geometry2D.distFromLineSeg(ptB, ptBA, new Point2D(x,y));
-		
-		return (dist1 <= err) || (dist2 <= err) || (dist3 <= err) || (dist4 <= err);
+		LinkedList<Prim2D> ll = new LinkedList<Prim2D>();
+		ll.add(new Prim2DLine(ptA,ptAB));
+		ll.add(new Prim2DLine(ptA,ptBA));
+		ll.add(new Prim2DLine(ptB,ptAB));
+		ll.add(new Prim2DLine(ptB,ptBA));
+		return ll;
 	}
-	
 }

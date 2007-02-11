@@ -50,7 +50,7 @@ public class GLDynPrim {
 		gl.glEnd();
 	}
 	
-	public static void circle2D(GL gl, Point2D center, double radius, double zOffset){
+	private static void circle2D(GL gl, Point2D center, double radius, double zOffset){
 		gl.glPushMatrix();
 			gl.glTranslatef((float)center.getX(), (float)center.getY(), (float)zOffset);
 			float w = (float)Math.cos(Math.PI / 4);
@@ -70,33 +70,38 @@ public class GLDynPrim {
 	}
 	
 	
-	public static void cad_Arc(GL gl, float radius, float startAngle, float arcAngle){
-		gl.glPushMatrix();
-		gl.glRotatef(startAngle, 0.0f, 0.0f, 1.0f);
-		arcAngle = arcAngle % 360.0f; // kill redundant drawing
-		while(arcAngle > 0.0f || arcAngle < 0.0f){
-			if(arcAngle >= 90.0f || arcAngle <= -90.0f){
-				float sign = Math.signum(arcAngle);
-				float w = (float)Math.cos(Math.PI / 4);
-				cad_NURBS(gl,	radius,0.0f,0.0f,1.0f,  
-						radius,sign*radius,0.0f,w, 
-						0.0f,sign*radius,0.0f,1.0f);	
-				arcAngle -= sign*90.0f;
-				gl.glRotatef(sign*90.0f, 0.0f, 0.0f, 1.0f);
-			}else{
-				float arcRadians = arcAngle / 360.0f *  2 * (float)Math.PI;
-				float finalx = (float)Math.cos(arcRadians)*radius;
-				float finaly = (float)Math.sin(arcRadians)*radius;	
-				
-				float midy = (float)Math.tan(arcRadians/2)*radius;
-				float w = (float)Math.cos(arcRadians/2);
-				cad_NURBS(gl,	radius,0.0f,0.0f,1.0f,  
-						radius,midy,0.0f,w, 
-						finalx,finaly,0.0f,1.0f);				
-				arcAngle = 0.0f;
-			}
-		}		
-		gl.glPopMatrix();
+	public static void arc2D(GL gl, Point2D center, double radius, double startAngle, double arcAngle, double zOffset){
+		if(arcAngle == 360.0){
+			circle2D(gl, center, radius, zOffset);
+		}else{
+			gl.glPushMatrix();
+			gl.glTranslatef((float)center.getX(), (float)center.getY(), (float)zOffset);
+			gl.glRotated(startAngle, 0.0, 0.0, 1.0);
+			arcAngle = arcAngle % 360.0; // kill redundant drawing
+			while(arcAngle > 0.0 || arcAngle < 0.0){
+				if(arcAngle >= 90.0 || arcAngle <= -90.0){
+					double sign = Math.signum(arcAngle);
+					double w    = Math.cos(Math.PI / 4);
+					cad_NURBS(gl,	radius,0.0f,0.0f,1.0f,  
+									radius,sign*radius,0.0f,w, 
+									0.0f,sign*radius,0.0f,1.0f);	
+					arcAngle -= sign*90.0;
+					gl.glRotated(sign*90.0, 0.0, 0.0, 1.0);
+				}else{
+					double arcRadians = arcAngle / 360.0 *  2 * Math.PI;
+					double finalx     = Math.cos(arcRadians)*radius;
+					double finaly     = Math.sin(arcRadians)*radius;	
+					
+					double midy = Math.tan(arcRadians/2)*radius;
+					double w    = Math.cos(arcRadians/2);
+					cad_NURBS(gl,	radius,0.0f,0.0f,1.0f,  
+									radius,midy,0.0f,w, 
+									finalx,finaly,0.0f,1.0f);				
+					arcAngle = 0.0;
+				}
+			}		
+			gl.glPopMatrix();
+		}
 	}
 	
 	
