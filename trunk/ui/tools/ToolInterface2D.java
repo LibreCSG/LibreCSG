@@ -1,7 +1,9 @@
-package backend.model;
+package ui.tools;
 
-import ui.tools.ToolInterface;
+import java.util.LinkedList;
+
 import backend.adt.ParamSet;
+import backend.primatives.Prim2D;
 
 
 //
@@ -30,16 +32,8 @@ import backend.adt.ParamSet;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public abstract class Feature {
+public interface ToolInterface2D extends ToolInterface{
 
-	public ToolInterface  toolInterface; 
-	public ParamSet       paramSet;
-	public String		  label;
-	public boolean		  isSelected = true;
+	abstract LinkedList<Prim2D> buildPrimList(ParamSet p);
 	
-	public Feature(ToolInterface toolInt, ParamSet pSet, String labelName){
-		toolInterface = toolInt;
-		paramSet      = pSet;
-		label         = labelName;
-	}
 }

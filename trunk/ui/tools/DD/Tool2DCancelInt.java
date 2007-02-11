@@ -1,11 +1,14 @@
 package ui.tools.DD;
 
+import java.util.LinkedList;
+
 import javax.media.opengl.GL;
 
 import org.eclipse.swt.events.MouseEvent;
 
-import ui.tools.ToolInterface;
+import ui.tools.ToolInterface2D;
 import backend.adt.ParamSet;
+import backend.primatives.Prim2D;
 
 
 //
@@ -34,7 +37,7 @@ import backend.adt.ParamSet;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DCancelInt implements ToolInterface {
+public class Tool2DCancelInt implements ToolInterface2D {
 	/**
 	 * All of the tool's main functionality
 	 * mouse handling, glView drawing, 
@@ -42,8 +45,7 @@ public class Tool2DCancelInt implements ToolInterface {
 	 *
 	 */
 	public Tool2DCancelInt(){
-	}
-	
+	}	
 	
 	public void glMouseDown(double x, double y, double z,  MouseEvent e) {
 	}
@@ -54,12 +56,7 @@ public class Tool2DCancelInt implements ToolInterface {
 	public void glMouseUp(double x, double y, double z,  MouseEvent e) {
 	}
 
-	public void glDrawFeature(GL gl, ParamSet p) {
-		System.out.println("This is the 2D Cancel button.. it should never be drawn!");
-	}
-
-
-	public boolean mouseIsOver(ParamSet p, double x, double y, double z, int mouseX, int mouseY, double err) {
-		return false;
+	public LinkedList<Prim2D> buildPrimList(ParamSet p) {
+		return null;
 	}
 }

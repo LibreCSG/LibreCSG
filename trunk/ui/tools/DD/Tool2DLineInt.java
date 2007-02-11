@@ -1,17 +1,17 @@
 package ui.tools.DD;
 
-import javax.media.opengl.GL;
+import java.util.LinkedList;
 
 import org.eclipse.swt.events.MouseEvent;
 
-import ui.opengl.GLDynPrim;
-import ui.tools.ToolInterface;
+import ui.tools.ToolInterface2D;
 import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
-import backend.geometry.Geometry2D;
 import backend.global.AvoGlobal;
-import backend.model.Feature;
+import backend.model.Feature2D;
+import backend.primatives.Prim2D;
+import backend.primatives.Prim2DLine;
 
 
 //
@@ -40,7 +40,7 @@ import backend.model.Feature;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DLineInt implements ToolInterface {
+public class Tool2DLineInt implements ToolInterface2D {
 
 	/**
 	 * All of the tool's main functionality
@@ -70,7 +70,7 @@ public class Tool2DLineInt implements ToolInterface {
 		//
 		// add the new feature to the end of the feature set
 		//
-		AvoGlobal.getFeatureSet().addFeature(new Feature(this, pSet, "Line"));
+		AvoGlobal.getFeatureSet().addFeature(new Feature2D(this, pSet, "Line"));
 	}
 
 	public void glMouseDrag(double x, double y, double z,  MouseEvent e) {
@@ -110,14 +110,13 @@ public class Tool2DLineInt implements ToolInterface {
 		}
 	}
 
-	public void glDrawFeature(GL gl, ParamSet p) {
-		GLDynPrim.line2D(gl, (Point2D)p.getParam("a").getData(), (Point2D)p.getParam("b").getData(), 0.0);
-	}
-
-	public boolean mouseIsOver(ParamSet p, double x, double y, double z, int mouseX, int mouseY, double err) {
+	public LinkedList<Prim2D> buildPrimList(ParamSet p) {
 		Point2D ptA = (Point2D)p.getParam("a").getData();
 		Point2D ptB = (Point2D)p.getParam("b").getData();
-		double dist = Geometry2D.distFromLineSeg(ptA, ptB, new Point2D(x,y));
-		return (dist <= err);
+		LinkedList<Prim2D> ll = new LinkedList<Prim2D>();
+		ll.add(new Prim2DLine(ptA,ptB));
+		return ll;
 	}
+
+
 }

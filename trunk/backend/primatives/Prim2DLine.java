@@ -1,7 +1,9 @@
-package backend.model;
+package backend.primatives;
 
-import ui.tools.ToolInterface;
-import backend.adt.ParamSet;
+import javax.media.opengl.GL;
+
+import ui.opengl.GLDynPrim;
+import backend.adt.Point2D;
 
 
 //
@@ -30,16 +32,33 @@ import backend.adt.ParamSet;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public abstract class Feature {
+public class Prim2DLine implements Prim2D{
 
-	public ToolInterface  toolInterface; 
-	public ParamSet       paramSet;
-	public String		  label;
-	public boolean		  isSelected = true;
+	Point2D ptA;
+	Point2D ptB;
 	
-	public Feature(ToolInterface toolInt, ParamSet pSet, String labelName){
-		toolInterface = toolInt;
-		paramSet      = pSet;
-		label         = labelName;
+	public Prim2DLine(Point2D ptA, Point2D ptB){
+		if(ptA == null || ptB == null){
+			ptA = new Point2D(0.0, 0.0);
+			ptB = new Point2D(0.0, 0.0);
+			System.out.println("prim2DLine constructed with a null end point!");
+		}
+		this.ptA = ptA;
+		this.ptB = ptB;
 	}
+	
+	public void glDraw(GL gl) {
+		GLDynPrim.line2D(gl, ptA, ptB, 0.0);		
+	}
+
+	public Point2D intersectsArc(Prim2DArc arc) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Point2D intersectsLine(Prim2DLine ln) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 }

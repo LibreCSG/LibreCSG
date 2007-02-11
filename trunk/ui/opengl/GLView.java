@@ -25,8 +25,11 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
+import ui.tools.ToolInterface2D;
 import backend.global.AvoGlobal;
 import backend.model.Feature;
+import backend.model.Feature2D;
+import backend.primatives.Prim2D;
 
 
 //
@@ -298,14 +301,26 @@ public class GLView {
 					    while(iter.hasNext()){
 					    	Feature feat = (Feature)iter.next();
 					    	if(feat != null){
-						    	if(feat.isSelected){
-						    		gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_ACTIVE[0], AvoGlobal.GL_COLOR4_2D_ACTIVE[1],
-				  									AvoGlobal.GL_COLOR4_2D_ACTIVE[2], AvoGlobal.GL_COLOR4_2D_ACTIVE[3]);
-						    	}else{
-						    		gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_NONACT[0], AvoGlobal.GL_COLOR4_2D_NONACT[1],
-						  							AvoGlobal.GL_COLOR4_2D_NONACT[2], AvoGlobal.GL_COLOR4_2D_NONACT[3]);
-						    	}
-						    	feat.toolInterface.glDrawFeature(gl, feat.paramSet);
+					    		if(feat instanceof Feature2D){
+							    	if(feat.isSelected){
+							    		gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_ACTIVE[0], AvoGlobal.GL_COLOR4_2D_ACTIVE[1],
+					  									AvoGlobal.GL_COLOR4_2D_ACTIVE[2], AvoGlobal.GL_COLOR4_2D_ACTIVE[3]);
+//							    		 TODO: HACK, don't build here.. build when created!
+							    		((Feature2D)feat).buildPrim2DList();
+							    	}else{
+							    		gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_NONACT[0], AvoGlobal.GL_COLOR4_2D_NONACT[1],
+							  							AvoGlobal.GL_COLOR4_2D_NONACT[2], AvoGlobal.GL_COLOR4_2D_NONACT[3]);
+							    	}
+							    	
+							    	//
+							    	// Draw 2D features!
+							    	//
+							    	if(((Feature2D)feat).prim2DList != null){
+								    	for(Prim2D prim : ((Feature2D)feat).prim2DList){
+								    		prim.glDraw(gl);
+								    	}
+							    	}
+					    		}
 					    	}
 					    }
 

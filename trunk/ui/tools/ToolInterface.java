@@ -1,10 +1,6 @@
 package ui.tools;
 
-import javax.media.opengl.GL;
-
 import org.eclipse.swt.events.MouseEvent;
-
-import backend.adt.ParamSet;
 
 
 //
@@ -34,7 +30,7 @@ import backend.adt.ParamSet;
 * @created Feb. 2007
 */
 public interface ToolInterface {
-
+	
 	/**
 	 * glView calls this when it recieved a <em>mousedown</em> event.
 	 * Both mouse (screen) coordinates and absolute x,y,z 
@@ -70,28 +66,5 @@ public interface ToolInterface {
 	 * @param mouseY
 	 */
 	abstract public void glMouseUp(double x, double y, double z,  MouseEvent e);
-	
-	/**
-	 * draw the feature on the glView given a set of
-	 * parameters that define the feature.  Only DynamicPrimitives
-	 * should be used for drawing.
-	 * @param gl
-	 * @param p
-	 */
-	abstract public void glDrawFeature(GL gl, ParamSet p);
-	
-	/**
-	 * determines whether or not the given 3D point specified by the mouse position
-	 * is over the feature.  This is used for selection purposes.
-	 * @param p set of parameters that defines the feature
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @param mouseX
-	 * @param mouseY
-	 * @param err the allowable amount of error from the element where it is still considered a hit
-	 * @return
-	 */
-	abstract public boolean mouseIsOver(ParamSet p, double x, double y, double z, int mouseX, int mouseY, double err);
 	
 }

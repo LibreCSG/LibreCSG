@@ -1,7 +1,8 @@
-package backend.model;
+package backend.primatives;
 
-import ui.tools.ToolInterface;
-import backend.adt.ParamSet;
+import javax.media.opengl.GL;
+
+import backend.adt.Point2D;
 
 
 //
@@ -30,16 +31,12 @@ import backend.adt.ParamSet;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public abstract class Feature {
-
-	public ToolInterface  toolInterface; 
-	public ParamSet       paramSet;
-	public String		  label;
-	public boolean		  isSelected = true;
+public interface Prim2D {
+ 
+	abstract public void glDraw(GL gl);
 	
-	public Feature(ToolInterface toolInt, ParamSet pSet, String labelName){
-		toolInterface = toolInt;
-		paramSet      = pSet;
-		label         = labelName;
-	}
+	abstract public Point2D intersectsLine(Prim2DLine ln);
+	
+	abstract public Point2D intersectsArc(Prim2DArc arc);
+	
 }

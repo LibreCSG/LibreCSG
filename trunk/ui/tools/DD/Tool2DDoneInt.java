@@ -1,11 +1,13 @@
 package ui.tools.DD;
 
-import javax.media.opengl.GL;
+import java.util.LinkedList;
 
 import org.eclipse.swt.events.MouseEvent;
 
-import ui.tools.ToolInterface;
 import backend.adt.ParamSet;
+import backend.primatives.Prim2D;
+
+import ui.tools.ToolInterface2D;
 
 
 //
@@ -34,7 +36,7 @@ import backend.adt.ParamSet;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DDoneInt implements ToolInterface {
+public class Tool2DDoneInt implements ToolInterface2D {
 	/**
 	 * All of the tool's main functionality
 	 * mouse handling, glView drawing, 
@@ -42,8 +44,7 @@ public class Tool2DDoneInt implements ToolInterface {
 	 *
 	 */
 	public Tool2DDoneInt(){
-	}
-	
+	}	
 	
 	public void glMouseDown(double x, double y, double z,  MouseEvent e) {
 	}
@@ -54,12 +55,8 @@ public class Tool2DDoneInt implements ToolInterface {
 	public void glMouseUp(double x, double y, double z,  MouseEvent e) {
 	}
 
-	public void glDrawFeature(GL gl, ParamSet p) {
-		System.out.println("This is the 2D Done button.. it should never be drawn!");
+	public LinkedList<Prim2D> buildPrimList(ParamSet p) {
+		return null;
 	}
 
-
-	public boolean mouseIsOver(ParamSet p, double x, double y, double z, int mouseX, int mouseY, double err) {
-		return false;
-	}
 }
