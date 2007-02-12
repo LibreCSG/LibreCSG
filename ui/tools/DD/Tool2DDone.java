@@ -59,6 +59,7 @@ public class Tool2DDone extends Tool2D{
 		// TODO: Push all new items into main backend.model
 		AvoGlobal.menuet.disableAllTools();
 		AvoGlobal.currentToolMode = AvoGlobal.MENUET_MODE_MAIN;
+		AvoGlobal.assembly.partList.getLast().feat3DList.getLast().deselectAll2DFeatures();
 		AvoGlobal.setActiveParamSet(null);
 		AvoGlobal.currentTool = null;			
 		AvoGlobal.menuet.updateToolModeDisplayed();
