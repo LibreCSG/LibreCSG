@@ -58,7 +58,8 @@ public class ToolMain2D extends ToolMain{
 		//
 		// create new Feature3D to use for subsequent 2D sketches
 		//
-		AvoGlobal.assembly.partList.getLast().feat3DList.add(new Feature3D());		
+		AvoGlobal.assembly.partList.getLast().feat3DList.add(new Feature3D());
+		AvoGlobal.treeViewer.buildTreeFromAssembly();
 	}
 
 

@@ -72,6 +72,7 @@ public class Tool2DLineInt implements ToolInterface2D {
 		//
 		AvoGlobal.assembly.partList.getLast().feat3DList.getLast().feat2DList.add(new Feature2D(this, pSet, "Line"));
 		AvoGlobal.setActiveParamSet(pSet);
+		AvoGlobal.treeViewer.buildTreeFromAssembly();
 	}
 
 	public void glMouseDrag(double x, double y, double z,  MouseEvent e) {
