@@ -1,8 +1,6 @@
 package ui.opengl;
 
 import java.nio.FloatBuffer;
-import java.util.Iterator;
-import java.util.LinkedList;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLCapabilities;
@@ -28,6 +26,7 @@ import org.eclipse.swt.widgets.Listener;
 
 import backend.global.AvoGlobal;
 import backend.model.Feature2D;
+import backend.model.Feature3D;
 import backend.primatives.Prim2D;
 
 
@@ -297,26 +296,30 @@ public class GLView {
 						
 						// TODO: HACK for now to show 2D
 						if(AvoGlobal.assembly.partList.getLast().feat3DList.size() > 0){
-							LinkedList<Feature2D> ll = AvoGlobal.assembly.partList.getLast().feat3DList.getLast().feat2DList;
-							for(Feature2D feat : ll){
-								if(feat.isSelected){
-						    		gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_ACTIVE[0], AvoGlobal.GL_COLOR4_2D_ACTIVE[1],
-				  									AvoGlobal.GL_COLOR4_2D_ACTIVE[2], AvoGlobal.GL_COLOR4_2D_ACTIVE[3]);
-						    		// TODO: HACK, don't build primatives here.. build when created/modified!
-						    		((Feature2D)feat).buildPrim2DList();
-						    	}else{
-						    		gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_NONACT[0], AvoGlobal.GL_COLOR4_2D_NONACT[1],
-						  							AvoGlobal.GL_COLOR4_2D_NONACT[2], AvoGlobal.GL_COLOR4_2D_NONACT[3]);
-						    	}
-						    	
-						    	//
-						    	// Draw 2D features!
-						    	//
-						    	if(((Feature2D)feat).prim2DList != null){
-							    	for(Prim2D prim : ((Feature2D)feat).prim2DList){
-							    		prim.glDraw(gl);
-							    	}
-						    	}
+							for(Feature3D f3D : AvoGlobal.assembly.partList.getLast().feat3DList){
+							//LinkedList<Feature2D> ll = AvoGlobal.assembly.partList.getLast().feat3DList.getLast().feat2DList;
+								if(f3D.feat2DList.size() > 0){
+									for(Feature2D feat : f3D.feat2DList){
+										if(feat.isSelected){
+								    		gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_ACTIVE[0], AvoGlobal.GL_COLOR4_2D_ACTIVE[1],
+						  									AvoGlobal.GL_COLOR4_2D_ACTIVE[2], AvoGlobal.GL_COLOR4_2D_ACTIVE[3]);
+								    		// TODO: HACK, don't build primatives here.. build when created/modified!
+								    		((Feature2D)feat).buildPrim2DList();
+								    	}else{
+								    		gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_NONACT[0], AvoGlobal.GL_COLOR4_2D_NONACT[1],
+								  							AvoGlobal.GL_COLOR4_2D_NONACT[2], AvoGlobal.GL_COLOR4_2D_NONACT[3]);
+								    	}
+								    	
+								    	//
+								    	// Draw 2D features!
+								    	//
+								    	if(((Feature2D)feat).prim2DList != null){
+									    	for(Prim2D prim : ((Feature2D)feat).prim2DList){
+									    		prim.glDraw(gl);
+									    	}
+								    	}
+									}
+								}
 							}
 						}
 						
