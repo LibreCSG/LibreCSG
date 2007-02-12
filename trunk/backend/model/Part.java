@@ -32,9 +32,10 @@ import java.util.LinkedList;
 public class Part {
 
 	public LinkedList<Feature3D> feat3DList = new LinkedList<Feature3D>();
+	public boolean isComplete = false;
+	
 	
 	public Part(){
-		feat3DList.add(new Feature3D());
 	}
 	
 }

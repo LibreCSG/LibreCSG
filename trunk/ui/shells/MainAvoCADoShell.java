@@ -18,6 +18,7 @@ import ui.menuet.MenuetBuilder;
 import ui.opengl.GLView;
 import ui.paramdialog.DynParamDialog;
 import ui.quicksettings.QuickSettings;
+import ui.treeviewer.TreeViewer;
 import backend.data.utilities.ImageUtils;
 import backend.global.AvoGlobal;
 
@@ -181,9 +182,9 @@ public class MainAvoCADoShell{
 		//
 		// right piece is treeviewer
 		//
-		// TODO: use treeviewer instead of dummy composite
-		Composite comp3right = new Composite(comp2topSash, SWT.NONE);
-		comp3right.setBackground(new Color(shell.getDisplay(), 200, 200, 200));
+		AvoGlobal.treeViewer = new TreeViewer(comp2topSash, SWT.NONE);
+		//Composite comp3right = new Composite(comp2topSash, SWT.NONE);
+		//comp3right.setBackground(new Color(shell.getDisplay(), 200, 200, 200));
 		
 		//
 		// now that items have been added to sash, set the weights.

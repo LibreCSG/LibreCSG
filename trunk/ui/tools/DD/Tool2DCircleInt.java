@@ -70,6 +70,7 @@ public class Tool2DCircleInt implements ToolInterface2D  {
 		//
 		AvoGlobal.assembly.partList.getLast().feat3DList.getLast().feat2DList.add(new Feature2D(this, pSet, "Circle"));
 		AvoGlobal.setActiveParamSet(pSet);
+		AvoGlobal.treeViewer.buildTreeFromAssembly();
 	}
 
 	public void glMouseDrag(double x, double y, double z,  MouseEvent e) {

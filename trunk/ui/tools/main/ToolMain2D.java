@@ -6,6 +6,7 @@ import ui.menuet.MenuetElement;
 import ui.tools.ToolMain;
 import backend.data.utilities.ImageUtils;
 import backend.global.AvoGlobal;
+import backend.model.Feature3D;
 
 
 //
@@ -54,6 +55,10 @@ public class ToolMain2D extends ToolMain{
 	public void toolSelected() {
 		AvoGlobal.currentToolMode = AvoGlobal.MENUET_MODE_2D;
 		AvoGlobal.menuet.updateToolModeDisplayed();
+		//
+		// create new Feature3D to use for subsequent 2D sketches
+		//
+		AvoGlobal.assembly.partList.getLast().feat3DList.add(new Feature3D());		
 	}
 
 

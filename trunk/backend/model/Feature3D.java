@@ -33,6 +33,7 @@ public class Feature3D {
 
 	public LinkedList<Feature2D> feat2DList   = new LinkedList<Feature2D>();
 	public LinkedList<Region2D>  region2DList = new LinkedList<Region2D>();
+	public boolean isComplete = false;
 	
 	public Feature3D(){
 	}
