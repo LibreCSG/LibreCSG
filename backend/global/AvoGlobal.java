@@ -10,6 +10,7 @@ import ui.opengl.GLView;
 import ui.opengl.RenderLevel;
 import ui.paramdialog.DynParamDialog;
 import ui.tools.Tool;
+import ui.treeviewer.TreeViewer;
 import backend.adt.ParamSet;
 import backend.model.Assembly;
 
@@ -191,5 +192,7 @@ public class AvoGlobal {
 	public static GLViewEventHandler glViewEventHandler = new GLViewEventHandler(); 
 	
 	public static double[] glCursor3DPos = new double[] {0.0, 0.0, 0.0}; 
+	
+	public static TreeViewer treeViewer;
 	
 }

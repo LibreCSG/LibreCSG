@@ -296,26 +296,28 @@ public class GLView {
 						
 						
 						// TODO: HACK for now to show 2D
-						LinkedList<Feature2D> ll = AvoGlobal.assembly.partList.getLast().feat3DList.getLast().feat2DList;
-						for(Feature2D feat : ll){
-							if(feat.isSelected){
-					    		gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_ACTIVE[0], AvoGlobal.GL_COLOR4_2D_ACTIVE[1],
-			  									AvoGlobal.GL_COLOR4_2D_ACTIVE[2], AvoGlobal.GL_COLOR4_2D_ACTIVE[3]);
-					    		// TODO: HACK, don't build primatives here.. build when created/modified!
-					    		((Feature2D)feat).buildPrim2DList();
-					    	}else{
-					    		gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_NONACT[0], AvoGlobal.GL_COLOR4_2D_NONACT[1],
-					  							AvoGlobal.GL_COLOR4_2D_NONACT[2], AvoGlobal.GL_COLOR4_2D_NONACT[3]);
-					    	}
-					    	
-					    	//
-					    	// Draw 2D features!
-					    	//
-					    	if(((Feature2D)feat).prim2DList != null){
-						    	for(Prim2D prim : ((Feature2D)feat).prim2DList){
-						    		prim.glDraw(gl);
+						if(AvoGlobal.assembly.partList.getLast().feat3DList.size() > 0){
+							LinkedList<Feature2D> ll = AvoGlobal.assembly.partList.getLast().feat3DList.getLast().feat2DList;
+							for(Feature2D feat : ll){
+								if(feat.isSelected){
+						    		gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_ACTIVE[0], AvoGlobal.GL_COLOR4_2D_ACTIVE[1],
+				  									AvoGlobal.GL_COLOR4_2D_ACTIVE[2], AvoGlobal.GL_COLOR4_2D_ACTIVE[3]);
+						    		// TODO: HACK, don't build primatives here.. build when created/modified!
+						    		((Feature2D)feat).buildPrim2DList();
+						    	}else{
+						    		gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_NONACT[0], AvoGlobal.GL_COLOR4_2D_NONACT[1],
+						  							AvoGlobal.GL_COLOR4_2D_NONACT[2], AvoGlobal.GL_COLOR4_2D_NONACT[3]);
 						    	}
-					    	}
+						    	
+						    	//
+						    	// Draw 2D features!
+						    	//
+						    	if(((Feature2D)feat).prim2DList != null){
+							    	for(Prim2D prim : ((Feature2D)feat).prim2DList){
+							    		prim.glDraw(gl);
+							    	}
+						    	}
+							}
 						}
 						
 
