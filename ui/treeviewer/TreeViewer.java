@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
 import backend.global.AvoGlobal;
-import backend.model.Assembly;
+import backend.model.Group;
 import backend.model.Feature2D;
 import backend.model.Feature3D;
 import backend.model.Part;
@@ -56,7 +56,7 @@ public class TreeViewer {
 	}
 	
 	public void buildTreeFromAssembly(){
-		Assembly asm = AvoGlobal.assembly;
+		Group asm = AvoGlobal.assembly;
 		tree.removeAll();
 		
 		if(asm == null){

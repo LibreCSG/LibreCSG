@@ -12,7 +12,7 @@ import ui.paramdialog.DynParamDialog;
 import ui.tools.Tool;
 import ui.treeviewer.TreeViewer;
 import backend.adt.ParamSet;
-import backend.model.Assembly;
+import backend.model.Group;
 
 
 //
@@ -106,7 +106,7 @@ public class AvoGlobal {
 	/**
 	 * The main assembly of parts in the workspace!
 	 */
-	public static Assembly assembly = new Assembly();
+	public static Group assembly = new Group();
 	
 	/**
 	 * the active parameter set..  this is used for

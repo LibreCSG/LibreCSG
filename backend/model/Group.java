@@ -29,11 +29,11 @@ import java.util.LinkedList;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Assembly {
+public class Group {
 
 	public LinkedList<Part> partList = new LinkedList<Part>();
 	
-	public Assembly(){
+	public Group(){
 		partList.add(new Part());
 	}
 	
