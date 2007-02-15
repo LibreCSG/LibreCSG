@@ -1,6 +1,8 @@
 package ui.treeviewer;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -56,22 +58,39 @@ public class TreeViewer {
 		treeComp.setBackground(new Color(Display.getCurrent(), 200, 200, 240));
 		treeComp.setLayout(new FillLayout());
 		
-		tree = new Tree(treeComp, SWT.NONE);
+		tree = new Tree(treeComp, SWT.SINGLE);
 		buildTreeFromAssembly();
 		
 		AvoGlobal.modelEventHAndler.addModelListener(new ModelListener(){
 			public void activeElementChanged() {
-				// TODO Auto-generated method stub
-				
+				// TODO highlight the new active element (or none, if null)				
 			}
 			public void elementAdded() {
-				// TODO Auto-generated method stub
 				buildTreeFromAssembly();
 				
 			}
 			public void elementRemoved() {
-				// TODO Auto-generated method stub
 				buildTreeFromAssembly();				
+			}			
+		});
+		
+		tree.addMouseListener(new MouseListener(){
+			public void mouseDoubleClick(MouseEvent e) {
+				// TODO Set active elements in model based on treeItem selected!
+				if(tree.getSelection().length > 0){
+					TreeItem ti = tree.getSelection()[0];
+					int[] indxs = (int[])ti.getData();
+					System.out.println("TreeViewer clicked.. should change active element in model (not implemented)");
+					System.out.print(" ---> ");
+					for(int i : indxs){
+						System.out.print(i + ",");
+					}
+					System.out.print("\n");
+				}
+			}
+			public void mouseDown(MouseEvent e) {			
+			}
+			public void mouseUp(MouseEvent e) {			
 			}			
 		});
 	}
@@ -91,24 +110,29 @@ public class TreeViewer {
 			Group group = project.getAtIndex(iGroup);
 			TreeItem tiGroup = new TreeItem(tree, SWT.NONE, iGroup);
 			tiGroup.setText("Group");
+			tiGroup.setData(new int[] {iGroup});
 			for(int iPart=0; iPart<group.getPartListSize(); iPart++){
 				Part part = group.getAtIndex(iPart);
 				TreeItem tiPart = new TreeItem(tiGroup, SWT.NONE, iPart);
 				tiPart.setText("Part");
+				tiPart.setData(new int[] {iGroup, iPart});
 				for(int iFeat3D=0; iFeat3D < part.getFeat3DListSize(); iFeat3D++){
 					Feature3D feat3D = part.getAtIndex(iFeat3D);
 					TreeItem tiFeat3D = new TreeItem(tiPart, SWT.NONE, iFeat3D);
 					tiFeat3D.setText("Feat3D");
+					tiFeat3D.setData(new int[] {iGroup, iPart, iFeat3D});
 					if(feat3D instanceof Feature2D3D){
 						Feature2D3D feat2D3D = (Feature2D3D)feat3D;
 						for(int iSketch=0; iSketch < feat2D3D.getSketchListSize(); iSketch++){
 							Sketch sketch = feat2D3D.getAtIndex(iSketch);
 							TreeItem tiSketch = new TreeItem(tiFeat3D, SWT.NONE, iSketch);
 							tiSketch.setText("Sketch");
+							tiSketch.setData(new int[] {iGroup, iPart, iFeat3D, iSketch});
 							for(int iFeat2D=0; iFeat2D < sketch.getFeat2DListSize(); iFeat2D++){
 								Feature2D feat2D = sketch.getAtIndex(iFeat2D);
 								TreeItem tiFeat2D = new TreeItem(tiSketch, SWT.NONE, iFeat2D);
 								tiFeat2D.setText(feat2D.getParamSet().label);
+								tiFeat2D.setData(new int[] {iGroup, iPart, iFeat3D, iSketch, iFeat2D});
 							}
 						}
 					}
@@ -118,6 +142,7 @@ public class TreeViewer {
 							Feature3D subFeat3D = feat3D3D.getAtIndex(iFeat3D3D);
 							TreeItem tiSubFeat3D = new TreeItem(tiFeat3D, SWT.NONE, iFeat3D3D);
 							tiSubFeat3D.setText("SubFeat3D");
+							tiSubFeat3D.setData(new int[] {iGroup, iPart, iFeat3D, iFeat3D3D});
 						}
 					}
 				}
