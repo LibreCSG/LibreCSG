@@ -1,7 +1,5 @@
 package ui.tools.DD;
 
-import java.util.LinkedList;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
 
@@ -10,7 +8,6 @@ import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
 import ui.tools.Tool2D;
 import backend.global.AvoGlobal;
-import backend.model.Feature2D;
 
 
 //

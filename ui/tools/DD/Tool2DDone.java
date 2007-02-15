@@ -3,7 +3,6 @@ package ui.tools.DD;
 import ui.menuet.MEButton;
 import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
-import ui.paramdialog.DynParamDialog;
 import ui.tools.Tool2D;
 import backend.data.utilities.ImageUtils;
 import backend.global.AvoGlobal;

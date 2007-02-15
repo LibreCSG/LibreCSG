@@ -4,10 +4,9 @@ import java.util.LinkedList;
 
 import org.eclipse.swt.events.MouseEvent;
 
+import ui.tools.ToolInterface2D;
 import backend.adt.ParamSet;
 import backend.primatives.Prim2D;
-
-import ui.tools.ToolInterface2D;
 
 
 //
@@ -57,6 +56,9 @@ public class Tool2DDoneInt implements ToolInterface2D {
 
 	public LinkedList<Prim2D> buildPrimList(ParamSet p) {
 		return null;
+	}
+
+	public void buildDerivedParams(ParamSet pSet) {
 	}
 
 }

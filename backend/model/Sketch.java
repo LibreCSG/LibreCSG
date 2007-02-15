@@ -3,6 +3,7 @@ package backend.model;
 import java.util.LinkedList;
 
 import backend.adt.Param;
+import backend.adt.ParamSet;
 import backend.adt.Parameterized;
 import backend.adt.Point3D;
 import backend.adt.Rotation3D;
@@ -41,9 +42,10 @@ public class Sketch extends Parameterized{
 	 */
 	private LinkedList<Feature2D> feat2DList = new LinkedList<Feature2D>();
 	
-	
+	protected int activeFeat2D = -1;
 	
 	public Sketch(){
+		paramSet = new ParamSet("Sketch");
 		paramSet.addParam("o", new Param("Offset", new Point3D(0.0, 0.0, 0.0)));
 		paramSet.addParam("r", new Param("Rotation", new Rotation3D(0.0, 0.0, 0.0)));
 		paramSet.label = "Sketch";
@@ -80,6 +82,47 @@ public class Sketch extends Parameterized{
 	 */
 	public int getFeat2DListSize(){
 		return feat2DList.size();
+	}
+	
+	
+	/**
+	 * set the index of the Feature2D that should be set to Active.
+	 * @param i index
+	 */
+	public void setActiveFeat2D(int i){
+		if(i < 0 || i >= feat2DList.size()){
+			// index is not valid!
+			return;
+		}
+		activeFeat2D = i;
+	}
+	
+	/**
+	 * set the active Feature2D to none
+	 */
+	public void setActiveToNone(){
+		activeFeat2D = -1;
+	}
+	
+	/**
+	 * get the currently active Feature2D
+	 * @return the active Feature2D, or null if no Feature2D is active
+	 */
+	public Feature2D getActiveFeat2D(){
+		return this.getAtIndex(activeFeat2D);
+	}
+	
+	
+	/**
+	 * Deselect all of the Feature2D components
+	 * within the given sketch.
+	 */
+	public void deselectAllFeat2D(){
+		if(feat2DList.size() > 0){
+			for(Feature2D f2D : feat2DList){
+				f2D.isSelected = false;
+			}
+		}
 	}
 	
 }

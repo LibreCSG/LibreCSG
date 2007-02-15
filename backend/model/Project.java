@@ -139,4 +139,16 @@ public class Project {
 		return null;
 	}
 	
+	/**
+	 * try to get the active Feature2D.
+	 * @return the active Feature2D, or null if not found.
+	 */
+	public Feature2D getActiveFeat2D(){
+		Sketch sketch = getActiveSketch();
+		if(sketch != null){
+			return sketch.getActiveFeat2D();
+		}
+		return null;
+	}
+	
 }

@@ -2,6 +2,8 @@ package ui.tools;
 
 import org.eclipse.swt.events.MouseEvent;
 
+import backend.adt.ParamSet;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -67,4 +69,12 @@ public interface ToolInterface {
 	 */
 	abstract public void glMouseUp(double x, double y, double z,  MouseEvent e);
 	
+	/**
+	 * build any derived parameters from the ParamSet
+	 * and place them back into the given set.
+	 * (e.g., compute the length of a line, the stiffness of
+	 * a beam, etc.).
+	 * @param pSet the non-null set of parameters
+	 */
+	abstract public void buildDerivedParams(ParamSet pSet);
 }
