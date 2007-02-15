@@ -151,4 +151,8 @@ public class Project {
 		return null;
 	}
 	
+	// TODO: High-level functionality to add a new sketch/feature/etc.
+	//       tracing down active elements where possible and creating the rest.
+	
+	
 }

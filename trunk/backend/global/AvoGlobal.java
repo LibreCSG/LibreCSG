@@ -4,14 +4,13 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 
 import ui.event.GLViewEventHandler;
+import ui.event.ModelEventHandler;
 import ui.event.ParamEventHandler;
 import ui.menuet.Menuet;
 import ui.opengl.GLView;
 import ui.opengl.RenderLevel;
 import ui.paramdialog.DynParamDialog;
-import ui.tools.Tool;
 import ui.treeviewer.TreeViewer;
-import backend.adt.ParamSet;
 import backend.model.Project;
 
 
@@ -132,7 +131,7 @@ public class AvoGlobal {
 
 	public static ParamEventHandler  paramEventHandler  = new ParamEventHandler();
 	public static GLViewEventHandler glViewEventHandler = new GLViewEventHandler(); 
-	
+	public static ModelEventHandler  modelEventHAndler  = new ModelEventHandler();
 
 	
 	public static double[] glCursor3DPos = new double[] {0.0, 0.0, 0.0}; 
