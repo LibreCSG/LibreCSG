@@ -24,9 +24,11 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
+import ui.menuet.Menuet;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D;
 import backend.model.Feature3D;
+import backend.model.Sketch;
 import backend.primatives.Prim2D;
 
 
@@ -65,7 +67,7 @@ public class GLView {
 	
 	boolean mouseIsDown = false;
 	
-	boolean updateGLView = true;
+	public boolean updateGLView = true;
 	
 	static float aspect = 0.0f;
 	static float rotation_x = 0.0f;
@@ -112,18 +114,18 @@ public class GLView {
 		
 		glCanvas.addControlListener(new ControlListener(){
 			public void controlMoved(ControlEvent e) {
-				AvoGlobal.glViewNeedsUpdated = true;				
+				updateGLView = true;				
 			}
 
 			public void controlResized(ControlEvent e) {
-				AvoGlobal.glViewNeedsUpdated = true;				
+				updateGLView = true;				
 			}			
 		});
 		
 		
 		glCanvas.addPaintListener(new PaintListener(){
 			public void paintControl(PaintEvent e) {
-				AvoGlobal.glViewNeedsUpdated = true;
+				updateGLView = true;
 			}			
 		});
 		
@@ -156,22 +158,22 @@ public class GLView {
 				// let current tool know that the left mouse has been clicked
 				//
 				if(mouse_down_button == MOUSE_LEFT && 
-						AvoGlobal.currentTool != null && 
-						AvoGlobal.currentTool.toolInterface != null){
+						AvoGlobal.menuet.currentTool != null && 
+						AvoGlobal.menuet.currentTool.toolInterface != null){
 					double[] coor = getWorldCoorFromMouse(e.x,e.y);
-					AvoGlobal.currentTool.toolInterface.glMouseDown(coor[0], coor[1], coor[2], e);
-					AvoGlobal.glViewNeedsUpdated = true;
+					AvoGlobal.menuet.currentTool.toolInterface.glMouseDown(coor[0], coor[1], coor[2], e);
+					updateGLView = true;
 				}				
 			}
 			public void mouseUp(MouseEvent e) {
 				if(mouse_down_button == MOUSE_LEFT && 
 						glCanvas.getBounds().contains(e.x,e.y) && 
-						(AvoGlobal.currentTool != null && AvoGlobal.currentTool.toolInterface != null)){
+						(AvoGlobal.menuet.currentTool != null && AvoGlobal.menuet.currentTool.toolInterface != null)){
 					double[] coor = getWorldCoorFromMouse(e.x,e.y);
-					AvoGlobal.currentTool.toolInterface.glMouseUp(coor[0], coor[1], coor[2], e);					
+					AvoGlobal.menuet.currentTool.toolInterface.glMouseUp(coor[0], coor[1], coor[2], e);					
 				}
 				mouse_down_button = -1;
-				AvoGlobal.glViewNeedsUpdated = true;
+				updateGLView = true;
 			}			
 		});
 		glCanvas.addMouseMoveListener(new MouseMoveListener(){
@@ -212,11 +214,11 @@ public class GLView {
 				// the the currently active tool
 				//
 				if(glCanvas.getBounds().contains(e.x,e.y)){
-					AvoGlobal.glViewNeedsUpdated = true;
+					updateGLView = true;
 					double[] coor = getWorldCoorFromMouse(e.x,e.y);
-					if(AvoGlobal.currentTool != null && AvoGlobal.currentTool.toolInterface != null){
+					if(AvoGlobal.menuet.currentTool != null && AvoGlobal.menuet.currentTool.toolInterface != null){
 						if(mouse_down_button == MOUSE_LEFT){
-							AvoGlobal.currentTool.toolInterface.glMouseDrag(coor[0], coor[1], coor[2], e);
+							AvoGlobal.menuet.currentTool.toolInterface.glMouseDrag(coor[0], coor[1], coor[2], e);
 						}
 					}
 				}
@@ -234,7 +236,7 @@ public class GLView {
 				}
 				
 				System.out.println("Viewing angle now:" + viewing_angle);
-				AvoGlobal.glViewNeedsUpdated = true;
+				updateGLView = true;
 			}			
 		});
 		
@@ -246,7 +248,7 @@ public class GLView {
 	        public void run() {	  
 				if (glCanvas.isDisposed()) return;
 				else{
-					if(AvoGlobal.glViewNeedsUpdated){
+					if(updateGLView){
 						Long startTime = System.nanoTime();
 						glCanvas.setCurrent();
 						glContext.makeCurrent();
@@ -271,7 +273,8 @@ public class GLView {
 						gl.glLoadIdentity();
 						gl.glPolygonMode(GL.GL_FRONT, GL.GL_FILL);
 						
-						if(AvoGlobal.currentToolMode == AvoGlobal.MENUET_MODE_2D){
+						// if there is an active sketch, show the gridlines.
+						if(AvoGlobal.project.getActiveSketch() != null){
 							// disable depth test so that overlapped items at
 							// the same depth (in particular, 0.0) still get drawn.
 							gl.glDisable(GL.GL_DEPTH_TEST);
@@ -294,7 +297,27 @@ public class GLView {
 						cad_3DX(0.0f,0.0f,0.0f,0.25f);
 						
 						
-						// TODO: HACK for now to show 2D
+						// TODO: HACK for now to just show the active 2D sketch
+						Sketch sketch = AvoGlobal.project.getActiveSketch();
+						if(sketch != null){
+							for(int i=0; i < sketch.getFeat2DListSize(); i++){
+								Feature2D f2D = sketch.getAtIndex(i);
+								if(f2D.isSelected){
+						    		gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_ACTIVE[0], AvoGlobal.GL_COLOR4_2D_ACTIVE[1],
+				  									AvoGlobal.GL_COLOR4_2D_ACTIVE[2], AvoGlobal.GL_COLOR4_2D_ACTIVE[3]);
+						    		// TODO: HACK, don't build primatives here.. build when created/modified!
+						    		f2D.buildPrim2DList();
+						    	}else{
+						    		gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_NONACT[0], AvoGlobal.GL_COLOR4_2D_NONACT[1],
+						  							AvoGlobal.GL_COLOR4_2D_NONACT[2], AvoGlobal.GL_COLOR4_2D_NONACT[3]);
+						    	}
+								for(Prim2D prim : f2D.prim2DList){
+						    		prim.glDraw(gl);
+						    	}
+							}
+						}
+						
+						/*
 						if(AvoGlobal.assembly.partList.getLast().feat3DList.size() > 0){
 							for(Feature3D f3D : AvoGlobal.assembly.partList.getLast().feat3DList){
 							//LinkedList<Feature2D> ll = AvoGlobal.assembly.partList.getLast().feat3DList.getLast().feat2DList;
@@ -322,12 +345,12 @@ public class GLView {
 								}
 							}
 						}
-						
+						*/
 
 						if(mouse_down_button != MOUSE_MIDDLE && 
 								mouse_down_button != MOUSE_MIDDLE_SHIFT && 
 								mouse_down_button != MOUSE_MIDDLE_CTRL &&
-								AvoGlobal.currentTool != null){
+								AvoGlobal.menuet.currentTool != null){
 							drawToolEndPos();
 						}
 
@@ -336,7 +359,7 @@ public class GLView {
 						// this should be the last thing drawn in the 2D mode
 						// TODO: HACK, this should be sized according to the grid, which should also be dynamic!
 						//
-						if(AvoGlobal.currentToolMode == AvoGlobal.MENUET_MODE_2D){
+						if(AvoGlobal.menuet.getCurrentToolMode() == Menuet.MENUET_MODE_2D){
 							gl.glColor4f(1.0f,0.0f,0.0f, 0.0f);
 							gl.glBegin(GL.GL_QUADS);
 								gl.glVertex3f(-100.0f, 100.0f, 0.0f);
@@ -353,7 +376,7 @@ public class GLView {
 						// TODO: dynamically change RenderLevel based on time to render!
 						//System.out.println("Time to render: " + timeDiff);
 						
-						AvoGlobal.glViewNeedsUpdated = false;
+						updateGLView = false;
 					}
 					Display.getCurrent().timerExec(50, this); // run "this" again in 50mSec.
 		        }				
@@ -446,6 +469,7 @@ public class GLView {
 		gl.glGetDoublev( GL.GL_PROJECTION_MATRIX, projection, 0 );
 		gl.glGetIntegerv( GL.GL_VIEWPORT, viewport, 0 );
 
+		//TODO: more precision in XYZ lookup by using doubles instead of floats?
 		
 		winX = (float)mouseX;
 		winY = (float)viewport[3] - (float)mouseY;		
@@ -464,7 +488,7 @@ public class GLView {
 			wcoord[2] = Math.floor((wcoord[2]+AvoGlobal.snapSize/2.0)/AvoGlobal.snapSize)*AvoGlobal.snapSize;
 		}
 		
-		if(AvoGlobal.currentToolMode == AvoGlobal.MENUET_MODE_2D && wcoord[2] < 0.25 && wcoord[2] > -0.25){
+		if(AvoGlobal.menuet.getCurrentToolMode() == Menuet.MENUET_MODE_2D && wcoord[2] < 0.25 && wcoord[2] > -0.25){
 			wcoord[2] = 0.0; // tie z-value to zero if close enough to located on the drawing plane.
 		}
 		

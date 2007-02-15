@@ -3,7 +3,7 @@ Main Contributers to avoCADo:
 Adam Kumpf
   * Cambridge, MA, USA
   * kumpf@mit.edu
-  * Jan.2007 - preset
-  * main project developer
+  * Jan.2007 - present
+  * main project developer and administrator
   
   

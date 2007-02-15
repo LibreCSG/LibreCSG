@@ -1,6 +1,6 @@
 package backend.model;
 
-import java.util.LinkedList;
+import backend.adt.Parameterized;
 
 
 //
@@ -29,19 +29,6 @@ import java.util.LinkedList;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Feature3D {
-
-	public LinkedList<Feature2D> feat2DList   = new LinkedList<Feature2D>();
-	public LinkedList<Region2D>  region2DList = new LinkedList<Region2D>();
-	public boolean isComplete = false;
-	
-	public Feature3D(){
-	}
-	
-	public void deselectAll2DFeatures(){
-		for(Feature2D f : feat2DList){
-			f.isSelected = false;
-		}
-	}
+public abstract class Feature3D extends Parameterized {
 	
 }

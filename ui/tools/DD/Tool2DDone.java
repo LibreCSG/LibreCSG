@@ -3,6 +3,7 @@ package ui.tools.DD;
 import ui.menuet.MEButton;
 import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
+import ui.paramdialog.DynParamDialog;
 import ui.tools.Tool2D;
 import backend.data.utilities.ImageUtils;
 import backend.global.AvoGlobal;
@@ -58,11 +59,11 @@ public class Tool2DDone extends Tool2D{
 	public void toolSelected() {
 		// TODO: Push all new items into main backend.model
 		AvoGlobal.menuet.disableAllTools();
-		AvoGlobal.currentToolMode = AvoGlobal.MENUET_MODE_MAIN;
-		AvoGlobal.assembly.partList.getLast().feat3DList.getLast().deselectAll2DFeatures();
-		AvoGlobal.setActiveParamSet(null);
-		AvoGlobal.currentTool = null;			
+		AvoGlobal.menuet.setCurrentToolMode(Menuet.MENUET_MODE_MAIN);
+		// TODO: deselect all 2D features
+		AvoGlobal.paramDialog.setParamSet(null);
+		AvoGlobal.menuet.currentTool = null;			
 		AvoGlobal.menuet.updateToolModeDisplayed();
-		AvoGlobal.glViewNeedsUpdated = true;
+		AvoGlobal.glView.updateGLView = true;
 	}
 }

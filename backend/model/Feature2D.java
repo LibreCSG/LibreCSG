@@ -2,9 +2,9 @@ package backend.model;
 
 import java.util.LinkedList;
 
-import ui.tools.ToolInterface;
 import ui.tools.ToolInterface2D;
 import backend.adt.ParamSet;
+import backend.adt.Parameterized;
 import backend.primatives.Prim2D;
 
 
@@ -34,23 +34,30 @@ import backend.primatives.Prim2D;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Feature2D{
+public class Feature2D extends Parameterized{
 
-	public ToolInterface2D    toolInterface; 
-	public ParamSet           paramSet;
-	public String		      label;
+	protected ToolInterface2D toolInt2D; 
 	public boolean		      isSelected = true;
+	
+	/**
+	 * This is made public to speed access to the prim2D elements.
+	 * Ideally, it would be nicely hidden, but will add significant
+	 * cost when drawing objects with many primatives.
+	 */
 	public LinkedList <Prim2D>prim2DList = new LinkedList<Prim2D>();
 	
-	public Feature2D(ToolInterface2D toolInt, ParamSet pSet, String labelName){
-		toolInterface = toolInt;
-		paramSet      = pSet;
-		label         = labelName;
+	public Feature2D(ToolInterface2D toolInt, ParamSet paramSet){
+		this.toolInt2D = toolInt;
+		this.paramSet  = paramSet;
 	}
 	
 	public void buildPrim2DList(){
-		if(toolInterface != null && paramSet != null){
-			prim2DList = this.toolInterface.buildPrimList(paramSet);
+		if(toolInt2D != null && paramSet != null){
+			prim2DList = this.toolInt2D.buildPrimList(paramSet);
 		}
+	}
+	
+	public ToolInterface2D getToolInterface2D(){
+		return toolInt2D;
 	}
 }

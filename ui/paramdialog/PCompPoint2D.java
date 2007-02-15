@@ -108,7 +108,7 @@ public class PCompPoint2D extends ParamComp{
 						Point2D pt = (Point2D)param.getData();
 						pt.setX(Double.parseDouble(tx.getText()));
 						param.change(pt);
-						AvoGlobal.glViewNeedsUpdated = true;
+						AvoGlobal.glView.updateGLView = true;
 					}else{
 						tx.setText(NumUtils.doubleToFixedString(((Point2D)param.getData()).getX(),8));
 					}
@@ -130,7 +130,7 @@ public class PCompPoint2D extends ParamComp{
 					Point2D pt = (Point2D)param.getData();
 					pt.setX(Double.parseDouble(tx.getText()));
 					param.change(pt);
-					AvoGlobal.glViewNeedsUpdated = true;
+					AvoGlobal.glView.updateGLView = true;
 				}else{
 					tx.setText(NumUtils.doubleToFixedString(((Point2D)param.getData()).getX(),8));
 				}
@@ -157,7 +157,7 @@ public class PCompPoint2D extends ParamComp{
 						Point2D pt = (Point2D)param.getData();
 						pt.setY(Double.parseDouble(ty.getText()));
 						param.change(pt);
-						AvoGlobal.glViewNeedsUpdated = true;
+						AvoGlobal.glView.updateGLView = true;
 					}else{
 						ty.setText(NumUtils.doubleToFixedString(((Point2D)param.getData()).getY(),8));
 					}
@@ -179,7 +179,7 @@ public class PCompPoint2D extends ParamComp{
 					Point2D pt = (Point2D)param.getData();
 					pt.setY(Double.parseDouble(ty.getText()));
 					param.change(pt);
-					AvoGlobal.glViewNeedsUpdated = true;
+					AvoGlobal.glView.updateGLView = true;
 				}else{
 					ty.setText(NumUtils.doubleToFixedString(((Point2D)param.getData()).getY(),8));
 				}

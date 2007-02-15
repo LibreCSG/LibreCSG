@@ -12,7 +12,7 @@ import ui.paramdialog.DynParamDialog;
 import ui.tools.Tool;
 import ui.treeviewer.TreeViewer;
 import backend.adt.ParamSet;
-import backend.model.Group;
+import backend.model.Project;
 
 
 //
@@ -43,6 +43,8 @@ import backend.model.Group;
 */
 public class AvoGlobal {
 
+	
+	// TODO: move all colors to a new class -- AvoColors
 	/**
 	 * Background color of Menuet in various modes.
 	 */
@@ -72,24 +74,7 @@ public class AvoGlobal {
 	 */
 	public static final Color COLOR_QSET_BG = new Color(Display.getCurrent(),  220,  220,  240);
 	
-	/**
-	 * Tool mode identifiers 
-	 * (used as index in Menuet's LinkedList, so keep them sequential)
-	 */
-	public static final int MENUET_MODE_MAIN   = 0;
-	public static final int MENUET_MODE_2D     = 1;
-	public static final int MENUET_MODE_2Dto3D = 2;
-	public static final int MENUET_MODE_3D     = 3;	
-	public static final int MENUET_TOTAL_MODES = 4; // always the highest mode number + 1
-	
-	/**
-	 * Current tool mode being used (2D, 2Dto3D, 3D, etc.) 
-	 * This determines which mode the menuet displays.
-	 */
-	public static int currentToolMode = MENUET_MODE_MAIN; 
-	
-	public static Tool currentTool    = null;
-	
+
 	/**
 	 * The main interaction menu.
 	 * Mode-based and dynamically displayed with
@@ -102,60 +87,24 @@ public class AvoGlobal {
 	 */
 	public static GLView glView;
 	
+	/**
+	 * The dynamically displayed parameter Dialog
+	 */
+	public static DynParamDialog paramDialog;
+	
+	/**
+	 * The tree view of the current Project
+	 */
+	public static TreeViewer treeViewer;
+	
+	
 
+	//public static Tool currentTool     = null;
+	
 	/**
 	 * The main assembly of parts in the workspace!
 	 */
-	public static Group assembly = new Group();
-	
-	/**
-	 * the active parameter set..  this is used for
-	 * the dynamic param dialog.
-	 */
-	private static ParamSet activeParamSet = null;
-	public  static void setActiveParamSet(ParamSet pSet){
-		activeParamSet = pSet;
-		paramEventHandler.notifyParamSwitched();
-	}
-	public  static ParamSet getActiveParamSet(){
-		return activeParamSet;
-	}
-	
-	/**
-	 * feature currently being controlled in the glView
-	 */
-	/*private static Feature workingFeature;
-	public static void setWorkingFeature(Feature f){
-		workingFSet.addFeature(f);
-		paramDialog.updateParams(f);
-	}
-	public static Feature getWorkingFeature(){
-		return workingFSet.getLastFeature();
-	}	
-	public static void pushWorkFeatToSet(){
-		workingFSet.getLastFeature().isSelected = false;
-		//workingFSet.addFeature(workingFeature);
-		//workingFeature = null;
-		//paramDialog.updateParams(null);
-	}
-	
-	public static FeatureSet getFeatureSet(){
-		return workingFSet;
-	}
-	public static void clearFetureSet(){
-		workingFSet = new FeatureSet();
-	}
-	*/
-	
-	/**
-	 * set of features currently being used in the glView.
-	 * For example, this would be all of the features associated
-	 * with a particular tool group (like 2D features) when
-	 * building a new 2D sketch that have been completed.
-	 */
-	
-	//private static FeatureSet workingFSet = new FeatureSet();
-
+	public static Project project = new Project();
 	
 	/**
 	 * precision of rendering... higher levels take longs,
@@ -175,24 +124,19 @@ public class AvoGlobal {
 	//  glView Colors
 	//
 	public static final float[] GL_COLOR4_BACKGND    = new float[] {0.95f, 0.95f, 1.0f, 1.0f};
-	
 	public static final float[] GL_COLOR4_GRID_DARK  = new float[] {0.6f, 0.6f, 0.6f, 1.0f}; 
 	public static final float[] GL_COLOR4_GRID_LIGHT = new float[] {0.8f, 0.8f, 0.8f, 1.0f}; 
-	
 	public static final float[] GL_COLOR4_2D_NONACT  = new float[] {0.2f, 0.4f, 0.9f, 1.0f}; 
 	public static final float[] GL_COLOR4_2D_ACTIVE  = new float[] {1.0f, 0.5f, 0.0f, 1.0f}; 
 	
-	
-	public static boolean glViewNeedsUpdated = true;
-	
-	
-	public static DynParamDialog paramDialog = null;
-	
-	public static ParamEventHandler paramEventHandler   = new ParamEventHandler();
+
+	public static ParamEventHandler  paramEventHandler  = new ParamEventHandler();
 	public static GLViewEventHandler glViewEventHandler = new GLViewEventHandler(); 
+	
+
 	
 	public static double[] glCursor3DPos = new double[] {0.0, 0.0, 0.0}; 
 	
-	public static TreeViewer treeViewer;
+	
 	
 }

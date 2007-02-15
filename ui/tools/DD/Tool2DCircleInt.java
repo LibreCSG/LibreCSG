@@ -10,6 +10,7 @@ import backend.adt.ParamSet;
 import backend.adt.Point2D;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D;
+import backend.model.Sketch;
 import backend.primatives.Prim2D;
 import backend.primatives.Prim2DArc;
 
@@ -54,9 +55,8 @@ public class Tool2DCircleInt implements ToolInterface2D  {
 	
 	public void glMouseDown(double x, double y, double z,  MouseEvent e) {
 		//
-		// starting to draw a new feature... deselect all other features.
+		//TODO starting to draw a new feature... deselect all other features.
 		//
-		AvoGlobal.assembly.partList.getLast().feat3DList.getLast().deselectAll2DFeatures();
 		
 		//
 		// Build parameter set for this feature
@@ -68,22 +68,27 @@ public class Tool2DCircleInt implements ToolInterface2D  {
 		//
 		// add the new feature to the end of the feature set
 		//
-		AvoGlobal.assembly.partList.getLast().feat3DList.getLast().feat2DList.add(new Feature2D(this, pSet, "Circle"));
-		AvoGlobal.setActiveParamSet(pSet);
-		AvoGlobal.treeViewer.buildTreeFromAssembly();
+		Sketch sketch = AvoGlobal.project.getActiveSketch();
+		if(sketch != null){
+			sketch.add(new Feature2D(this, pSet));
+			AvoGlobal.paramDialog.setParamSet(pSet);
+		}
 	}
 
 	public void glMouseDrag(double x, double y, double z,  MouseEvent e) {
 		//
 		// get parameter set
 		//
-		ParamSet paramSet = AvoGlobal.assembly.partList.getLast().feat3DList.getLast().feat2DList.getLast().paramSet;
-		
-		//
-		// update param values
-		//
-		Point2D ptC = (Point2D)paramSet.getParam("c").getData();
-		paramSet.changeParam("r", ptC.computeDist(new Point2D(x,y)));
+		Sketch sketch = AvoGlobal.project.getActiveSketch();
+		if(sketch != null){
+			ParamSet paramSet = sketch.getAtIndex(sketch.getFeat2DListSize()-1).paramSet;
+			
+			//
+			// update param values
+			//
+			Point2D ptC = (Point2D)paramSet.getParam("c").getData();
+			paramSet.changeParam("r", ptC.computeDist(new Point2D(x,y)));
+		}
 	}
 
 	public void glMouseUp(double x, double y, double z,  MouseEvent e) {	

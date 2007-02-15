@@ -7,6 +7,7 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.widgets.Composite;
 
+import ui.tools.Tool;
 import ui.utilities.ColorUtils;
 import backend.global.AvoGlobal;
 
@@ -42,10 +43,35 @@ public class Menuet extends Composite{
 	public static final int MENUET_WIDTH =  65;
 	
 	/**
+	 * Tool mode identifiers 
+	 * (used as index in Menuet's LinkedList, so keep them sequential)
+	 */
+	public static final int MENUET_MODE_MAIN   = 0;
+	public static final int MENUET_MODE_2D     = 1;
+	public static final int MENUET_MODE_2Dto3D = 2;
+	public static final int MENUET_MODE_3D     = 3;	
+	public static final int MENUET_TOTAL_MODES = 4; // always the highest mode number + 1
+	
+	/**
+	 * Current tool mode being used (2D, 2Dto3D, 3D, etc.) 
+	 * This determines which mode the menuet displays.
+	 */
+	protected int  currentToolMode = MENUET_MODE_MAIN;	
+	
+	/**
+	 * The current tool being used.  this is much more than
+	 * just the pretty User-Interface component.. this provides
+	 * the actual functionality of the tool that is currently
+	 * selected.
+	 */
+	public Tool currentTool;
+	
+	
+	/**
 	 * Array of LinkedLists, each containing all of 
 	 * the button/label/etc. for a particular mode.
 	 */
-	LinkedList <MenuetElement>menuetElements[] = new LinkedList[AvoGlobal.MENUET_TOTAL_MODES];
+	LinkedList <MenuetElement>menuetElements[] = new LinkedList[MENUET_TOTAL_MODES];
 
 	/**
 	 * Construct a new <b>menuet</b>: Mode based menu system
@@ -54,7 +80,7 @@ public class Menuet extends Composite{
 		super(c,type);
 		
 		// initialize LinkedList array
-		for(int i=0; i<AvoGlobal.MENUET_TOTAL_MODES; i++){
+		for(int i=0; i<MENUET_TOTAL_MODES; i++){
 			menuetElements[i] = new LinkedList<MenuetElement>();
 		}
 		
@@ -70,6 +96,27 @@ public class Menuet extends Composite{
 	}	
 	
 	/**
+	 * set the current tool mode
+	 * @param toolMode must be in the range of 0 - (MENUET_TOTAL_MODES-1)
+	 */
+	public void setCurrentToolMode(int toolMode){
+		if(toolMode < 0 || toolMode >= MENUET_TOTAL_MODES){
+			// invalid toolMode
+			System.out.println("invalid tool mode specified.. ignoring setCurrentToolMode call");
+			return;
+		}
+		currentToolMode = toolMode;
+	}
+	
+	/**
+	 * @return the current toolMode which is an int between 0 - (MENUET_TOTAL_MODES-1).
+	 */
+	public int getCurrentToolMode(){
+		int toolModeCopy = currentToolMode;
+		return toolModeCopy;
+	}
+	
+	/**
 	 * Let the menuet know about the addition of a new
 	 * element.  This is necessary so that the menuet 
 	 * can manage layout and sizing of the elements.
@@ -77,7 +124,7 @@ public class Menuet extends Composite{
 	 */
 	public void addMenuetElement(MenuetElement mElement, int mode){
 		//  store/manage MenuetElements.
-		if(mode<0 || mode >= AvoGlobal.MENUET_TOTAL_MODES){
+		if(mode<0 || mode >= MENUET_TOTAL_MODES){
 			System.out.println("Attempted to add menuet item of invalid mode. Aborted!");
 			System.out.println("  --> Label:" + mElement.meLabel + " mode:" + mode);
 		}else{
@@ -91,7 +138,7 @@ public class Menuet extends Composite{
 	}
 	
 	public void disableAllTools(){
-		for(int i=0; i<AvoGlobal.MENUET_TOTAL_MODES; i++){
+		for(int i=0; i<MENUET_TOTAL_MODES; i++){
 			Iterator iter = menuetElements[i].iterator();
 			while(iter.hasNext()){
 				MenuetElement mElement = (MenuetElement)iter.next();
@@ -108,7 +155,7 @@ public class Menuet extends Composite{
 	 * @param me
 	 */
 	public void selectButton(MenuetElement me){
-		Iterator iter = menuetElements[AvoGlobal.currentToolMode].iterator();
+		Iterator iter = menuetElements[currentToolMode].iterator();
 		while(iter.hasNext()){
 			MenuetElement mElement = (MenuetElement)iter.next();
 			if(mElement.equals(me)){
@@ -128,7 +175,7 @@ public class Menuet extends Composite{
 		
 		// System.out.println("repositioning elements...");
 		
-		int mode = AvoGlobal.currentToolMode;
+		int mode = currentToolMode;
 		
 		int totalMinHeight = 0;
 		Iterator iter = menuetElements[mode].iterator();

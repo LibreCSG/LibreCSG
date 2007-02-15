@@ -28,5 +28,5 @@ package backend.adt;
 * @created Feb. 2007
 */
 public enum PType {
-	Boolean, Int, Double, String, Point2D, Point3D
+	Boolean, Int, Double, String, Point2D, Point3D, Rotation3D
 }

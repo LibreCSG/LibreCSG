@@ -65,13 +65,15 @@ public class Tool2DCancel extends Tool2D{
 		m.setText("Discard ALL Changes?");
 		if(m.open() == SWT.YES){		
 			AvoGlobal.menuet.disableAllTools();
-			AvoGlobal.currentToolMode = AvoGlobal.MENUET_MODE_MAIN;
-			AvoGlobal.assembly.partList.getLast().feat3DList.removeLast();
+			AvoGlobal.menuet.setCurrentToolMode(Menuet.MENUET_MODE_MAIN);
+			// TODO: remove sketch when Cancel is pushed.
 			AvoGlobal.treeViewer.buildTreeFromAssembly();
-			AvoGlobal.setActiveParamSet(null);
-			AvoGlobal.currentTool = null;			
+			AvoGlobal.paramDialog.setParamSet(null);
+			
+			AvoGlobal.menuet.currentTool = null;			
+			
 			AvoGlobal.menuet.updateToolModeDisplayed();
-			AvoGlobal.glViewNeedsUpdated = true;
+			AvoGlobal.glView.updateGLView = true;
 		}
 	}
 }
