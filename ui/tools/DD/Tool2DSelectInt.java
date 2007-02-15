@@ -8,6 +8,7 @@ import org.eclipse.swt.events.MouseEvent;
 import ui.tools.ToolInterface2D;
 import backend.adt.ParamSet;
 import backend.global.AvoGlobal;
+import backend.model.Sketch;
 import backend.primatives.Prim2D;
 
 
@@ -51,18 +52,22 @@ public class Tool2DSelectInt implements ToolInterface2D {
 	}
 	
 	public void glMouseDown(double x, double y, double z,  MouseEvent e) {
-		
-		if((e.stateMask & SWT.SHIFT) != 0){
-			shiftIsDown = true;
-		}else{
-			shiftIsDown = false;
-		}
-		if(!shiftIsDown){
-			AvoGlobal.assembly.partList.getLast().feat3DList.getLast().deselectAll2DFeatures();
-		}
+		Sketch sketch = AvoGlobal.project.getActiveSketch();
+		if(sketch != null){		
+			
+			if((e.stateMask & SWT.SHIFT) != 0){
+				shiftIsDown = true;
+			}else{
+				shiftIsDown = false;
+			}
+			if(!shiftIsDown){
+				
+				sketch.deselectAllFeat2D();
+			}
+	
+			// TODO: iterate over all features in the current set to see if they've been clicked
 
-		// TODO: iterate over all features in the current set to see if they've been clicked
-
+		}
 	}
 
 	public void glMouseDrag(double x, double y, double z,  MouseEvent e) {
@@ -73,6 +78,9 @@ public class Tool2DSelectInt implements ToolInterface2D {
 
 	public LinkedList<Prim2D> buildPrimList(ParamSet p) {
 		return null;
+	}
+
+	public void buildDerivedParams(ParamSet pSet) {
 	}
 
 }
