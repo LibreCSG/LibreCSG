@@ -60,4 +60,9 @@ public class Prim2DArc implements Prim2D{
 		return null;
 	}
 
+	public double distFromPrim(Point2D pt) {
+		// TODO: compute distance from Arc
+		return 10.0;
+	}
+
 }

@@ -125,4 +125,14 @@ public class Sketch extends Parameterized{
 		}
 	}
 	
+	/**
+	 * remove the active Feature2D from the list.
+	 */
+	public void removeActiveFeat2D(){
+		Feature2D f2D = getActiveFeat2D();
+		if(f2D != null){
+			feat2DList.remove(activeFeat2D);
+		}
+	}
+	
 }

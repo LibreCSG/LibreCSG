@@ -97,9 +97,7 @@ public class Tool2DLineInt implements ToolInterface2D {
 			// update param values
 			//
 			paramSet.changeParam("b", new Point2D(x,y));
-			Point2D ptA = (Point2D)paramSet.getParam("a").getData();
-			Point2D ptB = (Point2D)paramSet.getParam("b").getData();
-			paramSet.changeParam("d", ptA.computeDist(ptB));
+			buildDerivedParams(paramSet);
 		}
 	}
 
@@ -115,15 +113,16 @@ public class Tool2DLineInt implements ToolInterface2D {
 			// finalize the feature's formation
 			//
 			paramSet.changeParam("b", new Point2D(x,y));
+			buildDerivedParams(paramSet);
+			
 			Point2D ptA = (Point2D)paramSet.getParam("a").getData();
 			Point2D ptB = (Point2D)paramSet.getParam("b").getData();
-			paramSet.changeParam("d", ptA.computeDist(ptB));
-			
 			// * discard if start point is the same as the end point
 			if(ptA.equalsPt(ptB)){
 				// end point are the same... discard
 				System.out.println("end points of line are the same... discarding feature");
-				// TODO: remove feature2D from the set!
+				// remove feature2D from the set!
+				AvoGlobal.project.getActiveSketch().removeActiveFeat2D();
 				AvoGlobal.paramDialog.setParamSet(null);
 			}
 		}
