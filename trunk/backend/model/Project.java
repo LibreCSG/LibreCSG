@@ -2,6 +2,8 @@ package backend.model;
 
 import java.util.LinkedList;
 
+import backend.global.AvoGlobal;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -50,6 +52,7 @@ public class Project {
 	public int add(Group group){
 		if(group != null){
 			groupList.add(group);
+			AvoGlobal.modelEventHAndler.notifyElementAdded();
 			int newIndex = groupList.size()-1;
 			return newIndex;
 		}
@@ -86,6 +89,7 @@ public class Project {
 			return;
 		}
 		activeGroup = i;
+		AvoGlobal.modelEventHAndler.notifyActiveElementChanged();
 	}
 	
 	/**
@@ -93,6 +97,7 @@ public class Project {
 	 */
 	public void setActiveToNone(){
 		activeGroup = -1;
+		AvoGlobal.modelEventHAndler.notifyActiveElementChanged();
 	}
 	
 	/**
@@ -149,6 +154,26 @@ public class Project {
 			return sketch.getActiveFeat2D();
 		}
 		return null;
+	}
+	
+	/**
+	 * Remove the Group at the index if present.
+	 * @param i index
+	 */
+	public void removeGroupAtIndex(int i){
+		if(i < 0 || i >= groupList.size()){
+			// index is not valid!
+			return;
+		}
+		groupList.remove(i);
+		AvoGlobal.modelEventHAndler.notifyElementRemoved();
+	}
+	
+	/**
+	 * remove the active Group from the list.
+	 */
+	public void removeActiveGroup(){
+		removeGroupAtIndex(activeGroup);
 	}
 	
 	// TODO: High-level functionality to add a new sketch/feature/etc.

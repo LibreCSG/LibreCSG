@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import ui.tools.ToolInterface3D3D;
 import backend.adt.ParamSet;
+import backend.global.AvoGlobal;
 
 
 //
@@ -50,6 +51,7 @@ public class Feature3D3D extends Feature3D{
 	public int add(Feature3D f3D){
 		if(f3D != null){
 			feat3DList.add(f3D);
+			AvoGlobal.modelEventHAndler.notifyElementAdded();
 			return feat3DList.size()-1;
 		}
 		return -1;
@@ -75,4 +77,17 @@ public class Feature3D3D extends Feature3D{
 		return feat3DList.size();
 	}
 	
+	/**
+	 * Remove the Feature3D at the index if present.
+	 * @param i index
+	 */
+	public void removeFeat3DAtIndex(int i){
+		if(i < 0 || i >= feat3DList.size()){
+			// index is not valid!
+			return;
+		}
+		feat3DList.remove(i);
+		AvoGlobal.modelEventHAndler.notifyElementRemoved();
+	}
+
 }

@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import ui.tools.ToolInterface2D3D;
 import backend.adt.ParamSet;
+import backend.global.AvoGlobal;
 
 
 //
@@ -52,6 +53,7 @@ public class Feature2D3D extends Feature3D{
 	public int add(Sketch sketch){
 		if(sketch != null){
 			sketchList.add(sketch);
+			AvoGlobal.modelEventHAndler.notifyElementAdded();
 			return sketchList.size()-1;
 		}
 		return -1;
@@ -88,6 +90,7 @@ public class Feature2D3D extends Feature3D{
 			return;
 		}
 		activeSketch = i;
+		AvoGlobal.modelEventHAndler.notifyActiveElementChanged();
 	}
 	
 	/**
@@ -95,6 +98,7 @@ public class Feature2D3D extends Feature3D{
 	 */
 	public void setActiveToNone(){
 		activeSketch = -1;
+		AvoGlobal.modelEventHAndler.notifyActiveElementChanged();
 	}
 	
 	/**
@@ -103,6 +107,27 @@ public class Feature2D3D extends Feature3D{
 	 */
 	public Sketch getActiveSketch(){
 		return this.getAtIndex(activeSketch);
+	}
+	
+	
+	/**
+	 * Remove the Sketch at the index if present.
+	 * @param i index
+	 */
+	public void removeSketchAtIndex(int i){
+		if(i < 0 || i >= sketchList.size()){
+			// index is not valid!
+			return;
+		}
+		sketchList.remove(i);
+		AvoGlobal.modelEventHAndler.notifyElementRemoved();
+	}
+	
+	/**
+	 * remove the active Sketch from the list.
+	 */
+	public void removeActiveSketch(){
+		removeSketchAtIndex(activeSketch);
 	}
 	
 	

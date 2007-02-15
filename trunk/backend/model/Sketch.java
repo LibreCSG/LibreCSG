@@ -7,6 +7,7 @@ import backend.adt.ParamSet;
 import backend.adt.Parameterized;
 import backend.adt.Point3D;
 import backend.adt.Rotation3D;
+import backend.global.AvoGlobal;
 
 
 //
@@ -59,6 +60,7 @@ public class Sketch extends Parameterized{
 	public int add(Feature2D f2D){
 		if(f2D != null){
 			feat2DList.add(f2D);
+			AvoGlobal.modelEventHAndler.notifyElementAdded();
 			return feat2DList.size()-1;
 		}
 		return -1;
@@ -93,15 +95,17 @@ public class Sketch extends Parameterized{
 		if(i < 0 || i >= feat2DList.size()){
 			// index is not valid!
 			return;
-		}
+		}		
 		activeFeat2D = i;
+		AvoGlobal.modelEventHAndler.notifyActiveElementChanged();
 	}
 	
 	/**
 	 * set the active Feature2D to none
 	 */
-	public void setActiveToNone(){
+	public void setActiveToNone(){		
 		activeFeat2D = -1;
+		AvoGlobal.modelEventHAndler.notifyActiveElementChanged();
 	}
 	
 	/**
@@ -126,13 +130,23 @@ public class Sketch extends Parameterized{
 	}
 	
 	/**
+	 * Remove the Feature2D at the index if present.
+	 * @param i index
+	 */
+	public void removeFeat2DAtIndex(int i){
+		if(i < 0 || i >= feat2DList.size()){
+			// index is not valid!
+			return;
+		}
+		feat2DList.remove(i);
+		AvoGlobal.modelEventHAndler.notifyElementRemoved();
+	}
+	
+	/**
 	 * remove the active Feature2D from the list.
 	 */
 	public void removeActiveFeat2D(){
-		Feature2D f2D = getActiveFeat2D();
-		if(f2D != null){
-			feat2DList.remove(activeFeat2D);
-		}
+		removeFeat2DAtIndex(activeFeat2D);
 	}
 	
 }

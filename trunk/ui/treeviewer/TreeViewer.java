@@ -8,6 +8,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
+import ui.event.ModelListener;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D;
 import backend.model.Feature2D3D;
@@ -57,11 +58,29 @@ public class TreeViewer {
 		
 		tree = new Tree(treeComp, SWT.NONE);
 		buildTreeFromAssembly();
+		
+		AvoGlobal.modelEventHAndler.addModelListener(new ModelListener(){
+			public void activeElementChanged() {
+				// TODO Auto-generated method stub
+				
+			}
+			public void elementAdded() {
+				// TODO Auto-generated method stub
+				buildTreeFromAssembly();
+				
+			}
+			public void elementRemoved() {
+				// TODO Auto-generated method stub
+				buildTreeFromAssembly();				
+			}			
+		});
 	}
 	
 	// TODO: this should NOT be public.. use a listener for model changes!!
 	public void buildTreeFromAssembly(){
 		Project project = AvoGlobal.project;
+		
+		// TODO: HACK! don't build the tree from scratch every time!!
 		tree.removeAll();
 		
 		if(project == null){

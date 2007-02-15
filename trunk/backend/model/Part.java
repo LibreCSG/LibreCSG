@@ -2,6 +2,8 @@ package backend.model;
 
 import java.util.LinkedList;
 
+import backend.global.AvoGlobal;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -46,6 +48,7 @@ public class Part {
 	public int add(Feature3D f3D){
 		if(f3D != null){
 			feat3DList.add(f3D);
+			AvoGlobal.modelEventHAndler.notifyElementAdded();
 			return feat3DList.size()-1;
 		}
 		return -1;
@@ -82,6 +85,7 @@ public class Part {
 			return;
 		}
 		activeFeat3D = i;
+		AvoGlobal.modelEventHAndler.notifyActiveElementChanged();
 	}
 	
 	/**
@@ -89,6 +93,7 @@ public class Part {
 	 */
 	public void setActiveToNone(){
 		activeFeat3D = -1;
+		AvoGlobal.modelEventHAndler.notifyActiveElementChanged();
 	}
 	
 	/**
@@ -97,6 +102,26 @@ public class Part {
 	 */
 	public Feature3D getActiveFeat3D(){
 		return this.getAtIndex(activeFeat3D);
+	}
+	
+	/**
+	 * Remove the Feature3D at the index if present.
+	 * @param i index
+	 */
+	public void removeFeat3DAtIndex(int i){
+		if(i < 0 || i >= feat3DList.size()){
+			// index is not valid!
+			return;
+		}
+		feat3DList.remove(i);
+		AvoGlobal.modelEventHAndler.notifyElementRemoved();
+	}
+	
+	/**
+	 * remove the active Feature3D from the list.
+	 */
+	public void removeActiveFeat3D(){
+		removeFeat3DAtIndex(activeFeat3D);
 	}
 	
 	
