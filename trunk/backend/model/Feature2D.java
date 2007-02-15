@@ -60,4 +60,8 @@ public class Feature2D extends Parameterized{
 	public ToolInterface2D getToolInterface2D(){
 		return toolInt2D;
 	}
+	
+	public ParamSet getParamSet(){
+		return paramSet;
+	}
 }

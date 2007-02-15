@@ -6,7 +6,10 @@ import ui.menuet.MenuetElement;
 import ui.tools.ToolMain;
 import backend.data.utilities.ImageUtils;
 import backend.global.AvoGlobal;
-import backend.model.Feature3D;
+import backend.model.Feature2D3D;
+import backend.model.Group;
+import backend.model.Part;
+import backend.model.Sketch;
 
 
 //
@@ -53,12 +56,29 @@ public class ToolMain2D extends ToolMain{
 
 	@Override
 	public void toolSelected() {
-		AvoGlobal.currentToolMode = AvoGlobal.MENUET_MODE_2D;
+		AvoGlobal.menuet.setCurrentToolMode(Menuet.MENUET_MODE_2D);
 		AvoGlobal.menuet.updateToolModeDisplayed();
 		//
 		// create new Feature3D to use for subsequent 2D sketches
 		//
-		AvoGlobal.assembly.partList.getLast().feat3DList.add(new Feature3D());
+		if(AvoGlobal.project.getActiveGroup() == null){
+			int i = AvoGlobal.project.add(new Group());
+			AvoGlobal.project.setActiveGroup(i);
+		}
+		if(AvoGlobal.project.getActivePart() == null){
+			int i = AvoGlobal.project.getActiveGroup().add(new Part());
+			AvoGlobal.project.getActiveGroup().setActivePart(i);
+		}
+		if(AvoGlobal.project.getActiveFeat3D() == null || !(AvoGlobal.project.getActiveFeat3D() instanceof Feature2D3D)){
+			// TODO: specifying a null toolInterface... bad?!?!
+			int i = AvoGlobal.project.getActivePart().add(new Feature2D3D(null, null));
+			AvoGlobal.project.getActivePart().setActiveFeat3D(i);
+		}
+		if(AvoGlobal.project.getActiveSketch() == null){
+			int i = ((Feature2D3D)AvoGlobal.project.getActiveFeat3D()).add(new Sketch());
+			((Feature2D3D)AvoGlobal.project.getActiveFeat3D()).setActiveSketch(i);
+		}
+		
 		AvoGlobal.treeViewer.buildTreeFromAssembly();
 	}
 

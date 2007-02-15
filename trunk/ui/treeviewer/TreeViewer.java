@@ -9,6 +9,7 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
 import backend.global.AvoGlobal;
+import backend.model.Feature2D;
 import backend.model.Feature2D3D;
 import backend.model.Feature3D;
 import backend.model.Feature3D3D;
@@ -58,6 +59,7 @@ public class TreeViewer {
 		buildTreeFromAssembly();
 	}
 	
+	// TODO: this should NOT be public.. use a listener for model changes!!
 	public void buildTreeFromAssembly(){
 		Project project = AvoGlobal.project;
 		tree.removeAll();
@@ -84,6 +86,11 @@ public class TreeViewer {
 							Sketch sketch = feat2D3D.getAtIndex(iSketch);
 							TreeItem tiSketch = new TreeItem(tiFeat3D, SWT.NONE, iSketch);
 							tiSketch.setText("Sketch");
+							for(int iFeat2D=0; iFeat2D < sketch.getFeat2DListSize(); iFeat2D++){
+								Feature2D feat2D = sketch.getAtIndex(iFeat2D);
+								TreeItem tiFeat2D = new TreeItem(tiSketch, SWT.NONE, iFeat2D);
+								tiFeat2D.setText(feat2D.getParamSet().label);
+							}
 						}
 					}
 					if(feat3D instanceof Feature3D3D){

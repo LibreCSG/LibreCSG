@@ -2,8 +2,6 @@ package ui.tools.DD;
 
 import java.util.LinkedList;
 
-import javax.media.opengl.GL;
-
 import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolInterface2D;
@@ -58,5 +56,8 @@ public class Tool2DCancelInt implements ToolInterface2D {
 
 	public LinkedList<Prim2D> buildPrimList(ParamSet p) {
 		return null;
+	}
+
+	public void buildDerivedParams(ParamSet pSet) {
 	}
 }
