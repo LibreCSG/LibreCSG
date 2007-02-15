@@ -59,7 +59,7 @@ public class Sketch extends Parameterized{
 	public int add(Feature2D f2D){
 		if(f2D != null){
 			feat2DList.add(f2D);
-			return feat2DList.size();
+			return feat2DList.size()-1;
 		}
 		return -1;
 	}

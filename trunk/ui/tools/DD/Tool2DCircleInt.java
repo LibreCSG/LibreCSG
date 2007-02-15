@@ -113,7 +113,7 @@ public class Tool2DCircleInt implements ToolInterface2D  {
 			Point2D ptC = (Point2D)paramSet.getParam("c").getData();
 			paramSet.changeParam("r", ptC.computeDist(new Point2D(x,y)));
 			
-			// * store permanently in model
+			// * discard if radius == 0.0
 			double radius = (Double)paramSet.getParam("r").getData();
 			if(radius == 0.0){
 				System.out.println("radius was zero... feature discarded");

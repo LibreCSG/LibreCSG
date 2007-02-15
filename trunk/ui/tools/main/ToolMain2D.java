@@ -70,14 +70,14 @@ public class ToolMain2D extends ToolMain{
 			AvoGlobal.project.getActiveGroup().setActivePart(i);
 		}
 		if(AvoGlobal.project.getActiveFeat3D() == null || !(AvoGlobal.project.getActiveFeat3D() instanceof Feature2D3D)){
-			// TODO: specifying a null toolInterface... bad?!?!
+			// TODO: specifying a null toolInterface and ParamSet... bad?!?!
 			int i = AvoGlobal.project.getActivePart().add(new Feature2D3D(null, null));
 			AvoGlobal.project.getActivePart().setActiveFeat3D(i);
 		}
-		if(AvoGlobal.project.getActiveSketch() == null){
-			int i = ((Feature2D3D)AvoGlobal.project.getActiveFeat3D()).add(new Sketch());
-			((Feature2D3D)AvoGlobal.project.getActiveFeat3D()).setActiveSketch(i);
-		}
+
+		// now there is a place to put the new sketch!
+		int i = ((Feature2D3D)AvoGlobal.project.getActiveFeat3D()).add(new Sketch());
+		((Feature2D3D)AvoGlobal.project.getActiveFeat3D()).setActiveSketch(i);
 		
 		AvoGlobal.treeViewer.buildTreeFromAssembly();
 	}
