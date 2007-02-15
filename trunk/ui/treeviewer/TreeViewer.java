@@ -9,10 +9,13 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
 import backend.global.AvoGlobal;
-import backend.model.Group;
-import backend.model.Feature2D;
+import backend.model.Feature2D3D;
 import backend.model.Feature3D;
+import backend.model.Feature3D3D;
+import backend.model.Group;
 import backend.model.Part;
+import backend.model.Project;
+import backend.model.Sketch;
 
 
 //
@@ -56,35 +59,45 @@ public class TreeViewer {
 	}
 	
 	public void buildTreeFromAssembly(){
-		Group asm = AvoGlobal.assembly;
+		Project project = AvoGlobal.project;
 		tree.removeAll();
 		
-		if(asm == null){
+		if(project == null){
 			return;
 		}
-		
-		if(asm.partList.size() > 0){
-			int iPart = 0;
-			for(Part p : asm.partList){
-				TreeItem tiPart = new TreeItem(tree, SWT.NONE, iPart++);
+
+		for(int iGroup=0; iGroup < project.getGroupListSize(); iGroup++){
+			Group group = project.getAtIndex(iGroup);
+			TreeItem tiGroup = new TreeItem(tree, SWT.NONE, iGroup);
+			tiGroup.setText("Group");
+			for(int iPart=0; iPart<group.getPartListSize(); iPart++){
+				Part part = group.getAtIndex(iPart);
+				TreeItem tiPart = new TreeItem(tiGroup, SWT.NONE, iPart);
 				tiPart.setText("Part");
-				if(p.feat3DList.size() > 0){
-					int iF3D = 0;
-					for(Feature3D f3D : p.feat3DList){
-						TreeItem tiFeat3D = new TreeItem(tiPart, SWT.NONE, iF3D++);
-						tiFeat3D.setText("Feature3D");
-						if(f3D.feat2DList.size() > 0){
-							int iF2D = 0;
-							for(Feature2D f2D : f3D.feat2DList){
-								TreeItem tiFeat2D = new TreeItem(tiFeat3D, SWT.NONE, iF2D++);
-								tiFeat2D.setText(f2D.label);
-							}
+				for(int iFeat3D=0; iFeat3D < part.getFeat3DListSize(); iFeat3D++){
+					Feature3D feat3D = part.getAtIndex(iFeat3D);
+					TreeItem tiFeat3D = new TreeItem(tiPart, SWT.NONE, iFeat3D);
+					tiFeat3D.setText("Feat3D");
+					if(feat3D instanceof Feature2D3D){
+						Feature2D3D feat2D3D = (Feature2D3D)feat3D;
+						for(int iSketch=0; iSketch < feat2D3D.getSketchListSize(); iSketch++){
+							Sketch sketch = feat2D3D.getAtIndex(iSketch);
+							TreeItem tiSketch = new TreeItem(tiFeat3D, SWT.NONE, iSketch);
+							tiSketch.setText("Sketch");
 						}
 					}
-				}				
+					if(feat3D instanceof Feature3D3D){
+						Feature3D3D feat3D3D = (Feature3D3D)feat3D;
+						for(int iFeat3D3D=0; iFeat3D3D < feat3D3D.getFeat3DListSize(); iFeat3D3D++){
+							Feature3D subFeat3D = feat3D3D.getAtIndex(iFeat3D3D);
+							TreeItem tiSubFeat3D = new TreeItem(tiFeat3D, SWT.NONE, iFeat3D3D);
+							tiSubFeat3D.setText("SubFeat3D");
+						}
+					}
+				}
 			}
 		}
-		
+
 		
 	}
 	

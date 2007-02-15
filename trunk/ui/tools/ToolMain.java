@@ -3,6 +3,7 @@ package ui.tools;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 
+import ui.menuet.Menuet;
 import backend.global.AvoGlobal;
 
 
@@ -55,7 +56,7 @@ public abstract class ToolMain extends Tool {
 	}
 
 	public int getToolMode() {
-		return AvoGlobal.MENUET_MODE_MAIN;
+		return Menuet.MENUET_MODE_MAIN;
 	}
 
 	

@@ -56,7 +56,7 @@ public class Tool2DSelect extends Tool2D{
 	@Override
 	public void toolSelected() {
 		AvoGlobal.menuet.selectButton(mElement);
-		AvoGlobal.currentTool = this;
+		AvoGlobal.menuet.currentTool = this;
 	}
 	
 }

@@ -102,7 +102,7 @@ public class PCompDouble extends ParamComp{
 						Double pD = (Double)param.getData();
 						pD = Double.parseDouble(tD.getText());
 						param.change(pD);
-						AvoGlobal.glViewNeedsUpdated = true;
+						AvoGlobal.glView.updateGLView = true;
 					}else{
 						tD.setText(NumUtils.doubleToFixedString((Double)param.getData(),8));
 					}
@@ -124,7 +124,7 @@ public class PCompDouble extends ParamComp{
 					Double pD = (Double)param.getData();
 					pD = Double.parseDouble(tD.getText());
 					param.change(pD);
-					AvoGlobal.glViewNeedsUpdated = true;
+					AvoGlobal.glView.updateGLView = true;
 				}else{
 					tD.setText(NumUtils.doubleToFixedString((Double)param.getData(),8));
 				}

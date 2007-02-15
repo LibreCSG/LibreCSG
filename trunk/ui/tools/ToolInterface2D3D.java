@@ -1,11 +1,4 @@
-package ui.tools.DD;
-
-import ui.menuet.MEButton;
-import ui.menuet.Menuet;
-import ui.menuet.MenuetElement;
-import ui.tools.Tool2D;
-import backend.data.utilities.ImageUtils;
-import backend.global.AvoGlobal;
+package ui.tools;
 
 
 //
@@ -34,32 +27,6 @@ import backend.global.AvoGlobal;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DLine extends Tool2D{
+public interface ToolInterface2D3D extends ToolInterface{
 
-	public Tool2DLine(Menuet menuet){	
-		
-		// initialize GUI elements
-		mElement = new MEButton(menuet, this.getToolMode());
-		mElement.mePreferredHeight = 50;
-		mElement.meLabel = "Line";
-		mElement.meIcon = ImageUtils.getIcon("menuet/2D_Line.png", 24, 24);
-		mElement.setToolTipText("Line");
-		mElement.mePriority = 0; 	// 0 = always show element, >5 = never show element
-		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
-		
-		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
-		
-		toolInterface = new Tool2DLineInt();
-	}
-
-	@Override
-	public void toolSelected() {
-		AvoGlobal.menuet.selectButton(mElement);
-		AvoGlobal.menuet.currentTool = this;
-	}
-
-	
-
-	
 }
-

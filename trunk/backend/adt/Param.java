@@ -49,6 +49,18 @@ public class Param {
 		ptype =  PType.Point2D;
 	}
 	
+	public Param(String label, Point3D data){
+		pdata  = data;
+		plabel = label;
+		ptype =  PType.Point3D;
+	}
+	
+	public Param(String label, Rotation3D data){
+		pdata  = data;
+		plabel = label;
+		ptype =  PType.Rotation3D;
+	}
+	
 	public Param(String label, boolean data){
 		pdata  = data;
 		plabel = label;
@@ -108,7 +120,7 @@ public class Param {
 	public void change(Object data){
 		if(data.getClass().equals(pdata.getClass())){
 			pdata = data;
-			AvoGlobal.paramDialog.notifyParamChangeListener();	
+			AvoGlobal.paramEventHandler.notifyParamModified();	
 		}else{
 			System.out.println("No change made in Param.change since data was not same type as originally constructed.");
 			System.out.println("  --> " + data.getClass().getName() + " != " + pdata.getClass().getName());

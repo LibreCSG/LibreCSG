@@ -3,6 +3,7 @@ package ui.tools;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 
+import ui.menuet.Menuet;
 import backend.global.AvoGlobal;
 
 
@@ -53,7 +54,7 @@ public abstract class Tool2D extends Tool {
 
 	// tool2D mode
 	public int getToolMode() {
-		return AvoGlobal.MENUET_MODE_2D;
+		return Menuet.MENUET_MODE_2D;
 	}
 
 	

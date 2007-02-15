@@ -2,6 +2,9 @@ package backend.model;
 
 import java.util.LinkedList;
 
+import ui.tools.ToolInterface3D3D;
+import backend.adt.ParamSet;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -29,19 +32,20 @@ import java.util.LinkedList;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Part {
+public class Feature3D3D extends Feature3D{
 
-	protected LinkedList<Feature3D> feat3DList = new LinkedList<Feature3D>();
+	private LinkedList<Feature3D> feat3DList = new LinkedList<Feature3D>();
+	protected ToolInterface3D3D toolInt3D3D;
 	
-	protected int activeFeat3D = -1;
-	
-	public Part(){
+	public Feature3D3D(ToolInterface3D3D toolInt3D3D, ParamSet paramSet){
+		this.paramSet = paramSet;
+		this.toolInt3D3D = toolInt3D3D;		
 	}
 	
 	/**
-	 * add a new Feature3D to the end of the list of Feature3Ds
+	 * add a Feature3D to the end of the list of Feature3Ds.
 	 * @param f3D non-null Feature3D to be added
-	 * @return the index of hte newly added Feature3D, or -1 if Feature3D was null.
+	 * @return the index of the newly added Feature3D, or -1 if Feature3D was null.
 	 */
 	public int add(Feature3D f3D){
 		if(f3D != null){
@@ -52,13 +56,13 @@ public class Part {
 	}
 	
 	/**
-	 * get the Feature3D at a give index
+	 * get the Feature3D at a given index
 	 * @param i index
 	 * @return the Feature3D, or null if index was invalid.
 	 */
 	public Feature3D getAtIndex(int i){
 		if(i < 0 || i >= feat3DList.size()){
-			// index is not valid!
+			// index was not valid!
 			return null;
 		}
 		return feat3DList.get(i);
@@ -70,34 +74,5 @@ public class Part {
 	public int getFeat3DListSize(){
 		return feat3DList.size();
 	}
-	
-	
-	/**
-	 * set the index of the feature3D that should be set to Active.
-	 * @param i index
-	 */
-	public void setActiveFeat3D(int i){
-		if(i < 0 || i >= feat3DList.size()){
-			// index is not valid!
-			return;
-		}
-		activeFeat3D = i;
-	}
-	
-	/**
-	 * set the active feature3D to none
-	 */
-	public void setActiveToNone(){
-		activeFeat3D = -1;
-	}
-	
-	/**
-	 * get the currently active feature3D
-	 * @return the active feature3D, or null if no feature3D is active
-	 */
-	public Feature3D getActiveFeat3D(){
-		return this.getAtIndex(activeFeat3D);
-	}
-	
 	
 }

@@ -61,7 +61,6 @@ public class DynParamDialog {
 	
 	private ScrolledComposite spComp;
 	private Composite paramComp;
-	private ParamSet pSet;
 	
 	private static ParamAnim animator;
 	
@@ -72,6 +71,8 @@ public class DynParamDialog {
 
 	private static int bodyHeight = 81;
 	private static int bodyWidth  = 450;
+	
+	protected ParamSet paramSet;
 	
 	public DynParamDialog(Composite comp){
 		parentComp = comp;
@@ -161,7 +162,7 @@ public class DynParamDialog {
 	 */
 	public void updateParams(){
 		buildParamComposite();
-		if(AvoGlobal.getActiveParamSet() != null){
+		if(paramSet != null){
 			animator.animateForwards(200);
 		}
 	}
@@ -183,19 +184,19 @@ public class DynParamDialog {
 		//paramComp.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_BLUE));
 		
 		// make sure ParamSet is not null
-		if(AvoGlobal.getActiveParamSet() == null){
+		if(paramSet == null){
 			animator.animateBackwards(0);
 			tabLabel.setText("null");
 			return;
 		}
 		
-		tabLabel.setText(AvoGlobal.getActiveParamSet().label);
+		tabLabel.setText(paramSet.label);
 		
 		//
 		// add all parameters from the current feature to 
 		// the paramDialog for display/modification
 		//
-		Iterator iter = AvoGlobal.getActiveParamSet().getIterator();
+		Iterator iter = paramSet.getIterator();
 		while(iter.hasNext()){
 			Param p = (Param)iter.next();
 			switch(p.getType()){
@@ -231,6 +232,12 @@ public class DynParamDialog {
 					l.setText(p.getLabel());
 					break;
 				}
+				case Rotation3D : {
+					// TODO: PCompRotation3D
+					Label l = new Label(paramComp, SWT.SINGLE);
+					l.setText(p.getLabel());
+					break;
+				}
 				default : {
 					Label l = new Label(paramComp, SWT.SINGLE);
 					l.setText(p.getLabel());
@@ -243,7 +250,6 @@ public class DynParamDialog {
 		paramComp.pack();
 		
         spComp.setMinSize(paramComp.computeSize(spComp.getClientArea().width-10, SWT.DEFAULT));
-		
 	}
 	
 	
@@ -255,15 +261,14 @@ public class DynParamDialog {
 		}		
 	}
 
-	
-	// TODO:  Does this really need to be here?!?!
 	/**
-	 * let parameter display elements know that
-	 * values may have changed and therefor should
-	 * be check for updating to the screen.
+	 * sets the current param set to display to the user.
+	 * Setting the paramSet to null will close the dialog.
+	 * @param paramSet
 	 */
-	public void notifyParamChangeListener(){
-		AvoGlobal.paramEventHandler.notifyParamModified();
+	public void setParamSet(ParamSet paramSet){
+		this.paramSet = paramSet;
+		AvoGlobal.paramEventHandler.notifyParamSwitched();
 	}
 	
 }
