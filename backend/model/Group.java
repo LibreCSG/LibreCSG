@@ -2,6 +2,8 @@ package backend.model;
 
 import java.util.LinkedList;
 
+import backend.global.AvoGlobal;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -49,6 +51,7 @@ public class Group {
 	public int add(Part part){
 		if(part != null){
 			partList.add(part);
+			AvoGlobal.modelEventHAndler.notifyElementAdded();
 			return partList.size()-1;
 		}
 		return -1;
@@ -85,6 +88,7 @@ public class Group {
 			return;
 		}
 		activePart = i;
+		AvoGlobal.modelEventHAndler.notifyActiveElementChanged();
 	}
 	
 	/**
@@ -92,6 +96,7 @@ public class Group {
 	 */
 	public void setActiveToNone(){
 		activePart = -1;
+		AvoGlobal.modelEventHAndler.notifyActiveElementChanged();
 	}
 	
 	/**
@@ -102,5 +107,24 @@ public class Group {
 		return this.getAtIndex(activePart);
 	}
 	
+	/**
+	 * Remove the Part at the index if present.
+	 * @param i index
+	 */
+	public void removePartAtIndex(int i){
+		if(i < 0 || i >= partList.size()){
+			// index is not valid!
+			return;
+		}
+		partList.remove(i);
+		AvoGlobal.modelEventHAndler.notifyElementRemoved();
+	}
+	
+	/**
+	 * remove the active Part from the list.
+	 */
+	public void removeActivePart(){
+		removePartAtIndex(activePart);
+	}
 	
 }

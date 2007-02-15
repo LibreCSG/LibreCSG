@@ -129,6 +129,7 @@ public class AvoGlobal {
 	public static final float[] GL_COLOR4_2D_ACTIVE  = new float[] {1.0f, 0.5f, 0.0f, 1.0f}; 
 	
 
+	// TODO: perhaps move event handler just into their own static selves instead of AvoGlobal?
 	public static ParamEventHandler  paramEventHandler  = new ParamEventHandler();
 	public static GLViewEventHandler glViewEventHandler = new GLViewEventHandler(); 
 	public static ModelEventHandler  modelEventHAndler  = new ModelEventHandler();
