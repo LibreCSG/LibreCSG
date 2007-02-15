@@ -4,6 +4,7 @@ import javax.media.opengl.GL;
 
 import ui.opengl.GLDynPrim;
 import backend.adt.Point2D;
+import backend.geometry.Geometry2D;
 
 
 //
@@ -59,6 +60,10 @@ public class Prim2DLine implements Prim2D{
 	public Point2D intersectsLine(Prim2DLine ln) {
 		// need Intersection code!
 		return null;
+	}
+
+	public double distFromPrim(Point2D pt) {
+		return Geometry2D.distFromLineSeg(ptA, ptB, pt);
 	}
 	
 }

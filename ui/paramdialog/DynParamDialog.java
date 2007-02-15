@@ -192,6 +192,9 @@ public class DynParamDialog {
 		
 		tabLabel.setText(paramSet.label);
 		
+		// TODO: Somehow all ParamComp Components need to have the derived parameters
+		//       updated when the user changes one of the other params.
+		
 		//
 		// add all parameters from the current feature to 
 		// the paramDialog for display/modification

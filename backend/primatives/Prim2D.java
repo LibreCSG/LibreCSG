@@ -39,4 +39,6 @@ public interface Prim2D {
 	
 	abstract public Point2D intersectsArc(Prim2DArc arc);
 	
+	abstract public double distFromPrim(Point2D pt);
+	
 }

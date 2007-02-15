@@ -7,7 +7,9 @@ import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolInterface2D;
 import backend.adt.ParamSet;
+import backend.adt.Point2D;
 import backend.global.AvoGlobal;
+import backend.model.Feature2D;
 import backend.model.Sketch;
 import backend.primatives.Prim2D;
 
@@ -60,13 +62,23 @@ public class Tool2DSelectInt implements ToolInterface2D {
 			}else{
 				shiftIsDown = false;
 			}
-			if(!shiftIsDown){
-				
+			if(!shiftIsDown){				
 				sketch.deselectAllFeat2D();
 			}
 	
-			// TODO: iterate over all features in the current set to see if they've been clicked
-
+			//
+			// iterate over all features in the current set to see if they've been clicked
+			//
+			for(int i = 0; i < sketch.getFeat2DListSize(); i++){
+				Feature2D f2D = sketch.getAtIndex(i);
+				for(Prim2D prim2D : f2D.prim2DList){
+					if(prim2D.distFromPrim(new Point2D(x,y)) < 0.2){
+						f2D.isSelected = true;
+					}
+				}
+			}
+			AvoGlobal.glView.updateGLView = true;
+			
 		}
 	}
 

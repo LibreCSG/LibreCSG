@@ -128,7 +128,8 @@ public class Tool2DRectInt implements ToolInterface2D {
 			if(ptA.getX() == ptB.getX() || ptA.getY() == ptB.getY()){
 				// end point are the same... discard
 				System.out.println("Reactangle has zero area... discarding feature");
-				// TODO: remove feature2D from the set!
+				// remove feature2D from the set!
+				AvoGlobal.project.getActiveSketch().removeActiveFeat2D();
 				AvoGlobal.paramDialog.setParamSet(null);
 			}			
 		}		

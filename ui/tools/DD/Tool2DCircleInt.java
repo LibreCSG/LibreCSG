@@ -117,7 +117,8 @@ public class Tool2DCircleInt implements ToolInterface2D  {
 			double radius = (Double)paramSet.getParam("r").getData();
 			if(radius == 0.0){
 				System.out.println("radius was zero... feature discarded");
-				// TODO: remove feature2D from the set!
+				// remove feature2D from the set!
+				AvoGlobal.project.getActiveSketch().removeActiveFeat2D();
 				AvoGlobal.paramDialog.setParamSet(null);
 			}			
 		}
