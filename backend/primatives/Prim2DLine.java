@@ -99,8 +99,8 @@ public class Prim2DLine extends Prim2D{
 			double uA = numA / denom;
 			double uB = numB / denom;
 			if(uA > (0.0+Geometry2D.epsilon) && uA < (1.0-Geometry2D.epsilon) && uB > (0.0+Geometry2D.epsilon) && uB < (1.0-Geometry2D.epsilon)){				
-				double iX = ptA.getX()+uA*(ptB.getX()-ptA.getX());
-				double iY = ptA.getY()+uA*(ptB.getY()-ptA.getY());
+				double iX = ptC.getX()+uB*(ptD.getX()-ptC.getX());
+				double iY = ptC.getY()+uB*(ptD.getY()-ptC.getY());
 				Point2D iPoint = new Point2D(iX, iY);
 				System.out.println("INTERSECT: Lines segments intersect!! -- " + iPoint + " uA,uB:" + uA + "," + uB);
 				//  return point of intersection...
