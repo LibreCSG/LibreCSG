@@ -31,8 +31,14 @@ import backend.adt.Point2D;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public interface Prim2D {
- 
+public abstract class Prim2D {
+ 	
+	/**
+	 * end points of curve.
+	 */
+	public Point2D ptA;
+	public Point2D ptB;
+	
 	abstract public void glDraw(GL gl);
 	
 	/**
@@ -48,5 +54,7 @@ public interface Prim2D {
 	abstract public Point2D intersectsArc(Prim2DArc arc);
 	
 	abstract public double distFromPrim(Point2D pt);	
+	
+	abstract public PrimPair2D splitPrimAtPoint(Point2D pt);	
 	
 }
