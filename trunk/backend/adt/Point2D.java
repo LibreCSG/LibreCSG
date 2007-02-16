@@ -130,5 +130,8 @@ public class Point2D {
 		y = newY;
 	}
 	
+	public String toString(){
+		return "Point2D: (" + Double.toString(x) + "," + Double.toString(y) + ")";
+	}
 	
 }

@@ -58,7 +58,34 @@ public class Prim2DLine implements Prim2D{
 	}
 
 	public Point2D intersectsLine(Prim2DLine ln) {
-		// need Intersection code!
+		Point2D ptC = ln.ptA;
+		Point2D ptD = ln.ptB;
+		double denom = 	(ptD.getX()-ptC.getX())*(ptB.getY()-ptA.getY()) - 
+						(ptD.getY()-ptC.getY())*(ptB.getX()-ptA.getX());
+
+		double numA  =  (ptA.getX()-ptC.getX())*(ptD.getY()-ptC.getY())-
+						(ptD.getX()-ptC.getX())*(ptA.getY()-ptC.getY());
+		
+		double numB  =  (ptC.getY()-ptA.getY())*(ptB.getX()-ptA.getX()) - 
+						(ptC.getX()-ptA.getX())*(ptB.getY()-ptA.getY());
+		
+		if(denom == 0.0){
+			System.out.println("INTERSECT: denom = 0.0, lines must be parallel");
+			// TODO: handle special case when lines are parallel...
+		}
+		else{
+			double uA = numA / denom;
+			double uB = numB / denom;
+			if(uA > 0.0 && uA < 1.0 && uB > 0.0 && uB < 1.0){				
+				double iX = ptA.getX()+uA*(ptB.getX()-ptA.getX());
+				double iY = ptA.getY()+uA*(ptB.getY()-ptA.getY());
+				Point2D iPoint = new Point2D(iX, iY);
+				System.out.println("INTERSECT: Lines segments intersect!! -- " + iPoint);
+				// TODO: return point of intersection...
+			}else{
+				System.out.println("INTERSECT: Lines DO NOT intersect...");
+			}
+		}
 		return null;
 	}
 

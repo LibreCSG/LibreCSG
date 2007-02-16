@@ -55,7 +55,7 @@ public class Prim2DArc implements Prim2D{
 		return null;
 	}
 
-	public Point2D intersectsLine(Prim2DLine ln) {
+	public Point2D intersectsLine(Prim2DLine ln) {		
 		// TODO need Intersection code!
 		return null;
 	}

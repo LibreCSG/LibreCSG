@@ -96,5 +96,8 @@ public class Rotation3D {
 		z = newZ;
 	}
 	
+	public String toString(){
+		return "Rotation3D: (" + Double.toString(x) + "," + Double.toString(y) + "," + Double.toString(z) + ")";
+	}
 	
 }
