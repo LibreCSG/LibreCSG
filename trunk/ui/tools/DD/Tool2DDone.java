@@ -144,6 +144,10 @@ public class Tool2DDone extends Tool2D{
 			}
 			
 			
+			for(Prim2D prim : prunedPrims){
+				System.out.println("  -PP-> " + prim.ptA + " :: " +  prim.ptB);
+			}
+			
 			//TODO: somehow not getting all of the cycles...
 			//
 			// find cycles... depth first search
@@ -172,14 +176,16 @@ public class Tool2DDone extends Tool2D{
 								foundCon = true;
 								primUsed.add(primB);
 								conPt = primB.ptB;
-							}
-							if(conPt.equalsPt(primB.ptB)){
-								foundCon = true;
-								primUsed.add(primB);
-								conPt = primB.ptA;
+							}else{
+								if(conPt.equalsPt(primB.ptB)){
+									foundCon = true;
+									primUsed.add(primB);
+									conPt = primB.ptA;
+								}
 							}
 						}
 						if(conPt.equalsPt(endPt)){
+							System.out.println("cycle complete..");
 							// cycle is complete!
 							allCycles.add(primUsed);
 							foundCon = false;
@@ -190,7 +196,12 @@ public class Tool2DDone extends Tool2D{
 			}
 			
 			System.out.println("Total Cycles found: " + allCycles.size());
-			
+			for(LinkedList<Prim2D> llP2D : allCycles){
+				System.out.println("CYCLE:");
+				for(Prim2D prim : llP2D){
+					System.out.println("  --> " + prim.ptA + " :: " +  prim.ptB);
+				}
+			}
 			
 			
 			
