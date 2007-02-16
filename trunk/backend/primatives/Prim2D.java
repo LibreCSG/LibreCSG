@@ -35,6 +35,12 @@ public interface Prim2D {
  
 	abstract public void glDraw(GL gl);
 	
+	/**
+	 * return the point at which "this" prim2D intersects
+	 * the given prim2D at any point other than the givn prim2D's end points.  
+	 * @param anyPrim2D the given prim2D to check for intersection
+	 * @return the point of intersection, or null if no intersection occurs.
+	 */
 	abstract public Point2D intersect(Prim2D anyPrim2D);
 	
 	abstract public Point2D intersectsLine(Prim2DLine ln);
