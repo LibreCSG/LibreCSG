@@ -35,10 +35,12 @@ public interface Prim2D {
  
 	abstract public void glDraw(GL gl);
 	
+	abstract public Point2D intersect(Prim2D anyPrim2D);
+	
 	abstract public Point2D intersectsLine(Prim2DLine ln);
 	
 	abstract public Point2D intersectsArc(Prim2DArc arc);
 	
-	abstract public double distFromPrim(Point2D pt);
+	abstract public double distFromPrim(Point2D pt);	
 	
 }
