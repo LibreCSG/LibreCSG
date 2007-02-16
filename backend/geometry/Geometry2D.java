@@ -32,6 +32,11 @@ import backend.adt.Point2D;
 public class Geometry2D {
 
 	/**
+	 * allowance for errors in double calculations/equalities.
+	 */
+	public static final double epsilon = 0.000000001;
+	
+	/**
 	 * calculates the distance between a line segment (defined by
 	 * its two end points) and a point.
 	 * @param ptA line end 
@@ -49,6 +54,12 @@ public class Geometry2D {
 		if(distA > segLength || distB > segLength){
 			return Math.max(distA,distB);
 		}		
+		
+		// check to see if point is on the line itself
+		if((distA+distB) >= (segLength-epsilon) && (distA+distB) <= (segLength+epsilon)){
+			return 0.0;
+		}
+		
 		// just making triangles here...
 		// now compute distance from line...
 		double alpha = (distA*distA - distB*distB + segLength*segLength) / (2.0*segLength);
@@ -71,5 +82,5 @@ public class Geometry2D {
 		// be: abs((distance ptC to ptX) - radius)
 		return Math.abs(ptC.computeDist(ptX) - radius);
 	}
-	
+
 }

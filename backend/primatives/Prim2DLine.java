@@ -72,15 +72,19 @@ public class Prim2DLine implements Prim2D{
 		if(denom == 0.0){
 			// handle special case when lines are parallel...
 			if(numA == 0.0 && numB == 0.0){
-				System.out.println("INTERSECT: Parallel lines are coincident!");
+				// Parallel lines are coincident!
 				if(!ptC.equalsPt(ptA) && !ptD.equalsPt(ptA)){
-					if(ln.distFromPrim(ptC) <= 0.001){
-						System.out.println("ptC was on parallel line segment");
+					// test to see if A intersect segment CD
+					if(ln.distFromPrim(ptA) == 0.0){
+						// ptA was on parallel line segment
+						return ptA;
 					}					
 				}
 				if(!ptC.equalsPt(ptB) && !ptD.equalsPt(ptB)){
-					if(ln.distFromPrim(ptD) <= 0.001){
-						System.out.println("ptD was on parallel line segment");
+					// test to see if B intersects segment CD
+					if(ln.distFromPrim(ptB) == 0.0){
+						// ptB was on parallel line segment
+						return ptB;
 					}
 				}
 			}
@@ -89,7 +93,7 @@ public class Prim2DLine implements Prim2D{
 		else{
 			double uA = numA / denom;
 			double uB = numB / denom;
-			if(uA > 0.0 && uA < 1.0 && uB > 0.0 && uB < 1.0){				
+			if(uA >= (0.0-Geometry2D.epsilon) && uA <= (1.0+Geometry2D.epsilon) && uB > 0.0 && uB < 1.0){				
 				double iX = ptA.getX()+uA*(ptB.getX()-ptA.getX());
 				double iY = ptA.getY()+uA*(ptB.getY()-ptA.getY());
 				Point2D iPoint = new Point2D(iX, iY);
