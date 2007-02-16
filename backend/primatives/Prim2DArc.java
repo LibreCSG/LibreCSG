@@ -65,4 +65,15 @@ public class Prim2DArc implements Prim2D{
 		return 10.0;
 	}
 
+	public Point2D intersect(Prim2D anyPrim2D) {
+		if(anyPrim2D instanceof Prim2DLine){
+			return this.intersectsLine((Prim2DLine)anyPrim2D);
+		}
+		if(anyPrim2D instanceof Prim2DArc){
+			return this.intersectsArc((Prim2DArc)anyPrim2D);
+		}
+		System.out.println("Prim2D was of unsupported type!!");
+		return null;
+	}
+	
 }

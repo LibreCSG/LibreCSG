@@ -70,8 +70,21 @@ public class Prim2DLine implements Prim2D{
 						(ptC.getX()-ptA.getX())*(ptB.getY()-ptA.getY());
 		
 		if(denom == 0.0){
-			System.out.println("INTERSECT: denom = 0.0, lines must be parallel");
-			// TODO: handle special case when lines are parallel...
+			// handle special case when lines are parallel...
+			if(numA == 0.0 && numB == 0.0){
+				System.out.println("INTERSECT: Parallel lines are coincident!");
+				if(!ptC.equalsPt(ptA) && !ptD.equalsPt(ptA)){
+					if(ln.distFromPrim(ptC) <= 0.001){
+						System.out.println("ptC was on parallel line segment");
+					}					
+				}
+				if(!ptC.equalsPt(ptB) && !ptD.equalsPt(ptB)){
+					if(ln.distFromPrim(ptD) <= 0.001){
+						System.out.println("ptD was on parallel line segment");
+					}
+				}
+			}
+			
 		}
 		else{
 			double uA = numA / denom;
@@ -83,7 +96,7 @@ public class Prim2DLine implements Prim2D{
 				System.out.println("INTERSECT: Lines segments intersect!! -- " + iPoint);
 				// TODO: return point of intersection...
 			}else{
-				System.out.println("INTERSECT: Lines DO NOT intersect...");
+				System.out.println("INTERSECT: Lines DO NOT intersect... uA,uB:" + uA + "," + uB);
 			}
 		}
 		return null;
@@ -91,6 +104,17 @@ public class Prim2DLine implements Prim2D{
 
 	public double distFromPrim(Point2D pt) {
 		return Geometry2D.distFromLineSeg(ptA, ptB, pt);
+	}
+
+	public Point2D intersect(Prim2D anyPrim2D) {
+		if(anyPrim2D instanceof Prim2DLine){
+			return this.intersectsLine((Prim2DLine)anyPrim2D);
+		}
+		if(anyPrim2D instanceof Prim2DArc){
+			return this.intersectsArc((Prim2DArc)anyPrim2D);
+		}
+		System.out.println("Prim2D was of unsupported type!!");
+		return null;
 	}
 	
 }

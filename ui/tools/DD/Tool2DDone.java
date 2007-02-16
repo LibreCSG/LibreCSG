@@ -79,12 +79,7 @@ public class Tool2DDone extends Tool2D{
 					for(int j=i+1; j < sketch.getFeat2DListSize(); j++){
 						Feature2D f2D_B = sketch.getAtIndex(j);
 						for(Prim2D prim_B : f2D_B.prim2DList){
-							if(prim_B instanceof Prim2DLine){
-								prim_A.intersectsLine((Prim2DLine)prim_B);
-							}
-							if(prim_B instanceof Prim2DArc){
-								prim_A.intersectsArc((Prim2DArc)prim_B);
-							}
+							prim_A.intersect(prim_B);
 						}
 					}
 				}
