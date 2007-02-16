@@ -32,8 +32,10 @@ import backend.adt.Point2D;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Prim2DArc implements Prim2D{
+public class Prim2DArc extends Prim2D{
 
+	//TODO: remember to update ptA and ptB -- the arc's end points.
+	
 	Point2D center;
 	double  radius;
 	double  startAngle;
@@ -73,6 +75,10 @@ public class Prim2DArc implements Prim2D{
 			return this.intersectsArc((Prim2DArc)anyPrim2D);
 		}
 		System.out.println("Prim2D was of unsupported type!!");
+		return null;
+	}
+
+	public PrimPair2D splitPrimAtPoint(Point2D pt) {
 		return null;
 	}
 	

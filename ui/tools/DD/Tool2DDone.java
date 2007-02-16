@@ -1,16 +1,19 @@
 package ui.tools.DD;
 
+import java.util.LinkedList;
+
 import ui.menuet.MEButton;
 import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
 import ui.tools.Tool2D;
+import backend.adt.Point2D;
 import backend.data.utilities.ImageUtils;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D;
 import backend.model.Sketch;
 import backend.primatives.Prim2D;
-import backend.primatives.Prim2DArc;
 import backend.primatives.Prim2DLine;
+import backend.primatives.PrimPair2D;
 
 
 //
@@ -73,17 +76,124 @@ public class Tool2DDone extends Tool2D{
 		// TODO: HACK just to test line intersection code!
 		Sketch sketch = AvoGlobal.project.getActiveSketch();
 		if(sketch != null){
+			
+			LinkedList<Prim2D> allPrims = new LinkedList<Prim2D>();
+			// Put all prims into one list.
 			for(int i=0; i < sketch.getFeat2DListSize(); i++){
 				Feature2D f2D_A = sketch.getAtIndex(i);
-				for(Prim2D prim_A : f2D_A.prim2DList){
-					for(int j=i+1; j < sketch.getFeat2DListSize(); j++){
-						Feature2D f2D_B = sketch.getAtIndex(j);
-						for(Prim2D prim_B : f2D_B.prim2DList){
-							prim_A.intersect(prim_B);
+				for(Prim2D prim : f2D_A.prim2DList){
+					allPrims.add(prim);
+				}
+			}
+
+			// find intersections between prims and keep running until
+			// no more intersections are found.
+			boolean foundIntersection = true;
+			int maxPrimSize = 1000; // TODO: HACK just for debug
+			while(foundIntersection){
+				foundIntersection = false;
+				for(int i=0; i < allPrims.size(); i++){
+					Prim2D prim_A = allPrims.get(i);
+					for(int j=0; j < allPrims.size(); j++){
+						Prim2D prim_B = allPrims.get(j);
+						if(!prim_A.equals(prim_B)){
+							// comparing two different Prim2Ds.
+							// check for intersection...
+							Point2D iPt = prim_A.intersect(prim_B);
+							if(iPt != null){								
+								if(allPrims.size() < maxPrimSize){ // HACK, just stop it.. out of control
+									foundIntersection = true;
+									PrimPair2D iPair = prim_B.splitPrimAtPoint(iPt);
+									allPrims.add(iPair.primA);
+									allPrims.add(iPair.primB);
+									allPrims.remove(prim_B);
+									System.out.println("Added little prims! size:" + allPrims.size());
+								}
+								
+							}							
 						}
 					}
 				}
 			}
+			
+			// 
+			// should now have a list of Prim2D that intersect only at endpoints
+			//
+			
+			//
+			// prune elements that don't connect to another at both ends.
+			//
+			LinkedList<Prim2D> prunedPrims = new LinkedList<Prim2D>();
+			for(Prim2D prim : allPrims){
+				boolean conA = false;
+				boolean conB = false;
+				for(Prim2D primB : allPrims){
+					if(!prim.equals(primB)){
+						if(prim.ptA.equalsPt(primB.ptA) || prim.ptA.equalsPt(primB.ptB)){
+							conA = true;
+						}
+						if(prim.ptB.equalsPt(primB.ptA) || prim.ptB.equalsPt(primB.ptB)){
+							conB = true;
+						}
+					}						
+				}				
+				if(conA && conB){
+					prunedPrims.add(prim);
+					System.out.println("added pruned prim! size:" + prunedPrims.size());
+				}
+			}
+			
+			
+			//TODO: somehow not getting all of the cycles...
+			//
+			// find cycles... depth first search
+			//
+			LinkedList<LinkedList> allCycles = new LinkedList<LinkedList>();
+			for(Prim2D prim : prunedPrims){
+				//
+				// start a new cycle
+				//
+				LinkedList<Prim2D> primUsed = new LinkedList<Prim2D>();
+				primUsed.add(prim); // first element is starting prim2D
+				
+				Point2D endPt = prim.ptB;
+				Point2D conPt = prim.ptA; // the point that must connect next.
+				
+				//
+				// stop condition: endPt equals starting point OR no more elements to add
+				//
+				boolean foundCon = true;
+				while(foundCon){
+					foundCon = false; // up to the for loop to prove this wrong...
+					for(Prim2D primB : prunedPrims){
+						// check to make sure element has not yet been used
+						if(!primUsed.contains(primB)){
+							if(conPt.equalsPt(primB.ptA)){
+								foundCon = true;
+								primUsed.add(primB);
+								conPt = primB.ptB;
+							}
+							if(conPt.equalsPt(primB.ptB)){
+								foundCon = true;
+								primUsed.add(primB);
+								conPt = primB.ptA;
+							}
+						}
+						if(conPt.equalsPt(endPt)){
+							// cycle is complete!
+							allCycles.add(primUsed);
+							foundCon = false;
+							break;
+						}
+					}
+				}				
+			}
+			
+			System.out.println("Total Cycles found: " + allCycles.size());
+			
+			
+			
+			
 		}
 		
 	}

@@ -33,11 +33,8 @@ import backend.geometry.Geometry2D;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Prim2DLine implements Prim2D{
+public class Prim2DLine extends Prim2D{
 
-	Point2D ptA;
-	Point2D ptB;
-	
 	public Prim2DLine(Point2D ptA, Point2D ptB){
 		if(ptA == null || ptB == null){
 			ptA = new Point2D(0.0, 0.0);
@@ -69,38 +66,47 @@ public class Prim2DLine implements Prim2D{
 		double numB  =  (ptC.getY()-ptA.getY())*(ptB.getX()-ptA.getX()) - 
 						(ptC.getX()-ptA.getX())*(ptB.getY()-ptA.getY());
 		
+		
+		// check to see if end point lies on the line
+		if(!ptC.equalsPt(ptA) && !ptD.equalsPt(ptA)){
+			// test to see if A intersect segment CD
+			if(ln.distFromPrim(ptA) == 0.0){
+				//System.out.println("ptA intersected line CD");
+				return ptA;
+			}					
+		}
+		if(!ptC.equalsPt(ptB) && !ptD.equalsPt(ptB)){
+			// test to see if B intersects segment CD
+			if(ln.distFromPrim(ptB) == 0.0){
+				//System.out.println("ptB ntersected line CD");
+				return ptB;
+			}
+		}
+		
+		
+		
 		if(denom == 0.0){
-			// handle special case when lines are parallel...
+			// lines are parallel...
+			// the only intersection worth noting is if the
+			// end point lies on the line, and that is already
+			// checked for.  these lines
 			if(numA == 0.0 && numB == 0.0){
 				// Parallel lines are coincident!
-				if(!ptC.equalsPt(ptA) && !ptD.equalsPt(ptA)){
-					// test to see if A intersect segment CD
-					if(ln.distFromPrim(ptA) == 0.0){
-						// ptA was on parallel line segment
-						return ptA;
-					}					
-				}
-				if(!ptC.equalsPt(ptB) && !ptD.equalsPt(ptB)){
-					// test to see if B intersects segment CD
-					if(ln.distFromPrim(ptB) == 0.0){
-						// ptB was on parallel line segment
-						return ptB;
-					}
-				}
-			}
-			
+				// but still, nothing to be done...				
+			}			
 		}
 		else{
 			double uA = numA / denom;
 			double uB = numB / denom;
-			if(uA >= (0.0-Geometry2D.epsilon) && uA <= (1.0+Geometry2D.epsilon) && uB > 0.0 && uB < 1.0){				
+			if(uA > (0.0+Geometry2D.epsilon) && uA < (1.0-Geometry2D.epsilon) && uB > (0.0+Geometry2D.epsilon) && uB < (1.0-Geometry2D.epsilon)){				
 				double iX = ptA.getX()+uA*(ptB.getX()-ptA.getX());
 				double iY = ptA.getY()+uA*(ptB.getY()-ptA.getY());
 				Point2D iPoint = new Point2D(iX, iY);
-				System.out.println("INTERSECT: Lines segments intersect!! -- " + iPoint);
-				// TODO: return point of intersection...
+				System.out.println("INTERSECT: Lines segments intersect!! -- " + iPoint + " uA,uB:" + uA + "," + uB);
+				//  return point of intersection...
+				return iPoint;
 			}else{
-				System.out.println("INTERSECT: Lines DO NOT intersect... uA,uB:" + uA + "," + uB);
+				//System.out.println("INTERSECT: Lines DO NOT intersect... uA,uB:" + uA + "," + uB);
 			}
 		}
 		return null;
@@ -120,5 +126,10 @@ public class Prim2DLine implements Prim2D{
 		System.out.println("Prim2D was of unsupported type!!");
 		return null;
 	}
+
+	public PrimPair2D splitPrimAtPoint(Point2D pt) {		
+		return new PrimPair2D(new Prim2DLine(ptA, pt), new Prim2DLine(pt, ptB));
+	}
+
 	
 }
