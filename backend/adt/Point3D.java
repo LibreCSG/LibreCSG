@@ -147,4 +147,8 @@ public class Point3D {
 	public void setZ(double newZ){
 		z = newZ;
 	}
+	
+	public String toString(){
+		return "Point3D: (" + Double.toString(x) + "," + Double.toString(y) + "," + Double.toString(z) + ")";
+	}
 }

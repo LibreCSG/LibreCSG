@@ -6,6 +6,11 @@ import ui.menuet.MenuetElement;
 import ui.tools.Tool2D;
 import backend.data.utilities.ImageUtils;
 import backend.global.AvoGlobal;
+import backend.model.Feature2D;
+import backend.model.Sketch;
+import backend.primatives.Prim2D;
+import backend.primatives.Prim2DArc;
+import backend.primatives.Prim2DLine;
 
 
 //
@@ -64,5 +69,27 @@ public class Tool2DDone extends Tool2D{
 		AvoGlobal.menuet.currentTool = null;			
 		AvoGlobal.menuet.updateToolModeDisplayed();
 		AvoGlobal.glView.updateGLView = true;
+		
+		// TODO: HACK just to test line intersection code!
+		Sketch sketch = AvoGlobal.project.getActiveSketch();
+		if(sketch != null){
+			for(int i=0; i < sketch.getFeat2DListSize(); i++){
+				Feature2D f2D_A = sketch.getAtIndex(i);
+				for(Prim2D prim_A : f2D_A.prim2DList){
+					for(int j=i+1; j < sketch.getFeat2DListSize(); j++){
+						Feature2D f2D_B = sketch.getAtIndex(j);
+						for(Prim2D prim_B : f2D_B.prim2DList){
+							if(prim_B instanceof Prim2DLine){
+								prim_A.intersectsLine((Prim2DLine)prim_B);
+							}
+							if(prim_B instanceof Prim2DArc){
+								prim_A.intersectsArc((Prim2DArc)prim_B);
+							}
+						}
+					}
+				}
+			}
+		}
+		
 	}
 }
