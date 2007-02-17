@@ -12,7 +12,6 @@ import backend.global.AvoGlobal;
 import backend.model.Feature2D;
 import backend.model.Sketch;
 import backend.primatives.Prim2D;
-import backend.primatives.Prim2DLine;
 import backend.primatives.PrimPair2D;
 
 
@@ -148,53 +147,16 @@ public class Tool2DDone extends Tool2D{
 				System.out.println("  -PP-> " + prim.ptA + " :: " +  prim.ptB);
 			}
 			
-			//TODO: somehow not getting all of the cycles...
-			//
-			// find cycles... depth first search
-			//
-			LinkedList<LinkedList> allCycles = new LinkedList<LinkedList>();
-			for(Prim2D prim : prunedPrims){
-				//
-				// start a new cycle
-				//
-				LinkedList<Prim2D> primUsed = new LinkedList<Prim2D>();
-				primUsed.add(prim); // first element is starting prim2D
-				
-				Point2D endPt = prim.ptB;
-				Point2D conPt = prim.ptA; // the point that must connect next.
-				
-				//
-				// stop condition: endPt equals starting point OR no more elements to add
-				//
-				boolean foundCon = true;
-				while(foundCon){
-					foundCon = false; // up to the for loop to prove this wrong...
-					for(Prim2D primB : prunedPrims){
-						// check to make sure element has not yet been used
-						if(!primUsed.contains(primB)){
-							if(conPt.equalsPt(primB.ptA)){
-								foundCon = true;
-								primUsed.add(primB);
-								conPt = primB.ptB;
-							}else{
-								if(conPt.equalsPt(primB.ptB)){
-									foundCon = true;
-									primUsed.add(primB);
-									conPt = primB.ptA;
-								}
-							}
-						}
-						if(conPt.equalsPt(endPt)){
-							System.out.println("cycle complete..");
-							// cycle is complete!
-							allCycles.add(primUsed);
-							foundCon = false;
-							break;
-						}
-					}
-				}				
-			}
+			// complete cycles.  
+			LinkedList<LinkedList<Prim2D>> allCycles = new LinkedList<LinkedList<Prim2D>>();
 			
+			//
+			// find cycles... Recursion-free depth first search
+			//
+			for(Prim2D prim : prunedPrims){
+				RFDFSearch(allCycles, prunedPrims, prim);
+			}
+						
 			System.out.println("Total Cycles found: " + allCycles.size());
 			for(LinkedList<Prim2D> llP2D : allCycles){
 				System.out.println("CYCLE:");
@@ -208,4 +170,76 @@ public class Tool2DDone extends Tool2D{
 		}
 		
 	}
+	
+	LinkedList<Prim2D> copyLL(LinkedList<Prim2D> origList){
+		LinkedList<Prim2D> newList = new LinkedList<Prim2D>();
+		for(Prim2D prim : origList){
+			newList.add(prim);
+		}
+		return newList;
+	}
+	
+	void RFDFSearch(LinkedList<LinkedList<Prim2D>> allCycles, LinkedList<Prim2D> allPrims, Prim2D primStart){
+		Point2D endPt = primStart.ptA; // end point (where the cycles should eventually end)
+		Point2D conPt = primStart.ptB; // connection point (where next prim2D must connect)
+		
+		// all of the prim2D used so far at a given level
+		LinkedList<LinkedList<Prim2D>> usedAtLevel = new LinkedList<LinkedList<Prim2D>>();
+		int level = 1;
+		
+		// the path taken so far
+		LinkedList<Prim2D> pathSoFar = new LinkedList<Prim2D>();
+		pathSoFar.add(primStart); // path always starts with primStart.
+		
+		while(level > 0){
+			//System.out.println("*     while");
+			if(usedAtLevel.size() < level){
+				// this is a new level; add a new list.
+				usedAtLevel.add(new LinkedList<Prim2D>());
+				//System.out.println("**    added new level:" + level);
+			}
+			for(int i=0; i<allPrims.size(); i++){
+				Prim2D prim = allPrims.get(i);
+				if(!pathSoFar.contains(prim) && !usedAtLevel.get(level-1).contains(prim)){
+					// the prim is not in the current path and has not been used yet, try it.
+					//System.out.println("***   considering new prim2D; i=" + i);
+					
+					// add it to the set of used prim2D so we don't check it again later.
+					usedAtLevel.get(level-1).add(prim); 
+					
+					// check is conPt is an end point of the prim2D. if so, get the other point.
+					Point2D nextPt = prim.hasPtGetOther(conPt);
+					if(nextPt != null){
+						pathSoFar.add(prim);
+						if(nextPt.equalsPt(endPt)){
+							// cycle has been completed. 
+							// add it and continue checking others.
+							allCycles.add(copyLL(pathSoFar)); // use a copy since pathSoFar will change!
+							//System.out.println("****  added cycle");
+							pathSoFar.removeLast();
+						}else{
+							// not the end yet. 
+							// update the conPt and continue trying at the next level.
+							conPt = nextPt;							
+							level++;
+							//System.out.println("****  going to next level; newLevel=" + level);
+							break;
+						}
+					}
+				}
+				if(i == (allPrims.size()-1)){
+					// just checked last Prim2D in the set.					
+					level--;
+					//System.out.println("***** going down a level; newLevel=" + level);
+					conPt = pathSoFar.getLast().hasPtGetOther(conPt);
+					pathSoFar.removeLast();
+					usedAtLevel.removeLast();
+				}
+				
+			}
+			
+		}
+		
+	}
+	
 }

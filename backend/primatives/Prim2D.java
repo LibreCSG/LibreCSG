@@ -57,4 +57,21 @@ public abstract class Prim2D {
 	
 	abstract public PrimPair2D splitPrimAtPoint(Point2D pt);	
 	
+	/**
+	 * Test to see if the Prim2D ends at the given point.
+	 * If it does, return the <em>other</em> end point.
+	 * If not, returns null.
+	 * @param ptC non-null point to test.
+	 * @return the other end point, or null if given point is not an end point.
+	 */
+	public Point2D hasPtGetOther(Point2D ptC){
+		if(ptA.equalsPt(ptC)){
+			return ptB;
+		}
+		if(ptB.equalsPt(ptC)){
+			return ptA;
+		}
+		return null;
+	}
+	
 }
