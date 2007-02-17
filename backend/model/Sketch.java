@@ -266,25 +266,91 @@ public class Sketch extends Parameterized{
 		
 		System.out.println("Total Unique Cycles found: " + uniqueCycles.size());
 		
+		//
+		// remove any sub-cycles
+		//
+		LinkedList<LinkedList<Prim2D>> finalCycles = new LinkedList<LinkedList<Prim2D>>();
+		for(LinkedList<Prim2D> cycleA : uniqueCycles){
+			boolean containsSubCycles = false;
+			for(LinkedList<Prim2D> cycleB : uniqueCycles){
+				if(!cycleA.equals(cycleB)){
+					if(containsSubCycle(cycleA, cycleB)){
+						containsSubCycles = true;
+					}
+				}
+			}
+			if(!containsSubCycles){
+				finalCycles.add(cycleA);
+			}
+		}
 		
+		System.out.println("Total Final Cycles found: " + finalCycles.size());
 		
+		//TODO: remove cycles that spatially contain others inside them.. arg. this is kind of hairy. :[
 		
 	}
 	
-	
-	boolean hasSamePrim2D(LinkedList<Prim2D> a, LinkedList<Prim2D> b){
-		if(a.size() != b.size()){
+	/**
+	 * check to see if two cycles contain the same prim2D.
+	 * @param cycleA
+	 * @param cycleB
+	 * @return true if cyles containt same prim2D.
+	 */
+	boolean hasSamePrim2D(LinkedList<Prim2D> cycleA, LinkedList<Prim2D> cycleB){
+		if(cycleA.size() != cycleB.size()){
 			// sizes are different, they can't be the same.
 			return false;
 		}
-		for(Prim2D aP2D : a){
-			if(!b.contains(aP2D)){
-				// b does not contain an element of a.
+		for(Prim2D aP2D : cycleA){
+			if(!cycleB.contains(aP2D)){
+				// cycleB does not contain an element of cycleA.
 				return false;
 			}
 		}
 		return true;
 	}
+	
+	/**
+	 * check to see if cycleA contains cycleB
+	 * @param cycleA
+	 * @param cycleB
+	 * @return true if cycleA contains cycleB.
+	 */
+	boolean containsSubCycle(LinkedList<Prim2D> cycleA, LinkedList<Prim2D> cycleB){
+		if(cycleB.size() > cycleA.size()){
+			return false;
+		}
+		for(Prim2D bP2D : cycleB){
+			if(!cycleA.contains(bP2D)){
+				// cycleA does not contain an element of cycleB.
+				// (i.e., cycleB is not a subcycle of cycleA).
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * join two cycles by removing common parts between them.
+	 * @param cycleA
+	 * @param cycleB
+	 * @return
+	 */
+	LinkedList<Prim2D> joinCycles(LinkedList<Prim2D> cycleA, LinkedList<Prim2D> cycleB){
+		LinkedList<Prim2D> joined = new LinkedList<Prim2D>();
+		for(Prim2D prim : cycleA){
+			if(!cycleB.contains(prim)){
+				joined.add(prim);
+			}
+		}
+		for(Prim2D prim : cycleB){
+			if(!cycleA.contains(prim)){
+				joined.add(prim);
+			}
+		}
+		return joined;
+	}
+	
 	
 	LinkedList<Prim2D> copyLL(LinkedList<Prim2D> origList){
 		LinkedList<Prim2D> newList = new LinkedList<Prim2D>();
