@@ -247,8 +247,44 @@ public class Sketch extends Parameterized{
 		//	}
 		//}
 		
+		//
+		// only keep unique cycles...
+		//
+		LinkedList<LinkedList<Prim2D>> uniqueCycles = new LinkedList<LinkedList<Prim2D>>();
+		for(LinkedList<Prim2D> cycleA : allCycles){
+			boolean isUnique = true;
+			for(LinkedList<Prim2D> cycleB : uniqueCycles){
+				// if any cycleB has the same prim2D as cycleA, then isUnique = false
+				if(hasSamePrim2D(cycleA, cycleB)){
+					isUnique = false;
+				}				
+			}
+			if(isUnique){
+				uniqueCycles.add(cycleA);
+			}
+		}
+		
+		System.out.println("Total Unique Cycles found: " + uniqueCycles.size());
+		
+		
+		
+		
 	}
 	
+	
+	boolean hasSamePrim2D(LinkedList<Prim2D> a, LinkedList<Prim2D> b){
+		if(a.size() != b.size()){
+			// sizes are different, they can't be the same.
+			return false;
+		}
+		for(Prim2D aP2D : a){
+			if(!b.contains(aP2D)){
+				// b does not contain an element of a.
+				return false;
+			}
+		}
+		return true;
+	}
 	
 	LinkedList<Prim2D> copyLL(LinkedList<Prim2D> origList){
 		LinkedList<Prim2D> newList = new LinkedList<Prim2D>();
