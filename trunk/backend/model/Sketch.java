@@ -52,6 +52,13 @@ public class Sketch extends Parameterized{
 	
 	protected int activeFeat2D = -1;
 	
+	/**
+	 * a consumed sketch is one that has been used to construct
+	 * another feature and therefore cannot be modified directly
+	 * without first supressing the feature.
+	 */
+	public boolean isConsumed = false;
+	
 	public Sketch(){
 		paramSet = new ParamSet("Sketch");
 		paramSet.addParam("o", new Param("Offset", new Point3D(0.0, 0.0, 0.0)));
@@ -65,6 +72,10 @@ public class Sketch extends Parameterized{
 	 * @return the index of the newly added Feature2D, or -1 if Feature2D was null.
 	 */
 	public int add(Feature2D f2D){
+		if(isConsumed){
+			System.out.println("Cannot Add Feature2D to sketch!  it is Consumed!");
+			return -1;
+		}
 		if(f2D != null){
 			feat2DList.add(f2D);
 			AvoGlobal.modelEventHAndler.notifyElementAdded();
@@ -99,6 +110,10 @@ public class Sketch extends Parameterized{
 	 * @param i index
 	 */
 	public void setActiveFeat2D(int i){
+		if(isConsumed){
+			System.out.println("Cannot Set Active Feature2D in sketch!  it is Consumed!");
+			return;
+		}
 		if(i < 0 || i >= feat2DList.size()){
 			// index is not valid!
 			return;
@@ -141,6 +156,10 @@ public class Sketch extends Parameterized{
 	 * @param i index
 	 */
 	public void removeFeat2DAtIndex(int i){
+		if(isConsumed){
+			System.out.println("Cannot Remove Feature2D from sketch!  it is Consumed!");
+			return;
+		}
 		if(i < 0 || i >= feat2DList.size()){
 			// index is not valid!
 			return;

@@ -1,18 +1,13 @@
 package ui.tools.DD;
 
-import java.util.LinkedList;
-
 import ui.menuet.MEButton;
 import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
 import ui.tools.Tool2D;
-import backend.adt.Point2D;
 import backend.data.utilities.ImageUtils;
 import backend.global.AvoGlobal;
-import backend.model.Feature2D;
+import backend.model.Feature2D3D;
 import backend.model.Sketch;
-import backend.primatives.Prim2D;
-import backend.primatives.PrimPair2D;
 
 
 //
@@ -73,13 +68,13 @@ public class Tool2DDone extends Tool2D{
 		Sketch sketch = AvoGlobal.project.getActiveSketch();
 
 		if(sketch != null){
-			
-			// TODO: if sketch has no Feature2D, then discard it.
-			
-			sketch.deselectAllFeat2D();
-			
-			// TODO: HACK just to test line intersection code!
-			sketch.buildRegionsFromPrim2D();			
+			if(sketch.getFeat2DListSize() == 0){
+				// if sketch has no Feature2D, then discard it.
+				((Feature2D3D)AvoGlobal.project.getActiveFeat3D()).removeActiveSketch();
+			}else{
+				// deselect Feat2D and keep the sketch.
+				sketch.deselectAllFeat2D();			
+			}
 		}
 		
 	}

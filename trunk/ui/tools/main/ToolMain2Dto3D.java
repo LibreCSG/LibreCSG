@@ -1,14 +1,14 @@
 package ui.tools.main;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.MessageBox;
+
 import ui.menuet.MEButton;
 import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
 import ui.tools.ToolMain;
 import backend.data.utilities.ImageUtils;
 import backend.global.AvoGlobal;
-import backend.model.Feature2D3D;
-import backend.model.Group;
-import backend.model.Part;
 import backend.model.Sketch;
 
 
@@ -56,10 +56,23 @@ public class ToolMain2Dto3D extends ToolMain{
 
 	@Override
 	public void toolSelected() {
-		AvoGlobal.menuet.disableAllTools();
-		AvoGlobal.menuet.setCurrentToolMode(Menuet.MENUET_MODE_2Dto3D);
-		AvoGlobal.menuet.updateToolModeDisplayed();
-		// TODO: make sure a sketch is active.. 
+		Sketch sketch = AvoGlobal.project.getActiveSketch();
+		if(sketch == null || sketch.isConsumed){
+			MessageBox m = new MessageBox(AvoGlobal.menuet.getShell(), SWT.ICON_QUESTION | SWT.OK);
+			m.setMessage(	"You must select an unconsumed sketch before\n" +
+							"any 2Dto3D operations can be performed.\n\n" +
+							"Please create a new sketch or select one\n" +
+							"by double-clicking on it in the project's\n" +
+							"list of elements.");
+			m.setText("Please select a sketch");
+			m.open();
+		}else{
+			// there is a sketch active!
+			AvoGlobal.menuet.disableAllTools();
+			AvoGlobal.menuet.setCurrentToolMode(Menuet.MENUET_MODE_2Dto3D);
+			AvoGlobal.menuet.updateToolModeDisplayed();	
+			sketch.buildRegionsFromPrim2D();
+		}
 	}
 
 
