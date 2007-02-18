@@ -1,12 +1,10 @@
 package ui.tools.DD;
 
-import java.util.LinkedList;
-
 import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolInterface2D;
 import backend.adt.ParamSet;
-import backend.primatives.Prim2D;
+import backend.primatives.Prim2DList;
 
 
 //
@@ -54,7 +52,7 @@ public class Tool2DCancelInt implements ToolInterface2D {
 	public void glMouseUp(double x, double y, double z,  MouseEvent e) {
 	}
 
-	public LinkedList<Prim2D> buildPrimList(ParamSet p) {
+	public Prim2DList buildPrimList(ParamSet p) {
 		return null;
 	}
 

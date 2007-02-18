@@ -1,6 +1,8 @@
 package backend.model;
 
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 
 import backend.adt.Param;
 import backend.adt.ParamSet;
@@ -10,6 +12,8 @@ import backend.adt.Point3D;
 import backend.adt.Rotation3D;
 import backend.global.AvoGlobal;
 import backend.primatives.Prim2D;
+import backend.primatives.Prim2DCycle;
+import backend.primatives.Prim2DList;
 import backend.primatives.PrimPair2D;
 
 
@@ -157,7 +161,7 @@ public class Sketch extends Parameterized{
 		//
 		// Put all Prim2D into one big list.
 		//
-		LinkedList<Prim2D> allPrims = new LinkedList<Prim2D>();
+		Prim2DList allPrims = new Prim2DList();
 		for(int i=0; i < this.getFeat2DListSize(); i++){
 			Feature2D f2D_A = this.getAtIndex(i);
 			for(Prim2D prim : f2D_A.prim2DList){
@@ -205,7 +209,7 @@ public class Sketch extends Parameterized{
 		// improve it by cutting out a large number of iterations in
 		// some cases.
 		//
-		LinkedList<Prim2D> prunedPrims = new LinkedList<Prim2D>();
+		Prim2DList prunedPrims = new Prim2DList();
 		for(Prim2D prim : allPrims){
 			boolean conA = false;
 			boolean conB = false;
@@ -229,8 +233,8 @@ public class Sketch extends Parameterized{
 		//	System.out.println("  -PP-> " + prim.ptA + " :: " +  prim.ptB);
 		//}
 		
-		// complete cycles.  
-		LinkedList<LinkedList<Prim2D>> allCycles = new LinkedList<LinkedList<Prim2D>>();
+		// create a list for complete cycles.  
+		LinkedList<Prim2DCycle> allCycles = new LinkedList<Prim2DCycle>();
 		
 		//
 		// find cycles... Recursion-free depth first search
@@ -250,10 +254,10 @@ public class Sketch extends Parameterized{
 		//
 		// only keep unique cycles...
 		//
-		LinkedList<LinkedList<Prim2D>> uniqueCycles = new LinkedList<LinkedList<Prim2D>>();
-		for(LinkedList<Prim2D> cycleA : allCycles){
+		LinkedList<Prim2DCycle> uniqueCycles = new LinkedList<Prim2DCycle>();
+		for(Prim2DCycle cycleA : allCycles){
 			boolean isUnique = true;
-			for(LinkedList<Prim2D> cycleB : uniqueCycles){
+			for(Prim2DCycle cycleB : uniqueCycles){
 				// if any cycleB has the same prim2D as cycleA, then isUnique = false
 				if(hasSamePrim2D(cycleA, cycleB)){
 					isUnique = false;
@@ -267,26 +271,32 @@ public class Sketch extends Parameterized{
 		System.out.println("Total Unique Cycles found: " + uniqueCycles.size());
 		
 		//
-		// remove any sub-cycles
+		// make sure all prim2D start out as unconsumed...
 		//
-		LinkedList<LinkedList<Prim2D>> finalCycles = new LinkedList<LinkedList<Prim2D>>();
-		for(LinkedList<Prim2D> cycleA : uniqueCycles){
-			boolean containsSubCycles = false;
-			for(LinkedList<Prim2D> cycleB : uniqueCycles){
-				if(!cycleA.equals(cycleB)){
-					if(containsSubCycle(cycleA, cycleB)){
-						containsSubCycles = true;
-					}
-				}
-			}
-			if(!containsSubCycles){
-				finalCycles.add(cycleA);
-			}
+		for(Prim2DCycle pCycle : uniqueCycles){
+			pCycle.unconsumeAll();
 		}
 		
-		System.out.println("Total Final Cycles found: " + finalCycles.size());
+				
+		//
+		// sort the cycleList from shortest to longest.
+		//
+		Collections.sort(uniqueCycles);
 		
-		//TODO: remove cycles that spatially contain others inside them.. arg. this is kind of hairy. :[
+		//
+		// flag edge direction for each cycle if possible...
+		//   if edge is already consumed in a given direction, 
+		//   discard that cycle.
+		//
+		LinkedList<Prim2DCycle> finalCycles = new LinkedList<Prim2DCycle>();
+		for(Prim2DCycle cycle : uniqueCycles){
+			if(cycle.cycleDirectionIsUnconsumed()){
+				finalCycles.add(cycle);
+				cycle.consumeCycleDirection();
+			}
+		}		
+		
+		System.out.println("Total Final Cycles found: " + finalCycles.size());
 		
 	}
 	
@@ -296,7 +306,7 @@ public class Sketch extends Parameterized{
 	 * @param cycleB
 	 * @return true if cyles containt same prim2D.
 	 */
-	boolean hasSamePrim2D(LinkedList<Prim2D> cycleA, LinkedList<Prim2D> cycleB){
+	boolean hasSamePrim2D(Prim2DList cycleA, Prim2DList cycleB){
 		if(cycleA.size() != cycleB.size()){
 			// sizes are different, they can't be the same.
 			return false;
@@ -316,7 +326,7 @@ public class Sketch extends Parameterized{
 	 * @param cycleB
 	 * @return true if cycleA contains cycleB.
 	 */
-	boolean containsSubCycle(LinkedList<Prim2D> cycleA, LinkedList<Prim2D> cycleB){
+	boolean containsSubCycle(Prim2DList cycleA, Prim2DList cycleB){
 		if(cycleB.size() > cycleA.size()){
 			return false;
 		}
@@ -330,53 +340,31 @@ public class Sketch extends Parameterized{
 		return true;
 	}
 	
-	/**
-	 * join two cycles by removing common parts between them.
-	 * @param cycleA
-	 * @param cycleB
-	 * @return
-	 */
-	LinkedList<Prim2D> joinCycles(LinkedList<Prim2D> cycleA, LinkedList<Prim2D> cycleB){
-		LinkedList<Prim2D> joined = new LinkedList<Prim2D>();
-		for(Prim2D prim : cycleA){
-			if(!cycleB.contains(prim)){
-				joined.add(prim);
-			}
-		}
-		for(Prim2D prim : cycleB){
-			if(!cycleA.contains(prim)){
-				joined.add(prim);
-			}
-		}
-		return joined;
-	}
-	
-	
-	LinkedList<Prim2D> copyLL(LinkedList<Prim2D> origList){
-		LinkedList<Prim2D> newList = new LinkedList<Prim2D>();
+	Prim2DCycle copyCL(Prim2DCycle origList){
+		Prim2DCycle newList = new Prim2DCycle();
 		for(Prim2D prim : origList){
 			newList.add(prim);
 		}
 		return newList;
 	}
 	
-	void RFDFSearch(LinkedList<LinkedList<Prim2D>> allCycles, LinkedList<Prim2D> allPrims, Prim2D primStart){
+	void RFDFSearch(LinkedList<Prim2DCycle> allCycles, Prim2DList allPrims, Prim2D primStart){
 		Point2D endPt = primStart.ptA; // end point (where the cycles should eventually end)
 		Point2D conPt = primStart.ptB; // connection point (where next prim2D must connect)
 		
 		// all of the prim2D used so far at a given level
-		LinkedList<LinkedList<Prim2D>> usedAtLevel = new LinkedList<LinkedList<Prim2D>>();
+		LinkedList<Prim2DList> usedAtLevel = new LinkedList<Prim2DList>();
 		int level = 1;
 		
 		// the path taken so far
-		LinkedList<Prim2D> pathSoFar = new LinkedList<Prim2D>();
+		Prim2DCycle pathSoFar = new Prim2DCycle();
 		pathSoFar.add(primStart); // path always starts with primStart.
 		
 		while(level > 0){
 			//System.out.println("*     while");
 			if(usedAtLevel.size() < level){
 				// this is a new level; add a new list.
-				usedAtLevel.add(new LinkedList<Prim2D>());
+				usedAtLevel.add(new Prim2DList());
 				//System.out.println("**    added new level:" + level);
 			}
 			for(int i=0; i<allPrims.size(); i++){
@@ -395,7 +383,7 @@ public class Sketch extends Parameterized{
 						if(nextPt.equalsPt(endPt)){
 							// cycle has been completed. 
 							// add it and continue checking others.
-							allCycles.add(copyLL(pathSoFar)); // use a copy since pathSoFar will change!
+							allCycles.add(copyCL(pathSoFar)); // use a copy since pathSoFar will change!
 							//System.out.println("****  added cycle");
 							pathSoFar.removeLast();
 						}else{

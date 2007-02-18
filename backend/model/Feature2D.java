@@ -6,6 +6,7 @@ import ui.tools.ToolInterface2D;
 import backend.adt.ParamSet;
 import backend.adt.Parameterized;
 import backend.primatives.Prim2D;
+import backend.primatives.Prim2DList;
 
 
 //
@@ -44,7 +45,7 @@ public class Feature2D extends Parameterized{
 	 * Ideally, it would be nicely hidden, but will add significant
 	 * cost when drawing objects with many primatives.
 	 */
-	public LinkedList <Prim2D>prim2DList = new LinkedList<Prim2D>();
+	public Prim2DList prim2DList = new Prim2DList();
 	
 	public Feature2D(ToolInterface2D toolInt, ParamSet paramSet){
 		this.toolInt2D = toolInt;

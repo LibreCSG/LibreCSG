@@ -13,6 +13,7 @@ import backend.model.Feature2D;
 import backend.model.Sketch;
 import backend.primatives.Prim2D;
 import backend.primatives.Prim2DArc;
+import backend.primatives.Prim2DList;
 
 
 //
@@ -124,12 +125,12 @@ public class Tool2DCircleInt implements ToolInterface2D  {
 		}
 	}
 
-	public LinkedList<Prim2D> buildPrimList(ParamSet p) {
+	public Prim2DList buildPrimList(ParamSet p) {
 		Point2D ptC = (Point2D)p.getParam("c").getData();
 		double    r = (Double)p.getParam("r").getData();
-		LinkedList<Prim2D> ll = new LinkedList<Prim2D>();
-		ll.add(new Prim2DArc(ptC,r,0.0,360.0));
-		return ll;
+		Prim2DList primList = new Prim2DList();
+		primList.add(new Prim2DArc(ptC,r,0.0,360.0));
+		return primList;
 	}
 
 

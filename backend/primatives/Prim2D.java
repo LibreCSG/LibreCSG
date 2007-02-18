@@ -39,6 +39,22 @@ public abstract class Prim2D {
 	public Point2D ptA;
 	public Point2D ptB;
 	
+	/**
+	 * Each prim2D can only be a part of two regions.
+	 * Regions consume the prim2D either in the AB
+	 * or BA directions.  This flag indicates if it
+	 * has been consumed in the <bold>A-->B</bold> direction.
+	 */
+	public boolean consumedAB = false;
+	
+	/**
+	 * Each prim2D can only be a part of two regions.
+	 * Regions consume the prim2D either in the AB
+	 * or BA directions.  This flag indicates if it
+	 * has been consumed in the <bold>B-->A</bold> direction.
+	 */
+	public boolean consumedBA = false;
+	
 	abstract public void glDraw(GL gl);
 	
 	/**
@@ -56,6 +72,8 @@ public abstract class Prim2D {
 	abstract public double distFromPrim(Point2D pt);	
 	
 	abstract public PrimPair2D splitPrimAtPoint(Point2D pt);	
+	
+	abstract public double getPrimLength();
 	
 	/**
 	 * Test to see if the Prim2D ends at the given point.

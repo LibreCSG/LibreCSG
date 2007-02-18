@@ -13,6 +13,7 @@ import backend.model.Feature2D;
 import backend.model.Sketch;
 import backend.primatives.Prim2D;
 import backend.primatives.Prim2DLine;
+import backend.primatives.Prim2DList;
 
 
 //
@@ -135,17 +136,17 @@ public class Tool2DRectInt implements ToolInterface2D {
 		}		
 	}
 
-	public LinkedList<Prim2D> buildPrimList(ParamSet p) {
+	public Prim2DList buildPrimList(ParamSet p) {
 		Point2D ptA  = (Point2D)p.getParam("a").getData();
 		Point2D ptB  = (Point2D)p.getParam("b").getData();
 		Point2D ptAB = new Point2D(ptA.getX(),ptB.getY());
 		Point2D ptBA = new Point2D(ptB.getX(),ptA.getY());
-		LinkedList<Prim2D> ll = new LinkedList<Prim2D>();
-		ll.add(new Prim2DLine(ptA,ptAB));
-		ll.add(new Prim2DLine(ptA,ptBA));
-		ll.add(new Prim2DLine(ptB,ptAB));
-		ll.add(new Prim2DLine(ptB,ptBA));
-		return ll;
+		Prim2DList primList = new Prim2DList();
+		primList.add(new Prim2DLine(ptA,ptAB));
+		primList.add(new Prim2DLine(ptA,ptBA));
+		primList.add(new Prim2DLine(ptB,ptAB));
+		primList.add(new Prim2DLine(ptB,ptBA));
+		return primList;
 	}
 
 	public void buildDerivedParams(ParamSet pSet) {

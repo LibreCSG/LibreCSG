@@ -131,5 +131,9 @@ public class Prim2DLine extends Prim2D{
 		return new PrimPair2D(new Prim2DLine(ptA, pt), new Prim2DLine(pt, ptB));
 	}
 
+	public double getPrimLength() {
+		return ptA.computeDist(ptB);
+	}
+
 	
 }
