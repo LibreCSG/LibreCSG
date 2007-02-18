@@ -156,7 +156,13 @@ public class Sketch extends Parameterized{
 		removeFeat2DAtIndex(activeFeat2D);
 	}
 	
-	
+	/**
+	 * build 2D regions from all of the Prim2D
+	 * found in this sketch.  This is a very
+	 * expensive operation and should be done
+	 * minimally. (e.g., switching to 2D->3D mode
+	 * before extruding/revolving/etc).
+	 */
 	public void buildRegionsFromPrim2D(){
 		//
 		// Put all Prim2D into one big list.
