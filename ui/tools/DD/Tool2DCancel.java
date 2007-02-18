@@ -63,8 +63,10 @@ public class Tool2DCancel extends Tool2D{
 		if(m.open() == SWT.YES){		
 			AvoGlobal.menuet.disableAllTools();
 			AvoGlobal.menuet.setCurrentToolMode(Menuet.MENUET_MODE_MAIN);
+			
 			// TODO: remove sketch when Cancel is pushed.
-			AvoGlobal.treeViewer.buildTreeFromAssembly();
+			//       this will also force the TreeViewer to rebuild itself.
+
 			AvoGlobal.paramDialog.setParamSet(null);
 			
 			AvoGlobal.menuet.currentTool = null;			

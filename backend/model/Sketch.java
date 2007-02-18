@@ -157,6 +157,14 @@ public class Sketch extends Parameterized{
 	}
 	
 	/**
+	 * get the sketch's ParamSet.
+	 * @return the ParamSet
+	 */
+	public ParamSet getParamSet(){
+		return paramSet;
+	}
+	
+	/**
 	 * build 2D regions from all of the Prim2D
 	 * found in this sketch.  This is a very
 	 * expensive operation and should be done
@@ -278,8 +286,7 @@ public class Sketch extends Parameterized{
 		// sort the cycleList from shortest to longest.
 		//
 		Collections.sort(uniqueCycles);
-		// TODO: shortest length is NOT the whole picture.. 
-		//       consider a long wiggly line inside of a small triangle.
+		// TODO: SORT BY AREA!! (not shortest path length)
 		
 		//
 		// flag edge direction for each cycle if possible...

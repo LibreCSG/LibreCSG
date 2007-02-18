@@ -79,8 +79,10 @@ public class ToolMain2D extends ToolMain{
 		// now there is a place to put the new sketch!
 		int i = ((Feature2D3D)AvoGlobal.project.getActiveFeat3D()).add(new Sketch());
 		((Feature2D3D)AvoGlobal.project.getActiveFeat3D()).setActiveSketch(i);
-		
-		AvoGlobal.treeViewer.buildTreeFromAssembly();
+		Sketch sketch = AvoGlobal.project.getActiveSketch();
+		if(sketch != null){
+			AvoGlobal.paramDialog.setParamSet(sketch.getParamSet());
+		}
 	}
 
 
