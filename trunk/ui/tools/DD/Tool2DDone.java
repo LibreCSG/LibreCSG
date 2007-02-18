@@ -63,19 +63,22 @@ public class Tool2DDone extends Tool2D{
 
 	@Override
 	public void toolSelected() {
-		// TODO: Push all new items into main backend.model
 		AvoGlobal.menuet.disableAllTools();
 		AvoGlobal.menuet.setCurrentToolMode(Menuet.MENUET_MODE_MAIN);
-		// TODO: deselect all 2D features
 		AvoGlobal.paramDialog.setParamSet(null);
 		AvoGlobal.menuet.currentTool = null;			
 		AvoGlobal.menuet.updateToolModeDisplayed();
-		AvoGlobal.glView.updateGLView = true;
+		AvoGlobal.glView.updateGLView = true;		
 		
-		// TODO: HACK just to test line intersection code!
 		Sketch sketch = AvoGlobal.project.getActiveSketch();
+
 		if(sketch != null){
+			
+			// TODO: if sketch has no Feature2D, then discard it.
+			
 			sketch.deselectAllFeat2D();
+			
+			// TODO: HACK just to test line intersection code!
 			sketch.buildRegionsFromPrim2D();			
 		}
 		

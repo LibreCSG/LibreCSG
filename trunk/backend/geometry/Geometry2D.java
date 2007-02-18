@@ -94,7 +94,16 @@ public class Geometry2D {
 		// angle AB
 		double angleAB = getAnglePtToPt(ptA, ptB);
 		double angleBC = getAnglePtToPt(ptB, ptC);
-		return (angleBC - angleAB)%180.0;
+		//System.out.println("A:" + ptA + " B:" + ptB + " C:" + ptC);
+		//System.out.println("AB:" + angleAB + " BC:" + angleBC);
+		double angle3Pt = (angleBC - angleAB);
+		if(angle3Pt < 180.0){
+			angle3Pt += 360.0;
+		}
+		if(angle3Pt > 180.0){
+			angle3Pt -= 360.0;
+		}
+		return angle3Pt%180.0;
 	}
 	
 	/**

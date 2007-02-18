@@ -1,12 +1,9 @@
 package ui.menubar;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.browser.Browser;
-import org.eclipse.swt.browser.TitleEvent;
-import org.eclipse.swt.browser.TitleListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.program.Program;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
@@ -105,7 +102,8 @@ public class AvoMenuBar {
 				public void widgetDefaultSelected(SelectionEvent e) {					
 				}
 				public void widgetSelected(SelectionEvent e) {
-					// TODO: load external browser.				
+					// launch external browser.	
+					Program.launch("http://avocado-cad.sourceforge.net/");
 				}				
 			});
 		}

@@ -96,7 +96,7 @@ public class TreeViewer {
 	}
 	
 	// TODO: this should NOT be public.. use a listener for model changes!!
-	public void buildTreeFromAssembly(){
+	void buildTreeFromAssembly(){
 		Project project = AvoGlobal.project;
 		
 		// TODO: HACK! don't build the tree from scratch every time!!

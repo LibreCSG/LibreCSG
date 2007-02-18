@@ -25,9 +25,9 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
 import ui.menuet.Menuet;
+import backend.adt.Point3D;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D;
-import backend.model.Feature3D;
 import backend.model.Sketch;
 import backend.primatives.Prim2D;
 
@@ -300,6 +300,9 @@ public class GLView {
 						// TODO: HACK for now to just show the active 2D sketch
 						Sketch sketch = AvoGlobal.project.getActiveSketch();
 						if(sketch != null){
+							gl.glPushMatrix();
+							Point3D offset = (Point3D)sketch.getParamSet().getParam("o").getData();
+							gl.glTranslated(offset.getX(), offset.getY(), offset.getZ());
 							for(int i=0; i < sketch.getFeat2DListSize(); i++){
 								Feature2D f2D = sketch.getAtIndex(i);
 								if(f2D.isSelected){
@@ -315,37 +318,8 @@ public class GLView {
 						    		prim.glDraw(gl);
 						    	}
 							}
+							gl.glPopMatrix();
 						}
-						
-						/*
-						if(AvoGlobal.assembly.partList.getLast().feat3DList.size() > 0){
-							for(Feature3D f3D : AvoGlobal.assembly.partList.getLast().feat3DList){
-							//LinkedList<Feature2D> ll = AvoGlobal.assembly.partList.getLast().feat3DList.getLast().feat2DList;
-								if(f3D.feat2DList.size() > 0){
-									for(Feature2D feat : f3D.feat2DList){
-										if(feat.isSelected){
-								    		gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_ACTIVE[0], AvoGlobal.GL_COLOR4_2D_ACTIVE[1],
-						  									AvoGlobal.GL_COLOR4_2D_ACTIVE[2], AvoGlobal.GL_COLOR4_2D_ACTIVE[3]);
-								    		// TODO: HACK, don't build primatives here.. build when created/modified!
-								    		((Feature2D)feat).buildPrim2DList();
-								    	}else{
-								    		gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_NONACT[0], AvoGlobal.GL_COLOR4_2D_NONACT[1],
-								  							AvoGlobal.GL_COLOR4_2D_NONACT[2], AvoGlobal.GL_COLOR4_2D_NONACT[3]);
-								    	}
-								    	
-								    	//
-								    	// Draw 2D features!
-								    	//
-								    	if(((Feature2D)feat).prim2DList != null){
-									    	for(Prim2D prim : ((Feature2D)feat).prim2DList){
-									    		prim.glDraw(gl);
-									    	}
-								    	}
-									}
-								}
-							}
-						}
-						*/
 
 						if(mouse_down_button != MOUSE_MIDDLE && 
 								mouse_down_button != MOUSE_MIDDLE_SHIFT && 
