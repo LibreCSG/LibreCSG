@@ -1,5 +1,6 @@
 package backend.model;
 
+import backend.adt.Point2D;
 import backend.primatives.Prim2DCycle;
 
 
@@ -32,5 +33,16 @@ import backend.primatives.Prim2DCycle;
 public class Region2D {
 
 	public Prim2DCycle prim2DCycle = new Prim2DCycle();
+	
+	public double getRegionArea(){
+		if(prim2DCycle.isCCW()){
+			
+		}
+		return 0.0;
+	}
+	
+	public boolean regionContainsPoint2D(Point2D pt){
+		return false;
+	}
 	
 }
