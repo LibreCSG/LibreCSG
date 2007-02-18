@@ -2,7 +2,6 @@ package backend.model;
 
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
 
 import backend.adt.Param;
 import backend.adt.ParamSet;
@@ -49,6 +48,7 @@ public class Sketch extends Parameterized{
 	 * List of all the Feature2Ds contained in the sketch
 	 */
 	private LinkedList<Feature2D> feat2DList = new LinkedList<Feature2D>();
+	private LinkedList<Region2D>  regionList = new LinkedList<Region2D>();
 	
 	protected int activeFeat2D = -1;
 	
@@ -174,6 +174,7 @@ public class Sketch extends Parameterized{
 		// no more intersections are found.  this will give a list
 		// of Prim2D that intersect only at endpoints.
 		//
+		//  TODO: This step is rediculous! (generates TONS of cycles)
 		boolean foundIntersection = true;
 		int maxPrimSize = 1000; // TODO: HACK just for debug
 		while(foundIntersection){
@@ -228,10 +229,6 @@ public class Sketch extends Parameterized{
 				//System.out.println("added pruned prim! size:" + prunedPrims.size());
 			}
 		}
-	
-		//for(Prim2D prim : prunedPrims){
-		//	System.out.println("  -PP-> " + prim.ptA + " :: " +  prim.ptB);
-		//}
 		
 		// create a list for complete cycles.  
 		LinkedList<Prim2DCycle> allCycles = new LinkedList<Prim2DCycle>();
@@ -244,12 +241,6 @@ public class Sketch extends Parameterized{
 		}
 					
 		System.out.println("Total Cycles found: " + allCycles.size());
-		//for(LinkedList<Prim2D> llP2D : allCycles){
-		//	System.out.println("CYCLE:");
-		//	for(Prim2D prim : llP2D){
-		//		System.out.println("  --> " + prim.ptA + " :: " +  prim.ptB);
-		//	}
-		//}
 		
 		//
 		// only keep unique cycles...
@@ -275,13 +266,14 @@ public class Sketch extends Parameterized{
 		//
 		for(Prim2DCycle pCycle : uniqueCycles){
 			pCycle.unconsumeAll();
-		}
-		
+		}		
 				
 		//
 		// sort the cycleList from shortest to longest.
 		//
 		Collections.sort(uniqueCycles);
+		// TODO: shortest length is NOT the whole picture.. 
+		//       consider a long wiggly line inside of a small triangle.
 		
 		//
 		// flag edge direction for each cycle if possible...
@@ -298,6 +290,14 @@ public class Sketch extends Parameterized{
 		
 		System.out.println("Total Final Cycles found: " + finalCycles.size());
 		
+		//
+		// put final cycles into the regionList! :)
+		//
+		for(Prim2DCycle cycle : finalCycles){
+			Region2D r = new Region2D();
+			r.prim2DCycle = cycle;
+			regionList.add(r);
+		}		
 	}
 	
 	/**
