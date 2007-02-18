@@ -1,9 +1,7 @@
 package ui.tools;
 
-import java.util.LinkedList;
-
 import backend.adt.ParamSet;
-import backend.primatives.Prim2D;
+import backend.primatives.Prim2DList;
 
 
 //
@@ -34,6 +32,6 @@ import backend.primatives.Prim2D;
 */
 public interface ToolInterface2D extends ToolInterface{
 
-	abstract LinkedList<Prim2D> buildPrimList(ParamSet p);
+	abstract Prim2DList buildPrimList(ParamSet p);
 	
 }

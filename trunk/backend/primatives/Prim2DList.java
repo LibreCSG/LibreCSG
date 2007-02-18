@@ -1,10 +1,6 @@
-package ui.tools.DD;
+package backend.primatives;
 
-import org.eclipse.swt.events.MouseEvent;
-
-import ui.tools.ToolInterface2D;
-import backend.adt.ParamSet;
-import backend.primatives.Prim2DList;
+import java.util.LinkedList;
 
 
 //
@@ -33,30 +29,20 @@ import backend.primatives.Prim2DList;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DDoneInt implements ToolInterface2D {
+public class Prim2DList extends LinkedList<Prim2D>{
+
+	private static final long serialVersionUID = 100012L;
+
 	/**
-	 * All of the tool's main functionality
-	 * mouse handling, glView drawing, 
-	 * parameter storage, etc.
-	 *
+	 * set all prim2D to not be consumed in either the
+	 * <bold>A-->B</bold> or <bold>B-->A</bold> directions.
 	 */
-	public Tool2DDoneInt(){
-	}	
+	public void unconsumeAll(){
+		for(Prim2D prim : this){
+			prim.consumedAB = false;
+			prim.consumedBA = false;
+		}
+	}
 	
-	public void glMouseDown(double x, double y, double z,  MouseEvent e) {
-	}
-
-	public void glMouseDrag(double x, double y, double z,  MouseEvent e) {		
-	}
-
-	public void glMouseUp(double x, double y, double z,  MouseEvent e) {
-	}
-
-	public Prim2DList buildPrimList(ParamSet p) {
-		return null;
-	}
-
-	public void buildDerivedParams(ParamSet pSet) {
-	}
-
+	
 }

@@ -81,5 +81,11 @@ public class Prim2DArc extends Prim2D{
 	public PrimPair2D splitPrimAtPoint(Point2D pt) {
 		return null;
 	}
+
+	@Override
+	public double getPrimLength() {
+		// TODO calculate arc length
+		return 0;
+	}
 	
 }

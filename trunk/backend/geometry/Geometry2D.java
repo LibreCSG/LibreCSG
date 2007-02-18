@@ -82,5 +82,50 @@ public class Geometry2D {
 		// be: abs((distance ptC to ptX) - radius)
 		return Math.abs(ptC.computeDist(ptX) - radius);
 	}
+	
+	/**
+	 * determine how far ptC is from being colinear with ptA and ptB.
+	 * @param ptA
+	 * @param ptB
+	 * @param ptC
+	 * @return angle (degrees) difference between AB and BC
+	 */
+	public static double threePtAngle(Point2D ptA, Point2D ptB, Point2D ptC){
+		// angle AB
+		double angleAB = getAnglePtToPt(ptA, ptB);
+		double angleBC = getAnglePtToPt(ptB, ptC);
+		return (angleBC - angleAB)%180.0;
+	}
+	
+	/**
+	 * get the cartesian angle between ptA and ptB
+	 * @param ptA
+	 * @param ptB
+	 * @return the angle (in degrees)
+	 */
+	public static double getAnglePtToPt(Point2D ptA, Point2D ptB){
+		double x = ptB.getX() - ptA.getX();
+		double y = ptB.getY() - ptA.getY();
+		double radAngle = 0.0;
+		if(x > 0.0){
+			radAngle = Math.atan(y/x);
+		}
+		if(x < 0.0){
+			if(y >= 0.0){
+				radAngle = Math.atan(y/x) + Math.PI;
+			}else{
+				radAngle = Math.atan(y/x) - Math.PI;
+			}			
+		}
+		if(x == 0.0){
+			if(y > 0.0){
+				radAngle = Math.PI/2.0;
+			}
+			if(y < 0.0){
+				radAngle = -Math.PI/2.0;
+			}
+		}
+		return radAngle*180.0/Math.PI;
+	}
 
 }
