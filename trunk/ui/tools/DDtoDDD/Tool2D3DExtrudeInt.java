@@ -1,4 +1,12 @@
-package ui.tools;
+package ui.tools.DDtoDDD;
+
+import org.eclipse.swt.events.MouseEvent;
+
+import ui.tools.ToolInterface2D3D;
+import backend.adt.ParamSet;
+import backend.adt.Point2D;
+import backend.global.AvoGlobal;
+import backend.model.Sketch;
 
 
 //
@@ -27,8 +35,23 @@ package ui.tools;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public interface ToolInterface2D3D extends ToolInterface{
+public class Tool2D3DExtrudeInt implements ToolInterface2D3D{
 
-	
-	
+	public void buildDerivedParams(ParamSet pSet) {
+	}
+
+	public void glMouseDown(double x, double y, double z, MouseEvent e) {
+		System.out.println("got extrude mouse down!");
+		Sketch sketch = AvoGlobal.project.getActiveSketch();
+		if(sketch != null){
+			sketch.selectRegionsThatContainsPoint(new Point2D(x,y));
+		}
+	}
+
+	public void glMouseDrag(double x, double y, double z, MouseEvent e) {
+	}
+
+	public void glMouseUp(double x, double y, double z, MouseEvent e) {
+	}
+
 }
