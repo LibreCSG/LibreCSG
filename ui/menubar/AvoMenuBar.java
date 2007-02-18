@@ -1,11 +1,18 @@
 package ui.menubar;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.browser.TitleEvent;
+import org.eclipse.swt.browser.TitleListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Shell;
+
+import backend.global.AvoGlobal;
 
 
 //
@@ -36,6 +43,8 @@ import org.eclipse.swt.widgets.MenuItem;
 */
 public class AvoMenuBar {
 
+	static Shell browserShell;
+	
 	/**
 	 * add items to the shell's top menubar.
 	 * @param menu
@@ -66,10 +75,40 @@ public class AvoMenuBar {
 		
 		MenuItem miEdit = new MenuItem(menu, SWT.CASCADE);
 		miEdit.setText("&Edit");
+		
 		MenuItem miView = new MenuItem(menu, SWT.CASCADE);
 		miView.setText("&View");
+		{
+			// View Menu
+			Menu viewSub = new Menu(menu.getShell(), SWT.DROP_DOWN);
+			miView.setMenu(viewSub);
+			MenuItem vsTop = new MenuItem(viewSub, SWT.PUSH);
+			vsTop.setText("Top");
+			vsTop.addSelectionListener(new SelectionListener(){
+				public void widgetDefaultSelected(SelectionEvent e) {
+				}
+				public void widgetSelected(SelectionEvent e) {
+					AvoGlobal.glView.setViewTop();
+				}				
+			});
+		}
+		
 		MenuItem miHelp = new MenuItem(menu, SWT.CASCADE);
 		miHelp.setText("&Help");
+		{
+			// Help Menu
+			Menu helpSub = new Menu(menu.getShell(), SWT.DROP_DOWN);
+			miHelp.setMenu(helpSub);
+			MenuItem hsWeb = new MenuItem(helpSub, SWT.PUSH);
+			hsWeb.setText("Visit avoCADo Website");
+			hsWeb.addSelectionListener(new SelectionListener(){
+				public void widgetDefaultSelected(SelectionEvent e) {					
+				}
+				public void widgetSelected(SelectionEvent e) {
+					// TODO: load external browser.				
+				}				
+			});
+		}
 	}
 	
 }
