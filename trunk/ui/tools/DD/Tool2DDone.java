@@ -75,6 +75,7 @@ public class Tool2DDone extends Tool2D{
 		// TODO: HACK just to test line intersection code!
 		Sketch sketch = AvoGlobal.project.getActiveSketch();
 		if(sketch != null){
+			sketch.deselectAllFeat2D();
 			sketch.buildRegionsFromPrim2D();			
 		}
 		

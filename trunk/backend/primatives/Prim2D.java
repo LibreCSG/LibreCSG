@@ -36,8 +36,8 @@ public abstract class Prim2D {
 	/**
 	 * end points of curve.
 	 */
-	public Point2D ptA;
-	public Point2D ptB;
+	public Point2D ptA = new Point2D(0.0,0.0);
+	public Point2D ptB = new Point2D(0.0,0.0);
 	
 	/**
 	 * Each prim2D can only be a part of two regions.

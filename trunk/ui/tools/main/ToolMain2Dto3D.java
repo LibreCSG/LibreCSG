@@ -38,16 +38,16 @@ import backend.model.Sketch;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class ToolMain2D extends ToolMain{
+public class ToolMain2Dto3D extends ToolMain{
 
-	public ToolMain2D(Menuet menuet){	
+	public ToolMain2Dto3D(Menuet menuet){	
 		
 		// initialize GUI elements
 		mElement = new MEButton(menuet, this.getToolMode());
 		mElement.mePreferredHeight = 100;
-		mElement.meLabel = "2D";
-		mElement.meIcon = ImageUtils.getIcon("menuet/MAIN_2D.png", 24, 24);
-		mElement.setToolTipText("2D Sketch Mode");
+		mElement.meLabel = "2Dto3D";
+		mElement.meIcon = ImageUtils.getIcon("menuet/MAIN_2Dto3D.png", 24, 24);
+		mElement.setToolTipText("Transform 2D sketches\ninto various 3D shapes.");
 		mElement.mePriority = 0; 	// 0 = always show element, >5 = never show element
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
 		
@@ -57,30 +57,9 @@ public class ToolMain2D extends ToolMain{
 	@Override
 	public void toolSelected() {
 		AvoGlobal.menuet.disableAllTools();
-		AvoGlobal.menuet.setCurrentToolMode(Menuet.MENUET_MODE_2D);
+		AvoGlobal.menuet.setCurrentToolMode(Menuet.MENUET_MODE_2Dto3D);
 		AvoGlobal.menuet.updateToolModeDisplayed();
-		//
-		// create new Feature3D to use for subsequent 2D sketches
-		//
-		if(AvoGlobal.project.getActiveGroup() == null){
-			int i = AvoGlobal.project.add(new Group());
-			AvoGlobal.project.setActiveGroup(i);
-		}
-		if(AvoGlobal.project.getActivePart() == null){
-			int i = AvoGlobal.project.getActiveGroup().add(new Part());
-			AvoGlobal.project.getActiveGroup().setActivePart(i);
-		}
-		if(AvoGlobal.project.getActiveFeat3D() == null || !(AvoGlobal.project.getActiveFeat3D() instanceof Feature2D3D)){
-			// TODO: specifying a null toolInterface and ParamSet... bad?!?!
-			int i = AvoGlobal.project.getActivePart().add(new Feature2D3D(null, null));
-			AvoGlobal.project.getActivePart().setActiveFeat3D(i);
-		}
-
-		// now there is a place to put the new sketch!
-		int i = ((Feature2D3D)AvoGlobal.project.getActiveFeat3D()).add(new Sketch());
-		((Feature2D3D)AvoGlobal.project.getActiveFeat3D()).setActiveSketch(i);
-		
-		AvoGlobal.treeViewer.buildTreeFromAssembly();
+		// TODO: make sure a sketch is active.. 
 	}
 
 
