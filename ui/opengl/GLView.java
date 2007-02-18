@@ -333,7 +333,8 @@ public class GLView {
 						// this should be the last thing drawn in the 2D mode
 						// TODO: HACK, this should be sized according to the grid, which should also be dynamic!
 						//
-						if(AvoGlobal.menuet.getCurrentToolMode() == Menuet.MENUET_MODE_2D){
+						if(AvoGlobal.menuet.getCurrentToolMode() == Menuet.MENUET_MODE_2D ||
+								AvoGlobal.menuet.getCurrentToolMode() == Menuet.MENUET_MODE_2Dto3D){
 							gl.glColor4f(1.0f,0.0f,0.0f, 0.0f);
 							gl.glBegin(GL.GL_QUADS);
 								gl.glVertex3f(-100.0f, 100.0f, 0.0f);

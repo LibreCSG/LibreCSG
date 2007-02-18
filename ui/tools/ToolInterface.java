@@ -76,5 +76,7 @@ public interface ToolInterface {
 	 * a beam, etc.).
 	 * @param pSet the non-null set of parameters
 	 */
-	abstract public void buildDerivedParams(ParamSet pSet);
+	abstract public void buildDerivedParams(ParamSet pSet);	
+	
 }
+

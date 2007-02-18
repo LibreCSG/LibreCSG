@@ -152,6 +152,29 @@ public class Sketch extends Parameterized{
 	}
 	
 	/**
+	 * select any Region2D that contain the 
+	 * given point within this sketch.
+	 */
+	public void selectRegionsThatContainsPoint(Point2D pt){
+		for(Region2D reg : regionList){
+			if(reg.regionContainsPoint2D(pt)){
+				reg.isSelected = true;
+				System.out.println(" ** Selected a region!!");
+			}
+		}
+	}
+	
+	/**
+	 * deselect all Region2D within this sketch.
+	 */
+	public void deselectAllRegions(){
+		for(Region2D reg : regionList){
+			reg.isSelected = false;
+		}
+	}
+	
+	
+	/**
 	 * Remove the Feature2D at the index if present.
 	 * @param i index
 	 */
@@ -306,6 +329,7 @@ public class Sketch extends Parameterized{
 		//
 		Collections.sort(uniqueCycles);
 		// TODO: SORT BY AREA!! (not shortest path length)
+		//       use (Region2D) not cycles to do that...
 		
 		//
 		// flag edge direction for each cycle if possible...
