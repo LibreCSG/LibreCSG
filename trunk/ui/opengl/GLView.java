@@ -496,4 +496,13 @@ public class GLView {
         AvoGlobal.glViewEventHandler.notifyCursorMoved();
 		return wcoord;
 	}
+	
+	
+	public void setViewTop(){
+		rotation_x = 0.0f;
+		rotation_y = 0.0f;
+		rotation_z = 0.0f;
+		translation_x = 0.0f;
+		translation_y = 0.0f;
+	}
 }

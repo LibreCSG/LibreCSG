@@ -36,16 +36,17 @@ public class Prim2DArc extends Prim2D{
 
 	//TODO: remember to update ptA and ptB -- the arc's end points.
 	
-	Point2D center;
-	double  radius;
-	double  startAngle;
-	double  arcAngle;
+	protected Point2D center;
+	protected double  radius;
+	protected double  startAngle;
+	protected double  arcAngle;
 	
 	public Prim2DArc(Point2D center, double radius, double startAngle, double arcAngle){
 		this.center = center;
 		this.radius = radius;
 		this.startAngle = startAngle;
 		this.arcAngle   = arcAngle;
+		//TODO: set ptA, and ptB based on radius and startangle
 	}
 	
 	public void glDraw(GL gl) {
@@ -84,8 +85,8 @@ public class Prim2DArc extends Prim2D{
 
 	@Override
 	public double getPrimLength() {
-		// TODO calculate arc length
-		return 0;
+		// calculate arc length
+		return (arcAngle/180.0)*Math.PI*radius;
 	}
 	
 }
