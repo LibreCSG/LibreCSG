@@ -1,8 +1,6 @@
 package backend.model;
 
-import java.util.LinkedList;
-
-import backend.primatives.Prim2D;
+import backend.primatives.Prim2DCycle;
 
 
 //
@@ -33,6 +31,6 @@ import backend.primatives.Prim2D;
 */
 public class Region2D {
 
-	public LinkedList <Prim2D>prim2DList = new LinkedList<Prim2D>();
+	public Prim2DCycle prim2DCycle = new Prim2DCycle();
 	
 }
