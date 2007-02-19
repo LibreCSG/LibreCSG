@@ -1,10 +1,4 @@
-package ui.tools.main;
-
-import org.eclipse.swt.events.MouseEvent;
-
-import ui.tools.ToolInterfaceMain;
-import backend.adt.ParamNotFoundException;
-import backend.adt.ParamSet;
+package ui.tools;
 
 
 //
@@ -33,26 +27,8 @@ import backend.adt.ParamSet;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class ToolMain2D3DInt implements ToolInterfaceMain{
-
-	public void glMouseDown(double x, double y, double z, MouseEvent e) {
-	}
-
-	public void glMouseDrag(double x, double y, double z, MouseEvent e) {
-	}
-
-	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
-	}
-
-	public void glMouseUp(double x, double y, double z, MouseEvent e) {
-	}
-
-	public void loadParamsAndUpdateState(ParamSet pSet) throws ParamNotFoundException {
-		// TODO Auto-generated method stub		
-	}
-
-	public void modifyParamsFromState(ParamSet pSet) throws ParamNotFoundException {
-		// TODO Auto-generated method stub		
-	}
-
+public interface ToolInterfaceMain extends ToolInterface {
+	
+	// nothing here for now.. but keeps ToolInterface structure consistent for all Tools.
+	
 }

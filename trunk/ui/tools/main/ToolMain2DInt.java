@@ -2,9 +2,9 @@ package ui.tools.main;
 
 import org.eclipse.swt.events.MouseEvent;
 
+import ui.tools.ToolInterfaceMain;
 import backend.adt.ParamNotFoundException;
 import backend.adt.ParamSet;
-import ui.tools.ToolInterface;
 
 
 //
@@ -33,7 +33,7 @@ import ui.tools.ToolInterface;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class ToolMain2DInt implements ToolInterface{
+public class ToolMain2DInt implements ToolInterfaceMain{
 
 	public void glMouseDown(double x, double y, double z, MouseEvent e) {
 	}
