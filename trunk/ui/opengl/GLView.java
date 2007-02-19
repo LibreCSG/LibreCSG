@@ -25,11 +25,12 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
 import ui.menuet.Menuet;
-import backend.adt.Point2D;
+import ui.tools.ToolInterface2D3D;
 import backend.adt.Point3D;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D;
-import backend.model.Region2D;
+import backend.model.Feature2D3D;
+import backend.model.Feature3D;
 import backend.model.Sketch;
 import backend.primatives.Prim2D;
 
@@ -321,30 +322,10 @@ public class GLView {
 						    	}
 							}
 							
-							for(int i=0; i<sketch.getRegion2DListSize(); i++){
-								Region2D reg = sketch.getRegAtIndex(i);
-								if(reg.isSelected){
-									// region is selected -- fill it in.
-									// TODO: HACK, only drawing if 3 sided.
-									if(reg.prim2DCycle.size() == 3){
-										Point2D ptA = reg.prim2DCycle.get(0).ptA;
-										Point2D ptB = reg.prim2DCycle.get(0).ptB;
-										Point2D ptC = reg.prim2DCycle.get(1).hasPtGetOther(ptB);
-										gl.glColor4f(1.0f, 0.7f, 0.85f, 0.5f);
-										gl.glBegin(GL.GL_TRIANGLES);
-										//System.out.println("A:" + ptA + " B:" + ptB + " C:" + ptC);
-											if(reg.prim2DCycle.isCCW()){
-												gl.glVertex3d(ptA.getX(), ptA.getY(), 0.0);
-												gl.glVertex3d(ptB.getX(), ptB.getY(), 0.0);
-												gl.glVertex3d(ptC.getX(), ptC.getY(), 0.0);
-											}else{
-												gl.glVertex3d(ptC.getX(), ptC.getY(), 0.0);												
-												gl.glVertex3d(ptB.getX(), ptB.getY(), 0.0);
-												gl.glVertex3d(ptA.getX(), ptA.getY(), 0.0);
-											}											
-										gl.glEnd();
-									}
-								}
+							Feature3D feat3D = AvoGlobal.project.getActiveFeat3D();
+							ToolInterface2D3D t = ((Feature2D3D)feat3D).toolInt2D3D;
+							if(t != null){
+								t.draw3DFeature(gl, feat3D.paramSet, sketch);
 							}
 							
 							gl.glPopMatrix();

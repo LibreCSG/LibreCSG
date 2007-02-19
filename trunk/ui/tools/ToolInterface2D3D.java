@@ -1,5 +1,10 @@
 package ui.tools;
 
+import javax.media.opengl.GL;
+
+import backend.adt.ParamSet;
+import backend.model.Sketch;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -29,6 +34,6 @@ package ui.tools;
 */
 public interface ToolInterface2D3D extends ToolInterface{
 
-	
+	abstract public void draw3DFeature(GL gl, ParamSet paramSet, Sketch sketch);
 	
 }
