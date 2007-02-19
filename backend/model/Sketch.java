@@ -311,8 +311,13 @@ public class Sketch extends Parameterized{
 		//
 		// find cycles... Recursion-free depth first search
 		//
+		Prim2DList prunedPrimsCopy = new Prim2DList();
 		for(Prim2D prim : prunedPrims){
-			RFDFSearch(allCycles, prunedPrims, prim);
+			prunedPrimsCopy.add(prim);
+		}
+		for(Prim2D prim : prunedPrims){
+			RFDFSearch(allCycles, prunedPrimsCopy, prim);
+			prunedPrimsCopy.remove(0); // speed up a bit by removing the last prim2D checked.
 		}
 					
 		System.out.println("Total Cycles found: " + allCycles.size());
