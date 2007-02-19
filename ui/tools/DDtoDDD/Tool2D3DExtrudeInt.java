@@ -1,5 +1,6 @@
 package ui.tools.DDtoDDD;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolInterface2D3D;
@@ -37,13 +38,25 @@ import backend.model.Sketch;
 */
 public class Tool2D3DExtrudeInt implements ToolInterface2D3D{
 
+	boolean shiftIsDown = false;
+	
 	public void buildDerivedParams(ParamSet pSet) {
 	}
 
 	public void glMouseDown(double x, double y, double z, MouseEvent e) {
-		System.out.println("got extrude mouse down!");
+		//System.out.println("got extrude mouse down!");
 		Sketch sketch = AvoGlobal.project.getActiveSketch();
 		if(sketch != null){
+			if((e.stateMask & SWT.SHIFT) != 0){
+				shiftIsDown = true;
+			}else{
+				shiftIsDown = false;
+			}
+			if(!shiftIsDown){			
+				// only deselect other regions if SHIFT key is not down.
+				sketch.deselectAllRegions();
+			}
+			
 			sketch.selectRegionsThatContainsPoint(new Point2D(x,y));
 		}
 	}

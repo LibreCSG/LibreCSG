@@ -78,8 +78,8 @@ public class Region2D implements Comparable{
 			double lambda2 = (A*(F+I) - C*(D+G)) / (B*(D+G) - A*(E+H));
 			double lambda3 = 1.0 - lambda1 - lambda2;
 			
-			// pt is in Triangle ptA,ptB,ptC iff: lambda1 && lambda2 are both 0 < lambda < 1
-			if(lambda1 > 0.0 && lambda1 < 1.0 && lambda2 > 0.0 && lambda2 < 1.0){
+			// pt is in Triangle ptA,ptB,ptC iff: lambda1 && lambda2 && lambda3 are all 0 < lambda < 1
+			if(lambda1 > 0.0 && lambda1 < 1.0 && lambda2 > 0.0 && lambda2 < 1.0 && lambda3 > 0.0 && lambda3 < 1.0){
 				return true;
 			}
 			
