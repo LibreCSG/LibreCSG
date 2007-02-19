@@ -222,6 +222,10 @@ public class GLView {
 					if(AvoGlobal.menuet.currentTool != null && AvoGlobal.menuet.currentTool.toolInterface != null){
 						if(mouse_down_button == MOUSE_LEFT){
 							AvoGlobal.menuet.currentTool.toolInterface.glMouseDrag(coor[0], coor[1], coor[2], e);
+						}else{
+							if(mouse_down_button == -1){
+								AvoGlobal.menuet.currentTool.toolInterface.glMouseMovedUp(coor[0], coor[1], coor[2], e);
+							}
 						}
 					}
 				}

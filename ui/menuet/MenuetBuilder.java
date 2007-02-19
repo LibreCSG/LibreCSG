@@ -8,7 +8,7 @@ import ui.tools.DD.Tool2DRect;
 import ui.tools.DD.Tool2DSelect;
 import ui.tools.DDtoDDD.Tool2D3DExtrude;
 import ui.tools.main.ToolMain2D;
-import ui.tools.main.ToolMain2Dto3D;
+import ui.tools.main.ToolMain2D3D;
 import backend.global.AvoGlobal;
 
 
@@ -87,7 +87,7 @@ public class MenuetBuilder {
 		labelMAIN.textIsBold = true;
 		
 		new ToolMain2D(menuet);
-		new ToolMain2Dto3D(menuet);
+		new ToolMain2D3D(menuet);
 		
 		
 	}

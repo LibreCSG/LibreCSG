@@ -38,9 +38,9 @@ import backend.model.Sketch;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class ToolMain2Dto3D extends ToolMain{
+public class ToolMain2D3D extends ToolMain{
 
-	public ToolMain2Dto3D(Menuet menuet){	
+	public ToolMain2D3D(Menuet menuet){	
 		
 		// initialize GUI elements
 		mElement = new MEButton(menuet, this.getToolMode());
@@ -52,6 +52,8 @@ public class ToolMain2Dto3D extends ToolMain{
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
 		
 		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
+		
+		toolInterface = new ToolMain2D3DInt();
 	}
 
 	@Override
@@ -73,18 +75,6 @@ public class ToolMain2Dto3D extends ToolMain{
 			AvoGlobal.menuet.updateToolModeDisplayed();	
 			sketch.buildRegionsFromPrim2D();
 		}
-	}
-
-
-	public void glMouseDown(double x, double y, double z, int mouseX, int mouseY) {
-	}
-
-
-	public void glMouseDrag(double x, double y, double z, int mouseX, int mouseY) {
-	}
-
-
-	public void glMouseUp(double x, double y, double z, int mouseX, int mouseY) {
 	}
 	
 }

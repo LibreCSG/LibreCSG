@@ -4,6 +4,7 @@ import ui.menuet.MEButton;
 import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
 import ui.tools.ToolMain;
+import ui.tools.DD.Tool2DRectInt;
 import backend.data.utilities.ImageUtils;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D3D;
@@ -52,6 +53,8 @@ public class ToolMain2D extends ToolMain{
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
 		
 		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
+		
+		toolInterface = new ToolMain2DInt();
 	}
 
 	@Override
@@ -85,16 +88,4 @@ public class ToolMain2D extends ToolMain{
 		}
 	}
 
-
-	public void glMouseDown(double x, double y, double z, int mouseX, int mouseY) {
-	}
-
-
-	public void glMouseDrag(double x, double y, double z, int mouseX, int mouseY) {
-	}
-
-
-	public void glMouseUp(double x, double y, double z, int mouseX, int mouseY) {
-	}
-	
 }
