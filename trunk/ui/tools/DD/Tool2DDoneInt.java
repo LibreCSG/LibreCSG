@@ -3,6 +3,7 @@ package ui.tools.DD;
 import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolInterface2D;
+import backend.adt.ParamNotFoundException;
 import backend.adt.ParamSet;
 import backend.primatives.Prim2DList;
 
@@ -56,7 +57,15 @@ public class Tool2DDoneInt implements ToolInterface2D {
 		return null;
 	}
 
-	public void buildDerivedParams(ParamSet pSet) {
+	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
+	}
+
+
+	public void loadParamsAndUpdateState(ParamSet pSet) throws ParamNotFoundException {
+	}
+
+
+	public void modifyParamsFromState(ParamSet pSet) throws ParamNotFoundException {		
 	}
 
 }

@@ -2,6 +2,7 @@ package ui.tools;
 
 import org.eclipse.swt.events.MouseEvent;
 
+import backend.adt.ParamNotFoundException;
 import backend.adt.ParamSet;
 
 
@@ -46,7 +47,8 @@ public interface ToolInterface {
 	abstract public void glMouseDown(double x, double y, double z, MouseEvent e);
 	
 	/**
-	 * glView calls this when it recieved a <em>mousemove</em> event.
+	 * glView calls this when it recieved a <em>mousemove</em> 
+	 * event with the mouse button held down.
 	 * Both mouse (screen) coordinates and absolute x,y,z 
 	 * coordinates are provided.
 	 * @param x
@@ -56,6 +58,19 @@ public interface ToolInterface {
 	 * @param mouseY
 	 */
 	abstract public void glMouseDrag(double x, double y, double z,  MouseEvent e);
+	
+	/**
+	 * glView calls this when it recieved a <em>mousemove</em> 
+	 * event with the mouse button <em>NOT</em> held down.
+	 * Both mouse (screen) coordinates and absolute x,y,z 
+	 * coordinates are provided.
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param mouseX
+	 * @param mouseY
+	 */
+	abstract public void glMouseMovedUp(double x, double y, double z,  MouseEvent e);
 	
 	/**
 	 * glView calls this when it recieved a <em>mouseup</em> event.
@@ -70,13 +85,19 @@ public interface ToolInterface {
 	abstract public void glMouseUp(double x, double y, double z,  MouseEvent e);
 	
 	/**
-	 * build any derived parameters from the ParamSet
-	 * and place them back into the given set.
-	 * (e.g., compute the length of a line, the stiffness of
-	 * a beam, etc.).
-	 * @param pSet the non-null set of parameters
+	 * verify that the parameter data is in fact valid/complete
+	 * and then update the state within the ToolInterface sub-class
+	 * with the paramSet's values.
+	 * @param pSet the parameter set to load.
 	 */
-	abstract public void buildDerivedParams(ParamSet pSet);	
+	abstract public void loadParamsAndUpdateState(ParamSet pSet) throws ParamNotFoundException;
 	
+	/**
+	 * using the local state of the ToolInterface sub-class, 
+	 * modify the paramSet with the appropriate values.  
+	 * All derived parameters should also be updated here.
+	 * @param pSet the parameter set to modify.
+	 */
+	abstract public void modifyParamsFromState(ParamSet pSet) throws ParamNotFoundException;
 }
 

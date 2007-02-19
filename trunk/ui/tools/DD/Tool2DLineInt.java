@@ -4,6 +4,7 @@ import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolInterface2D;
 import backend.adt.Param;
+import backend.adt.ParamNotFoundException;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
 import backend.global.AvoGlobal;
@@ -135,7 +136,7 @@ public class Tool2DLineInt implements ToolInterface2D {
 		return primList;
 	}
 
-	public void buildDerivedParams(ParamSet pSet) {
+	void buildDerivedParams(ParamSet pSet) {
 		//
 		// Build all derived parameters
 		//
@@ -144,5 +145,18 @@ public class Tool2DLineInt implements ToolInterface2D {
 		pSet.changeParam("d", ptA.computeDist(ptB));
 	}
 
+	
+	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
+	}
+
+
+	public void loadParamsAndUpdateState(ParamSet pSet) throws ParamNotFoundException {
+		// TODO Auto-generated method stub		
+	}
+
+
+	public void modifyParamsFromState(ParamSet pSet) throws ParamNotFoundException {
+		// TODO Auto-generated method stub		
+	}
 
 }
