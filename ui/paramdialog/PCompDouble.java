@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import ui.event.ParamListener;
+import ui.tools.ToolInterface;
 import ui.utilities.NumUtils;
 import backend.adt.PType;
 import backend.adt.Param;
