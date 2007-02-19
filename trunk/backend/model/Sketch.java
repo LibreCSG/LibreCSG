@@ -104,6 +104,25 @@ public class Sketch extends Parameterized{
 		return feat2DList.size();
 	}
 	
+	/**
+	 * @return the size() of the list of Region2Ds.
+	 */
+	public int getRegion2DListSize(){
+		return regionList.size();
+	}
+	
+	/**
+	 * get the Region2D at a given index.
+	 * @param i index
+	 * @return the Region, or null if index was invalid.
+	 */
+	public Region2D getRegAtIndex(int i){
+		if(i < 0 || i >= regionList.size()){
+			// index is not valid!
+			return null;
+		}
+		return regionList.get(i);
+	}
 	
 	/**
 	 * set the index of the Feature2D that should be set to Active.
