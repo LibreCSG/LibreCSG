@@ -1,5 +1,6 @@
 package backend.model;
 
+import backend.adt.ParamSet;
 import backend.adt.Parameterized;
 
 
@@ -31,4 +32,5 @@ import backend.adt.Parameterized;
 */
 public abstract class Feature3D extends Parameterized {
 	
+		
 }

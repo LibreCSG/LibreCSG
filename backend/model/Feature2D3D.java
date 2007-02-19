@@ -36,7 +36,7 @@ import backend.global.AvoGlobal;
 public class Feature2D3D extends Feature3D{
 	
 	protected LinkedList<Sketch> sketchList = new LinkedList<Sketch>();
-	protected ToolInterface2D3D toolInt2D3D;
+	public ToolInterface2D3D toolInt2D3D;
 	
 	protected int activeSketch = -1;
 	
@@ -44,6 +44,8 @@ public class Feature2D3D extends Feature3D{
 		this.paramSet = paramSet;
 		this.toolInt2D3D = toolInt2D3D;		
 	}
+	
+	
 	
 	/**
 	 * add a Sketch fot the end of the list of Sketches.
