@@ -58,7 +58,7 @@ public class Region2D implements Comparable{
 	public boolean regionContainsPoint2D(Point2D pt){
 		// TODO: Big HACK.. only considering 3-sided regions
 		if(prim2DCycle.size() == 3){
-			// consider baricentric coordinates to determine if point is inside.
+			// consider barycentric coordinates to determine if point is inside triangle.
 			Prim2D base = prim2DCycle.get(0);
 			Point2D pt1 = base.ptA;
 			Point2D pt2 = base.ptB;
@@ -70,9 +70,9 @@ public class Region2D implements Comparable{
 			double D = pt1.getY()-pt3.getY();
 			double E = pt2.getY()-pt3.getY();
 			double F = pt3.getY()-pt.getY();
-			double G =  0.0; // pt1.getZ()-pt3.getZ();
-			double H =  0.0; // pt2.getZ()-pt3.getZ();
-			double I =  0.0; // pt3.getZ()-pt.getZ();
+			double G =  0.0; // pt1.getZ()-pt3.getZ(); // for 3D point
+			double H =  0.0; // pt2.getZ()-pt3.getZ(); // for 3D point
+			double I =  0.0; // pt3.getZ()-pt.getZ();  // for 3D point
 			
 			double lambda1 = (B*(F+I) - C*(E+H)) / (A*(E+H) - B*(D+G));
 			double lambda2 = (A*(F+I) - C*(D+G)) / (B*(D+G) - A*(E+H));

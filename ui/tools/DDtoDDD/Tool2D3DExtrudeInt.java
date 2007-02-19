@@ -58,7 +58,7 @@ public class Tool2D3DExtrudeInt implements ToolInterface2D3D{
 				//
 				// Build parameter set for this feature
 				//
-				ParamSet pSet = new ParamSet("Extrude");
+				ParamSet pSet = new ParamSet("Extrude", this);
 				pSet.addParam("h", new Param("Height", 2*AvoGlobal.gridSize));
 				
 				f2D3D.toolInt2D3D = this;

@@ -61,7 +61,7 @@ public class Tool2DLineInt implements ToolInterface2D {
 			//
 			// Build parameter set for this feature
 			//
-			ParamSet pSet = new ParamSet("Line");
+			ParamSet pSet = new ParamSet("Line", this);
 			pSet.addParam("a", new Param("Pt.A", new Point2D(x,y)));
 			pSet.addParam("b", new Param("Pt.B", new Point2D(x,y)));
 			Param dist = new Param("Dist", 0.0);

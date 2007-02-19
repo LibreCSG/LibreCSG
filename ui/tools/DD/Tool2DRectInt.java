@@ -64,7 +64,7 @@ public class Tool2DRectInt implements ToolInterface2D {
 			//
 			// Build parameter set for this feature
 			//
-			ParamSet pSet = new ParamSet("Rectangle");
+			ParamSet pSet = new ParamSet("Rectangle", this);
 			pSet.addParam("a", new Param("Pt.A", new Point2D(x,y)));
 			pSet.addParam("b", new Param("Pt.B", new Point2D(x,y)));
 			Param width = new Param("Width", 0.0);

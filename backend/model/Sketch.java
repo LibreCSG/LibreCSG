@@ -60,7 +60,7 @@ public class Sketch extends Parameterized{
 	public boolean isConsumed = false;
 	
 	public Sketch(){
-		paramSet = new ParamSet("Sketch");
+		paramSet = new ParamSet("Sketch", null);
 		paramSet.addParam("o", new Param("Offset", new Point3D(0.0, 0.0, 0.0)));
 		paramSet.addParam("r", new Param("Rotation", new Rotation3D(0.0, 0.0, 0.0)));
 		paramSet.label = "Sketch";
