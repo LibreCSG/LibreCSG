@@ -3,6 +3,8 @@ package backend.adt;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
+import ui.tools.ToolInterface;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -33,13 +35,27 @@ import java.util.LinkedHashMap;
 public class ParamSet {
 
 	public String label;
+	protected ToolInterface toolInterface;
 	protected LinkedHashMap <String,Param>paramSet = new LinkedHashMap<String,Param>();
 	
 	/**
 	 * construct a new parameter set.
 	 */
-	public ParamSet(String label){
+	public ParamSet(String label, ToolInterface toolInterface){
 		this.label = label;
+		if(toolInterface == null){
+			System.out.println(" *** WARNING *** ParamSet was given a NULL ToolInterface.  This is a bad idea!");
+		}
+		this.toolInterface = toolInterface;
+	}
+	
+	/**
+	 * get the tool interface used to build
+	 * and manipulate the parameter set.
+	 * @return the tool interface
+	 */
+	public ToolInterface getToolInterface(){
+		return toolInterface;
 	}
 	
 	/**

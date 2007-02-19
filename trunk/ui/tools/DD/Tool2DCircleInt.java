@@ -65,7 +65,7 @@ public class Tool2DCircleInt implements ToolInterface2D  {
 			//
 			// Build parameter set for this feature
 			//
-			ParamSet pSet = new ParamSet("Circle");
+			ParamSet pSet = new ParamSet("Circle", this);
 			pSet.addParam("c", new Param("center", new Point2D(x,y)));
 			pSet.addParam("r", new Param("radius", 0.0));
 			
