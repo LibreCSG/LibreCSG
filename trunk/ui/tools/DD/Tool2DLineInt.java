@@ -120,8 +120,7 @@ public class Tool2DLineInt implements ToolInterface2D {
 			if(ptA.equalsPt(ptB)){
 				// end point are the same... discard
 				System.out.println("end points of line are the same... discarding feature");
-				// remove feature2D from the set!
-				AvoGlobal.project.getActiveSketch().removeActiveFeat2D();
+				// TODO: remove feature2D from the set!
 				AvoGlobal.paramDialog.setParamSet(null);
 			}
 		}

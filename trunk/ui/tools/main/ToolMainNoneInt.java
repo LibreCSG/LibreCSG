@@ -1,4 +1,10 @@
-package backend.adt;
+package ui.tools.main;
+
+import org.eclipse.swt.events.MouseEvent;
+
+import backend.adt.ParamNotFoundException;
+import backend.adt.ParamSet;
+import ui.tools.ToolInterfaceMain;
 
 
 //
@@ -27,8 +33,24 @@ package backend.adt;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public abstract class Parameterized {
+public class ToolMainNoneInt implements ToolInterfaceMain{
 
-	public ParamSet paramSet = null;
-	
+	public void glMouseDown(double x, double y, double z, MouseEvent e) {
+	}
+
+	public void glMouseDrag(double x, double y, double z, MouseEvent e) {
+	}
+
+	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
+	}
+
+	public void glMouseUp(double x, double y, double z, MouseEvent e) {
+	}
+
+	public void loadParamsAndUpdateState(ParamSet pSet) throws ParamNotFoundException {
+	}
+
+	public void modifyParamsFromState(ParamSet pSet) throws ParamNotFoundException {
+	}
+
 }

@@ -30,7 +30,6 @@ import backend.adt.Point3D;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D;
 import backend.model.Feature2D3D;
-import backend.model.Feature3D;
 import backend.model.Sketch;
 import backend.primatives.Prim2D;
 
@@ -326,10 +325,10 @@ public class GLView {
 						    	}
 							}
 							
-							Feature3D feat3D = AvoGlobal.project.getActiveFeat3D();
-							ToolInterface2D3D t = ((Feature2D3D)feat3D).toolInt2D3D;
-							if(t != null){
-								t.draw3DFeature(gl, feat3D.paramSet, sketch);
+							Feature2D3D feat2D3D = AvoGlobal.project.getActiveSubPart().getFeature2D3D();
+							if(feat2D3D != null){
+								ToolInterface2D3D t = feat2D3D.toolInt2D3D;
+								t.draw3DFeature(gl, feat2D3D.paramSet, sketch);
 							}
 							
 							gl.glPopMatrix();

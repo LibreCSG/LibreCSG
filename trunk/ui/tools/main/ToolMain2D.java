@@ -52,7 +52,7 @@ public class ToolMain2D extends ToolMain{
 		mElement.mePriority = 0; 	// 0 = always show element, >5 = never show element
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
 		
-		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
+		this.applyToolGroupSettings();	// APPLY MAIN GROUP SETTINGS
 		
 		toolInterface = new ToolMain2DInt();
 	}
@@ -73,15 +73,9 @@ public class ToolMain2D extends ToolMain{
 			int i = AvoGlobal.project.getActiveGroup().add(new Part());
 			AvoGlobal.project.getActiveGroup().setActivePart(i);
 		}
-		if(AvoGlobal.project.getActiveFeat3D() == null || !(AvoGlobal.project.getActiveFeat3D() instanceof Feature2D3D)){
-			// TODO: specifying a null toolInterface and ParamSet... bad?!?!
-			int i = AvoGlobal.project.getActivePart().add(new Feature2D3D(null, null));
-			AvoGlobal.project.getActivePart().setActiveFeat3D(i);
-		}
-
-		// now there is a place to put the new sketch!
-		int i = ((Feature2D3D)AvoGlobal.project.getActiveFeat3D()).add(new Sketch());
-		((Feature2D3D)AvoGlobal.project.getActiveFeat3D()).setActiveSketch(i);
+		
+		int i = AvoGlobal.project.getActivePart().add(new Sketch());
+		AvoGlobal.project.getActivePart().setActiveSubPart(i);
 		Sketch sketch = AvoGlobal.project.getActiveSketch();
 		if(sketch != null){
 			AvoGlobal.paramDialog.setParamSet(sketch.getParamSet());

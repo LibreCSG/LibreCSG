@@ -1,11 +1,7 @@
 package backend.model;
 
-import java.util.LinkedList;
-
 import ui.tools.ToolInterface2D;
 import backend.adt.ParamSet;
-import backend.adt.Parameterized;
-import backend.primatives.Prim2D;
 import backend.primatives.Prim2DList;
 
 
@@ -35,10 +31,11 @@ import backend.primatives.Prim2DList;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Feature2D extends Parameterized{
+public class Feature2D {
 
 	protected ToolInterface2D toolInt2D; 
 	public boolean		      isSelected = true;
+	public ParamSet paramSet = null;
 	
 	/**
 	 * This is made public to speed access to the prim2D elements.

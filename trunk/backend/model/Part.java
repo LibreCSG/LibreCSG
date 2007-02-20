@@ -33,95 +33,95 @@ import backend.global.AvoGlobal;
 */
 public class Part {
 
-	protected LinkedList<Feature3D> feat3DList = new LinkedList<Feature3D>();
+	protected LinkedList<SubPart> subPartList = new LinkedList<SubPart>();
 	
-	protected int activeFeat3D = -1;
+	protected int activeSubPart = -1;
 	
 	public Part(){
 	}
 	
 	/**
-	 * add a new Feature3D to the end of the list of Feature3Ds
-	 * @param f3D non-null Feature3D to be added
-	 * @return the index of hte newly added Feature3D, or -1 if Feature3D was null.
+	 * add a new SubPart to the end of the list of SubParts
+	 * @param subPart non-null SubPart to be added
+	 * @return the index of hte newly added SubPart, or -1 if SubPart was null.
 	 */
-	public int add(Feature3D f3D){
-		if(f3D != null){
-			feat3DList.add(f3D);
+	public int add(SubPart subPart){
+		if(subPart != null){
+			subPartList.add(subPart);
 			AvoGlobal.modelEventHAndler.notifyElementAdded();
-			return feat3DList.size()-1;
+			return subPartList.size()-1;
 		}
 		return -1;
 	}
 	
 	/**
-	 * get the Feature3D at a give index
+	 * get the SubPart at a give index
 	 * @param i index
-	 * @return the Feature3D, or null if index was invalid.
+	 * @return the SubPart, or null if index was invalid.
 	 */
-	public Feature3D getAtIndex(int i){
-		if(i < 0 || i >= feat3DList.size()){
+	public SubPart getAtIndex(int i){
+		if(i < 0 || i >= subPartList.size()){
 			// index is not valid!
 			return null;
 		}
-		return feat3DList.get(i);
+		return subPartList.get(i);
 	}
 	
 	/**
-	 * @return the size() of the list of Feature3Ds.
+	 * @return the size() of the list of SubParts.
 	 */
-	public int getFeat3DListSize(){
-		return feat3DList.size();
+	public int getSubPartListSize(){
+		return subPartList.size();
 	}
 	
 	
 	/**
-	 * set the index of the feature3D that should be set to Active.
+	 * set the index of the SubPart that should be set to Active.
 	 * @param i index
 	 */
-	public void setActiveFeat3D(int i){
-		if(i < 0 || i >= feat3DList.size()){
+	public void setActiveSubPart(int i){
+		if(i < 0 || i >= subPartList.size()){
 			// index is not valid!
 			return;
 		}
-		activeFeat3D = i;
+		activeSubPart = i;
 		AvoGlobal.modelEventHAndler.notifyActiveElementChanged();
 	}
 	
 	/**
-	 * set the active feature3D to none
+	 * set the active SubPart to none
 	 */
 	public void setActiveToNone(){
-		activeFeat3D = -1;
+		activeSubPart = -1;
 		AvoGlobal.modelEventHAndler.notifyActiveElementChanged();
 	}
 	
 	/**
-	 * get the currently active feature3D
-	 * @return the active feature3D, or null if no feature3D is active
+	 * get the currently active SubPart
+	 * @return the active SubPart, or null if no SubPart is active
 	 */
-	public Feature3D getActiveFeat3D(){
-		return this.getAtIndex(activeFeat3D);
+	public SubPart getActiveSubPart(){
+		return this.getAtIndex(activeSubPart);
 	}
 	
 	/**
-	 * Remove the Feature3D at the index if present.
+	 * Remove the SubPart at the index if present.
 	 * @param i index
 	 */
-	public void removeFeat3DAtIndex(int i){
-		if(i < 0 || i >= feat3DList.size()){
+	public void removeSubPartAtIndex(int i){
+		if(i < 0 || i >= subPartList.size()){
 			// index is not valid!
 			return;
 		}
-		feat3DList.remove(i);
+		subPartList.remove(i);
 		AvoGlobal.modelEventHAndler.notifyElementRemoved();
 	}
 	
 	/**
-	 * remove the active Feature3D from the list.
+	 * remove the active SubPart from the list.
 	 */
-	public void removeActiveFeat3D(){
-		removeFeat3DAtIndex(activeFeat3D);
+	public void removeActiveSubPart(){
+		removeSubPartAtIndex(activeSubPart);
 	}
 	
 	

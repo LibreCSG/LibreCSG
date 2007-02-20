@@ -33,10 +33,11 @@ import backend.global.AvoGlobal;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Feature3D3D extends Feature3D{
+public class Feature3D3D implements SubPart{
 
-	private LinkedList<Feature3D> feat3DList = new LinkedList<Feature3D>();
+	protected LinkedList<SubPart> subPartList = new LinkedList<SubPart>();
 	protected ToolInterface3D3D toolInt3D3D;
+	public ParamSet paramSet = null;
 	
 	public Feature3D3D(ToolInterface3D3D toolInt3D3D, ParamSet paramSet){
 		this.paramSet = paramSet;
@@ -44,50 +45,63 @@ public class Feature3D3D extends Feature3D{
 	}
 	
 	/**
-	 * add a Feature3D to the end of the list of Feature3Ds.
-	 * @param f3D non-null Feature3D to be added
-	 * @return the index of the newly added Feature3D, or -1 if Feature3D was null.
+	 * add a SubPart to the end of the list of SubParts.
+	 * @param subPart non-null SubPart  to be added
+	 * @return the index of the newly added SubPart, or -1 if SubPart was null.
 	 */
-	public int add(Feature3D f3D){
-		if(f3D != null){
-			feat3DList.add(f3D);
+	public int add(SubPart subPart){
+		if(subPart != null){
+			subPartList.add(subPart);
 			AvoGlobal.modelEventHAndler.notifyElementAdded();
-			return feat3DList.size()-1;
+			return subPartList.size()-1;
 		}
 		return -1;
 	}
 	
 	/**
-	 * get the Feature3D at a given index
+	 * get the SubPart at a given index
 	 * @param i index
-	 * @return the Feature3D, or null if index was invalid.
+	 * @return the SubPart, or null if index was invalid.
 	 */
-	public Feature3D getAtIndex(int i){
-		if(i < 0 || i >= feat3DList.size()){
+	public SubPart getAtIndex(int i){
+		if(i < 0 || i >= subPartList.size()){
 			// index was not valid!
 			return null;
 		}
-		return feat3DList.get(i);
+		return subPartList.get(i);
 	}
 	
 	/**
-	 * @return the size() of the list of Feature3Ds.
+	 * @return the size() of the list of SubParts.
 	 */
-	public int getFeat3DListSize(){
-		return feat3DList.size();
+	public int getSubPartListSize(){
+		return subPartList.size();
 	}
 	
 	/**
-	 * Remove the Feature3D at the index if present.
+	 * Remove the SubPart at the index if present.
 	 * @param i index
 	 */
-	public void removeFeat3DAtIndex(int i){
-		if(i < 0 || i >= feat3DList.size()){
+	public void removeSubPartAtIndex(int i){
+		if(i < 0 || i >= subPartList.size()){
 			// index is not valid!
 			return;
 		}
-		feat3DList.remove(i);
+		subPartList.remove(i);
 		AvoGlobal.modelEventHAndler.notifyElementRemoved();
+	}
+
+	
+	public Feature2D3D getFeature2D3D() {
+		return null;
+	}
+
+	public Feature3D3D getFeature3D3D() {
+		return this;
+	}
+
+	public Sketch getSketch() {
+		return null;
 	}
 
 }

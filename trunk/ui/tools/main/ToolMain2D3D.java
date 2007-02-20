@@ -51,7 +51,7 @@ public class ToolMain2D3D extends ToolMain{
 		mElement.mePriority = 0; 	// 0 = always show element, >5 = never show element
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
 		
-		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
+		this.applyToolGroupSettings();	// APPLY MAIN GROUP SETTINGS
 		
 		toolInterface = new ToolMain2D3DInt();
 	}
