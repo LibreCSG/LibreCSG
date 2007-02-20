@@ -58,6 +58,19 @@ public class ParamSet {
 		return toolInterface;
 	}
 	
+	public void updateParamViaToolInterface(){
+		if(toolInterface != null){
+			try{
+				toolInterface.loadParamsAndUpdateState(this);
+				toolInterface.modifyParamsFromState(this);
+			}catch(ParamNotFoundException e){
+				System.out.println(" *** PARAM SET *** could not update paramSet... Param Not Found Exception! Label=" + label);
+				e.printStackTrace();
+			}
+			
+		}
+	}
+	
 	/**
 	 * Add a parameter to the set.
 	 * @param p
