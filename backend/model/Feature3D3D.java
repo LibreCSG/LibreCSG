@@ -53,7 +53,7 @@ public class Feature3D3D implements SubPart{
 	public int add(SubPart subPart){
 		if(subPart != null){
 			subPartList.add(subPart);
-			AvoGlobal.modelEventHAndler.notifyElementAdded();
+			AvoGlobal.modelEventHandler.notifyElementAdded();
 			return subPartList.size()-1;
 		}
 		return -1;
@@ -89,7 +89,7 @@ public class Feature3D3D implements SubPart{
 			return;
 		}
 		subPartList.remove(i);
-		AvoGlobal.modelEventHAndler.notifyElementRemoved();
+		AvoGlobal.modelEventHandler.notifyElementRemoved();
 	}
 
 	

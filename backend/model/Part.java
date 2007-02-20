@@ -49,7 +49,7 @@ public class Part {
 	public int add(SubPart subPart){
 		if(subPart != null){
 			subPartList.add(subPart);
-			AvoGlobal.modelEventHAndler.notifyElementAdded();
+			AvoGlobal.modelEventHandler.notifyElementAdded();
 			return subPartList.size()-1;
 		}
 		return -1;
@@ -86,7 +86,7 @@ public class Part {
 			return;
 		}
 		activeSubPart = i;
-		AvoGlobal.modelEventHAndler.notifyActiveElementChanged();
+		AvoGlobal.modelEventHandler.notifyActiveElementChanged();
 	}
 	
 	/**
@@ -94,7 +94,7 @@ public class Part {
 	 */
 	public void setActiveToNone(){
 		activeSubPart = -1;
-		AvoGlobal.modelEventHAndler.notifyActiveElementChanged();
+		AvoGlobal.modelEventHandler.notifyActiveElementChanged();
 	}
 	
 	/**
@@ -115,7 +115,7 @@ public class Part {
 			return;
 		}
 		subPartList.remove(i);
-		AvoGlobal.modelEventHAndler.notifyElementRemoved();
+		AvoGlobal.modelEventHandler.notifyElementRemoved();
 	}
 	
 	/**

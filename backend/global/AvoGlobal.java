@@ -132,7 +132,7 @@ public class AvoGlobal {
 	// TODO: perhaps move event handler just into their own static selves instead of AvoGlobal?
 	public static ParamEventHandler  paramEventHandler  = new ParamEventHandler();
 	public static GLViewEventHandler glViewEventHandler = new GLViewEventHandler(); 
-	public static ModelEventHandler  modelEventHAndler  = new ModelEventHandler();
+	public static ModelEventHandler  modelEventHandler  = new ModelEventHandler();
 
 	
 	public static double[] glCursor3DPos = new double[] {0.0, 0.0, 0.0}; 

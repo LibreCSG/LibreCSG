@@ -52,7 +52,7 @@ public class Group {
 	public int add(Part part){
 		if(part != null){
 			partList.add(part);
-			AvoGlobal.modelEventHAndler.notifyElementAdded();
+			AvoGlobal.modelEventHandler.notifyElementAdded();
 			return partList.size()-1;
 		}
 		return -1;
@@ -89,7 +89,7 @@ public class Group {
 			return;
 		}
 		activePart = i;
-		AvoGlobal.modelEventHAndler.notifyActiveElementChanged();
+		AvoGlobal.modelEventHandler.notifyActiveElementChanged();
 	}
 	
 	/**
@@ -97,7 +97,7 @@ public class Group {
 	 */
 	public void setActiveToNone(){
 		activePart = -1;
-		AvoGlobal.modelEventHAndler.notifyActiveElementChanged();
+		AvoGlobal.modelEventHandler.notifyActiveElementChanged();
 	}
 	
 	/**
@@ -118,7 +118,7 @@ public class Group {
 			return;
 		}
 		partList.remove(i);
-		AvoGlobal.modelEventHAndler.notifyElementRemoved();
+		AvoGlobal.modelEventHandler.notifyElementRemoved();
 	}
 	
 	/**

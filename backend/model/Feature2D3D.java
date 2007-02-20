@@ -55,7 +55,7 @@ public class Feature2D3D implements SubPart{
 	public int add(Sketch sketch){
 		if(sketch != null){
 			sketchList.add(sketch);
-			AvoGlobal.modelEventHAndler.notifyElementAdded();
+			AvoGlobal.modelEventHandler.notifyElementAdded();
 			return sketchList.size()-1;
 		}
 		return -1;
@@ -92,7 +92,7 @@ public class Feature2D3D implements SubPart{
 			return;
 		}
 		activeSketch = i;
-		AvoGlobal.modelEventHAndler.notifyActiveElementChanged();
+		AvoGlobal.modelEventHandler.notifyActiveElementChanged();
 	}
 	
 	/**
@@ -100,7 +100,7 @@ public class Feature2D3D implements SubPart{
 	 */
 	public void setActiveToNone(){
 		activeSketch = -1;
-		AvoGlobal.modelEventHAndler.notifyActiveElementChanged();
+		AvoGlobal.modelEventHandler.notifyActiveElementChanged();
 	}
 	
 	/**
@@ -122,7 +122,7 @@ public class Feature2D3D implements SubPart{
 			return;
 		}
 		sketchList.remove(i);
-		AvoGlobal.modelEventHAndler.notifyElementRemoved();
+		AvoGlobal.modelEventHandler.notifyElementRemoved();
 	}
 	
 	/**

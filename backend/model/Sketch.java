@@ -81,7 +81,7 @@ public class Sketch implements SubPart{
 		}
 		if(f2D != null){
 			feat2DList.add(f2D);
-			AvoGlobal.modelEventHAndler.notifyElementAdded();
+			AvoGlobal.modelEventHandler.notifyElementAdded();
 			return feat2DList.size()-1;
 		}
 		return -1;
@@ -141,7 +141,7 @@ public class Sketch implements SubPart{
 			return;
 		}		
 		activeFeat2D = i;
-		AvoGlobal.modelEventHAndler.notifyActiveElementChanged();
+		AvoGlobal.modelEventHandler.notifyActiveElementChanged();
 	}
 	
 	/**
@@ -149,7 +149,7 @@ public class Sketch implements SubPart{
 	 */
 	public void setActiveToNone(){		
 		activeFeat2D = -1;
-		AvoGlobal.modelEventHAndler.notifyActiveElementChanged();
+		AvoGlobal.modelEventHandler.notifyActiveElementChanged();
 	}
 	
 	/**
@@ -210,7 +210,7 @@ public class Sketch implements SubPart{
 			return;
 		}
 		feat2DList.remove(i);
-		AvoGlobal.modelEventHAndler.notifyElementRemoved();
+		AvoGlobal.modelEventHandler.notifyElementRemoved();
 	}
 	
 	/**

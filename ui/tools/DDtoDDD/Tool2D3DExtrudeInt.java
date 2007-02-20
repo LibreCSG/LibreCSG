@@ -88,11 +88,13 @@ public class Tool2D3DExtrudeInt implements ToolInterface2D3D{
 	}
 
 	public void glMouseUp(double x, double y, double z, MouseEvent e) {
+		// TODO: hack just to see if label updates...
+		AvoGlobal.modelEventHandler.notifyElementAdded();
 	}
 
 	public void draw3DFeature(GL gl, ParamSet paramSet, Sketch sketch) {
 		// if sketch is not consumed... just draw face to be extruded
-		System.out.println("trying to draw extrude");
+		//System.out.println("trying to draw extrude");
 		
 		for(int i=0; i<sketch.getRegion2DListSize(); i++){
 			Region2D reg = sketch.getRegAtIndex(i);
