@@ -54,8 +54,8 @@ public class Tool2D3DExtrudeInt implements ToolInterface2D3D{
 		Sketch sketch = AvoGlobal.project.getActiveSketch();
 		if(sketch != null){
 			
-			Feature2D3D f2D3D = (Feature2D3D)AvoGlobal.project.getActiveFeat3D();
-			if(f2D3D.toolInt2D3D == null){
+			Feature2D3D f2D3D = AvoGlobal.project.getActiveSubPart().getFeature2D3D();
+			if(f2D3D != null && f2D3D.toolInt2D3D == null){
 				//
 				// Build parameter set for this feature
 				//

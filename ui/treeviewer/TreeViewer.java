@@ -14,12 +14,12 @@ import ui.event.ModelListener;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D;
 import backend.model.Feature2D3D;
-import backend.model.Feature3D;
 import backend.model.Feature3D3D;
 import backend.model.Group;
 import backend.model.Part;
 import backend.model.Project;
 import backend.model.Sketch;
+import backend.model.SubPart;
 
 
 //
@@ -116,35 +116,27 @@ public class TreeViewer {
 				TreeItem tiPart = new TreeItem(tiGroup, SWT.NONE, iPart);
 				tiPart.setText("Part");
 				tiPart.setData(new int[] {iGroup, iPart});
-				for(int iFeat3D=0; iFeat3D < part.getFeat3DListSize(); iFeat3D++){
-					Feature3D feat3D = part.getAtIndex(iFeat3D);
-					TreeItem tiFeat3D = new TreeItem(tiPart, SWT.NONE, iFeat3D);
-					tiFeat3D.setText("Feat3D");
-					tiFeat3D.setData(new int[] {iGroup, iPart, iFeat3D});
-					if(feat3D instanceof Feature2D3D){
-						Feature2D3D feat2D3D = (Feature2D3D)feat3D;
-						for(int iSketch=0; iSketch < feat2D3D.getSketchListSize(); iSketch++){
-							Sketch sketch = feat2D3D.getAtIndex(iSketch);
-							TreeItem tiSketch = new TreeItem(tiFeat3D, SWT.NONE, iSketch);
-							tiSketch.setText("Sketch");
-							tiSketch.setData(new int[] {iGroup, iPart, iFeat3D, iSketch});
-							for(int iFeat2D=0; iFeat2D < sketch.getFeat2DListSize(); iFeat2D++){
-								Feature2D feat2D = sketch.getAtIndex(iFeat2D);
-								TreeItem tiFeat2D = new TreeItem(tiSketch, SWT.NONE, iFeat2D);
-								tiFeat2D.setText(feat2D.getParamSet().label);
-								tiFeat2D.setData(new int[] {iGroup, iPart, iFeat3D, iSketch, iFeat2D});
-							}
-						}
+				for(int iSubPart=0; iSubPart < part.getSubPartListSize(); iSubPart++){
+					SubPart subPart = part.getAtIndex(iSubPart);
+					TreeItem tiSubPart = new TreeItem(tiPart, SWT.NONE, iSubPart);
+					Sketch sketch = subPart.getSketch();					
+					if(sketch != null){
+						tiSubPart.setText("Sketch");
+						for(int iSketch=0; iSketch < sketch.getFeat2DListSize(); iSketch++){
+							Feature2D feat2D = sketch.getAtIndex(iSketch);
+							TreeItem tiFeat2D = new TreeItem(tiSubPart, SWT.NONE, iSketch);
+							tiFeat2D.setText(feat2D.paramSet.label);
+						}						
 					}
-					if(feat3D instanceof Feature3D3D){
-						Feature3D3D feat3D3D = (Feature3D3D)feat3D;
-						for(int iFeat3D3D=0; iFeat3D3D < feat3D3D.getFeat3DListSize(); iFeat3D3D++){
-							Feature3D subFeat3D = feat3D3D.getAtIndex(iFeat3D3D);
-							TreeItem tiSubFeat3D = new TreeItem(tiFeat3D, SWT.NONE, iFeat3D3D);
-							tiSubFeat3D.setText("SubFeat3D");
-							tiSubFeat3D.setData(new int[] {iGroup, iPart, iFeat3D, iFeat3D3D});
-						}
+					Feature2D3D feat2D3D = subPart.getFeature2D3D();
+					if(feat2D3D != null){
+						tiSubPart.setText("Feature 2Dto3D");
 					}
+					Feature3D3D feat3D3D = subPart.getFeature3D3D();
+					if(feat3D3D != null){
+						tiSubPart.setText("Feature 3D");
+					}
+					
 				}
 			}
 		}

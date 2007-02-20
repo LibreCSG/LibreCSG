@@ -1,8 +1,5 @@
 package backend.model;
 
-import backend.adt.ParamSet;
-import backend.adt.Parameterized;
-
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -30,7 +27,12 @@ import backend.adt.Parameterized;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public abstract class Feature3D extends Parameterized {
+public interface SubPart {
+
+	abstract Sketch getSketch();
 	
-		
+	abstract Feature2D3D getFeature2D3D();
+	
+	abstract Feature3D3D getFeature3D3D();
+	
 }

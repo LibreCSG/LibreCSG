@@ -121,28 +121,53 @@ public class Project {
 	}
 	
 	/**
-	 * try to get the active Feature3D.
-	 * @return the active Feature3D, or null if not found
+	 * try to get the active SubPart.
+	 * @return the active SubPart, or null if not found
 	 */
-	public Feature3D getActiveFeat3D(){
+	public SubPart getActiveSubPart(){
 		Part p = getActivePart();
 		if(p != null){
-			 return p.getActiveFeat3D();
+			 return p.getActiveSubPart();
 		}
 		return null;
 	}
 	
 	/**
-	 * try to get the active Sketch.
-	 * @return the active Sketch, or null if not found
+	 * get the active Sketch if it exists.
+	 * @return
 	 */
 	public Sketch getActiveSketch(){
-		Feature3D f3D = getActiveFeat3D();
-		if(f3D != null && f3D instanceof Feature2D3D){
-			 return ((Feature2D3D)f3D).getActiveSketch();
+		SubPart subPart = getActiveSubPart();
+		if(subPart != null){
+			return subPart.getSketch();
 		}
 		return null;
 	}
+	
+	/**
+	 * get the active Feature2D3D if it exists.
+	 * @return
+	 */
+	public Feature2D3D getActiveFeat2D3D(){
+		SubPart subPart = getActiveSubPart();
+		if(subPart != null){
+			return subPart.getFeature2D3D();
+		}
+		return null;
+	}
+	
+	/**
+	 * get the active Feature3D3D if it exists.
+	 * @return
+	 */
+	public Feature3D3D getActiveFeat3D3D(){
+		SubPart subPart = getActiveSubPart();
+		if(subPart != null){
+			return subPart.getFeature3D3D();
+		}
+		return null;
+	}
+	
 	
 	/**
 	 * try to get the active Feature2D.

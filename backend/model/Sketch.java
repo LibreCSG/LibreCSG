@@ -5,7 +5,6 @@ import java.util.LinkedList;
 
 import backend.adt.Param;
 import backend.adt.ParamSet;
-import backend.adt.Parameterized;
 import backend.adt.Point2D;
 import backend.adt.Point3D;
 import backend.adt.Rotation3D;
@@ -42,13 +41,14 @@ import backend.primatives.PrimPair2D;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Sketch extends Parameterized{	
+public class Sketch implements SubPart{	
 	
 	/**
 	 * List of all the Feature2Ds contained in the sketch
 	 */
 	private LinkedList<Feature2D> feat2DList = new LinkedList<Feature2D>();
 	private LinkedList<Region2D>  regionList = new LinkedList<Region2D>();
+	public ParamSet paramSet = null;
 	
 	protected int activeFeat2D = -1;
 	
@@ -489,6 +489,18 @@ public class Sketch extends Parameterized{
 			
 		}
 		
+	}
+
+	public Feature2D3D getFeature2D3D() {
+		return null;
+	}
+
+	public Feature3D3D getFeature3D3D() {
+		return null;
+	}
+
+	public Sketch getSketch() {
+		return this;
 	}
 	
 }

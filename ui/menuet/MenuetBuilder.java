@@ -9,6 +9,7 @@ import ui.tools.DD.Tool2DSelect;
 import ui.tools.DDtoDDD.Tool2D3DExtrude;
 import ui.tools.main.ToolMain2D;
 import ui.tools.main.ToolMain2D3D;
+import ui.tools.main.ToolMainNone;
 import backend.global.AvoGlobal;
 
 
@@ -68,6 +69,7 @@ public class MenuetBuilder {
 		
 		new Tool2DSelect(menuet);
 		
+		
 		//
 		//  TOOL MODE:  2Dto3D
 		//
@@ -77,6 +79,7 @@ public class MenuetBuilder {
 		label2D3D.textIsBold = true;
 		
 		new Tool2D3DExtrude(menuet);
+		
 		
 		//
 		//  TOOL MODE:  Main
@@ -88,6 +91,9 @@ public class MenuetBuilder {
 		
 		new ToolMain2D(menuet);
 		new ToolMain2D3D(menuet);
+		ToolMainNone tmn = new ToolMainNone(menuet);
+		AvoGlobal.menuet.currentTool = tmn;
+		AvoGlobal.menuet.currentToolMode = Menuet.MENUET_MODE_MAIN;
 		
 		
 	}

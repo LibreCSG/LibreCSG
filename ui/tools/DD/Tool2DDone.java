@@ -70,7 +70,7 @@ public class Tool2DDone extends Tool2D{
 		if(sketch != null){
 			if(sketch.getFeat2DListSize() == 0){
 				// if sketch has no Feature2D, then discard it.
-				((Feature2D3D)AvoGlobal.project.getActiveFeat3D()).removeActiveSketch();
+				AvoGlobal.project.getActivePart().removeActiveSubPart();
 			}else{
 				// deselect Feat2D and keep the sketch.
 				sketch.deselectAllFeat2D();			

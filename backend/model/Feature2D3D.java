@@ -33,10 +33,11 @@ import backend.global.AvoGlobal;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Feature2D3D extends Feature3D{
+public class Feature2D3D implements SubPart{
 	
 	protected LinkedList<Sketch> sketchList = new LinkedList<Sketch>();
 	public ToolInterface2D3D toolInt2D3D;
+	public ParamSet paramSet = null;
 	
 	protected int activeSketch = -1;
 	
@@ -130,6 +131,20 @@ public class Feature2D3D extends Feature3D{
 	 */
 	public void removeActiveSketch(){
 		removeSketchAtIndex(activeSketch);
+	}
+
+
+
+	public Feature2D3D getFeature2D3D() {
+		return this;
+	}
+
+	public Feature3D3D getFeature3D3D() {
+		return null;
+	}
+
+	public Sketch getSketch() {
+		return null;
 	}
 	
 	
