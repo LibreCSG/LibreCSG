@@ -9,6 +9,7 @@ import ui.menuet.MenuetElement;
 import ui.tools.ToolMain;
 import backend.data.utilities.ImageUtils;
 import backend.global.AvoGlobal;
+import backend.model.Feature2D3D;
 import backend.model.Sketch;
 
 
@@ -74,6 +75,13 @@ public class ToolMain2D3D extends ToolMain{
 			AvoGlobal.menuet.setCurrentToolMode(Menuet.MENUET_MODE_2Dto3D);
 			AvoGlobal.menuet.updateToolModeDisplayed();	
 			sketch.buildRegionsFromPrim2D();
+			
+			Feature2D3D newFeat2D3D = new Feature2D3D(null, null);
+			int j = newFeat2D3D.add(sketch);
+			newFeat2D3D.setActiveSketch(j);
+			int i = AvoGlobal.project.getActivePart().add(newFeat2D3D);
+			AvoGlobal.project.getActivePart().setActiveSubPart(i);
+			
 			// TODO add a new Feature2D3D!
 		}
 	}

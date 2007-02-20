@@ -6,6 +6,7 @@ import ui.menuet.MenuetElement;
 import ui.tools.Tool2D3D;
 import backend.data.utilities.ImageUtils;
 import backend.global.AvoGlobal;
+import backend.model.Feature2D3D;
 
 
 //
@@ -56,6 +57,14 @@ public class Tool2D3DExtrude extends Tool2D3D{
 	public void toolSelected() {
 		AvoGlobal.menuet.selectButton(mElement);
 		AvoGlobal.menuet.currentTool = this;
+		
+		//
+		// Set tool Interface to this feature
+		//
+		Feature2D3D feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
+		if(feat2D3D != null){
+			feat2D3D.toolInt2D3D = new Tool2D3DExtrudeInt();
+		}
 	}
 	
 }

@@ -31,6 +31,7 @@ import backend.global.AvoGlobal;
 import backend.model.Feature2D;
 import backend.model.Feature2D3D;
 import backend.model.Sketch;
+import backend.model.SubPart;
 import backend.primatives.Prim2D;
 
 
@@ -302,36 +303,40 @@ public class GLView {
 						gl.glColor3f(1.0f,0.0f,0.0f);
 						cad_3DX(0.0f,0.0f,0.0f,0.25f);
 						
-						
-						// TODO: HACK for now to just show the active 2D sketch
-						Sketch sketch = AvoGlobal.project.getActiveSketch();
-						if(sketch != null){
-							gl.glPushMatrix();
-							Point3D offset = (Point3D)sketch.paramSet.getParam("o").getData();
-							gl.glTranslated(offset.getX(), offset.getY(), offset.getZ());
-							for(int i=0; i < sketch.getFeat2DListSize(); i++){
-								Feature2D f2D = sketch.getAtIndex(i);
-								if(f2D.isSelected){
-						    		gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_ACTIVE[0], AvoGlobal.GL_COLOR4_2D_ACTIVE[1],
-				  									AvoGlobal.GL_COLOR4_2D_ACTIVE[2], AvoGlobal.GL_COLOR4_2D_ACTIVE[3]);
-						    		// TODO: HACK, don't build primatives here.. build when created/modified!
-						    		f2D.buildPrim2DList();
-						    	}else{
-						    		gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_NONACT[0], AvoGlobal.GL_COLOR4_2D_NONACT[1],
-						  							AvoGlobal.GL_COLOR4_2D_NONACT[2], AvoGlobal.GL_COLOR4_2D_NONACT[3]);
-						    	}
-								for(Prim2D prim : f2D.prim2DList){
-						    		prim.glDraw(gl);
-						    	}
+						if(AvoGlobal.project.getActivePart() != null){
+							for(int q=0; q < AvoGlobal.project.getActivePart().getSubPartListSize(); q++){
+								SubPart subPart = AvoGlobal.project.getActivePart().getAtIndex(q);
+								
+								// TODO: HACK for now to just show the active 2D sketch
+								Sketch sketch = subPart.getSketch();
+								if(sketch != null){
+									gl.glPushMatrix();
+									Point3D offset = (Point3D)sketch.paramSet.getParam("o").getData();
+									gl.glTranslated(offset.getX(), offset.getY(), offset.getZ());
+									for(int i=0; i < sketch.getFeat2DListSize(); i++){
+										Feature2D f2D = sketch.getAtIndex(i);
+										if(f2D.isSelected){
+								    		gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_ACTIVE[0], AvoGlobal.GL_COLOR4_2D_ACTIVE[1],
+						  									AvoGlobal.GL_COLOR4_2D_ACTIVE[2], AvoGlobal.GL_COLOR4_2D_ACTIVE[3]);
+								    		// TODO: HACK, don't build primatives here.. build when created/modified!
+								    		f2D.buildPrim2DList();
+								    	}else{
+								    		gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_NONACT[0], AvoGlobal.GL_COLOR4_2D_NONACT[1],
+								  							AvoGlobal.GL_COLOR4_2D_NONACT[2], AvoGlobal.GL_COLOR4_2D_NONACT[3]);
+								    	}
+										for(Prim2D prim : f2D.prim2DList){
+								    		prim.glDraw(gl);
+								    	}
+									}
+									
+									gl.glPopMatrix();
+								}
+								
+								Feature2D3D feat2D3D = subPart.getFeature2D3D();
+								if(feat2D3D != null && feat2D3D.toolInt2D3D != null){
+									feat2D3D.toolInt2D3D.draw3DFeature(gl, feat2D3D.paramSet, feat2D3D.getActiveSketch());
+								}
 							}
-							
-							Feature2D3D feat2D3D = AvoGlobal.project.getActiveSubPart().getFeature2D3D();
-							if(feat2D3D != null){
-								ToolInterface2D3D t = feat2D3D.toolInt2D3D;
-								t.draw3DFeature(gl, feat2D3D.paramSet, sketch);
-							}
-							
-							gl.glPopMatrix();
 						}
 
 						if(mouse_down_button != MOUSE_MIDDLE && 
