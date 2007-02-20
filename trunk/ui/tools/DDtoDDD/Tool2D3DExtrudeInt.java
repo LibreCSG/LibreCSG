@@ -50,20 +50,26 @@ public class Tool2D3DExtrudeInt implements ToolInterface2D3D{
 	}
 
 	public void glMouseDown(double x, double y, double z, MouseEvent e) {
-		//System.out.println("got extrude mouse down!");
-		Sketch sketch = AvoGlobal.project.getActiveSketch();
-		if(sketch != null){
-			
-			Feature2D3D f2D3D = AvoGlobal.project.getActiveSubPart().getFeature2D3D();
-			if(f2D3D != null && f2D3D.toolInt2D3D == null){
-				//
-				// Build parameter set for this feature
-				//
+		
+		Feature2D3D feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
+		if(feat2D3D != null){
+			Sketch sketch = feat2D3D.getActiveSketch();
+			if(sketch != null){
+				
+				if((e.stateMask & SWT.SHIFT) != 0){
+					shiftIsDown = true;
+				}else{
+					shiftIsDown = false;
+				}
+				if(!shiftIsDown){			
+					// only deselect other regions if SHIFT key is not down.
+					sketch.deselectAllRegions();
+				}
+				
 				ParamSet pSet = new ParamSet("Extrude", this);
 				pSet.addParam("h", new Param("Height", 2*AvoGlobal.gridSize));
 				
-				f2D3D.toolInt2D3D = this;
-				f2D3D.paramSet = pSet;
+				feat2D3D.paramSet = pSet;
 				
 				//
 				// give paramDialog the paramSet so that it can
@@ -71,22 +77,11 @@ public class Tool2D3DExtrudeInt implements ToolInterface2D3D{
 				// input.
 				//
 				AvoGlobal.paramDialog.setParamSet(pSet);
+				
+				sketch.selectRegionsThatContainsPoint(new Point2D(x,y));
 			}
-			
-			
-			if((e.stateMask & SWT.SHIFT) != 0){
-				shiftIsDown = true;
-			}else{
-				shiftIsDown = false;
-			}
-			if(!shiftIsDown){			
-				// only deselect other regions if SHIFT key is not down.
-				sketch.deselectAllRegions();
-			}
-			
-			sketch.selectRegionsThatContainsPoint(new Point2D(x,y));
-			
 		}
+		
 	}
 
 	public void glMouseDrag(double x, double y, double z, MouseEvent e) {
@@ -97,7 +92,7 @@ public class Tool2D3DExtrudeInt implements ToolInterface2D3D{
 
 	public void draw3DFeature(GL gl, ParamSet paramSet, Sketch sketch) {
 		// if sketch is not consumed... just draw face to be extruded
-		//System.out.println("trying to draw extrude");
+		System.out.println("trying to draw extrude");
 		
 		for(int i=0; i<sketch.getRegion2DListSize(); i++){
 			Region2D reg = sketch.getRegAtIndex(i);
