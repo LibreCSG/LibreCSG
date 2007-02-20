@@ -3,10 +3,13 @@ package ui.tools.DD;
 import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolInterface2D;
+import backend.adt.PType;
 import backend.adt.Param;
 import backend.adt.ParamNotFoundException;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
+import backend.adt.Point3D;
+import backend.adt.Rotation3D;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D;
 import backend.model.Sketch;
@@ -42,6 +45,10 @@ import backend.primatives.Prim2DList;
 */
 public class Tool2DLineInt implements ToolInterface2D {
 
+	
+	Point2D ptA;
+	Point2D ptB;
+	
 	/**
 	 * All of the tool's main functionality
 	 * mouse handling, glView drawing, 
@@ -150,12 +157,58 @@ public class Tool2DLineInt implements ToolInterface2D {
 
 
 	public void loadParamsAndUpdateState(ParamSet pSet) throws ParamNotFoundException {
-		// TODO Auto-generated method stub		
+		// ParamSet:  "Line"
+		//
+		// # "a"  ->  "Pt.A"    <Point2D>
+		// # "b"  ->  "Pt.B"    <Point2D>
+		
+		//
+		//  Verify that param set is valid and load it into local state.
+		//
+		if(pSet != null){
+			if(pSet.label != "Line"){
+				throw new ParamNotFoundException();
+			}
+			
+			Param paramA = pSet.getParam("a");
+			if(paramA.getType() != PType.Point2D){
+				throw new ParamNotFoundException();
+			}
+			ptA = (Point2D)paramA.getData();
+			
+			Param paramB = pSet.getParam("b");
+			if(paramB.getType() != PType.Point2D){
+				throw new ParamNotFoundException();
+			}
+			ptB = (Point2D)paramB.getData();
+		}		
 	}
 
 
 	public void modifyParamsFromState(ParamSet pSet) throws ParamNotFoundException {
-		// TODO Auto-generated method stub		
+		if(pSet != null){
+			if(pSet.label != "Line"){
+				throw new ParamNotFoundException();
+			}
+			
+			Param paramA = pSet.getParam("a");
+			if(paramA.getType() != PType.Point2D){
+				throw new ParamNotFoundException();
+			}
+			paramA.change(ptA);
+			
+			Param paramB = pSet.getParam("b");
+			if(paramB.getType() != PType.Point2D){
+				throw new ParamNotFoundException();
+			}
+			paramB.change(ptB);
+			
+			Param paramD = pSet.getParam("d");
+			if(paramD.getType() != PType.Double){
+				throw new ParamNotFoundException();
+			}
+			paramD.change(ptA.computeDist(ptB));			
+		}
 	}
 
 }
