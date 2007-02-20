@@ -27,6 +27,12 @@ package backend.adt;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public enum PType {
-	Boolean, Integer, Double, String, Point2D, Point3D, Rotation3D
+public class ParamNotCorrectTypeException extends Exception{
+
+	/**
+	 * An operation was performed on a ParamSet, but the 
+	 * requested parameter was not of the correct type!
+	 */
+	private static final long serialVersionUID = 28424827L;
+
 }

@@ -16,6 +16,7 @@ import ui.event.ParamListener;
 import ui.utilities.NumUtils;
 import backend.adt.PType;
 import backend.adt.Param;
+import backend.adt.ParamNotCorrectTypeException;
 import backend.adt.ParamSet;
 import backend.adt.Point3D;
 import backend.global.AvoGlobal;
@@ -72,7 +73,7 @@ public class PCompPoint3D extends ParamComp{
 			return;
 		}
 		
-		Point3D pt = (Point3D)param.getData();
+		Point3D pt = getParamData();
 		
 		
 		//
@@ -106,13 +107,13 @@ public class PCompPoint3D extends ParamComp{
 				if(e.character == '\r'){
 					// check to see if string is a valid number
 					if(NumUtils.stringIsNumber(tx.getText())){
-						Point3D pt = (Point3D)param.getData();
+						Point3D pt = getParamData();
 						pt.setX(Double.parseDouble(tx.getText()));
 						param.change(pt);
 						updateParamViaToolInterface();
 						AvoGlobal.glView.updateGLView = true;
 					}else{
-						tx.setText(NumUtils.doubleToFixedString(((Point3D)param.getData()).getX(),8));
+						tx.setText(NumUtils.doubleToFixedString(getParamData().getX(),8));
 					}
 				}
 			}
@@ -129,13 +130,13 @@ public class PCompPoint3D extends ParamComp{
 			public void focusLost(FocusEvent e) {
 				// check to see if string is a valid number
 				if(NumUtils.stringIsNumber(tx.getText())){
-					Point3D pt = (Point3D)param.getData();
+					Point3D pt = getParamData();
 					pt.setX(Double.parseDouble(tx.getText()));
 					param.change(pt);
 					updateParamViaToolInterface();
 					AvoGlobal.glView.updateGLView = true;
 				}else{
-					tx.setText(NumUtils.doubleToFixedString(((Point3D)param.getData()).getX(),8));
+					tx.setText(NumUtils.doubleToFixedString(getParamData().getX(),8));
 				}
 			}			
 		});
@@ -157,13 +158,13 @@ public class PCompPoint3D extends ParamComp{
 				if(e.character == '\r'){
 					// check to see if string is a valid number
 					if(NumUtils.stringIsNumber(ty.getText())){
-						Point3D pt = (Point3D)param.getData();
+						Point3D pt = getParamData();
 						pt.setY(Double.parseDouble(ty.getText()));
 						param.change(pt);
 						updateParamViaToolInterface();
 						AvoGlobal.glView.updateGLView = true;
 					}else{
-						ty.setText(NumUtils.doubleToFixedString(((Point3D)param.getData()).getY(),8));
+						ty.setText(NumUtils.doubleToFixedString(getParamData().getY(),8));
 					}
 				}
 			}
@@ -180,13 +181,13 @@ public class PCompPoint3D extends ParamComp{
 			public void focusLost(FocusEvent e) {
 				// check to see if string is a valid number
 				if(NumUtils.stringIsNumber(ty.getText())){
-					Point3D pt = (Point3D)param.getData();
+					Point3D pt = getParamData();
 					pt.setY(Double.parseDouble(ty.getText()));
 					param.change(pt);
 					updateParamViaToolInterface();
 					AvoGlobal.glView.updateGLView = true;
 				}else{
-					ty.setText(NumUtils.doubleToFixedString(((Point3D)param.getData()).getY(),8));
+					ty.setText(NumUtils.doubleToFixedString(getParamData().getY(),8));
 				}
 			}			
 		});
@@ -209,13 +210,13 @@ public class PCompPoint3D extends ParamComp{
 				if(e.character == '\r'){
 					// check to see if string is a valid number
 					if(NumUtils.stringIsNumber(tz.getText())){
-						Point3D pt = (Point3D)param.getData();
+						Point3D pt = getParamData();
 						pt.setZ(Double.parseDouble(tz.getText()));
 						param.change(pt);
 						updateParamViaToolInterface();
 						AvoGlobal.glView.updateGLView = true;
 					}else{
-						tz.setText(NumUtils.doubleToFixedString(((Point3D)param.getData()).getZ(),8));
+						tz.setText(NumUtils.doubleToFixedString(getParamData().getZ(),8));
 					}
 				}
 			}
@@ -232,13 +233,13 @@ public class PCompPoint3D extends ParamComp{
 			public void focusLost(FocusEvent e) {
 				// check to see if string is a valid number
 				if(NumUtils.stringIsNumber(tz.getText())){
-					Point3D pt = (Point3D)param.getData();
+					Point3D pt = getParamData();
 					pt.setZ(Double.parseDouble(tz.getText()));
 					param.change(pt);
 					updateParamViaToolInterface();
 					AvoGlobal.glView.updateGLView = true;
 				}else{
-					tz.setText(NumUtils.doubleToFixedString(((Point3D)param.getData()).getZ(),8));
+					tz.setText(NumUtils.doubleToFixedString(getParamData().getZ(),8));
 				}
 			}			
 		});
@@ -261,7 +262,7 @@ public class PCompPoint3D extends ParamComp{
 		//		
 		paramListener = new ParamListener(){
 			public void paramModified() {
-				Point3D pt = (Point3D)param.getData();
+				Point3D pt = getParamData();
 				tx.setText(NumUtils.doubleToFixedString(pt.getX(),8));
 				ty.setText(NumUtils.doubleToFixedString(pt.getY(),8));
 				tz.setText(NumUtils.doubleToFixedString(pt.getZ(),8));
@@ -270,7 +271,17 @@ public class PCompPoint3D extends ParamComp{
 			}			
 		};	
 		AvoGlobal.paramEventHandler.addParamListener(paramListener);
-		
 	}
+	
+	Point3D getParamData(){
+		try{
+			Point3D data = param.getDataPoint3D();
+			return data;
+		}catch(ParamNotCorrectTypeException e){
+			System.out.println(" *** WARNING *** PCompPoint3D :: param was not of type Point3D!");
+			return new Point3D(0.0, 0.0, 0.0);
+		}
+	}
+	
 	
 }

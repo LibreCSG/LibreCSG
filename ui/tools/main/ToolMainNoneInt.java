@@ -2,9 +2,8 @@ package ui.tools.main;
 
 import org.eclipse.swt.events.MouseEvent;
 
-import backend.adt.ParamNotFoundException;
-import backend.adt.ParamSet;
 import ui.tools.ToolInterfaceMain;
+import backend.adt.ParamSet;
 
 
 //
@@ -47,10 +46,12 @@ public class ToolMainNoneInt implements ToolInterfaceMain{
 	public void glMouseUp(double x, double y, double z, MouseEvent e) {
 	}
 
-	public void loadParamsAndUpdateState(ParamSet pSet) throws ParamNotFoundException {
+	public boolean paramSetIsValid(ParamSet paramSet) {
+		return false;
 	}
 
-	public void modifyParamsFromState(ParamSet pSet) throws ParamNotFoundException {
+	public void updateDerivedParams(ParamSet paramSet) {
+		// no derived params for this feature.		
 	}
 
 }

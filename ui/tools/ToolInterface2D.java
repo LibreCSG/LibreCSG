@@ -32,6 +32,11 @@ import backend.primatives.Prim2DList;
 */
 public interface ToolInterface2D extends ToolInterface{
 
-	abstract Prim2DList buildPrimList(ParamSet p);
+	/**
+	 * build the 2D feature from a ParamSet. 
+	 * @param paramSet a <em>valid</em> ParamSet for the given ToolInterface2D
+	 * @return Prim2DList of drawable 2D primitaves, or <b>null</b> if no Prim2D to be added.
+	 */
+	abstract Prim2DList buildPrimList(ParamSet paramSet);
 	
 }

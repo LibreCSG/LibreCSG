@@ -5,11 +5,8 @@ import org.eclipse.swt.events.MouseEvent;
 import ui.tools.ToolInterface2D;
 import backend.adt.PType;
 import backend.adt.Param;
-import backend.adt.ParamNotFoundException;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
-import backend.adt.Point3D;
-import backend.adt.Rotation3D;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D;
 import backend.model.Sketch;
@@ -45,10 +42,6 @@ import backend.primatives.Prim2DList;
 */
 public class Tool2DLineInt implements ToolInterface2D {
 
-	
-	Point2D ptA;
-	Point2D ptB;
-	
 	/**
 	 * All of the tool's main functionality
 	 * mouse handling, glView drawing, 
@@ -72,9 +65,9 @@ public class Tool2DLineInt implements ToolInterface2D {
 			ParamSet pSet = new ParamSet("Line", this);
 			pSet.addParam("a", new Param("Pt.A", new Point2D(x,y)));
 			pSet.addParam("b", new Param("Pt.B", new Point2D(x,y)));
-			Param dist = new Param("Dist", 0.0);
+			Param dist = new Param("Length", 0.0);
 			dist.setParamIsDerived(true);
-			pSet.addParam("d", dist);
+			pSet.addParam("l", dist);
 			
 			//
 			// add the new feature to the end of the feature set
@@ -102,8 +95,12 @@ public class Tool2DLineInt implements ToolInterface2D {
 			//
 			// update param values
 			//
-			paramSet.changeParam("b", new Point2D(x,y));
-			buildDerivedParams(paramSet);
+			try{
+				paramSet.changeParam("b", new Point2D(x,y));
+				updateDerivedParams(paramSet);
+			}catch(Exception ex){
+				System.out.println(ex.getClass());
+			}
 		}
 	}
 
@@ -118,97 +115,71 @@ public class Tool2DLineInt implements ToolInterface2D {
 			//
 			// finalize the feature's formation
 			//
-			paramSet.changeParam("b", new Point2D(x,y));
-			buildDerivedParams(paramSet);
-			
-			Point2D ptA = (Point2D)paramSet.getParam("a").getData();
-			Point2D ptB = (Point2D)paramSet.getParam("b").getData();
-			// * discard if start point is the same as the end point
-			if(ptA.equalsPt(ptB)){
-				// end point are the same... discard
-				System.out.println("end points of line are the same... discarding feature");
-				// TODO: remove feature2D from the set!
-				AvoGlobal.paramDialog.setParamSet(null);
-			}
+			try{
+				paramSet.changeParam("b", new Point2D(x,y));
+				updateDerivedParams(paramSet);
+				
+				Point2D ptA = paramSet.getParam("a").getDataPoint2D();
+				Point2D ptB = paramSet.getParam("b").getDataPoint2D();
+				// * discard if start point is the same as the end point
+				if(ptA.equalsPt(ptB)){
+					// end point are the same... discard
+					System.out.println("end points of line are the same... discarding feature");
+					// remove feature2D from the set
+					AvoGlobal.project.getActiveSketch().removeActiveFeat2D();
+					AvoGlobal.paramDialog.setParamSet(null);
+				}
+				
+			}catch(Exception ex){
+				System.out.println(ex.getClass());
+			}			
 		}
 	}
 
-	public Prim2DList buildPrimList(ParamSet p) {
-	
-		Point2D ptA = (Point2D)p.getParam("a").getData();
-		Point2D ptB = (Point2D)p.getParam("b").getData();
-		Prim2DList primList = new Prim2DList();
-		primList.add(new Prim2DLine(ptA,ptB));
-		return primList;
+	public Prim2DList buildPrimList(ParamSet paramSet) {
+		try{
+			Point2D ptA = paramSet.getParam("a").getDataPoint2D();
+			Point2D ptB = paramSet.getParam("b").getDataPoint2D();
+			Prim2DList primList = new Prim2DList();
+			primList.add(new Prim2DLine(ptA,ptB));
+			return primList;
+		}catch(Exception ex){
+			System.out.println(ex.getClass());
+		}
+		return null;
 	}
 
-	void buildDerivedParams(ParamSet pSet) {
-		//
-		// Build all derived parameters
-		//
-		Point2D ptA = (Point2D)pSet.getParam("a").getData();
-		Point2D ptB = (Point2D)pSet.getParam("b").getData();
-		pSet.changeParam("d", ptA.computeDist(ptB));
-	}
-
-	
 	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
 	}
 
 
-	public void loadParamsAndUpdateState(ParamSet pSet) throws ParamNotFoundException {
-		// ParamSet:  "Line"
-		//
-		// # "a"  ->  "Pt.A"    <Point2D>
-		// # "b"  ->  "Pt.B"    <Point2D>
-		
-		//
-		//  Verify that param set is valid and load it into local state.
-		//
-		if(pSet != null){
-			if(pSet.label != "Line"){
-				throw new ParamNotFoundException();
-			}
-			
-			Param paramA = pSet.getParam("a");
-			if(paramA.getType() != PType.Point2D){
-				throw new ParamNotFoundException();
-			}
-			ptA = (Point2D)paramA.getData();
-			
-			Param paramB = pSet.getParam("b");
-			if(paramB.getType() != PType.Point2D){
-				throw new ParamNotFoundException();
-			}
-			ptB = (Point2D)paramB.getData();
-		}		
+	public boolean paramSetIsValid(ParamSet paramSet) {
+		//		 ParamSet:  "Line"
+		// --------------------------------
+		// # "a"  ->  "Pt.A"     <Point2D>
+		// # "b"  ->  "Pt.B"     <Point2D>
+		// # "l"  ->  "Length"   <Double> @derived
+		// --------------------------------		
+		boolean isValid = (	paramSet != null &&
+							paramSet.label == "Line" &&
+							paramSet.hasParam("a", PType.Point2D) &&
+							paramSet.hasParam("b", PType.Point2D) &&
+							paramSet.hasParam("l", PType.Double));
+		return isValid;
 	}
 
-
-	public void modifyParamsFromState(ParamSet pSet) throws ParamNotFoundException {
-		if(pSet != null){
-			if(pSet.label != "Line"){
-				throw new ParamNotFoundException();
-			}
-			
-			Param paramA = pSet.getParam("a");
-			if(paramA.getType() != PType.Point2D){
-				throw new ParamNotFoundException();
-			}
-			paramA.change(ptA);
-			
-			Param paramB = pSet.getParam("b");
-			if(paramB.getType() != PType.Point2D){
-				throw new ParamNotFoundException();
-			}
-			paramB.change(ptB);
-			
-			Param paramD = pSet.getParam("d");
-			if(paramD.getType() != PType.Double){
-				throw new ParamNotFoundException();
-			}
-			paramD.change(ptA.computeDist(ptB));			
+	public void updateDerivedParams(ParamSet paramSet) {
+		//
+		// Build all derived parameters
+		//
+		try{
+			Point2D ptA = paramSet.getParam("a").getDataPoint2D();
+			Point2D ptB = paramSet.getParam("b").getDataPoint2D();
+			paramSet.changeParam("l", ptA.computeDist(ptB));
+		}catch(Exception ex){
+			System.out.println(ex.getClass());
 		}
+		
 	}
 
 }

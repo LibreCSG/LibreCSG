@@ -17,6 +17,7 @@ import ui.event.ParamListener;
 import ui.utilities.NumUtils;
 import backend.adt.PType;
 import backend.adt.Param;
+import backend.adt.ParamNotCorrectTypeException;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
 import backend.global.AvoGlobal;
@@ -72,7 +73,7 @@ public class PCompPoint2D extends ParamComp{
 			return;
 		}
 		
-		Point2D pt = (Point2D)param.getData();
+		Point2D pt = getParamData();
 		
 		
 		//
@@ -106,13 +107,13 @@ public class PCompPoint2D extends ParamComp{
 				if(e.character == '\r'){
 					// check to see if string is a valid number
 					if(NumUtils.stringIsNumber(tx.getText())){
-						Point2D pt = (Point2D)param.getData();
+						Point2D pt = getParamData();
 						pt.setX(Double.parseDouble(tx.getText()));
 						param.change(pt);
 						updateParamViaToolInterface();
 						AvoGlobal.glView.updateGLView = true;
 					}else{
-						tx.setText(NumUtils.doubleToFixedString(((Point2D)param.getData()).getX(),8));
+						tx.setText(NumUtils.doubleToFixedString(getParamData().getX(),8));
 					}
 				}
 			}
@@ -129,13 +130,13 @@ public class PCompPoint2D extends ParamComp{
 			public void focusLost(FocusEvent e) {
 				// check to see if string is a valid number
 				if(NumUtils.stringIsNumber(tx.getText())){
-					Point2D pt = (Point2D)param.getData();
+					Point2D pt = getParamData();
 					pt.setX(Double.parseDouble(tx.getText()));
 					param.change(pt);
 					updateParamViaToolInterface();
 					AvoGlobal.glView.updateGLView = true;
 				}else{
-					tx.setText(NumUtils.doubleToFixedString(((Point2D)param.getData()).getX(),8));
+					tx.setText(NumUtils.doubleToFixedString(getParamData().getX(),8));
 				}
 			}			
 		});
@@ -157,13 +158,13 @@ public class PCompPoint2D extends ParamComp{
 				if(e.character == '\r'){
 					// check to see if string is a valid number
 					if(NumUtils.stringIsNumber(ty.getText())){
-						Point2D pt = (Point2D)param.getData();
+						Point2D pt = getParamData();
 						pt.setY(Double.parseDouble(ty.getText()));
 						param.change(pt);
 						updateParamViaToolInterface();
 						AvoGlobal.glView.updateGLView = true;
 					}else{
-						ty.setText(NumUtils.doubleToFixedString(((Point2D)param.getData()).getY(),8));
+						ty.setText(NumUtils.doubleToFixedString(getParamData().getY(),8));
 					}
 				}
 			}
@@ -180,13 +181,13 @@ public class PCompPoint2D extends ParamComp{
 			public void focusLost(FocusEvent e) {
 				// check to see if string is a valid number
 				if(NumUtils.stringIsNumber(ty.getText())){
-					Point2D pt = (Point2D)param.getData();
+					Point2D pt = getParamData();
 					pt.setY(Double.parseDouble(ty.getText()));
 					param.change(pt);
 					updateParamViaToolInterface();
 					AvoGlobal.glView.updateGLView = true;
 				}else{
-					ty.setText(NumUtils.doubleToFixedString(((Point2D)param.getData()).getY(),8));
+					ty.setText(NumUtils.doubleToFixedString(getParamData().getY(),8));
 				}
 			}			
 		});
@@ -206,7 +207,7 @@ public class PCompPoint2D extends ParamComp{
 		//		
 		paramListener = new ParamListener(){
 			public void paramModified() {
-				Point2D pt = (Point2D)param.getData();
+				Point2D pt = getParamData();
 				tx.setText(NumUtils.doubleToFixedString(pt.getX(),8));
 				ty.setText(NumUtils.doubleToFixedString(pt.getY(),8));
 			}
@@ -218,6 +219,15 @@ public class PCompPoint2D extends ParamComp{
 	}
 	
 
+	Point2D getParamData(){
+		try{
+			Point2D data = param.getDataPoint2D();
+			return data;
+		}catch(ParamNotCorrectTypeException e){
+			System.out.println(" *** WARNING *** PCompPoint2D :: param was not of type Point2D!");
+			return new Point2D(0.0, 0.0);
+		}
+	}
 
 	
 }

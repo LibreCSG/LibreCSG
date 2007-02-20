@@ -2,7 +2,6 @@ package ui.tools;
 
 import org.eclipse.swt.events.MouseEvent;
 
-import backend.adt.ParamNotFoundException;
 import backend.adt.ParamSet;
 
 
@@ -38,11 +37,10 @@ public interface ToolInterface {
 	 * glView calls this when it recieved a <em>mousedown</em> event.
 	 * Both mouse (screen) coordinates and absolute x,y,z 
 	 * coordinates are provided.
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @param mouseX
-	 * @param mouseY
+	 * @param x x-position
+	 * @param y y-position
+	 * @param z z-position
+	 * @param e mouseEvent (useful for key state, button pressed, etc.)
 	 */
 	abstract public void glMouseDown(double x, double y, double z, MouseEvent e);
 	
@@ -51,11 +49,10 @@ public interface ToolInterface {
 	 * event with the mouse button held down.
 	 * Both mouse (screen) coordinates and absolute x,y,z 
 	 * coordinates are provided.
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @param mouseX
-	 * @param mouseY
+	 * @param x x-position
+	 * @param y y-position
+	 * @param z z-position
+	 * @param e mouseEvent (useful for key state, button pressed, etc.)
 	 */
 	abstract public void glMouseDrag(double x, double y, double z,  MouseEvent e);
 	
@@ -64,11 +61,10 @@ public interface ToolInterface {
 	 * event with the mouse button <em>NOT</em> held down.
 	 * Both mouse (screen) coordinates and absolute x,y,z 
 	 * coordinates are provided.
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @param mouseX
-	 * @param mouseY
+	 * @param x x-position
+	 * @param y y-position
+	 * @param z z-position
+	 * @param e mouseEvent (useful for key state, button pressed, etc.)
 	 */
 	abstract public void glMouseMovedUp(double x, double y, double z,  MouseEvent e);
 	
@@ -76,28 +72,27 @@ public interface ToolInterface {
 	 * glView calls this when it recieved a <em>mouseup</em> event.
 	 * Both mouse (screen) coordinates and absolute x,y,z 
 	 * coordinates are provided.
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @param mouseX
-	 * @param mouseY
+	 * @param x x-position
+	 * @param y y-position
+	 * @param z z-position
+	 * @param e mouseEvent (useful for key state, button pressed, etc.)
 	 */
 	abstract public void glMouseUp(double x, double y, double z,  MouseEvent e);
 	
 	/**
-	 * verify that the parameter data is in fact valid/complete
-	 * and then update the state within the ToolInterface sub-class
-	 * with the paramSet's values.
-	 * @param pSet the parameter set to load.
+	 * verify that the parameter data is in fact valid/complete.
+	 * This include checks of each expected element in the set
+	 * for inclusion in the set and that it is the correct type.
+	 * @param paramSet ParamSet to be checked.
+	 * @return true iff paramSet is valid for the given ToolInterface
 	 */
-	abstract public void loadParamsAndUpdateState(ParamSet pSet) throws ParamNotFoundException;
+	abstract public boolean paramSetIsValid(ParamSet paramSet);
 	
 	/**
-	 * using the local state of the ToolInterface sub-class, 
-	 * modify the paramSet with the appropriate values.  
-	 * All derived parameters should also be updated here.
-	 * @param pSet the parameter set to modify.
-	 */
-	abstract public void modifyParamsFromState(ParamSet pSet) throws ParamNotFoundException;
+	 * update all derived params in the ParamSet if any exist via this ToolInterface.
+	 * @param paramSet a <em>valid</em> paramSet for the given ToolInterface.
+	 */	
+	abstract public void updateDerivedParams(ParamSet paramSet);
+	
 }
 

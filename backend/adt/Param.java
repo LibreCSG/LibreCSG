@@ -31,7 +31,7 @@ import backend.global.AvoGlobal;
 */
 public class Param {
 
-	protected PType  ptype;
+	protected final PType  ptype;
 	protected String plabel;
 	protected Object pdata;
 	protected boolean derivedParam = false;
@@ -61,19 +61,19 @@ public class Param {
 		ptype =  PType.Rotation3D;
 	}
 	
-	public Param(String label, boolean data){
+	public Param(String label, Boolean data){
 		pdata  = data;
 		plabel = label;
 		ptype =  PType.Boolean;	
 	}
 	
-	public Param(String label, int data){
+	public Param(String label, Integer data){
 		pdata  = data;
 		plabel = label;
-		ptype =  PType.Int;	
+		ptype =  PType.Integer;	
 	}
 	
-	public Param(String label, double data){
+	public Param(String label, Double data){
 		pdata  = data;
 		plabel = label;
 		ptype =  PType.Double;	
@@ -85,11 +85,6 @@ public class Param {
 		ptype =  PType.String;	
 	}
 	
-	public Param(String label){
-		pdata  = "error";
-		plabel = label;
-		ptype =  PType.ERROR;
-	}
 	
 	/**
 	 * get the parameter type
@@ -108,13 +103,53 @@ public class Param {
 		return plabel;
 	}
 	
+	public Point2D getDataPoint2D() throws ParamNotCorrectTypeException{
+		if(ptype == PType.Point2D){
+			return (Point2D)pdata;
+		}
+		throw new ParamNotCorrectTypeException();
+	}
 	
-	/**
-	 * get the parameter's data
-	 * @return
-	 */
-	public Object getData(){
-		return pdata;
+	public Point3D getDataPoint3D() throws ParamNotCorrectTypeException{
+		if(ptype == PType.Point3D){
+			return (Point3D)pdata;
+		}
+		throw new ParamNotCorrectTypeException();
+	}
+	
+	public Rotation3D getDataRotation3D() throws ParamNotCorrectTypeException{
+		if(ptype == PType.Rotation3D){
+			return (Rotation3D)pdata;
+		}
+		throw new ParamNotCorrectTypeException();
+	}
+	
+	public Boolean getDataBoolean() throws ParamNotCorrectTypeException{
+		if(ptype == PType.Boolean){
+			return (Boolean)pdata;
+		}
+		throw new ParamNotCorrectTypeException();
+	}
+	
+	public Integer getDataInteger() throws ParamNotCorrectTypeException{
+		if(ptype == PType.Integer){
+			return (Integer)pdata;
+		}
+		throw new ParamNotCorrectTypeException();
+	}
+	
+	public Double getDataDouble() throws ParamNotCorrectTypeException{
+		if(ptype == PType.Double){
+			return (Double)pdata;
+		}
+		throw new ParamNotCorrectTypeException();
+	}
+	
+	public String getDataString() throws ParamNotCorrectTypeException{
+		if(ptype == PType.String){
+			return (String)pdata;
+		}
+		throw new ParamNotCorrectTypeException();
 	}
 	
 	/**
