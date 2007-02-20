@@ -85,6 +85,12 @@ public class Param {
 		ptype =  PType.String;	
 	}
 	
+	public Param(String label){
+		pdata  = "error";
+		plabel = label;
+		ptype =  PType.ERROR;
+	}
+	
 	/**
 	 * get the parameter type
 	 * @return

@@ -65,7 +65,6 @@ public class ParamSet {
 				toolInterface.modifyParamsFromState(this);
 			}catch(ParamNotFoundException e){
 				System.out.println(" *** PARAM SET *** could not update paramSet... Param Not Found Exception! Label=" + label);
-				e.printStackTrace();
 			}
 			
 		}
@@ -100,7 +99,11 @@ public class ParamSet {
 	 * @return
 	 */
 	public Param getParam(String name){
-		return paramSet.get(name);
+		Param p = paramSet.get(name);
+		if(p != null){
+			return p;
+		}
+		return new Param(name);
 	}
 	
 	/**
