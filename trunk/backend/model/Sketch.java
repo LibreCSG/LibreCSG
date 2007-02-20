@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import ui.tools.main.ToolMain2DInt;
 import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
@@ -62,7 +63,7 @@ public class Sketch implements SubPart{
 	
 	public Sketch(){
 		// TODO: need sketch tool interface!!
-		paramSet = new ParamSet("Sketch", null);
+		paramSet = new ParamSet("Sketch", new ToolMain2DInt());
 		paramSet.addParam("o", new Param("Offset", new Point3D(0.0, 0.0, 0.0)));
 		paramSet.addParam("r", new Param("Rotation", new Rotation3D(0.0, 0.0, 0.0)));
 		paramSet.label = "Sketch";

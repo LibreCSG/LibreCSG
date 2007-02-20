@@ -216,7 +216,7 @@ public class DynParamDialog {
 					break;
 				}
 				case Double : {
-					new PCompDouble(paramComp, SWT.BORDER, p);
+					new PCompDouble(paramComp, SWT.BORDER, p, paramSet);
 					break;
 				}
 				case String : {
@@ -226,7 +226,7 @@ public class DynParamDialog {
 					break;
 				}
 				case Point2D : {
-					new PCompPoint2D(paramComp, SWT.BORDER, p);
+					new PCompPoint2D(paramComp, SWT.BORDER, p, paramSet);
 					break;
 				}
 				case Point3D : {

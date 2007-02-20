@@ -14,10 +14,10 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import ui.event.ParamListener;
-import ui.tools.ToolInterface;
 import ui.utilities.NumUtils;
 import backend.adt.PType;
 import backend.adt.Param;
+import backend.adt.ParamSet;
 import backend.adt.Point2D;
 import backend.global.AvoGlobal;
 
@@ -53,8 +53,8 @@ public class PCompPoint2D extends ParamComp{
 	private Text tx;
 	private Text ty;	
 	
-	public PCompPoint2D(Composite parent, int style, Param p){
-		super(parent,style);
+	public PCompPoint2D(Composite parent, int style, Param p, ParamSet paramSet){
+		super(parent,style, paramSet);
 		param = p;
 		
 		//
@@ -109,6 +109,7 @@ public class PCompPoint2D extends ParamComp{
 						Point2D pt = (Point2D)param.getData();
 						pt.setX(Double.parseDouble(tx.getText()));
 						param.change(pt);
+						updateParamViaToolInterface();
 						AvoGlobal.glView.updateGLView = true;
 					}else{
 						tx.setText(NumUtils.doubleToFixedString(((Point2D)param.getData()).getX(),8));
@@ -131,6 +132,7 @@ public class PCompPoint2D extends ParamComp{
 					Point2D pt = (Point2D)param.getData();
 					pt.setX(Double.parseDouble(tx.getText()));
 					param.change(pt);
+					updateParamViaToolInterface();
 					AvoGlobal.glView.updateGLView = true;
 				}else{
 					tx.setText(NumUtils.doubleToFixedString(((Point2D)param.getData()).getX(),8));
@@ -158,6 +160,7 @@ public class PCompPoint2D extends ParamComp{
 						Point2D pt = (Point2D)param.getData();
 						pt.setY(Double.parseDouble(ty.getText()));
 						param.change(pt);
+						updateParamViaToolInterface();
 						AvoGlobal.glView.updateGLView = true;
 					}else{
 						ty.setText(NumUtils.doubleToFixedString(((Point2D)param.getData()).getY(),8));
@@ -180,6 +183,7 @@ public class PCompPoint2D extends ParamComp{
 					Point2D pt = (Point2D)param.getData();
 					pt.setY(Double.parseDouble(ty.getText()));
 					param.change(pt);
+					updateParamViaToolInterface();
 					AvoGlobal.glView.updateGLView = true;
 				}else{
 					ty.setText(NumUtils.doubleToFixedString(((Point2D)param.getData()).getY(),8));

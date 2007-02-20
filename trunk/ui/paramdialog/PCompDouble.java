@@ -13,10 +13,10 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import ui.event.ParamListener;
-import ui.tools.ToolInterface;
 import ui.utilities.NumUtils;
 import backend.adt.PType;
 import backend.adt.Param;
+import backend.adt.ParamSet;
 import backend.global.AvoGlobal;
 
 
@@ -50,8 +50,8 @@ public class PCompDouble extends ParamComp{
 
 	private Text tD;	
 	
-	public PCompDouble(Composite parent, int style, Param p){
-		super(parent,style);
+	public PCompDouble(Composite parent, int style, Param p, ParamSet paramSet){
+		super(parent,style, paramSet);
 		param = p;
 		
 		//
@@ -103,6 +103,7 @@ public class PCompDouble extends ParamComp{
 						Double pD = (Double)param.getData();
 						pD = Double.parseDouble(tD.getText());
 						param.change(pD);
+						updateParamViaToolInterface();
 						AvoGlobal.glView.updateGLView = true;
 					}else{
 						tD.setText(NumUtils.doubleToFixedString((Double)param.getData(),8));
@@ -125,6 +126,7 @@ public class PCompDouble extends ParamComp{
 					Double pD = (Double)param.getData();
 					pD = Double.parseDouble(tD.getText());
 					param.change(pD);
+					updateParamViaToolInterface();
 					AvoGlobal.glView.updateGLView = true;
 				}else{
 					tD.setText(NumUtils.doubleToFixedString((Double)param.getData(),8));
