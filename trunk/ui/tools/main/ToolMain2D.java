@@ -78,7 +78,7 @@ public class ToolMain2D extends ToolMain{
 		AvoGlobal.project.getActivePart().setActiveSubPart(i);
 		Sketch sketch = AvoGlobal.project.getActiveSketch();
 		if(sketch != null){
-			AvoGlobal.paramDialog.setParamSet(sketch.getParamSet());
+			AvoGlobal.paramDialog.setParamSet(sketch.paramSet);
 		}
 	}
 

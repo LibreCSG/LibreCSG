@@ -2,6 +2,7 @@ package backend.model;
 
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 
 import backend.adt.Param;
 import backend.adt.ParamSet;
@@ -46,8 +47,8 @@ public class Sketch implements SubPart{
 	/**
 	 * List of all the Feature2Ds contained in the sketch
 	 */
-	private LinkedList<Feature2D> feat2DList = new LinkedList<Feature2D>();
-	private LinkedList<Region2D>  regionList = new LinkedList<Region2D>();
+	protected List<Feature2D> feat2DList = new LinkedList<Feature2D>();
+	protected List<Region2D>  regionList = new LinkedList<Region2D>();
 	public ParamSet paramSet = null;
 	
 	protected int activeFeat2D = -1;
@@ -60,6 +61,7 @@ public class Sketch implements SubPart{
 	public boolean isConsumed = false;
 	
 	public Sketch(){
+		// TODO: need sketch tool interface!!
 		paramSet = new ParamSet("Sketch", null);
 		paramSet.addParam("o", new Param("Offset", new Point3D(0.0, 0.0, 0.0)));
 		paramSet.addParam("r", new Param("Rotation", new Rotation3D(0.0, 0.0, 0.0)));
@@ -215,14 +217,6 @@ public class Sketch implements SubPart{
 	 */
 	public void removeActiveFeat2D(){
 		removeFeat2DAtIndex(activeFeat2D);
-	}
-	
-	/**
-	 * get the sketch's ParamSet.
-	 * @return the ParamSet
-	 */
-	public ParamSet getParamSet(){
-		return paramSet;
 	}
 	
 	/**

@@ -119,12 +119,14 @@ public class TreeViewer {
 				for(int iSubPart=0; iSubPart < part.getSubPartListSize(); iSubPart++){
 					SubPart subPart = part.getAtIndex(iSubPart);
 					TreeItem tiSubPart = new TreeItem(tiPart, SWT.NONE, iSubPart);
+					tiSubPart.setData(new int[] {iGroup, iPart, iSubPart});
 					Sketch sketch = subPart.getSketch();					
 					if(sketch != null){
 						tiSubPart.setText("Sketch");
 						for(int iSketch=0; iSketch < sketch.getFeat2DListSize(); iSketch++){
 							Feature2D feat2D = sketch.getAtIndex(iSketch);
 							TreeItem tiFeat2D = new TreeItem(tiSubPart, SWT.NONE, iSketch);
+							tiFeat2D.setData(new int[] {iGroup, iPart, iSubPart, iSketch});
 							tiFeat2D.setText(feat2D.paramSet.label);
 						}						
 					}

@@ -1,6 +1,7 @@
 package backend.model;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import ui.tools.ToolInterface2D3D;
 import backend.adt.ParamSet;
@@ -35,18 +36,16 @@ import backend.global.AvoGlobal;
 */
 public class Feature2D3D implements SubPart{
 	
-	protected LinkedList<Sketch> sketchList = new LinkedList<Sketch>();
-	public ToolInterface2D3D toolInt2D3D;
-	public ParamSet paramSet = null;
+	protected List<Sketch>      sketchList  = new LinkedList<Sketch>();
+	public    ToolInterface2D3D toolInt2D3D = null;
+	public    ParamSet          paramSet    = null;
 	
 	protected int activeSketch = -1;
 	
 	public Feature2D3D(ToolInterface2D3D toolInt2D3D, ParamSet paramSet){
-		this.paramSet = paramSet;
+		this.paramSet    = paramSet;
 		this.toolInt2D3D = toolInt2D3D;		
-	}
-	
-	
+	}	
 	
 	/**
 	 * add a Sketch fot the end of the list of Sketches.

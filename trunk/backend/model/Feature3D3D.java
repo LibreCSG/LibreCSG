@@ -1,6 +1,7 @@
 package backend.model;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import ui.tools.ToolInterface3D3D;
 import backend.adt.ParamSet;
@@ -35,9 +36,9 @@ import backend.global.AvoGlobal;
 */
 public class Feature3D3D implements SubPart{
 
-	protected LinkedList<SubPart> subPartList = new LinkedList<SubPart>();
-	protected ToolInterface3D3D toolInt3D3D;
-	public ParamSet paramSet = null;
+	protected List<SubPart> subPartList     = new LinkedList<SubPart>();
+	protected ToolInterface3D3D toolInt3D3D = null;
+	public    ParamSet paramSet             = null;
 	
 	public Feature3D3D(ToolInterface3D3D toolInt3D3D, ParamSet paramSet){
 		this.paramSet = paramSet;
