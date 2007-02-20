@@ -230,15 +230,11 @@ public class DynParamDialog {
 					break;
 				}
 				case Point3D : {
-					// TODO: PCompPoint3D
-					Label l = new Label(paramComp, SWT.SINGLE);
-					l.setText(p.getLabel());
+					new PCompPoint3D(paramComp, SWT.BORDER, p, paramSet);
 					break;
 				}
 				case Rotation3D : {
-					// TODO: PCompRotation3D
-					Label l = new Label(paramComp, SWT.SINGLE);
-					l.setText(p.getLabel());
+					new PCompRotation3D(paramComp, SWT.BORDER, p, paramSet);
 					break;
 				}
 				default : {

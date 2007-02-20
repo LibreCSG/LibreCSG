@@ -46,11 +46,12 @@ public class Prim2DArc extends Prim2D{
 		this.radius = radius;
 		this.startAngle = startAngle;
 		this.arcAngle   = arcAngle;
-		//TODO: set ptA, and ptB based on radius and startangle
+		//TODO: set ptA, and ptB based on center, radius, startAngle, and arcAngle
 	}
 	
 	public void glDraw(GL gl) {
 		GLDynPrim.arc2D(gl, center, radius, startAngle, arcAngle, 0.0);
+		GLDynPrim.point(gl, center.getX(), center.getY(), 0.0, 3.0);
 	}
 
 	public Point2D intersectsArc(Prim2DArc arc) {

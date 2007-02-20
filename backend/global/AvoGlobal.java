@@ -48,9 +48,9 @@ public class AvoGlobal {
 	 * Background color of Menuet in various modes.
 	 */
 	public static final Color COLOR_MENUET_MAIN   = new Color(Display.getCurrent(),  230,  230,  230);
-	public static final Color COLOR_MENUET_2D     = new Color(Display.getCurrent(),  150,  220,  150);
-	public static final Color COLOR_MENUET_2Dto3D = new Color(Display.getCurrent(),  150,  150,  220);
-	public static final Color COLOR_MENUET_3D     = new Color(Display.getCurrent(),  220,  220,  150);
+	public static final Color COLOR_MENUET_2D     = new Color(Display.getCurrent(),  180,  240,  180);
+	public static final Color COLOR_MENUET_2Dto3D = new Color(Display.getCurrent(),  180,  180,  240);
+	public static final Color COLOR_MENUET_3D     = new Color(Display.getCurrent(),  220,  220,  180);
 	
 	/**
 	 * colors for special menuet buttons
@@ -65,7 +65,7 @@ public class AvoGlobal {
 	/**
 	 * colors for parameter dialog
 	 */
-	public static final Color COLOR_PARAM_BG       = new Color(Display.getCurrent(),  220,  190,  190);
+	public static final Color COLOR_PARAM_BG       = new Color(Display.getCurrent(),  230,  190,  230);
 	public static final Color COLOR_PARAM_DERIVED  = new Color(Display.getCurrent(),  220,  220,  240);
 	
 	/**
