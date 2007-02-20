@@ -58,15 +58,21 @@ public class ParamSet {
 		return toolInterface;
 	}
 	
-	public void updateParamViaToolInterface(){
-		if(toolInterface != null){
-			try{
-				toolInterface.loadParamsAndUpdateState(this);
-				toolInterface.modifyParamsFromState(this);
-			}catch(ParamNotFoundException e){
-				System.out.println(" *** PARAM SET *** could not update paramSet... Param Not Found Exception! Label=" + label);
-			}
-			
+	
+	/**
+	 * update all of the Derived Parameters in the ParamSet
+	 * by requesting the toolInterface to do the update.
+	 * If an exception occurs, a warning is printed to the
+	 * console to notify that code sould be fixed. (probably 
+	 * a typo or incorrect variable type is to blame)
+	 */
+	public void updateDerivedParams(){
+		if(toolInterface != null){			
+			if(toolInterface.paramSetIsValid(this)){
+				toolInterface.updateDerivedParams(this);
+			}else{
+				System.out.println(" *** PARAM SET *** param set was not valid! not performing derived parameter update.");
+			}	
 		}
 	}
 	
@@ -83,13 +89,15 @@ public class ParamSet {
 	 * Remove a parameter to the set.
 	 * @param p
 	 * @param name
+	 * @throws ParamNotFoundException
 	 */
-	public void removeParam(String name){
+	public void removeParam(String name) throws ParamNotFoundException{
 		if(paramSet.get(name) != null){
 			paramSet.remove(name);
 		}else{
 			System.out.println("Tried to remove a parameter that did not exist in the set!");
 			System.out.println("  --> Name: " + name);
+			throw new ParamNotFoundException();
 		}
 	}
 	
@@ -97,13 +105,14 @@ public class ParamSet {
 	 * Get a parameter from the set by name.
 	 * @param name
 	 * @return
+	 * @throws ParamNotFoundException
 	 */
-	public Param getParam(String name){
+	public Param getParam(String name) throws ParamNotFoundException{
 		Param p = paramSet.get(name);
 		if(p != null){
 			return p;
 		}
-		return new Param(name);
+		throw new ParamNotFoundException();
 	}
 	
 	/**
@@ -123,13 +132,15 @@ public class ParamSet {
 	 * change will be made.
 	 * @param name
 	 * @param p
+	 * @throws ParamNotFoundException
 	 */
-	public void changeParam(String name, Object data){
+	public void changeParam(String name, Object data) throws ParamNotFoundException{
 		if(paramSet.get(name) != null){
 			paramSet.get(name).change(data);
 		}else{
 			System.out.println("Tried to change a parameter that did not exist in the set!");
 			System.out.println("  --> Name: " + name);
+			throw new ParamNotFoundException();
 		}		
 	}
 

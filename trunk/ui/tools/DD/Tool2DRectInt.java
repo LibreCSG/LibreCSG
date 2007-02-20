@@ -1,18 +1,15 @@
 package ui.tools.DD;
 
-import java.util.LinkedList;
-
 import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolInterface2D;
+import backend.adt.PType;
 import backend.adt.Param;
-import backend.adt.ParamNotFoundException;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D;
 import backend.model.Sketch;
-import backend.primatives.Prim2D;
 import backend.primatives.Prim2DLine;
 import backend.primatives.Prim2DList;
 
@@ -98,14 +95,16 @@ public class Tool2DRectInt implements ToolInterface2D {
 			//
 			ParamSet paramSet = feat2D.paramSet;
 		
+			
 			//
 			// update param values
 			//
-			paramSet.changeParam("b", new Point2D(x,y));
-			Point2D ptA = (Point2D)paramSet.getParam("a").getData();
-			Point2D ptB = (Point2D)paramSet.getParam("b").getData();		
-			paramSet.changeParam("w", Math.abs(ptA.getX() - ptB.getX()));
-			paramSet.changeParam("h", Math.abs(ptA.getY() - ptB.getY()));			
+			try{
+				paramSet.changeParam("b", new Point2D(x,y));
+				updateDerivedParams(paramSet);
+			}catch(Exception ex){
+				System.out.println(ex.getClass());
+			}		
 		}
 	}
 
@@ -120,52 +119,73 @@ public class Tool2DRectInt implements ToolInterface2D {
 			//
 			// finalize the feature's formation
 			//
-			paramSet.changeParam("b", new Point2D(x,y));
-			Point2D ptA = (Point2D)paramSet.getParam("a").getData();
-			Point2D ptB = (Point2D)paramSet.getParam("b").getData();
-			paramSet.changeParam("w", Math.abs(ptA.getX() - ptB.getX()));
-			paramSet.changeParam("h", Math.abs(ptA.getY() - ptB.getY()));
-			
-			// * discard if start point is the same as the end point
-			if(ptA.getX() == ptB.getX() || ptA.getY() == ptB.getY()){
-				// end point are the same... discard
-				System.out.println("Reactangle has zero area... discarding feature");
-				// TODO: remove feature2D from the set!
-				AvoGlobal.paramDialog.setParamSet(null);
-			}			
+			try{
+				paramSet.changeParam("b", new Point2D(x,y));
+				updateDerivedParams(paramSet);
+				
+				Point2D ptA = paramSet.getParam("a").getDataPoint2D();
+				Point2D ptB = paramSet.getParam("b").getDataPoint2D();
+				// * discard if startX == endX or startY == endY  (rectangle has 0 Area)
+				if(ptA.getX() == ptB.getX() || ptA.getY() == ptB.getY()){
+					// end point are the same... discard
+					System.out.println("Reactangle has zero area... discarding feature");
+					// remove feature2D from the set
+					AvoGlobal.project.getActiveSketch().removeActiveFeat2D();
+					AvoGlobal.paramDialog.setParamSet(null);
+				}
+				
+			}catch(Exception ex){
+				System.out.println(ex.getClass());
+			}				
 		}		
 	}
 
-	public Prim2DList buildPrimList(ParamSet p) {
-		Point2D ptA  = (Point2D)p.getParam("a").getData();
-		Point2D ptB  = (Point2D)p.getParam("b").getData();
-		Point2D ptAB = new Point2D(ptA.getX(),ptB.getY());
-		Point2D ptBA = new Point2D(ptB.getX(),ptA.getY());
-		Prim2DList primList = new Prim2DList();
-		primList.add(new Prim2DLine(ptA,ptAB));
-		primList.add(new Prim2DLine(ptA,ptBA));
-		primList.add(new Prim2DLine(ptB,ptAB));
-		primList.add(new Prim2DLine(ptB,ptBA));
-		return primList;
+	public Prim2DList buildPrimList(ParamSet paramSet) {
+		try{
+			Point2D ptA  = paramSet.getParam("a").getDataPoint2D();
+			Point2D ptB  = paramSet.getParam("b").getDataPoint2D();
+			Point2D ptAB = new Point2D(ptA.getX(),ptB.getY());
+			Point2D ptBA = new Point2D(ptB.getX(),ptA.getY());
+			Prim2DList primList = new Prim2DList();
+			primList.add(new Prim2DLine(ptA,ptAB));
+			primList.add(new Prim2DLine(ptA,ptBA));
+			primList.add(new Prim2DLine(ptB,ptAB));
+			primList.add(new Prim2DLine(ptB,ptBA));
+			return primList;
+		}catch(Exception ex){
+			System.out.println(ex.getClass());
+		}
+		return null;
 	}
 
-	void buildDerivedParams(ParamSet pSet) {
-		Point2D ptA = (Point2D)pSet.getParam("a").getData();
-		Point2D ptB = (Point2D)pSet.getParam("b").getData();
-		pSet.changeParam("w", Math.abs(ptA.getX() - ptB.getX()));
-		pSet.changeParam("h", Math.abs(ptA.getY() - ptB.getY()));
-	}
-	
 	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
 	}
 
-
-	public void loadParamsAndUpdateState(ParamSet pSet) throws ParamNotFoundException {
-		// TODO Auto-generated method stub		
+	public boolean paramSetIsValid(ParamSet paramSet) {
+		//		 ParamSet:  "Rectangle"
+		// --------------------------------
+		// # "a"  ->  "Pt.A"    <Point2D>
+		// # "b"  ->  "Pt.B"    <Point2D>
+		// # "w"  ->  "Width"   <Double> @derived
+		// # "h"  ->  "Height"  <Double> @derived
+		// --------------------------------		
+		boolean isValid = (	paramSet != null &&
+							paramSet.label == "Rectangle" &&
+							paramSet.hasParam("a", PType.Point2D) &&
+							paramSet.hasParam("b", PType.Point2D) &&
+							paramSet.hasParam("w", PType.Double) &&
+							paramSet.hasParam("h", PType.Double));
+		return isValid;
 	}
 
-
-	public void modifyParamsFromState(ParamSet pSet) throws ParamNotFoundException {
-		// TODO Auto-generated method stub		
+	public void updateDerivedParams(ParamSet paramSet) {
+		try{
+			Point2D ptA = paramSet.getParam("a").getDataPoint2D();
+			Point2D ptB = paramSet.getParam("b").getDataPoint2D();
+			paramSet.changeParam("w", Math.abs(ptA.getX() - ptB.getX()));
+			paramSet.changeParam("h", Math.abs(ptA.getY() - ptB.getY()));
+		}catch(Exception ex){
+			System.out.println(ex.getClass());
+		}		
 	}
 }

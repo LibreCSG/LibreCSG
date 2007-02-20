@@ -120,8 +120,11 @@ public class Tool2D3DExtrudeInt implements ToolInterface2D3D{
 					gl.glEnd();
 					
 					
-					if(paramSet != null && paramSet.getParam("h") != null){
-						double height = (Double)paramSet.getParam("h").getData();
+					if(paramSet != null){
+						
+						// TODO: big hack! just setting height to 3.5 (should get from paramSet)
+						//double height = (Double)paramSet.getParam("h").getData();
+						double height = 3.5;
 						
 						// draw top
 						gl.glColor4f(1.0f, 0.7f, 0.85f, 0.5f);
@@ -204,13 +207,12 @@ public class Tool2D3DExtrudeInt implements ToolInterface2D3D{
 	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
 	}
 
-
-	public void loadParamsAndUpdateState(ParamSet pSet) throws ParamNotFoundException {
-		// TODO Auto-generated method stub		
+	public boolean paramSetIsValid(ParamSet paramSet) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
-
-	public void modifyParamsFromState(ParamSet pSet) throws ParamNotFoundException {
+	public void updateDerivedParams(ParamSet paramSet) {
 		// TODO Auto-generated method stub		
 	}
 

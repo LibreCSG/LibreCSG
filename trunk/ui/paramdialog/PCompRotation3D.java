@@ -16,6 +16,7 @@ import ui.event.ParamListener;
 import ui.utilities.NumUtils;
 import backend.adt.PType;
 import backend.adt.Param;
+import backend.adt.ParamNotCorrectTypeException;
 import backend.adt.ParamSet;
 import backend.adt.Rotation3D;
 import backend.global.AvoGlobal;
@@ -72,7 +73,7 @@ public class PCompRotation3D extends ParamComp{
 			return;
 		}
 		
-		Rotation3D pt = (Rotation3D)param.getData();
+		Rotation3D pt = getParamData();
 		
 		
 		//
@@ -106,13 +107,13 @@ public class PCompRotation3D extends ParamComp{
 				if(e.character == '\r'){
 					// check to see if string is a valid number
 					if(NumUtils.stringIsNumber(tx.getText())){
-						Rotation3D pt = (Rotation3D)param.getData();
+						Rotation3D pt = getParamData();
 						pt.setXRot(Double.parseDouble(tx.getText()));
 						param.change(pt);
 						updateParamViaToolInterface();
 						AvoGlobal.glView.updateGLView = true;
 					}else{
-						tx.setText(NumUtils.doubleToFixedString(((Rotation3D)param.getData()).getXRot(),8));
+						tx.setText(NumUtils.doubleToFixedString(getParamData().getXRot(),8));
 					}
 				}
 			}
@@ -129,13 +130,13 @@ public class PCompRotation3D extends ParamComp{
 			public void focusLost(FocusEvent e) {
 				// check to see if string is a valid number
 				if(NumUtils.stringIsNumber(tx.getText())){
-					Rotation3D pt = (Rotation3D)param.getData();
+					Rotation3D pt = getParamData();
 					pt.setXRot(Double.parseDouble(tx.getText()));
 					param.change(pt);
 					updateParamViaToolInterface();
 					AvoGlobal.glView.updateGLView = true;
 				}else{
-					tx.setText(NumUtils.doubleToFixedString(((Rotation3D)param.getData()).getXRot(),8));
+					tx.setText(NumUtils.doubleToFixedString(getParamData().getXRot(),8));
 				}
 			}			
 		});
@@ -157,13 +158,13 @@ public class PCompRotation3D extends ParamComp{
 				if(e.character == '\r'){
 					// check to see if string is a valid number
 					if(NumUtils.stringIsNumber(ty.getText())){
-						Rotation3D pt = (Rotation3D)param.getData();
+						Rotation3D pt = getParamData();
 						pt.setYRot(Double.parseDouble(ty.getText()));
 						param.change(pt);
 						updateParamViaToolInterface();
 						AvoGlobal.glView.updateGLView = true;
 					}else{
-						ty.setText(NumUtils.doubleToFixedString(((Rotation3D)param.getData()).getYRot(),8));
+						ty.setText(NumUtils.doubleToFixedString(getParamData().getYRot(),8));
 					}
 				}
 			}
@@ -180,13 +181,13 @@ public class PCompRotation3D extends ParamComp{
 			public void focusLost(FocusEvent e) {
 				// check to see if string is a valid number
 				if(NumUtils.stringIsNumber(ty.getText())){
-					Rotation3D pt = (Rotation3D)param.getData();
+					Rotation3D pt = getParamData();
 					pt.setYRot(Double.parseDouble(ty.getText()));
 					param.change(pt);
 					updateParamViaToolInterface();
 					AvoGlobal.glView.updateGLView = true;
 				}else{
-					ty.setText(NumUtils.doubleToFixedString(((Rotation3D)param.getData()).getYRot(),8));
+					ty.setText(NumUtils.doubleToFixedString(getParamData().getYRot(),8));
 				}
 			}			
 		});
@@ -209,13 +210,13 @@ public class PCompRotation3D extends ParamComp{
 				if(e.character == '\r'){
 					// check to see if string is a valid number
 					if(NumUtils.stringIsNumber(tz.getText())){
-						Rotation3D pt = (Rotation3D)param.getData();
+						Rotation3D pt = getParamData();
 						pt.setZRot(Double.parseDouble(tz.getText()));
 						param.change(pt);
 						updateParamViaToolInterface();
 						AvoGlobal.glView.updateGLView = true;
 					}else{
-						tz.setText(NumUtils.doubleToFixedString(((Rotation3D)param.getData()).getZRot(),8));
+						tz.setText(NumUtils.doubleToFixedString(getParamData().getZRot(),8));
 					}
 				}
 			}
@@ -232,13 +233,13 @@ public class PCompRotation3D extends ParamComp{
 			public void focusLost(FocusEvent e) {
 				// check to see if string is a valid number
 				if(NumUtils.stringIsNumber(tz.getText())){
-					Rotation3D pt = (Rotation3D)param.getData();
+					Rotation3D pt = getParamData();
 					pt.setZRot(Double.parseDouble(tz.getText()));
 					param.change(pt);
 					updateParamViaToolInterface();
 					AvoGlobal.glView.updateGLView = true;
 				}else{
-					tz.setText(NumUtils.doubleToFixedString(((Rotation3D)param.getData()).getZRot(),8));
+					tz.setText(NumUtils.doubleToFixedString(getParamData().getZRot(),8));
 				}
 			}			
 		});
@@ -261,7 +262,7 @@ public class PCompRotation3D extends ParamComp{
 		//		
 		paramListener = new ParamListener(){
 			public void paramModified() {
-				Rotation3D pt = (Rotation3D)param.getData();
+				Rotation3D pt = getParamData();
 				tx.setText(NumUtils.doubleToFixedString(pt.getXRot(),8));
 				ty.setText(NumUtils.doubleToFixedString(pt.getYRot(),8));
 				tz.setText(NumUtils.doubleToFixedString(pt.getZRot(),8));
@@ -270,7 +271,16 @@ public class PCompRotation3D extends ParamComp{
 			}			
 		};	
 		AvoGlobal.paramEventHandler.addParamListener(paramListener);
-		
+	}
+	
+	Rotation3D getParamData(){
+		try{
+			Rotation3D data = param.getDataRotation3D();
+			return data;
+		}catch(ParamNotCorrectTypeException e){
+			System.out.println(" *** WARNING *** PCompRotation3D :: param was not of type Rotation3D!");
+			return new Rotation3D(0.0, 0.0, 0.0);
+		}
 	}
 	
 }

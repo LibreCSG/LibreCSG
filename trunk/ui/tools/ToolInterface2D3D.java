@@ -34,6 +34,7 @@ import backend.model.Sketch;
 */
 public interface ToolInterface2D3D extends ToolInterface{
 
+	// TODO: sketch should be a parameter in the ParamSet!!
 	abstract public void draw3DFeature(GL gl, ParamSet paramSet, Sketch sketch);
 	
 }

@@ -209,7 +209,7 @@ public class DynParamDialog {
 					l.setText(p.getLabel());
 					break;
 				}
-				case Int : {
+				case Integer : {
 					// TODO: PCompInt
 					Label l = new Label(paramComp, SWT.SINGLE);
 					l.setText(p.getLabel());

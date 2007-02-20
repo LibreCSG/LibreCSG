@@ -4,8 +4,6 @@ import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolInterfaceMain;
 import backend.adt.PType;
-import backend.adt.Param;
-import backend.adt.ParamNotFoundException;
 import backend.adt.ParamSet;
 import backend.adt.Point3D;
 import backend.adt.Rotation3D;
@@ -55,52 +53,22 @@ public class ToolMain2DInt implements ToolInterfaceMain{
 	public void glMouseUp(double x, double y, double z, MouseEvent e) {
 	}
 
-	public void loadParamsAndUpdateState(ParamSet pSet) throws ParamNotFoundException {
-		// ParamSet:  "Sketch"
-		//
-		// # "o"  ->  "Offset"    <Point3D>
-		// # "r"  ->  "Rotation"  <Rotation3D>
-		
-		//
-		//  Verify that param set is valid and load it into local state.
-		//
-		if(pSet != null){
-			if(pSet.label != "Sketch"){
-				throw new ParamNotFoundException();
-			}
-			
-			Param paramO = pSet.getParam("o");
-			if(paramO.getType() != PType.Point3D){
-				throw new ParamNotFoundException();
-			}
-			sketchOrigin = (Point3D)paramO.getData();
-			
-			Param paramR = pSet.getParam("r");
-			if(paramR.getType() != PType.Rotation3D){
-				throw new ParamNotFoundException();
-			}
-			sketchRotation = (Rotation3D)paramR.getData();
-		}	
+	public boolean paramSetIsValid(ParamSet paramSet) {
+		//		 ParamSet:  "Sketch"
+		// --------------------------------
+		// # "o"  ->  "Offset"     <Point3D>
+		// # "r"  ->  "Rotation"   <Rotation3D>
+		// --------------------------------		
+		boolean isValid = (	paramSet != null &&
+							paramSet.label == "Sketch" &&
+							paramSet.hasParam("o", PType.Point3D) &&
+							paramSet.hasParam("r", PType.Rotation3D));
+		return isValid;
 	}
 
-	public void modifyParamsFromState(ParamSet pSet) throws ParamNotFoundException {
-		if(pSet != null){
-			if(pSet.label != "Sketch"){
-				throw new ParamNotFoundException();
-			}
-			
-			Param paramO = pSet.getParam("o");
-			if(paramO.getType() != PType.Point3D){
-				throw new ParamNotFoundException();
-			}
-			paramO.change(sketchOrigin);
-			
-			Param paramR = pSet.getParam("r");
-			if(paramR.getType() != PType.Rotation3D){
-				throw new ParamNotFoundException();
-			}
-			paramR.change(sketchRotation);
-		}		
+	public void updateDerivedParams(ParamSet paramSet) {
+		// no derived params for this feature.
+		
 	}
 
 }

@@ -16,6 +16,7 @@ import ui.event.ParamListener;
 import ui.utilities.NumUtils;
 import backend.adt.PType;
 import backend.adt.Param;
+import backend.adt.ParamNotCorrectTypeException;
 import backend.adt.ParamSet;
 import backend.global.AvoGlobal;
 
@@ -69,7 +70,7 @@ public class PCompDouble extends ParamComp{
 			return;
 		}
 		
-		Double pD = (Double)param.getData();
+		Double pD = getParamData();
 		
 		//
 		// Param label display
@@ -100,13 +101,13 @@ public class PCompDouble extends ParamComp{
 				if(e.character == '\r'){
 					// check to see if string is a valid number
 					if(NumUtils.stringIsNumber(tD.getText())){
-						Double pD = (Double)param.getData();
+						Double pD = getParamData();
 						pD = Double.parseDouble(tD.getText());
 						param.change(pD);
 						updateParamViaToolInterface();
 						AvoGlobal.glView.updateGLView = true;
 					}else{
-						tD.setText(NumUtils.doubleToFixedString((Double)param.getData(),8));
+						tD.setText(NumUtils.doubleToFixedString(getParamData(),8));
 					}
 				}
 			}
@@ -123,13 +124,13 @@ public class PCompDouble extends ParamComp{
 			public void focusLost(FocusEvent e) {
 				// check to see if string is a valid number
 				if(NumUtils.stringIsNumber(tD.getText())){
-					Double pD = (Double)param.getData();
+					Double pD = getParamData();
 					pD = Double.parseDouble(tD.getText());
 					param.change(pD);
 					updateParamViaToolInterface();
 					AvoGlobal.glView.updateGLView = true;
 				}else{
-					tD.setText(NumUtils.doubleToFixedString((Double)param.getData(),8));
+					tD.setText(NumUtils.doubleToFixedString(getParamData(),8));
 				}
 			}			
 		});
@@ -147,7 +148,7 @@ public class PCompDouble extends ParamComp{
 		//		
 		paramListener = new ParamListener(){
 			public void paramModified() {
-				tD.setText(NumUtils.doubleToFixedString((Double)param.getData(),8));
+				tD.setText(NumUtils.doubleToFixedString(getParamData(),8));
 			}
 			public void paramSwitched() {
 			}			
@@ -156,5 +157,14 @@ public class PCompDouble extends ParamComp{
 		
 	}
 	
+	Double getParamData(){
+		try{
+			Double data = param.getDataDouble();
+			return data;
+		}catch(ParamNotCorrectTypeException e){
+			System.out.println(" *** WARNING *** PCompDouble :: param was not of type Double!");
+			return 0.0;
+		}
+	}
 	
 }

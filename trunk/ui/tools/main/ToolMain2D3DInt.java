@@ -3,7 +3,6 @@ package ui.tools.main;
 import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolInterfaceMain;
-import backend.adt.ParamNotFoundException;
 import backend.adt.ParamSet;
 
 
@@ -47,12 +46,12 @@ public class ToolMain2D3DInt implements ToolInterfaceMain{
 	public void glMouseUp(double x, double y, double z, MouseEvent e) {
 	}
 
-	public void loadParamsAndUpdateState(ParamSet pSet) throws ParamNotFoundException {
-		// TODO Auto-generated method stub		
+	public boolean paramSetIsValid(ParamSet paramSet) {
+		return false;
 	}
 
-	public void modifyParamsFromState(ParamSet pSet) throws ParamNotFoundException {
-		// TODO Auto-generated method stub		
+	public void updateDerivedParams(ParamSet paramSet) {
+		// no derived params for this feature.
 	}
 
 }

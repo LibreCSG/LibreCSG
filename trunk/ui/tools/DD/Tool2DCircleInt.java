@@ -1,18 +1,15 @@
 package ui.tools.DD;
 
-import java.util.LinkedList;
-
 import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolInterface2D;
+import backend.adt.PType;
 import backend.adt.Param;
-import backend.adt.ParamNotFoundException;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D;
 import backend.model.Sketch;
-import backend.primatives.Prim2D;
 import backend.primatives.Prim2DArc;
 import backend.primatives.Prim2DList;
 
@@ -67,8 +64,8 @@ public class Tool2DCircleInt implements ToolInterface2D  {
 			// Build parameter set for this feature
 			//
 			ParamSet pSet = new ParamSet("Circle", this);
-			pSet.addParam("c", new Param("center", new Point2D(x,y)));
-			pSet.addParam("r", new Param("radius", 0.0));
+			pSet.addParam("c", new Param("Center", new Point2D(x,y)));
+			pSet.addParam("r", new Param("Radius", 0.0));
 			
 			//
 			// add the new feature to the end of the feature set
@@ -96,8 +93,12 @@ public class Tool2DCircleInt implements ToolInterface2D  {
 			//
 			// update param values
 			//
-			Point2D ptC = (Point2D)paramSet.getParam("c").getData();
-			paramSet.changeParam("r", ptC.computeDist(new Point2D(x,y)));			
+			try{
+				Point2D ptCenter = paramSet.getParam("c").getDataPoint2D();
+				paramSet.changeParam("r", ptCenter.computeDist(new Point2D(x,y)));
+			}catch(Exception ex){
+				System.out.println(ex.getClass());
+			}
 		}
 	}
 
@@ -112,30 +113,35 @@ public class Tool2DCircleInt implements ToolInterface2D  {
 			//
 			// finalize the feature's formation
 			//
-			Point2D ptC = (Point2D)paramSet.getParam("c").getData();
-			paramSet.changeParam("r", ptC.computeDist(new Point2D(x,y)));
-			
-			// * discard if radius == 0.0
-			double radius = (Double)paramSet.getParam("r").getData();
-			if(radius == 0.0){
-				System.out.println("radius was zero... feature discarded");
-				// remove feature2D from the set!
-				AvoGlobal.project.getActiveSketch().removeActiveFeat2D();
-				AvoGlobal.paramDialog.setParamSet(null);
-			}			
+			try{
+				Point2D ptCenter = paramSet.getParam("c").getDataPoint2D();
+				paramSet.changeParam("r", ptCenter.computeDist(new Point2D(x,y)));
+				
+				// * discard if radius == 0.0
+				Double radius = paramSet.getParam("r").getDataDouble();
+				if(radius == 0.0){
+					System.out.println("radius was zero... feature discarded");
+					// remove feature2D from the set!
+					AvoGlobal.project.getActiveSketch().removeActiveFeat2D();
+					AvoGlobal.paramDialog.setParamSet(null);
+				}
+			}catch(Exception ex){
+				System.out.println(ex.getClass());
+			}						
 		}
 	}
 
-	public Prim2DList buildPrimList(ParamSet p) {
-		Point2D ptC = (Point2D)p.getParam("c").getData();
-		double    r = (Double)p.getParam("r").getData();
-		Prim2DList primList = new Prim2DList();
-		primList.add(new Prim2DArc(ptC,r,0.0,360.0));
-		return primList;
-	}
-
-
-	void buildDerivedParams(ParamSet pSet) {
+	public Prim2DList buildPrimList(ParamSet paramSet) {
+		try{
+			Point2D ptCenter = paramSet.getParam("c").getDataPoint2D();
+			double  radius   = paramSet.getParam("r").getDataDouble();
+			Prim2DList primList = new Prim2DList();
+			primList.add(new Prim2DArc(ptCenter,radius,0.0,360.0));
+			return primList;
+		}catch(Exception ex){
+			System.out.println(ex.getClass());
+		}
+		return null;
 	}
 
 
@@ -143,13 +149,22 @@ public class Tool2DCircleInt implements ToolInterface2D  {
 	}
 
 
-	public void loadParamsAndUpdateState(ParamSet pSet) throws ParamNotFoundException {
-		// TODO Auto-generated method stub		
+	public boolean paramSetIsValid(ParamSet paramSet) {
+		//		 ParamSet:  "Circle"
+		// --------------------------------
+		// # "c"  ->  "Center"    <Point2D>
+		// # "r"  ->  "Radius"    <Double>
+		// --------------------------------		
+		boolean isValid = (	paramSet != null &&
+							paramSet.label == "Circle" &&
+							paramSet.hasParam("c", PType.Point2D) &&
+							paramSet.hasParam("r", PType.Double));
+		return isValid;
 	}
 
 
-	public void modifyParamsFromState(ParamSet pSet) throws ParamNotFoundException {
-		// TODO Auto-generated method stub		
+	public void updateDerivedParams(ParamSet paramSet) {	
+		// no derived params for this feature.
 	}
 	
 }

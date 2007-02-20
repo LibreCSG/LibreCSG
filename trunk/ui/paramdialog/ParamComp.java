@@ -3,7 +3,6 @@ package ui.paramdialog;
 import org.eclipse.swt.widgets.Composite;
 
 import ui.event.ParamListener;
-import ui.tools.ToolInterface;
 import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.global.AvoGlobal;
@@ -46,7 +45,7 @@ public class ParamComp extends Composite{
 	}
 	
 	public void updateParamViaToolInterface(){
-		paramSet.updateParamViaToolInterface();
+		paramSet.updateDerivedParams();
 	}
 	
 	public ParamListener paramListener;
