@@ -61,7 +61,7 @@ public class TreeViewer {
 		tree = new Tree(treeComp, SWT.SINGLE);
 		buildTreeFromAssembly();
 		
-		AvoGlobal.modelEventHAndler.addModelListener(new ModelListener(){
+		AvoGlobal.modelEventHandler.addModelListener(new ModelListener(){
 			public void activeElementChanged() {
 				// TODO highlight the new active element (or none, if null)				
 			}
@@ -123,6 +123,10 @@ public class TreeViewer {
 					Sketch sketch = subPart.getSketch();					
 					if(sketch != null){
 						tiSubPart.setText("Sketch");
+						if(sketch.isConsumed){
+							tiSubPart.setText("Sketch(c)");
+							tiSubPart.setBackground(new Color(Display.getCurrent(), 240, 200, 200));
+						}
 						for(int iSketch=0; iSketch < sketch.getFeat2DListSize(); iSketch++){
 							Feature2D feat2D = sketch.getAtIndex(iSketch);
 							TreeItem tiFeat2D = new TreeItem(tiSubPart, SWT.NONE, iSketch);
@@ -132,7 +136,11 @@ public class TreeViewer {
 					}
 					Feature2D3D feat2D3D = subPart.getFeature2D3D();
 					if(feat2D3D != null){
-						tiSubPart.setText("Feature 2Dto3D");
+						if(feat2D3D.paramSet != null){
+							tiSubPart.setText(feat2D3D.paramSet.label);
+						}else{
+							tiSubPart.setText("2Dto3D");
+						}
 					}
 					Feature3D3D feat3D3D = subPart.getFeature3D3D();
 					if(feat3D3D != null){

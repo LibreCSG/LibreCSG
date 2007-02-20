@@ -53,7 +53,7 @@ public class Project {
 	public int add(Group group){
 		if(group != null){
 			groupList.add(group);
-			AvoGlobal.modelEventHAndler.notifyElementAdded();
+			AvoGlobal.modelEventHandler.notifyElementAdded();
 			int newIndex = groupList.size()-1;
 			return newIndex;
 		}
@@ -90,7 +90,7 @@ public class Project {
 			return;
 		}
 		activeGroup = i;
-		AvoGlobal.modelEventHAndler.notifyActiveElementChanged();
+		AvoGlobal.modelEventHandler.notifyActiveElementChanged();
 	}
 	
 	/**
@@ -98,7 +98,7 @@ public class Project {
 	 */
 	public void setActiveToNone(){
 		activeGroup = -1;
-		AvoGlobal.modelEventHAndler.notifyActiveElementChanged();
+		AvoGlobal.modelEventHandler.notifyActiveElementChanged();
 	}
 	
 	/**
@@ -192,7 +192,7 @@ public class Project {
 			return;
 		}
 		groupList.remove(i);
-		AvoGlobal.modelEventHAndler.notifyElementRemoved();
+		AvoGlobal.modelEventHandler.notifyElementRemoved();
 	}
 	
 	/**
