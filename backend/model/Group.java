@@ -1,6 +1,7 @@
 package backend.model;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import backend.global.AvoGlobal;
 
@@ -36,7 +37,7 @@ public class Group {
 	/**
 	 * List of all of the parts contained in the group.
 	 */
-	protected LinkedList<Part> partList = new LinkedList<Part>();
+	protected List<Part> partList = new LinkedList<Part>();
 	
 	protected int activePart = -1;
 	

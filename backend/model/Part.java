@@ -1,6 +1,7 @@
 package backend.model;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import backend.global.AvoGlobal;
 
@@ -33,7 +34,7 @@ import backend.global.AvoGlobal;
 */
 public class Part {
 
-	protected LinkedList<SubPart> subPartList = new LinkedList<SubPart>();
+	protected List<SubPart> subPartList = new LinkedList<SubPart>();
 	
 	protected int activeSubPart = -1;
 	

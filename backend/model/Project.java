@@ -1,6 +1,7 @@
 package backend.model;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import backend.global.AvoGlobal;
 
@@ -36,7 +37,7 @@ public class Project {
 	/**
 	 * List of all the groups contained in the project.
 	 */
-	protected LinkedList<Group> groupList = new LinkedList<Group>();
+	protected List<Group> groupList = new LinkedList<Group>();
 	
 	protected int activeGroup = -1;
 	

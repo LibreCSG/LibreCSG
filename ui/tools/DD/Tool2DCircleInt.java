@@ -91,7 +91,7 @@ public class Tool2DCircleInt implements ToolInterface2D  {
 			//
 			// get parameter set
 			//
-			ParamSet paramSet = feat2D.getParamSet();
+			ParamSet paramSet = feat2D.paramSet;
 		
 			//
 			// update param values
@@ -107,7 +107,7 @@ public class Tool2DCircleInt implements ToolInterface2D  {
 			//
 			// get parameter set
 			//
-			ParamSet paramSet = feat2D.getParamSet();
+			ParamSet paramSet = feat2D.paramSet;
 			
 			//
 			// finalize the feature's formation

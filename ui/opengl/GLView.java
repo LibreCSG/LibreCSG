@@ -307,7 +307,7 @@ public class GLView {
 						Sketch sketch = AvoGlobal.project.getActiveSketch();
 						if(sketch != null){
 							gl.glPushMatrix();
-							Point3D offset = (Point3D)sketch.getParamSet().getParam("o").getData();
+							Point3D offset = (Point3D)sketch.paramSet.getParam("o").getData();
 							gl.glTranslated(offset.getX(), offset.getY(), offset.getZ());
 							for(int i=0; i < sketch.getFeat2DListSize(); i++){
 								Feature2D f2D = sketch.getAtIndex(i);

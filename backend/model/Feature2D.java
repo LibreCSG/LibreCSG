@@ -33,9 +33,9 @@ import backend.primatives.Prim2DList;
 */
 public class Feature2D {
 
-	protected ToolInterface2D toolInt2D; 
+	protected ToolInterface2D toolInt2D  = null; 
 	public boolean		      isSelected = true;
-	public ParamSet paramSet = null;
+	public ParamSet           paramSet   = null;
 	
 	/**
 	 * This is made public to speed access to the prim2D elements.
@@ -59,7 +59,4 @@ public class Feature2D {
 		return toolInt2D;
 	}
 	
-	public ParamSet getParamSet(){
-		return paramSet;
-	}
 }
