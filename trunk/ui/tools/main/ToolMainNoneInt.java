@@ -54,4 +54,7 @@ public class ToolMainNoneInt implements ToolInterfaceMain{
 		// no derived params for this feature.		
 	}
 
+	public void finalize(ParamSet paramSet) {
+	}
+
 }

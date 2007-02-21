@@ -102,4 +102,7 @@ public class Tool2DSelectInt implements ToolInterface2D {
 		// no derived params for this feature.
 	}
 
+	public void finalize(ParamSet paramSet) {
+	}
+
 }

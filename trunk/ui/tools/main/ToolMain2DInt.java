@@ -71,4 +71,7 @@ public class ToolMain2DInt implements ToolInterfaceMain{
 		
 	}
 
+	public void finalize(ParamSet paramSet) {
+	}
+
 }

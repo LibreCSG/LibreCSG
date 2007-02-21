@@ -7,7 +7,6 @@ import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolInterface2D3D;
 import backend.adt.Param;
-import backend.adt.ParamNotFoundException;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
 import backend.global.AvoGlobal;
@@ -214,6 +213,9 @@ public class Tool2D3DExtrudeInt implements ToolInterface2D3D{
 
 	public void updateDerivedParams(ParamSet paramSet) {
 		// TODO Auto-generated method stub		
+	}
+
+	public void finalize(ParamSet paramSet) {
 	}
 
 }

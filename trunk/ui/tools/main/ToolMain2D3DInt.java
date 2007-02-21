@@ -54,4 +54,7 @@ public class ToolMain2D3DInt implements ToolInterfaceMain{
 		// no derived params for this feature.
 	}
 
+	public void finalize(ParamSet paramSet) {
+	}
+
 }

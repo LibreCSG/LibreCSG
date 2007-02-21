@@ -182,4 +182,7 @@ public class Tool2DLineInt implements ToolInterface2D {
 		
 	}
 
+	public void finalize(ParamSet paramSet) {
+	}
+
 }
