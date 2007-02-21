@@ -57,6 +57,15 @@ public class Prim2DCycle extends Prim2DList implements Comparable{
 		return 0; 
 	}
 	
+	public boolean containsPt(Point2D pt){
+		for(Prim2D prim : this){
+			if(prim.ptA.equalsPt(pt) || prim.ptB.equalsPt(pt)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * traverse the cycle and see if the sum of 
 	 * the angles adds up to +-180 degrees to

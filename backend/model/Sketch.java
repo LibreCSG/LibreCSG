@@ -423,6 +423,13 @@ public class Sketch implements SubPart{
 		return newList;
 	}
 	
+	/**
+	 * recursive-free depth first search... 
+	 *  -- cut off paths that cross back through the same point...
+	 * @param allCycles
+	 * @param allPrims
+	 * @param primStart
+	 */
 	void RFDFSearch(LinkedList<Prim2DCycle> allCycles, Prim2DList allPrims, Prim2D primStart){
 		Point2D endPt = primStart.ptA; // end point (where the cycles should eventually end)
 		Point2D conPt = primStart.ptB; // connection point (where next prim2D must connect)
@@ -453,21 +460,26 @@ public class Sketch implements SubPart{
 					
 					// check is conPt is an end point of the prim2D. if so, get the other point.
 					Point2D nextPt = prim.hasPtGetOther(conPt);
-					if(nextPt != null){
-						pathSoFar.add(prim);
-						if(nextPt.equalsPt(endPt)){
+					if(nextPt != null){						
+						if(nextPt.equalsPt(endPt)){							
 							// cycle has been completed. 
 							// add it and continue checking others.
+							pathSoFar.add(prim);
 							allCycles.add(copyCL(pathSoFar)); // use a copy since pathSoFar will change!
 							//System.out.println("****  added cycle");
 							pathSoFar.removeLast();
 						}else{
-							// not the end yet. 
-							// update the conPt and continue trying at the next level.
-							conPt = nextPt;							
-							level++;
-							//System.out.println("****  going to next level; newLevel=" + level);
-							break;
+							if(pathSoFar.containsPt(nextPt)){
+								// crossing over an old point (and it's not the end), don't continue down this one..
+							}else{
+								pathSoFar.add(prim);
+								// not the end yet. 
+								// update the conPt and continue trying at the next level.
+								conPt = nextPt;							
+								level++;
+								//System.out.println("****  going to next level; newLevel=" + level);
+								break;
+							}
 						}
 					}
 				}

@@ -50,8 +50,6 @@ public class SelectionList {
 	 */
 	public boolean hasFocus = false;
 	
-	private int selectedString = -1;
-	
 	/**
 	 * A list of selected items, used for construction
 	 * and display of features that require references to
@@ -84,10 +82,17 @@ public class SelectionList {
 		}
 	}
 	
-	public void selectStringIndex(int i){
-		
+	public void removeAtIndex(int i){
+		if(i >= 0 && i < selectionList.size()){
+			selectionList.remove(i);
+		}else{
+			System.out.println(" -- could not remove element because index was invalid! index:" + i + ", listSize:" + selectionList.size());
+		}
 	}
 	
+	public void clearList(){
+		selectionList.clear();
+	}
 	
 	public String toString(){
 		String allElements = "";

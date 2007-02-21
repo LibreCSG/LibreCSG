@@ -40,49 +40,55 @@ public class Param {
 	 * A parameter encapsulates data with both
 	 * a label and a type so that it can be
 	 * used for storage and display.
-	 * @param label
-	 * @param data
+	 * @param label the parameter's short description
+	 * @param data the data to store, <type> dependent.
 	 */
 	public Param(String label, Point2D data){
 		pdata  = data;
 		plabel = label;
-		ptype =  PType.Point2D;
+		ptype  = PType.Point2D;
 	}
 	
 	public Param(String label, Point3D data){
 		pdata  = data;
 		plabel = label;
-		ptype =  PType.Point3D;
+		ptype  = PType.Point3D;
 	}
 	
 	public Param(String label, Rotation3D data){
 		pdata  = data;
 		plabel = label;
-		ptype =  PType.Rotation3D;
+		ptype  = PType.Rotation3D;
 	}
 	
 	public Param(String label, Boolean data){
 		pdata  = data;
 		plabel = label;
-		ptype =  PType.Boolean;	
+		ptype  = PType.Boolean;	
 	}
 	
 	public Param(String label, Integer data){
 		pdata  = data;
 		plabel = label;
-		ptype =  PType.Integer;	
+		ptype  = PType.Integer;	
 	}
 	
 	public Param(String label, Double data){
 		pdata  = data;
 		plabel = label;
-		ptype =  PType.Double;	
+		ptype  = PType.Double;	
 	}
 	
 	public Param(String label, String data){
 		pdata  = data;
 		plabel = label;
-		ptype =  PType.String;	
+		ptype  = PType.String;	
+	}
+	
+	public Param(String label, SelectionList data){
+		pdata  = data;
+		plabel = label;
+		ptype  = PType.SelectionList;
 	}
 	
 	
@@ -148,6 +154,13 @@ public class Param {
 	public String getDataString() throws ParamNotCorrectTypeException{
 		if(ptype == PType.String){
 			return (String)pdata;
+		}
+		throw new ParamNotCorrectTypeException();
+	}
+	
+	public SelectionList getDataSelectionList() throws ParamNotCorrectTypeException{
+		if(ptype == PType.SelectionList){
+			return (SelectionList)pdata;
 		}
 		throw new ParamNotCorrectTypeException();
 	}

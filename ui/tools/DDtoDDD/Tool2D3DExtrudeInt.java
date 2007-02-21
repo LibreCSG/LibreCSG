@@ -6,9 +6,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolInterface2D3D;
+import backend.adt.PType;
 import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
+import backend.adt.SelectionList;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D3D;
 import backend.model.Region2D;
@@ -51,7 +53,7 @@ public class Tool2D3DExtrudeInt implements ToolInterface2D3D{
 	public void glMouseDown(double x, double y, double z, MouseEvent e) {
 		
 		Feature2D3D feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
-		if(feat2D3D != null){
+		if(feat2D3D != null){	
 			Sketch sketch = feat2D3D.getActiveSketch();
 			if(sketch != null){
 				
@@ -66,6 +68,7 @@ public class Tool2D3DExtrudeInt implements ToolInterface2D3D{
 				}
 				
 				ParamSet pSet = new ParamSet("Extrude", this);
+				pSet.addParam("regions", new Param("Regions", new SelectionList()));
 				pSet.addParam("h", new Param("Height", 2*AvoGlobal.gridSize));
 				
 				feat2D3D.paramSet = pSet;
@@ -78,6 +81,7 @@ public class Tool2D3DExtrudeInt implements ToolInterface2D3D{
 				AvoGlobal.paramDialog.setParamSet(pSet);
 				
 				sketch.selectRegionsThatContainsPoint(new Point2D(x,y));
+				
 			}
 		}
 		
@@ -207,8 +211,16 @@ public class Tool2D3DExtrudeInt implements ToolInterface2D3D{
 	}
 
 	public boolean paramSetIsValid(ParamSet paramSet) {
-		// TODO Auto-generated method stub
-		return false;
+		//		 ParamSet:  "Extrude"
+		// --------------------------------
+		// # "h"        ->  "Hegith"    <Double>
+		// # "regions"  ->  "Regions"   <SelectionList>
+		// --------------------------------		
+		boolean isValid = (	paramSet != null &&
+							paramSet.label == "Extrude" &&
+							paramSet.hasParam("h", PType.Double) &&
+							paramSet.hasParam("regions", PType.SelectionList));
+		return isValid;
 	}
 
 	public void updateDerivedParams(ParamSet paramSet) {
