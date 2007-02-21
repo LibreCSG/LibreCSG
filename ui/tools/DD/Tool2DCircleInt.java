@@ -166,5 +166,9 @@ public class Tool2DCircleInt implements ToolInterface2D  {
 	public void updateDerivedParams(ParamSet paramSet) {	
 		// no derived params for this feature.
 	}
+
+
+	public void finalize(ParamSet paramSet) {
+	}
 	
 }

@@ -188,4 +188,7 @@ public class Tool2DRectInt implements ToolInterface2D {
 			System.out.println(ex.getClass());
 		}		
 	}
+
+	public void finalize(ParamSet paramSet) {
+	}
 }

@@ -80,6 +80,14 @@ public interface ToolInterface {
 	abstract public void glMouseUp(double x, double y, double z,  MouseEvent e);
 	
 	/**
+	 * Finalize the ParamSet for the given tool.  For example, this will 
+	 * be called when the "done" button of the ParamDialog is clicked 
+	 * for a particular tool.
+	 * @param paramSet the set of parameters to finalize via this ToolInterface.
+	 */
+	abstract public void finalize(ParamSet paramSet);
+	
+	/**
 	 * verify that the parameter data is in fact valid/complete.
 	 * This include checks of each expected element in the set
 	 * for inclusion in the set and that it is the correct type.

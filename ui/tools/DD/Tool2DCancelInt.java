@@ -6,7 +6,6 @@ import ui.tools.ToolInterface2D;
 import backend.adt.ParamSet;
 import backend.primatives.Prim2DList;
 
-
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
 //This code is distributed under the terms of the 
@@ -30,26 +29,25 @@ import backend.primatives.Prim2DList;
 //
 
 /*
-* @author  Adam Kumpf
-* @created Feb. 2007
-*/
+ * @author  Adam Kumpf
+ * @created Feb. 2007
+ */
 public class Tool2DCancelInt implements ToolInterface2D {
 	/**
-	 * All of the tool's main functionality
-	 * mouse handling, glView drawing, 
+	 * All of the tool's main functionality mouse handling, glView drawing,
 	 * parameter storage, etc.
-	 *
+	 * 
 	 */
-	public Tool2DCancelInt(){
-	}	
-	
-	public void glMouseDown(double x, double y, double z,  MouseEvent e) {
+	public Tool2DCancelInt() {
 	}
 
-	public void glMouseDrag(double x, double y, double z,  MouseEvent e) {		
+	public void glMouseDown(double x, double y, double z, MouseEvent e) {
 	}
 
-	public void glMouseUp(double x, double y, double z,  MouseEvent e) {
+	public void glMouseDrag(double x, double y, double z, MouseEvent e) {
+	}
+
+	public void glMouseUp(double x, double y, double z, MouseEvent e) {
 	}
 
 	public Prim2DList buildPrimList(ParamSet p) {
@@ -63,10 +61,11 @@ public class Tool2DCancelInt implements ToolInterface2D {
 		return false;
 	}
 
-	public void updateDerivedParams(ParamSet paramSet){
+	public void updateDerivedParams(ParamSet paramSet) {
 		// no derived params for this feature.
 	}
 
-	
-	
+	public void finalize(ParamSet paramSet) {
+	}
+
 }
