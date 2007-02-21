@@ -115,6 +115,9 @@ public class DynParamDialog {
 			}
 			public void mouseDown(MouseEvent e) {
 				// handle "OK" click in paramDialog
+				if(paramSet != null && paramSet.getToolInterface() != null){
+					paramSet.getToolInterface().finalize(paramSet);
+				}
 				animator.animateBackwards(0);
 			}
 			public void mouseUp(MouseEvent e) {				
@@ -125,6 +128,9 @@ public class DynParamDialog {
 			}
 			public void widgetSelected(SelectionEvent e) {
 				// handle "OK" click in paramDialog
+				if(paramSet != null && paramSet.getToolInterface() != null){
+					paramSet.getToolInterface().finalize(paramSet);
+				}
 				animator.animateBackwards(0);
 			}			
 		});
@@ -235,6 +241,12 @@ public class DynParamDialog {
 				}
 				case Rotation3D : {
 					new PCompRotation3D(paramComp, SWT.BORDER, p, paramSet);
+					break;
+				}
+				case SelectionList : {
+					// TODO: PCompSelectionList
+					Label l = new Label(paramComp, SWT.SINGLE);
+					l.setText(p.getLabel());
 					break;
 				}
 				default : {
