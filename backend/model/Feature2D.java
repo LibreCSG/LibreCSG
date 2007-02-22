@@ -44,7 +44,7 @@ public class Feature2D {
 	 */
 	public Prim2DList prim2DList = new Prim2DList();
 	
-	public Sketch sketch;
+	protected Sketch sketch;
 	
 	public Feature2D(Sketch sketch, ToolInterface2D toolInt, ParamSet paramSet){
 		this.sketch = sketch;

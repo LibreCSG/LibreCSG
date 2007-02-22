@@ -39,27 +39,39 @@ public class Part {
 	protected int activeSubPart = -1;
 	
 	protected Group group;
+	protected int ID;
+	protected int subPartCounter = 1;
 	
-	public Part(Group group){
+	public Part(Group group, int ID){
 		this.group = group;
+		this.ID = ID;
 	}
 	
 	public Group getParentGroup(){
-		return this.group;
+		return this.group;		
 	}
 	
-	/**
-	 * add a new SubPart to the end of the list of SubParts
-	 * @param subPart non-null SubPart to be added
-	 * @return the index of hte newly added SubPart, or -1 if SubPart was null.
-	 */
-	public int add(SubPart subPart){
-		if(subPart != null){
-			subPartList.add(subPart);
-			AvoGlobal.modelEventHandler.notifyElementAdded();
-			return subPartList.size()-1;
-		}
-		return -1;
+	public int getID(){
+		int newInt = ID;
+		return newInt;
+	}
+	
+	public int addNewSketch(){
+		subPartList.add(new Sketch(this, subPartCounter++));
+		AvoGlobal.modelEventHandler.notifyElementAdded();
+		return subPartList.size()-1;
+	}
+	
+	public int addNewFeat2D3D(){
+		subPartList.add(new Feature2D3D(this, null, null, subPartCounter++));
+		AvoGlobal.modelEventHandler.notifyElementAdded();
+		return subPartList.size()-1;
+	}
+	
+	public int addNewFeat3D3D(){
+		subPartList.add(new Feature3D3D(this, null, null, subPartCounter++));
+		AvoGlobal.modelEventHandler.notifyElementAdded();
+		return subPartList.size()-1;
 	}
 	
 	/**

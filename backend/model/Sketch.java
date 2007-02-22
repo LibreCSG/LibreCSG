@@ -63,9 +63,11 @@ public class Sketch implements SubPart{
 	public boolean isConsumed = false;
 	
 	protected Part part;
+	protected int ID;
 	
-	public Sketch(Part part){
+	public Sketch(Part part, int ID){
 		this.part = part;
+		this.ID = ID;
 		// TODO: need sketch tool interface!!
 		paramSet = new ParamSet("Sketch", new ToolMain2DInt());
 		paramSet.addParam("o", new Param("Offset", new Point3D(0.0, 0.0, 0.0)));
@@ -75,6 +77,11 @@ public class Sketch implements SubPart{
 	
 	public Part getParentPart(){
 		return this.part;
+	}
+	
+	public int getID(){
+		int newInt = ID;
+		return newInt;
 	}
 	
 	/**

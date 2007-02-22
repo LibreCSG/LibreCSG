@@ -109,12 +109,12 @@ public class TreeViewer {
 		for(int iGroup=0; iGroup < project.getGroupListSize(); iGroup++){
 			Group group = project.getAtIndex(iGroup);
 			TreeItem tiGroup = new TreeItem(tree, SWT.NONE, iGroup);
-			tiGroup.setText("Group");
+			tiGroup.setText("Group " + group.getID());
 			tiGroup.setData(new int[] {iGroup});
 			for(int iPart=0; iPart<group.getPartListSize(); iPart++){
 				Part part = group.getAtIndex(iPart);
 				TreeItem tiPart = new TreeItem(tiGroup, SWT.NONE, iPart);
-				tiPart.setText("Part");
+				tiPart.setText("Part " + part.getID());
 				tiPart.setData(new int[] {iGroup, iPart});
 				for(int iSubPart=0; iSubPart < part.getSubPartListSize(); iSubPart++){
 					SubPart subPart = part.getAtIndex(iSubPart);
@@ -122,9 +122,9 @@ public class TreeViewer {
 					tiSubPart.setData(new int[] {iGroup, iPart, iSubPart});
 					Sketch sketch = subPart.getSketch();					
 					if(sketch != null){
-						tiSubPart.setText("Sketch");
+						tiSubPart.setText("Sketch " + sketch.getID());
 						if(sketch.isConsumed){
-							tiSubPart.setText("Sketch(c)");
+							tiSubPart.setText("Sketch(c) " + sketch.getID());
 							tiSubPart.setBackground(new Color(Display.getCurrent(), 240, 200, 200));
 						}
 						for(int iSketch=0; iSketch < sketch.getFeat2DListSize(); iSketch++){
@@ -139,12 +139,12 @@ public class TreeViewer {
 						if(feat2D3D.paramSet != null){
 							tiSubPart.setText(feat2D3D.paramSet.label);
 						}else{
-							tiSubPart.setText("2Dto3D");
+							tiSubPart.setText("2Dto3D " + feat2D3D.getID());
 						}
 					}
 					Feature3D3D feat3D3D = subPart.getFeature3D3D();
 					if(feat3D3D != null){
-						tiSubPart.setText("Feature 3D");
+						tiSubPart.setText("Feature 3D " + feat3D3D.getID());
 					}
 					
 				}
