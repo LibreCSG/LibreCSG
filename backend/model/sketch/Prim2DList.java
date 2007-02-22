@@ -1,7 +1,6 @@
-package ui.tools;
+package backend.model.sketch;
 
-import backend.adt.ParamSet;
-import backend.model.sketch.Prim2DList;
+import java.util.LinkedList;
 
 
 //
@@ -30,13 +29,20 @@ import backend.model.sketch.Prim2DList;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public interface ToolInterface2D extends ToolInterface{
+public class Prim2DList extends LinkedList<Prim2D>{
+
+	private static final long serialVersionUID = 100012L;
 
 	/**
-	 * build the 2D feature from a ParamSet. 
-	 * @param paramSet a <em>valid</em> ParamSet for the given ToolInterface2D
-	 * @return Prim2DList of drawable 2D primitaves, or <b>null</b> if no Prim2D to be added.
+	 * set all prim2D to not be consumed in either the
+	 * <bold>A-->B</bold> or <bold>B-->A</bold> directions.
 	 */
-	abstract Prim2DList buildPrimList(ParamSet paramSet);
+	public void unconsumeAll(){
+		for(Prim2D prim : this){
+			prim.consumedAB = false;
+			prim.consumedBA = false;
+		}
+	}
+	
 	
 }

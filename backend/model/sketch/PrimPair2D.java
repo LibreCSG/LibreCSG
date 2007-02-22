@@ -1,7 +1,4 @@
-package ui.tools;
-
-import backend.adt.ParamSet;
-import backend.model.sketch.Prim2DList;
+package backend.model.sketch;
 
 
 //
@@ -30,13 +27,14 @@ import backend.model.sketch.Prim2DList;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public interface ToolInterface2D extends ToolInterface{
+public class PrimPair2D {
 
-	/**
-	 * build the 2D feature from a ParamSet. 
-	 * @param paramSet a <em>valid</em> ParamSet for the given ToolInterface2D
-	 * @return Prim2DList of drawable 2D primitaves, or <b>null</b> if no Prim2D to be added.
-	 */
-	abstract Prim2DList buildPrimList(ParamSet paramSet);
+	public Prim2D primA;
+	public Prim2D primB;
+	
+	public PrimPair2D(Prim2D primA, Prim2D primB){
+			this.primA = primA;
+			this.primB = primB;		
+	}
 	
 }

@@ -13,8 +13,8 @@ import backend.adt.Point2D;
 import backend.adt.SelectionList;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D3D;
-import backend.model.Region2D;
 import backend.model.Sketch;
+import backend.model.sketch.Region2D;
 
 
 //
