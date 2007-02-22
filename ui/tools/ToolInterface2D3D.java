@@ -2,8 +2,7 @@ package ui.tools;
 
 import javax.media.opengl.GL;
 
-import backend.adt.ParamSet;
-import backend.model.Sketch;
+import backend.model.Feature2D3D;
 
 
 //
@@ -34,6 +33,6 @@ import backend.model.Sketch;
 */
 public interface ToolInterface2D3D extends ToolInterface{
 
-	abstract public void draw3DFeature(GL gl, ParamSet paramSet);
+	abstract public void draw3DFeature(GL gl, Feature2D3D feat2D3D);
 	
 }

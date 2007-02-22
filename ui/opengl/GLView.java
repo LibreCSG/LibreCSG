@@ -25,8 +25,6 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
 import ui.menuet.Menuet;
-import ui.tools.ToolInterface2D3D;
-import backend.adt.Point3D;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D;
 import backend.model.Feature2D3D;
@@ -335,7 +333,7 @@ public class GLView {
 								if(feat2D3D != null && feat2D3D.toolInt2D3D != null){
 									// TODO: getActiveSketch is old skoool :(
 									//   - reference to sketch should be simply handled via the paramSet! (selection list?)
-									//feat2D3D.toolInt2D3D.draw3DFeature(gl, feat2D3D.paramSet, feat2D3D.getActiveSketch());
+									feat2D3D.toolInt2D3D.draw3DFeature(gl, feat2D3D);
 								}
 							}
 						}
