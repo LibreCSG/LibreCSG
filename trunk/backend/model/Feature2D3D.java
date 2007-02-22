@@ -5,7 +5,6 @@ import java.util.List;
 
 import ui.tools.ToolInterface2D3D;
 import backend.adt.ParamSet;
-import backend.global.AvoGlobal;
 
 
 //
@@ -43,104 +42,26 @@ public class Feature2D3D implements SubPart{
 	protected int activeSketch = -1;
 	
 	protected Part part;
+	protected int ID;
 	
-	public Feature2D3D(Part part, ToolInterface2D3D toolInt2D3D, ParamSet paramSet){
+	public Feature2D3D(Part part, ToolInterface2D3D toolInt2D3D, ParamSet paramSet, int ID){
 		this.part = part;
 		this.paramSet    = paramSet;
 		this.toolInt2D3D = toolInt2D3D;		
+		this.ID = ID;
 	}	
 	
 	public Part getParentPart(){
 		return this.part;
 	}
 	
-	/**
-	 * add a Sketch fot the end of the list of Sketches.
-	 * @param sketch non-null Sketch to be added
-	 * @return the index of the newly added Sketch, or -1 if Sketch was null.
-	 */
-	public int add(Sketch sketch){
-		if(sketch != null){
-			sketchList.add(sketch);
-			AvoGlobal.modelEventHandler.notifyElementAdded();
-			return sketchList.size()-1;
-		}
-		return -1;
+	public int getID(){
+		int newInt = ID;
+		return newInt;
 	}
 	
-	/**
-	 * get the Sketch at a given index.
-	 * @param i index
-	 * @return the Sketch, or null if the index was invalid.
-	 */
-	public Sketch getAtIndex(int i){
-		if(i < 0 || i >= sketchList.size()){
-			// index was not valid!
-			return null;
-		}
-		return sketchList.get(i);
-	}
+	//TODO: handle how sketches are linked to the Feature2D3D (sketch by number?)
 	
-	/**
-	 * @return the size() of the list of Sketches.
-	 */
-	public int getSketchListSize(){
-		return sketchList.size();
-	}
-	
-	
-	/**
-	 * set the index of the sketch that should be set to Active.
-	 * @param i index
-	 */
-	public void setActiveSketch(int i){
-		if(i < 0 || i >= sketchList.size()){
-			// index is not valid!
-			return;
-		}
-		activeSketch = i;
-		AvoGlobal.modelEventHandler.notifyActiveElementChanged();
-	}
-	
-	/**
-	 * set the active sketch to none
-	 */
-	public void setActiveToNone(){
-		activeSketch = -1;
-		AvoGlobal.modelEventHandler.notifyActiveElementChanged();
-	}
-	
-	/**
-	 * get the currently active sketch
-	 * @return the active sketch, or null if no sketch is active
-	 */
-	public Sketch getActiveSketch(){
-		return this.getAtIndex(activeSketch);
-	}
-	
-	
-	/**
-	 * Remove the Sketch at the index if present.
-	 * @param i index
-	 */
-	public void removeSketchAtIndex(int i){
-		if(i < 0 || i >= sketchList.size()){
-			// index is not valid!
-			return;
-		}
-		sketchList.remove(i);
-		AvoGlobal.modelEventHandler.notifyElementRemoved();
-	}
-	
-	/**
-	 * remove the active Sketch from the list.
-	 */
-	public void removeActiveSketch(){
-		removeSketchAtIndex(activeSketch);
-	}
-
-
-
 	public Feature2D3D getFeature2D3D() {
 		return this;
 	}

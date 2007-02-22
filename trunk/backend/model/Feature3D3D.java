@@ -41,15 +41,22 @@ public class Feature3D3D implements SubPart{
 	public    ParamSet paramSet             = null;
 	
 	protected Part part;
+	protected int ID;
 	
-	public Feature3D3D(Part part, ToolInterface3D3D toolInt3D3D, ParamSet paramSet){
+	public Feature3D3D(Part part, ToolInterface3D3D toolInt3D3D, ParamSet paramSet, int ID){
 		this.part = part;
 		this.paramSet = paramSet;
-		this.toolInt3D3D = toolInt3D3D;		
+		this.toolInt3D3D = toolInt3D3D;
+		this.ID = ID;
 	}
 	
 	public Part getParentPart(){
 		return this.part;
+	}
+	
+	public int getID(){
+		int newInt = ID;
+		return newInt;
 	}
 	
 	/**

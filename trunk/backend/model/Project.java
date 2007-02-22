@@ -41,6 +41,7 @@ public class Project {
 	
 	protected int activeGroup = -1;
 	
+	protected int groupCounter = 1;
 	
 	public Project(){
 	}
@@ -50,14 +51,11 @@ public class Project {
 	 * @param group non-null Group to be added
 	 * @return the index of the newly added group, or -1 if group was null.
 	 */
-	public int add(Group group){
-		if(group != null){
-			groupList.add(group);
-			AvoGlobal.modelEventHandler.notifyElementAdded();
-			int newIndex = groupList.size()-1;
-			return newIndex;
-		}
-		return -1;
+	public int addNewGroup(){
+		groupList.add(new Group(this, groupCounter++));
+		AvoGlobal.modelEventHandler.notifyElementAdded();
+		int newIndex = groupList.size()-1;
+		return newIndex;
 	}
 	
 	/**

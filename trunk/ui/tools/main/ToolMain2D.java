@@ -4,12 +4,8 @@ import ui.menuet.MEButton;
 import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
 import ui.tools.ToolMain;
-import ui.tools.DD.Tool2DRectInt;
 import backend.data.utilities.ImageUtils;
 import backend.global.AvoGlobal;
-import backend.model.Feature2D3D;
-import backend.model.Group;
-import backend.model.Part;
 import backend.model.Sketch;
 
 
@@ -66,15 +62,15 @@ public class ToolMain2D extends ToolMain{
 		// create new Feature3D to use for subsequent 2D sketches
 		//
 		if(AvoGlobal.project.getActiveGroup() == null){
-			int i = AvoGlobal.project.add(new Group(AvoGlobal.project));
+			int i = AvoGlobal.project.addNewGroup();
 			AvoGlobal.project.setActiveGroup(i);
 		}
 		if(AvoGlobal.project.getActivePart() == null){
-			int i = AvoGlobal.project.getActiveGroup().add(new Part(AvoGlobal.project.getActiveGroup()));
+			int i = AvoGlobal.project.getActiveGroup().addNewPart();
 			AvoGlobal.project.getActiveGroup().setActivePart(i);
 		}
 		
-		int i = AvoGlobal.project.getActivePart().add(new Sketch(AvoGlobal.project.getActivePart()));
+		int i = AvoGlobal.project.getActivePart().addNewSketch();
 		AvoGlobal.project.getActivePart().setActiveSubPart(i);
 		Sketch sketch = AvoGlobal.project.getActiveSketch();
 		if(sketch != null){

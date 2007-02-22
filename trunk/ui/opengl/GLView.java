@@ -333,7 +333,8 @@ public class GLView {
 								
 								Feature2D3D feat2D3D = subPart.getFeature2D3D();
 								if(feat2D3D != null && feat2D3D.toolInt2D3D != null){
-									feat2D3D.toolInt2D3D.draw3DFeature(gl, feat2D3D.paramSet, feat2D3D.getActiveSketch());
+									// TODO: getActiveSketch is old skoool :(
+									//feat2D3D.toolInt2D3D.draw3DFeature(gl, feat2D3D.paramSet, feat2D3D.getActiveSketch());
 								}
 							}
 						}

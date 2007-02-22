@@ -76,11 +76,12 @@ public class ToolMain2D3D extends ToolMain{
 			AvoGlobal.menuet.updateToolModeDisplayed();	
 			sketch.buildRegionsFromPrim2D();
 			
-			Feature2D3D newFeat2D3D = new Feature2D3D(AvoGlobal.project.getActivePart(), null, null);
-			int j = newFeat2D3D.add(sketch);
-			newFeat2D3D.setActiveSketch(j);
-			sketch.isConsumed = true;
-			int i = AvoGlobal.project.getActivePart().add(newFeat2D3D);
+			// TODO: add a new Feature2D3D and set a pointer to the active sketch! (don't set sketch as consumed yet!)
+			//Feature2D3D newFeat2D3D = new Feature2D3D(AvoGlobal.project.getActivePart(), null, null);
+			//int j = newFeat2D3D.add(sketch);
+			//newFeat2D3D.setActiveSketch(j);
+			//sketch.isConsumed = true;
+			int i = AvoGlobal.project.getActivePart().addNewFeat2D3D();
 			AvoGlobal.project.getActivePart().setActiveSubPart(i);
 			
 		}

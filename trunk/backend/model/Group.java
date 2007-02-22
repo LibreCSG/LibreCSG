@@ -42,13 +42,21 @@ public class Group {
 	protected int activePart = -1;
 	
 	protected Project project;
-	
-	public Group(Project project){
+	protected int ID;
+	protected int partCounter = 1;
+		
+	public Group(Project project, int ID){
 		this.project = project;
+		this.ID = ID;
 	}
 	
 	public Project getParentProject(){
 		return this.project;
+	}
+	
+	public int getID(){
+		int newInt = ID;
+		return newInt;
 	}
 	
 	/**
@@ -56,13 +64,10 @@ public class Group {
 	 * @param part non-null Part to be added
 	 * @return the index of the newly added part, or -1 if part was null.
 	 */
-	public int add(Part part){
-		if(part != null){
-			partList.add(part);
-			AvoGlobal.modelEventHandler.notifyElementAdded();
-			return partList.size()-1;
-		}
-		return -1;
+	public int addNewPart(){
+		partList.add(new Part(this, partCounter++));
+		AvoGlobal.modelEventHandler.notifyElementAdded();
+		return partList.size()-1;
 	}
 	
 	/**
