@@ -41,7 +41,14 @@ public class Group {
 	
 	protected int activePart = -1;
 	
-	public Group(){
+	protected Project project;
+	
+	public Group(Project project){
+		this.project = project;
+	}
+	
+	public Project getParentProject(){
+		return this.project;
 	}
 	
 	/**

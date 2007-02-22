@@ -40,9 +40,16 @@ public class Feature3D3D implements SubPart{
 	protected ToolInterface3D3D toolInt3D3D = null;
 	public    ParamSet paramSet             = null;
 	
-	public Feature3D3D(ToolInterface3D3D toolInt3D3D, ParamSet paramSet){
+	protected Part part;
+	
+	public Feature3D3D(Part part, ToolInterface3D3D toolInt3D3D, ParamSet paramSet){
+		this.part = part;
 		this.paramSet = paramSet;
 		this.toolInt3D3D = toolInt3D3D;		
+	}
+	
+	public Part getParentPart(){
+		return this.part;
 	}
 	
 	/**

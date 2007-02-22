@@ -44,4 +44,9 @@ public interface SubPart {
 	 */
 	abstract Feature3D3D getFeature3D3D();
 	
+	/**
+	 * @return the Part under which the SubPart is placed.
+	 */
+	abstract public Part getParentPart();
+	
 }

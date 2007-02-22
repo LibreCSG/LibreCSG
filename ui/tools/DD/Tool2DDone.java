@@ -6,7 +6,6 @@ import ui.menuet.MenuetElement;
 import ui.tools.Tool2D;
 import backend.data.utilities.ImageUtils;
 import backend.global.AvoGlobal;
-import backend.model.Feature2D3D;
 import backend.model.Sketch;
 
 

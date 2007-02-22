@@ -62,12 +62,19 @@ public class Sketch implements SubPart{
 	 */
 	public boolean isConsumed = false;
 	
-	public Sketch(){
+	protected Part part;
+	
+	public Sketch(Part part){
+		this.part = part;
 		// TODO: need sketch tool interface!!
 		paramSet = new ParamSet("Sketch", new ToolMain2DInt());
 		paramSet.addParam("o", new Param("Offset", new Point3D(0.0, 0.0, 0.0)));
 		paramSet.addParam("r", new Param("Rotation", new Rotation3D(0.0, 0.0, 0.0)));
 		paramSet.label = "Sketch";
+	}
+	
+	public Part getParentPart(){
+		return this.part;
 	}
 	
 	/**
