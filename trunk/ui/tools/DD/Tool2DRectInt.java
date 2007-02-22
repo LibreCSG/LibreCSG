@@ -10,8 +10,8 @@ import backend.adt.Point2D;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D;
 import backend.model.Sketch;
-import backend.primatives.Prim2DLine;
-import backend.primatives.Prim2DList;
+import backend.model.sketch.Prim2DLine;
+import backend.model.sketch.Prim2DList;
 
 
 //

@@ -11,10 +11,11 @@ import backend.adt.Point2D;
 import backend.adt.Point3D;
 import backend.adt.Rotation3D;
 import backend.global.AvoGlobal;
-import backend.primatives.Prim2D;
-import backend.primatives.Prim2DCycle;
-import backend.primatives.Prim2DList;
-import backend.primatives.PrimPair2D;
+import backend.model.sketch.Prim2D;
+import backend.model.sketch.Prim2DCycle;
+import backend.model.sketch.Prim2DList;
+import backend.model.sketch.PrimPair2D;
+import backend.model.sketch.Region2D;
 
 
 //

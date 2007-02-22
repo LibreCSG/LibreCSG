@@ -4,7 +4,7 @@ import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolInterface2D;
 import backend.adt.ParamSet;
-import backend.primatives.Prim2DList;
+import backend.model.sketch.Prim2DList;
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)

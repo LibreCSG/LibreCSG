@@ -1,9 +1,7 @@
-package backend.model;
+package backend.model.sketch;
 
 import backend.adt.Point2D;
 import backend.geometry.Geometry2D;
-import backend.primatives.Prim2D;
-import backend.primatives.Prim2DCycle;
 
 
 //

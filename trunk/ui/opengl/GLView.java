@@ -32,7 +32,7 @@ import backend.model.Feature2D;
 import backend.model.Feature2D3D;
 import backend.model.Sketch;
 import backend.model.SubPart;
-import backend.primatives.Prim2D;
+import backend.model.sketch.Prim2D;
 
 
 //
