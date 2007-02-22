@@ -440,7 +440,8 @@ public class Sketch implements SubPart{
 	
 	/**
 	 * recursive-free depth first search... 
-	 *  -- cut off paths that cross back through the same point...
+	 *  -- only allow for each Prim2D to be used once
+	 *  -- also cut off paths that cross back through the same point (figure 8's)...
 	 * @param allCycles
 	 * @param allPrims
 	 * @param primStart

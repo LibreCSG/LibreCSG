@@ -144,5 +144,49 @@ public class Part {
 		removeSubPartAtIndex(activeSubPart);
 	}
 	
+	/**
+	 * Get a sketch by its unique ID.
+	 * @param id the ID of the sketch to retreive
+	 * @return the sketch, if it exists, or null otherwise.
+	 */
+	public Sketch getSketchByID(int id){
+		for(SubPart subPart : subPartList){
+			Sketch sketch = subPart.getSketch();
+			if(sketch != null && sketch.getID() == id){
+				return sketch;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Get a Feature2D3D by its unique ID.
+	 * @param id the ID of the Feature2D3D to retreive
+	 * @return the Feature2D3D, if it exists, or null otherwise.
+	 */
+	public Feature2D3D getFeat2D3DByID(int id){
+		for(SubPart subPart : subPartList){
+			Feature2D3D feat2D3D = subPart.getFeature2D3D();
+			if(feat2D3D != null && feat2D3D.getID() == id){
+				return feat2D3D;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Get a Feature3D3D by its unique ID.
+	 * @param id the ID of the Feature3D3D to retreive
+	 * @return the Feature3D3D, if it exists, or null otherwise.
+	 */
+	public Feature3D3D getFeat3D3DByID(int id){
+		for(SubPart subPart : subPartList){
+			Feature3D3D feat3D3D = subPart.getFeature3D3D();
+			if(feat3D3D != null && feat3D3D.getID() == id){
+				return feat3D3D;
+			}
+		}
+		return null;
+	}
 	
 }

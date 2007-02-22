@@ -35,7 +35,6 @@ import backend.adt.ParamSet;
 */
 public class Feature2D3D implements SubPart{
 	
-	protected List<Sketch>      sketchList  = new LinkedList<Sketch>();
 	public    ToolInterface2D3D toolInt2D3D = null;
 	public    ParamSet          paramSet    = null;
 	
