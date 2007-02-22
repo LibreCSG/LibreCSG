@@ -30,22 +30,22 @@ package backend.model;
 public interface SubPart {
 
 	/**
-	 * @return the Sketch if the SubPart is one, or null otherwise.
+	 * @return the Sketch if this SubPart is one, or null otherwise.
 	 */
 	abstract Sketch getSketch();
 	
 	/**
-	 * @return the Feature2D3D if the SubPart is one, or null otherwise.
+	 * @return the Feature2D3D if this SubPart is one, or null otherwise.
 	 */
 	abstract Feature2D3D getFeature2D3D();
 	
 	/**
-	 * @return the Feature3D3D if the SubPart is one, or null otherwise.
+	 * @return the Feature3D3D if this SubPart is one, or null otherwise.
 	 */
 	abstract Feature3D3D getFeature3D3D();
 	
 	/**
-	 * @return the Part under which the SubPart is placed.
+	 * @return the Part under which this SubPart was created.
 	 */
 	abstract public Part getParentPart();
 	
