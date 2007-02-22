@@ -282,4 +282,18 @@ public class DynParamDialog {
 		AvoGlobal.paramEventHandler.notifyParamSwitched();
 	}
 	
+	/**
+	 * finalize the current parameters being shown, if any, 
+	 * by calling to the toolInterface and requesting that
+	 * any final steps be taken.  This should be performed 
+	 * when a new tool is clicked to gaurantee that the previous
+	 * set of parameters is properly finalized.
+	 */
+	public void finalizeCurrentParams(){
+		if(paramSet != null && paramSet.getToolInterface() != null){
+			paramSet.getToolInterface().finalize(paramSet);
+		}
+		animator.animateBackwards(0);
+	}
+	
 }

@@ -57,6 +57,7 @@ public class Tool2DCancel extends Tool2D{
 
 	@Override
 	public void toolSelected() {
+		AvoGlobal.paramDialog.finalizeCurrentParams();
 		MessageBox m = new MessageBox(AvoGlobal.menuet.getShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO);
 		m.setMessage("Are you sure you want to discard ALL changes\nand exit the 2D drawing mode?");
 		m.setText("Discard ALL Changes?");

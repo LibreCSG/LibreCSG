@@ -57,6 +57,7 @@ public class Tool2DDone extends Tool2D{
 
 	@Override
 	public void toolSelected() {
+		AvoGlobal.paramDialog.finalizeCurrentParams();
 		AvoGlobal.menuet.disableAllTools();
 		AvoGlobal.menuet.setCurrentToolMode(Menuet.MENUET_MODE_MAIN);
 		AvoGlobal.paramDialog.setParamSet(null);

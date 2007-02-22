@@ -4,6 +4,8 @@ import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolInterface2D;
 import backend.adt.ParamSet;
+import backend.global.AvoGlobal;
+import backend.model.Sketch;
 import backend.model.sketch.Prim2DList;
 
 //
@@ -66,6 +68,10 @@ public class Tool2DDoneInt implements ToolInterface2D {
 	}
 
 	public void finalize(ParamSet paramSet) {
+		Sketch sketch = AvoGlobal.project.getActiveSketch();
+		if(sketch != null){
+			sketch.deselectAllFeat2D();
+		}
 	}
 
 }

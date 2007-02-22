@@ -169,6 +169,10 @@ public class Tool2DCircleInt implements ToolInterface2D  {
 
 
 	public void finalize(ParamSet paramSet) {
+		Sketch sketch = AvoGlobal.project.getActiveSketch();
+		if(sketch != null){
+			sketch.deselectAllFeat2D();
+		}
 	}
 	
 }
