@@ -91,7 +91,7 @@ public class Sketch implements SubPart{
 	 */
 	public int add(Feature2D f2D){
 		if(isConsumed){
-			System.out.println("Cannot Add Feature2D to sketch!  it is Consumed!");
+			System.out.println("Cannot Add Feature2D to sketch!  The Sketch is Consumed!");
 			return -1;
 		}
 		if(f2D != null){

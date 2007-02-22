@@ -95,9 +95,11 @@ public class Tool2D3DExtrudeInt implements ToolInterface2D3D{
 		AvoGlobal.modelEventHandler.notifyElementAdded();
 	}
 
-	public void draw3DFeature(GL gl, ParamSet paramSet, Sketch sketch) {
+	public void draw3DFeature(GL gl, ParamSet paramSet) {
 		// if sketch is not consumed... just draw face to be extruded
 		//System.out.println("trying to draw extrude");
+		
+		// TODO: get sketch by examining paramSet and trying to get a sketch by it's unique ID.
 		
 		for(int i=0; i<sketch.getRegion2DListSize(); i++){
 			Region2D reg = sketch.getRegAtIndex(i);
