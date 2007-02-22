@@ -54,6 +54,7 @@ public class Tool2DLine extends Tool2D{
 
 	@Override
 	public void toolSelected() {
+		AvoGlobal.paramDialog.finalizeCurrentParams();
 		AvoGlobal.menuet.selectButton(mElement);
 		AvoGlobal.menuet.currentTool = this;
 	}

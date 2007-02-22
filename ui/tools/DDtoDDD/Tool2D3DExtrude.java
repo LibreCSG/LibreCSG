@@ -55,6 +55,7 @@ public class Tool2D3DExtrude extends Tool2D3D{
 	}
 
 	public void toolSelected() {
+		AvoGlobal.paramDialog.finalizeCurrentParams();
 		AvoGlobal.menuet.selectButton(mElement);
 		AvoGlobal.menuet.currentTool = this;
 		
