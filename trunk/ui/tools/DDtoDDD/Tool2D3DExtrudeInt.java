@@ -54,7 +54,7 @@ public class Tool2D3DExtrudeInt implements ToolInterface2D3D{
 		
 		Feature2D3D feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
 		if(feat2D3D != null){	
-			Sketch sketch = feat2D3D.getActiveSketch();
+			Sketch sketch = feat2D3D.getPrimarySketch();
 			if(sketch != null){
 				
 				if((e.stateMask & SWT.SHIFT) != 0){
@@ -95,113 +95,118 @@ public class Tool2D3DExtrudeInt implements ToolInterface2D3D{
 		AvoGlobal.modelEventHandler.notifyElementAdded();
 	}
 
-	public void draw3DFeature(GL gl, ParamSet paramSet) {
+	public void draw3DFeature(GL gl, Feature2D3D feat2D3D) {
 		// if sketch is not consumed... just draw face to be extruded
 		//System.out.println("trying to draw extrude");
 		
-		// TODO: get sketch by examining paramSet and trying to get a sketch by it's unique ID.
+		// TODO: using selected regions from the sketch... this should be done with a SelectionList!
 		
-		for(int i=0; i<sketch.getRegion2DListSize(); i++){
-			Region2D reg = sketch.getRegAtIndex(i);
-			if(reg.isSelected){
-				// region is selected -- fill it in.
-				// TODO: HACK, only drawing if 3 sided.
-				if(reg.prim2DCycle.size() == 3){
-					Point2D ptA = reg.prim2DCycle.get(0).ptA;
-					Point2D ptB = reg.prim2DCycle.get(0).ptB;
-					Point2D ptC = reg.prim2DCycle.get(1).hasPtGetOther(ptB);
-					gl.glColor4f(1.0f, 0.7f, 0.85f, 0.5f);
-					gl.glBegin(GL.GL_TRIANGLES);
-					//System.out.println("A:" + ptA + " B:" + ptB + " C:" + ptC);
-						if(reg.prim2DCycle.isCCW()){
-							gl.glVertex3d(ptA.getX(), ptA.getY(), 0.0);
-							gl.glVertex3d(ptB.getX(), ptB.getY(), 0.0);
-							gl.glVertex3d(ptC.getX(), ptC.getY(), 0.0);
-						}else{
-							gl.glVertex3d(ptC.getX(), ptC.getY(), 0.0);												
-							gl.glVertex3d(ptB.getX(), ptB.getY(), 0.0);
-							gl.glVertex3d(ptA.getX(), ptA.getY(), 0.0);
-						}											
-					gl.glEnd();
-					
-					
-					if(paramSet != null){
-						
-						// TODO: big hack! just setting height to 3.5 (should get from paramSet)
-						//double height = (Double)paramSet.getParam("h").getData();
-						double height = 3.5;
-						
-						// draw top
+		ParamSet paramSet = feat2D3D.paramSet;
+		Sketch sketch = feat2D3D.getPrimarySketch();
+		if(sketch != null){
+			
+			for(int i=0; i<sketch.getRegion2DListSize(); i++){
+				Region2D reg = sketch.getRegAtIndex(i);
+				if(reg.isSelected){
+					// region is selected -- fill it in.
+					// TODO: HACK, only drawing if 3 sided.
+					if(reg.prim2DCycle.size() == 3){
+						Point2D ptA = reg.prim2DCycle.get(0).ptA;
+						Point2D ptB = reg.prim2DCycle.get(0).ptB;
+						Point2D ptC = reg.prim2DCycle.get(1).hasPtGetOther(ptB);
 						gl.glColor4f(1.0f, 0.7f, 0.85f, 0.5f);
 						gl.glBegin(GL.GL_TRIANGLES);
 						//System.out.println("A:" + ptA + " B:" + ptB + " C:" + ptC);
 							if(reg.prim2DCycle.isCCW()){
-								gl.glVertex3d(ptA.getX(), ptA.getY(), height);
-								gl.glVertex3d(ptB.getX(), ptB.getY(), height);
-								gl.glVertex3d(ptC.getX(), ptC.getY(), height);
+								gl.glVertex3d(ptA.getX(), ptA.getY(), 0.0);
+								gl.glVertex3d(ptB.getX(), ptB.getY(), 0.0);
+								gl.glVertex3d(ptC.getX(), ptC.getY(), 0.0);
 							}else{
-								gl.glVertex3d(ptC.getX(), ptC.getY(), height);												
-								gl.glVertex3d(ptB.getX(), ptB.getY(), height);
-								gl.glVertex3d(ptA.getX(), ptA.getY(), height);
+								gl.glVertex3d(ptC.getX(), ptC.getY(), 0.0);												
+								gl.glVertex3d(ptB.getX(), ptB.getY(), 0.0);
+								gl.glVertex3d(ptA.getX(), ptA.getY(), 0.0);
 							}											
 						gl.glEnd();
 						
-						// draw defining lines
-						gl.glColor4f(0.7f, 0.5f, 0.6f, 1.0f);
-						gl.glBegin(GL.GL_LINES);
-							gl.glVertex3d(ptA.getX(), ptA.getY(), height);
-							gl.glVertex3d(ptB.getX(), ptB.getY(), height);
-							gl.glVertex3d(ptB.getX(), ptB.getY(), height);
-							gl.glVertex3d(ptC.getX(), ptC.getY(), height);
-							gl.glVertex3d(ptC.getX(), ptC.getY(), height);
-							gl.glVertex3d(ptA.getX(), ptA.getY(), height);	
-							
-							gl.glVertex3d(ptA.getX(), ptA.getY(), 0.0);
-							gl.glVertex3d(ptA.getX(), ptA.getY(), height);
-							gl.glVertex3d(ptB.getX(), ptB.getY(), 0.0);
-							gl.glVertex3d(ptB.getX(), ptB.getY(), height);
-							gl.glVertex3d(ptC.getX(), ptC.getY(), 0.0);
-							gl.glVertex3d(ptC.getX(), ptC.getY(), height);
-							
-						gl.glEnd();						
 						
-						// draw sides
-						gl.glColor4f(1.0f, 0.7f, 0.85f, 0.5f);
-						gl.glBegin(GL.GL_QUADS);
-							if(reg.prim2DCycle.isCCW()){
+						if(paramSet != null){
+							
+							// TODO: big hack! just setting height to 3.5 (should get from paramSet)
+							//double height = (Double)paramSet.getParam("h").getData();
+							double height = 3.5;
+							
+							// draw top
+							gl.glColor4f(1.0f, 0.7f, 0.85f, 0.5f);
+							gl.glBegin(GL.GL_TRIANGLES);
+							//System.out.println("A:" + ptA + " B:" + ptB + " C:" + ptC);
+								if(reg.prim2DCycle.isCCW()){
+									gl.glVertex3d(ptA.getX(), ptA.getY(), height);
+									gl.glVertex3d(ptB.getX(), ptB.getY(), height);
+									gl.glVertex3d(ptC.getX(), ptC.getY(), height);
+								}else{
+									gl.glVertex3d(ptC.getX(), ptC.getY(), height);												
+									gl.glVertex3d(ptB.getX(), ptB.getY(), height);
+									gl.glVertex3d(ptA.getX(), ptA.getY(), height);
+								}											
+							gl.glEnd();
+							
+							// draw defining lines
+							gl.glColor4f(0.7f, 0.5f, 0.6f, 1.0f);
+							gl.glBegin(GL.GL_LINES);
+								gl.glVertex3d(ptA.getX(), ptA.getY(), height);
+								gl.glVertex3d(ptB.getX(), ptB.getY(), height);
+								gl.glVertex3d(ptB.getX(), ptB.getY(), height);
+								gl.glVertex3d(ptC.getX(), ptC.getY(), height);
+								gl.glVertex3d(ptC.getX(), ptC.getY(), height);
+								gl.glVertex3d(ptA.getX(), ptA.getY(), height);	
+								
 								gl.glVertex3d(ptA.getX(), ptA.getY(), 0.0);
+								gl.glVertex3d(ptA.getX(), ptA.getY(), height);
 								gl.glVertex3d(ptB.getX(), ptB.getY(), 0.0);
 								gl.glVertex3d(ptB.getX(), ptB.getY(), height);
-								gl.glVertex3d(ptA.getX(), ptA.getY(), height);
-								
-								gl.glVertex3d(ptB.getX(), ptB.getY(), 0.0);
 								gl.glVertex3d(ptC.getX(), ptC.getY(), 0.0);
 								gl.glVertex3d(ptC.getX(), ptC.getY(), height);
-								gl.glVertex3d(ptB.getX(), ptB.getY(), height);
 								
-								gl.glVertex3d(ptC.getX(), ptC.getY(), 0.0);
-								gl.glVertex3d(ptA.getX(), ptA.getY(), 0.0);
-								gl.glVertex3d(ptA.getX(), ptA.getY(), height);
-								gl.glVertex3d(ptC.getX(), ptC.getY(), height);
-								
-							}else{
-								gl.glVertex3d(ptA.getX(), ptA.getY(), height);
-								gl.glVertex3d(ptB.getX(), ptB.getY(), height);
-								gl.glVertex3d(ptB.getX(), ptB.getY(), 0.0);
-								gl.glVertex3d(ptA.getX(), ptA.getY(), 0.0);
-								
-								gl.glVertex3d(ptB.getX(), ptB.getY(), height);
-								gl.glVertex3d(ptC.getX(), ptC.getY(), height);
-								gl.glVertex3d(ptC.getX(), ptC.getY(), 0.0);
-								gl.glVertex3d(ptB.getX(), ptB.getY(), 0.0);
-								
-								gl.glVertex3d(ptC.getX(), ptC.getY(), height);
-								gl.glVertex3d(ptA.getX(), ptA.getY(), height);
-								gl.glVertex3d(ptA.getX(), ptA.getY(), 0.0);
-								gl.glVertex3d(ptC.getX(), ptC.getY(), 0.0);
-							}				
-						gl.glEnd();						
-						
+							gl.glEnd();						
+							
+							// draw sides
+							gl.glColor4f(1.0f, 0.7f, 0.85f, 0.5f);
+							gl.glBegin(GL.GL_QUADS);
+								if(reg.prim2DCycle.isCCW()){
+									gl.glVertex3d(ptA.getX(), ptA.getY(), 0.0);
+									gl.glVertex3d(ptB.getX(), ptB.getY(), 0.0);
+									gl.glVertex3d(ptB.getX(), ptB.getY(), height);
+									gl.glVertex3d(ptA.getX(), ptA.getY(), height);
+									
+									gl.glVertex3d(ptB.getX(), ptB.getY(), 0.0);
+									gl.glVertex3d(ptC.getX(), ptC.getY(), 0.0);
+									gl.glVertex3d(ptC.getX(), ptC.getY(), height);
+									gl.glVertex3d(ptB.getX(), ptB.getY(), height);
+									
+									gl.glVertex3d(ptC.getX(), ptC.getY(), 0.0);
+									gl.glVertex3d(ptA.getX(), ptA.getY(), 0.0);
+									gl.glVertex3d(ptA.getX(), ptA.getY(), height);
+									gl.glVertex3d(ptC.getX(), ptC.getY(), height);
+									
+								}else{
+									gl.glVertex3d(ptA.getX(), ptA.getY(), height);
+									gl.glVertex3d(ptB.getX(), ptB.getY(), height);
+									gl.glVertex3d(ptB.getX(), ptB.getY(), 0.0);
+									gl.glVertex3d(ptA.getX(), ptA.getY(), 0.0);
+									
+									gl.glVertex3d(ptB.getX(), ptB.getY(), height);
+									gl.glVertex3d(ptC.getX(), ptC.getY(), height);
+									gl.glVertex3d(ptC.getX(), ptC.getY(), 0.0);
+									gl.glVertex3d(ptB.getX(), ptB.getY(), 0.0);
+									
+									gl.glVertex3d(ptC.getX(), ptC.getY(), height);
+									gl.glVertex3d(ptA.getX(), ptA.getY(), height);
+									gl.glVertex3d(ptA.getX(), ptA.getY(), 0.0);
+									gl.glVertex3d(ptC.getX(), ptC.getY(), 0.0);
+								}				
+							gl.glEnd();						
+							
+						}
 					}
 				}
 			}

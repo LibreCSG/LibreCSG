@@ -62,10 +62,15 @@ public class Part {
 		return subPartList.size()-1;
 	}
 	
-	public int addNewFeat2D3D(){
-		subPartList.add(new Feature2D3D(this, null, null, subPartCounter++));
-		AvoGlobal.modelEventHandler.notifyElementAdded();
-		return subPartList.size()-1;
+	public int addNewFeat2D3D(int sketchID){
+		if(sketchID > 0 && sketchID < subPartCounter && getSketchByID(sketchID) != null){
+			subPartList.add(new Feature2D3D(this, sketchID, subPartCounter++));
+			AvoGlobal.modelEventHandler.notifyElementAdded();
+			return subPartList.size()-1;
+		}else{
+			System.out.println(" *** PART *** could not add a New Feature2D3D since sketchID was invalid! sketchID=" + sketchID);
+			return -1;
+		}
 	}
 	
 	public int addNewFeat3D3D(){

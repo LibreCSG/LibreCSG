@@ -1,8 +1,5 @@
 package backend.model;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import ui.tools.ToolInterface2D3D;
 import backend.adt.ParamSet;
 
@@ -38,15 +35,14 @@ public class Feature2D3D implements SubPart{
 	public    ToolInterface2D3D toolInt2D3D = null;
 	public    ParamSet          paramSet    = null;
 	
-	protected int activeSketch = -1;
+	protected int primarySketchID;
 	
 	protected Part part;
 	protected int ID;
 	
-	public Feature2D3D(Part part, ToolInterface2D3D toolInt2D3D, ParamSet paramSet, int ID){
+	public Feature2D3D(Part part, int primarySketchID, int ID){
 		this.part = part;
-		this.paramSet    = paramSet;
-		this.toolInt2D3D = toolInt2D3D;		
+		this.primarySketchID = primarySketchID;
 		this.ID = ID;
 	}	
 	
@@ -57,6 +53,10 @@ public class Feature2D3D implements SubPart{
 	public int getID(){
 		int newInt = ID;
 		return newInt;
+	}
+	
+	public Sketch getPrimarySketch(){
+		return part.getSketchByID(primarySketchID);
 	}
 	
 	//TODO: handle how sketches are linked to the Feature2D3D (sketch by number?)
