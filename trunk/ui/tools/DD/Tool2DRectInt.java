@@ -75,7 +75,7 @@ public class Tool2DRectInt implements ToolInterface2D {
 			//
 			// add the new feature to the end of the feature set
 			// and set it as the active feature2D.		
-			int indx = sketch.add(new Feature2D(this, pSet));
+			int indx = sketch.add(new Feature2D(sketch, this, pSet));
 			sketch.setActiveFeat2D(indx);
 			
 			//

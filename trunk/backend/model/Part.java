@@ -38,7 +38,14 @@ public class Part {
 	
 	protected int activeSubPart = -1;
 	
-	public Part(){
+	protected Group group;
+	
+	public Part(Group group){
+		this.group = group;
+	}
+	
+	public Group getParentGroup(){
+		return this.group;
 	}
 	
 	/**

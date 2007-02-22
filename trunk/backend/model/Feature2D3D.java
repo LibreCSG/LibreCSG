@@ -42,10 +42,17 @@ public class Feature2D3D implements SubPart{
 	
 	protected int activeSketch = -1;
 	
-	public Feature2D3D(ToolInterface2D3D toolInt2D3D, ParamSet paramSet){
+	protected Part part;
+	
+	public Feature2D3D(Part part, ToolInterface2D3D toolInt2D3D, ParamSet paramSet){
+		this.part = part;
 		this.paramSet    = paramSet;
 		this.toolInt2D3D = toolInt2D3D;		
 	}	
+	
+	public Part getParentPart(){
+		return this.part;
+	}
 	
 	/**
 	 * add a Sketch fot the end of the list of Sketches.

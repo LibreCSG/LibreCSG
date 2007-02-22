@@ -66,15 +66,15 @@ public class ToolMain2D extends ToolMain{
 		// create new Feature3D to use for subsequent 2D sketches
 		//
 		if(AvoGlobal.project.getActiveGroup() == null){
-			int i = AvoGlobal.project.add(new Group());
+			int i = AvoGlobal.project.add(new Group(AvoGlobal.project));
 			AvoGlobal.project.setActiveGroup(i);
 		}
 		if(AvoGlobal.project.getActivePart() == null){
-			int i = AvoGlobal.project.getActiveGroup().add(new Part());
+			int i = AvoGlobal.project.getActiveGroup().add(new Part(AvoGlobal.project.getActiveGroup()));
 			AvoGlobal.project.getActiveGroup().setActivePart(i);
 		}
 		
-		int i = AvoGlobal.project.getActivePart().add(new Sketch());
+		int i = AvoGlobal.project.getActivePart().add(new Sketch(AvoGlobal.project.getActivePart()));
 		AvoGlobal.project.getActivePart().setActiveSubPart(i);
 		Sketch sketch = AvoGlobal.project.getActiveSketch();
 		if(sketch != null){

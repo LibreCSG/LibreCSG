@@ -44,9 +44,16 @@ public class Feature2D {
 	 */
 	public Prim2DList prim2DList = new Prim2DList();
 	
-	public Feature2D(ToolInterface2D toolInt, ParamSet paramSet){
+	public Sketch sketch;
+	
+	public Feature2D(Sketch sketch, ToolInterface2D toolInt, ParamSet paramSet){
+		this.sketch = sketch;
 		this.toolInt2D = toolInt;
 		this.paramSet  = paramSet;
+	}
+	
+	public Sketch getParentSketch(){
+		return this.sketch;
 	}
 	
 	public void buildPrim2DList(){

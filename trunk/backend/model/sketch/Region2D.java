@@ -85,6 +85,7 @@ public class Region2D implements Comparable{
 		return false;
 	}
 
+	
 	public int compareTo(Object o) {
 		if(o instanceof Region2D){
 			Region2D regionB = (Region2D)o;

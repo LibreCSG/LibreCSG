@@ -38,8 +38,6 @@ import backend.adt.Rotation3D;
 public class ToolMain2DInt implements ToolInterfaceMain{
 
 	// The Sketch Creation/Param Management interface	
-	Point3D    sketchOrigin;
-	Rotation3D sketchRotation;
 	
 	public void glMouseDown(double x, double y, double z, MouseEvent e) {
 	}
