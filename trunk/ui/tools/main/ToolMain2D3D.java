@@ -73,7 +73,7 @@ public class ToolMain2D3D extends ToolMain{
 			AvoGlobal.menuet.disableAllTools();
 			AvoGlobal.menuet.setCurrentToolMode(Menuet.MENUET_MODE_2Dto3D);
 			AvoGlobal.menuet.updateToolModeDisplayed();	
-			sketch.buildRegionsFromPrim2D();
+			sketch.buildRegions();
 			
 			int i = AvoGlobal.project.getActivePart().addNewFeat2D3D(sketch.getID());
 			AvoGlobal.project.getActivePart().setActiveSubPart(i);

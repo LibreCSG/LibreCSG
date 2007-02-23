@@ -244,9 +244,7 @@ public class DynParamDialog {
 					break;
 				}
 				case SelectionList : {
-					// TODO: PCompSelectionList
-					Label l = new Label(paramComp, SWT.SINGLE);
-					l.setText(p.getLabel());
+					new PCompSelectionList(paramComp, SWT.BORDER, p, paramSet);
 					break;
 				}
 				default : {

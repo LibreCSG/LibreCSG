@@ -65,8 +65,10 @@ public class AvoGlobal {
 	/**
 	 * colors for parameter dialog
 	 */
-	public static final Color COLOR_PARAM_BG       = new Color(Display.getCurrent(),  230,  190,  230);
+	public static final Color COLOR_PARAM_BG       = new Color(Display.getCurrent(),  220,  210,  240);
 	public static final Color COLOR_PARAM_DERIVED  = new Color(Display.getCurrent(),  220,  220,  240);
+	public static final Color COLOR_PARAM_SEL_SAT  = new Color(Display.getCurrent(),  160,  240,  160);
+	public static final Color COLOR_PARAM_SEL_UNSAT= new Color(Display.getCurrent(),  240,  160,  160);
 	
 	/**
 	 * colors for QuickSettings bar

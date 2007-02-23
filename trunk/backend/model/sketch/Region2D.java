@@ -32,9 +32,7 @@ import backend.geometry.Geometry2D;
 */
 public class Region2D implements Comparable{
 
-	public Prim2DCycle prim2DCycle = new Prim2DCycle();
-	
-	public boolean isSelected = false;
+	protected Prim2DCycle prim2DCycle = new Prim2DCycle();
 	
 	public double getRegionArea(){
 		// TODO: Big HACK.. only considering 3-sided regions.
@@ -97,6 +95,76 @@ public class Region2D implements Comparable{
 			}
 		}
 		return 0;
+	}
+	
+	/**
+	 * generate and return a list of triangles that can be 
+	 * used to fill the region when drawing or used otherwise
+	 * to compute the total area of the region.
+	 * @return a list of verticies (3*n) specifying triangles that comprise the region2D.
+	 */
+	public Point2DList getPoint2DListTriangles(){
+		// TODO: cache this, perhaps?
+		Point2DList p2DList = new Point2DList();
+		// TODO: HACK, just for triangular regions...
+		if(prim2DCycle.size() == 3){
+			Point2D ptA = prim2DCycle.get(0).ptA;
+			Point2D ptB = prim2DCycle.get(0).ptB;
+			Point2D ptC = prim2DCycle.get(1).hasPtGetOther(ptB);
+			if(prim2DCycle.isCCW()){
+				p2DList.add(new Point2D(ptA.getX(), ptA.getY()));
+				p2DList.add(new Point2D(ptB.getX(), ptB.getY()));
+				p2DList.add(new Point2D(ptC.getX(), ptC.getY()));
+			}else{
+				p2DList.add(new Point2D(ptC.getX(), ptC.getY()));				
+				p2DList.add(new Point2D(ptB.getX(), ptB.getY()));
+				p2DList.add(new Point2D(ptA.getX(), ptA.getY()));
+			}	
+		}
+		return p2DList;
+	}
+	
+	/**
+	 * generate and return a list of point2D pairs that specify
+	 * the region's outline.
+	 * @return a point2DList of the regions defining points, in pairs.
+	 */
+	public Point2DList getPoint2DListEdges(){
+		// TODO: HACK, doesn't take into account faces that may be on the inside of an object (drilled hole)
+		Point2DList p2DList = new Point2DList();
+		Point2D conPt = new Point2D(0.0, 0.0);
+		if(prim2DCycle.size() > 0){
+			conPt = prim2DCycle.getFirst().ptA;
+		}
+		for(Prim2D prim : prim2DCycle){
+			p2DList.add(conPt);
+			conPt = prim.hasPtGetOther(conPt);
+			p2DList.add(conPt);
+		}		
+		return p2DList;
+	}
+	
+	/**
+	 * generate and return a list of point2D quads that specify
+	 * the region's outline. (a,b,b,a) for each line segment.
+	 * @return a point2DList of the regions defining points, in quads.
+	 */
+	public Point2DList getPoint2DListEdgeQuad(){
+		// TODO: HACK, doesn't take into account faces that may be on the inside of an object (drilled hole)
+		Point2DList p2DList = new Point2DList();
+		Point2D conPt = new Point2D(0.0, 0.0);
+		if(prim2DCycle.size() > 0){
+			conPt = prim2DCycle.getFirst().ptA;
+		}
+		for(Prim2D prim : prim2DCycle){
+			Point2D lastPt = conPt;
+			p2DList.add(conPt);
+			conPt = prim.hasPtGetOther(conPt);
+			p2DList.add(conPt);
+			p2DList.add(conPt);
+			p2DList.add(lastPt);
+		}		
+		return p2DList;
 	}
 	
 }
