@@ -5,6 +5,7 @@ import javax.media.opengl.GL;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 
+import ui.menuet.Menuet;
 import ui.tools.ToolInterface2D3D;
 import backend.adt.PType;
 import backend.adt.Param;
@@ -195,6 +196,27 @@ public class Tool2D3DExtrudeInt implements ToolInterface2D3D{
 	}
 
 	public void finalize(ParamSet paramSet) {
+		// finalize extrude and return to main menu
+		Feature2D3D feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
+		if(feat2D3D != null){
+			Sketch sketch = feat2D3D.getPrimarySketch();
+			if(sketch != null){
+				sketch.isConsumed = true;
+			}else{
+				AvoGlobal.project.getActivePart().removeActiveSubPart();				
+			}
+			
+			AvoGlobal.menuet.disableAllTools();
+			AvoGlobal.menuet.setCurrentToolMode(Menuet.MENUET_MODE_MAIN);
+			AvoGlobal.paramDialog.setParamSet(null);
+			AvoGlobal.menuet.currentTool = null;			
+			AvoGlobal.menuet.updateToolModeDisplayed();
+			AvoGlobal.glView.updateGLView = true;		
+			
+		}else{
+			System.out.println("I have no idea what's going on?!?  the active feature2D3D was null!?!");
+		}
+		
 	}
 
 }

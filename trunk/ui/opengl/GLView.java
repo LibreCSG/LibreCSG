@@ -307,7 +307,7 @@ public class GLView {
 								
 								// TODO: HACK for now to just show the active 2D sketch
 								Sketch sketch = subPart.getSketch();
-								if(sketch != null){
+								if(sketch != null && !sketch.isConsumed){
 									gl.glPushMatrix();
 									// TODO: handle sketch offset/rotation
 									for(int i=0; i < sketch.getFeat2DListSize(); i++){
