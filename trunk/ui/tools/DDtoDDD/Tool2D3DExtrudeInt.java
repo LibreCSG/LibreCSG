@@ -93,7 +93,7 @@ public class Tool2D3DExtrudeInt implements ToolInterface2D3D{
 					AvoGlobal.paramEventHandler.notifyParamModified();
 					
 				}catch(Exception ex){
-					System.out.println(ex.getClass().getName());
+					System.out.println("Extrude(mousedown): " + ex.getClass().getName());
 				}
 				
 				AvoGlobal.paramDialog.setParamSet(feat2D3D.paramSet);				
@@ -170,7 +170,7 @@ public class Tool2D3DExtrudeInt implements ToolInterface2D3D{
 					}
 				}
 			}catch(Exception ex){
-				System.out.println(ex.getClass().getName());
+				System.out.println("Extrude(draw): " + ex.getClass().getName());
 			}
 		}		
 	}
@@ -196,11 +196,13 @@ public class Tool2D3DExtrudeInt implements ToolInterface2D3D{
 	}
 
 	public void finalize(ParamSet paramSet) {
+		System.out.println("Finalizig extrude");
 		// finalize extrude and return to main menu
 		Feature2D3D feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
 		if(feat2D3D != null){
 			Sketch sketch = feat2D3D.getPrimarySketch();
 			if(sketch != null){
+				// TODO: only keep feature and consume sketch if selectionLists are all satisfied as well.
 				sketch.isConsumed = true;
 			}else{
 				AvoGlobal.project.getActivePart().removeActiveSubPart();				
