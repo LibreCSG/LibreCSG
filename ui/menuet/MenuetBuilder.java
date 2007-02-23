@@ -6,7 +6,9 @@ import ui.tools.DD.Tool2DDone;
 import ui.tools.DD.Tool2DLine;
 import ui.tools.DD.Tool2DRect;
 import ui.tools.DD.Tool2DSelect;
+import ui.tools.DDtoDDD.Tool2D3DDone;
 import ui.tools.DDtoDDD.Tool2D3DExtrude;
+import ui.tools.DDtoDDD.Tool2D3DRevolve;
 import ui.tools.main.ToolMain2D;
 import ui.tools.main.ToolMain2D3D;
 import ui.tools.main.ToolMainNone;
@@ -73,12 +75,15 @@ public class MenuetBuilder {
 		//
 		//  TOOL MODE:  2Dto3D
 		//
+		new Tool2D3DDone(menuet);
+		
 		MELabel label2D3D = new MELabel(menuet,Menuet.MENUET_MODE_2Dto3D);
 		label2D3D.meColorBackground = AvoGlobal.COLOR_MENUET_2Dto3D;
 		label2D3D.meLabel = "2Dto3D";
 		label2D3D.textIsBold = true;
 		
 		new Tool2D3DExtrude(menuet);
+		new Tool2D3DRevolve(menuet);
 		
 		
 		//
