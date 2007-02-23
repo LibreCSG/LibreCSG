@@ -2,6 +2,8 @@ package backend.model.sketch;
 
 import java.util.LinkedList;
 
+import backend.adt.Point2D;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -29,20 +31,8 @@ import java.util.LinkedList;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Prim2DList extends LinkedList<Prim2D>{
+public class Point2DList extends LinkedList<Point2D>{
 
 	private static final long serialVersionUID = 1000L;
 
-	/**
-	 * set all prim2D to not be consumed in either the
-	 * <bold>A-->B</bold> or <bold>B-->A</bold> directions.
-	 */
-	public void unconsumeAll(){
-		for(Prim2D prim : this){
-			prim.consumedAB = false;
-			prim.consumedBA = false;
-		}
-	}
-	
-	
 }

@@ -56,7 +56,7 @@ public class SelectionList {
 	 * others. (sketchs, lines, regions, etc.)<br/><br/>
 	 * 
 	 * There are 4 main parts to the SelectionList.<br/>
-	 * (1) String for each selection (human-readable)<br/>
+	 * (1) String for each selection (human-readable, but can simply be a number)<br/>
 	 * (2) index of the selected item (so when a user clicks, you know which one)<br/>
 	 * (3) boolean hasFocus -- indicator that the selection has focus in the UI.<br/>
 	 * (4) boolean isSatisfied -- indicates whether or not the current selection is sufficient.
@@ -82,6 +82,10 @@ public class SelectionList {
 		}
 	}
 	
+	public int getSelectionSize(){
+		return selectionList.size();
+	}
+	
 	public void removeAtIndex(int i){
 		if(i >= 0 && i < selectionList.size()){
 			selectionList.remove(i);
@@ -102,6 +106,22 @@ public class SelectionList {
 		return "SelectionList: size(" + selectionList.size() + ") -- " + allElements;
 	}
 	
+	public String[] getStringArray(){
+		String[] stringA = new String[selectionList.size()];
+		int i = 0;
+		for(String s : selectionList){
+			stringA[i++] = s;
+		}
+		return stringA;
+	}
 	
+	public boolean contains(String s){
+		for(String string : selectionList){
+			if(string.equalsIgnoreCase(s)){
+				return true;
+			}
+		}
+		return false;
+	}
 	
 }

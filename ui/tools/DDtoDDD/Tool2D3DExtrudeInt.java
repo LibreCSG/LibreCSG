@@ -14,6 +14,7 @@ import backend.adt.SelectionList;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D3D;
 import backend.model.Sketch;
+import backend.model.sketch.Point2DList;
 import backend.model.sketch.Region2D;
 
 
@@ -56,32 +57,45 @@ public class Tool2D3DExtrudeInt implements ToolInterface2D3D{
 		if(feat2D3D != null){	
 			Sketch sketch = feat2D3D.getPrimarySketch();
 			if(sketch != null){
-				
-				if((e.stateMask & SWT.SHIFT) != 0){
-					shiftIsDown = true;
-				}else{
-					shiftIsDown = false;
+				ParamSet paramSet = feat2D3D.paramSet;
+				if(!paramSetIsValid(paramSet)){
+					//System.out.println("%% making new extrude paramSet");
+					// paramSet is not valid for this feature, create a new one.
+					paramSet = new ParamSet("Extrude", this);
+					paramSet.addParam("regions", new Param("Regions", new SelectionList()));
+					paramSet.addParam("h", new Param("Height", 2*AvoGlobal.gridSize));
+					feat2D3D.paramSet = paramSet;
 				}
-				if(!shiftIsDown){			
-					// only deselect other regions if SHIFT key is not down.
-					sketch.deselectAllRegions();
+				
+				try{
+					SelectionList selectionList = paramSet.getParam("regions").getDataSelectionList();
+					if((e.stateMask & SWT.SHIFT) != 0){
+						// shift is down
+					}else{
+						// shift is not down
+						selectionList.clearList();
+					}					
+					
+					Point2D clickedPoint = new Point2D(x,y);
+					for(int i=0; i < sketch.getRegion2DListSize(); i++){
+						Region2D reg  = sketch.getRegAtIndex(i);
+						if(reg.regionContainsPoint2D(clickedPoint) && !selectionList.contains(String.valueOf(i))){
+							selectionList.add(String.valueOf(i));
+						}
+					}
+					if(selectionList.getSelectionSize() > 0){
+						selectionList.isSatisfied = true;
+					}else{
+						selectionList.isSatisfied = false;
+					}
+					// TODO: shouldn't need to directly indicate param modified??
+					AvoGlobal.paramEventHandler.notifyParamModified();
+					
+				}catch(Exception ex){
+					System.out.println(ex.getClass().getName());
 				}
 				
-				ParamSet pSet = new ParamSet("Extrude", this);
-				pSet.addParam("regions", new Param("Regions", new SelectionList()));
-				pSet.addParam("h", new Param("Height", 2*AvoGlobal.gridSize));
-				
-				feat2D3D.paramSet = pSet;
-				
-				//
-				// give paramDialog the paramSet so that it can
-				// be displayed to the user for manual parameter
-				// input.
-				//
-				AvoGlobal.paramDialog.setParamSet(pSet);
-				
-				sketch.selectRegionsThatContainsPoint(new Point2D(x,y));
-				
+				AvoGlobal.paramDialog.setParamSet(feat2D3D.paramSet);				
 			}
 		}
 		
@@ -103,115 +117,61 @@ public class Tool2D3DExtrudeInt implements ToolInterface2D3D{
 		
 		ParamSet paramSet = feat2D3D.paramSet;
 		Sketch sketch = feat2D3D.getPrimarySketch();
-		if(sketch != null){
-			
-			for(int i=0; i<sketch.getRegion2DListSize(); i++){
-				Region2D reg = sketch.getRegAtIndex(i);
-				if(reg.isSelected){
-					// region is selected -- fill it in.
-					// TODO: HACK, only drawing if 3 sided.
-					if(reg.prim2DCycle.size() == 3){
-						Point2D ptA = reg.prim2DCycle.get(0).ptA;
-						Point2D ptB = reg.prim2DCycle.get(0).ptB;
-						Point2D ptC = reg.prim2DCycle.get(1).hasPtGetOther(ptB);
-						gl.glColor4f(1.0f, 0.7f, 0.85f, 0.5f);
-						gl.glBegin(GL.GL_TRIANGLES);
-						//System.out.println("A:" + ptA + " B:" + ptB + " C:" + ptC);
-							if(reg.prim2DCycle.isCCW()){
-								gl.glVertex3d(ptA.getX(), ptA.getY(), 0.0);
-								gl.glVertex3d(ptB.getX(), ptB.getY(), 0.0);
-								gl.glVertex3d(ptC.getX(), ptC.getY(), 0.0);
-							}else{
-								gl.glVertex3d(ptC.getX(), ptC.getY(), 0.0);												
-								gl.glVertex3d(ptB.getX(), ptB.getY(), 0.0);
-								gl.glVertex3d(ptA.getX(), ptA.getY(), 0.0);
-							}											
-						gl.glEnd();
-						
-						
-						if(paramSet != null){
-							
-							// TODO: big hack! just setting height to 3.5 (should get from paramSet)
-							//double height = (Double)paramSet.getParam("h").getData();
-							double height = 3.5;
-							
-							// draw top
-							gl.glColor4f(1.0f, 0.7f, 0.85f, 0.5f);
+		if(sketch != null && paramSet != null){		
+			try{
+				SelectionList selectionList = paramSet.getParam("regions").getDataSelectionList();
+				Double height = paramSet.getParam("h").getDataDouble();
+				if(selectionList != null && height != null){
+					//System.out.println("drawing extrude at height=" + height + " and selection: " + selectionList.toString());
+					for(int i=0; i<selectionList.getSelectionSize(); i++){
+						Region2D includedRegion = sketch.getRegAtIndex(Integer.parseInt(selectionList.getStringAtIndex(i)));
+						if(includedRegion != null){
+							Point2DList ptList = includedRegion.getPoint2DListTriangles();
+							gl.glColor4f(0.7f, 0.85f, 0.85f, 0.6f);
 							gl.glBegin(GL.GL_TRIANGLES);
-							//System.out.println("A:" + ptA + " B:" + ptB + " C:" + ptC);
-								if(reg.prim2DCycle.isCCW()){
-									gl.glVertex3d(ptA.getX(), ptA.getY(), height);
-									gl.glVertex3d(ptB.getX(), ptB.getY(), height);
-									gl.glVertex3d(ptC.getX(), ptC.getY(), height);
-								}else{
-									gl.glVertex3d(ptC.getX(), ptC.getY(), height);												
-									gl.glVertex3d(ptB.getX(), ptB.getY(), height);
-									gl.glVertex3d(ptA.getX(), ptA.getY(), height);
-								}											
+								for(int j=ptList.size()-1; j >= 0; j--){
+									Point2D p = ptList.get(j);
+									gl.glVertex3d(p.getX(), p.getY(), 0.0);
+								}
+								for(Point2D p : ptList){
+									gl.glVertex3d(p.getX(), p.getY(), height);
+								}
 							gl.glEnd();
 							
-							// draw defining lines
-							gl.glColor4f(0.7f, 0.5f, 0.6f, 1.0f);
-							gl.glBegin(GL.GL_LINES);
-								gl.glVertex3d(ptA.getX(), ptA.getY(), height);
-								gl.glVertex3d(ptB.getX(), ptB.getY(), height);
-								gl.glVertex3d(ptB.getX(), ptB.getY(), height);
-								gl.glVertex3d(ptC.getX(), ptC.getY(), height);
-								gl.glVertex3d(ptC.getX(), ptC.getY(), height);
-								gl.glVertex3d(ptA.getX(), ptA.getY(), height);	
-								
-								gl.glVertex3d(ptA.getX(), ptA.getY(), 0.0);
-								gl.glVertex3d(ptA.getX(), ptA.getY(), height);
-								gl.glVertex3d(ptB.getX(), ptB.getY(), 0.0);
-								gl.glVertex3d(ptB.getX(), ptB.getY(), height);
-								gl.glVertex3d(ptC.getX(), ptC.getY(), 0.0);
-								gl.glVertex3d(ptC.getX(), ptC.getY(), height);
-								
-							gl.glEnd();						
-							
-							// draw sides
-							gl.glColor4f(1.0f, 0.7f, 0.85f, 0.5f);
+							Point2DList qList = includedRegion.getPoint2DListEdgeQuad();
 							gl.glBegin(GL.GL_QUADS);
-								if(reg.prim2DCycle.isCCW()){
-									gl.glVertex3d(ptA.getX(), ptA.getY(), 0.0);
-									gl.glVertex3d(ptB.getX(), ptB.getY(), 0.0);
-									gl.glVertex3d(ptB.getX(), ptB.getY(), height);
-									gl.glVertex3d(ptA.getX(), ptA.getY(), height);
-									
-									gl.glVertex3d(ptB.getX(), ptB.getY(), 0.0);
-									gl.glVertex3d(ptC.getX(), ptC.getY(), 0.0);
-									gl.glVertex3d(ptC.getX(), ptC.getY(), height);
-									gl.glVertex3d(ptB.getX(), ptB.getY(), height);
-									
-									gl.glVertex3d(ptC.getX(), ptC.getY(), 0.0);
-									gl.glVertex3d(ptA.getX(), ptA.getY(), 0.0);
-									gl.glVertex3d(ptA.getX(), ptA.getY(), height);
-									gl.glVertex3d(ptC.getX(), ptC.getY(), height);
-									
-								}else{
-									gl.glVertex3d(ptA.getX(), ptA.getY(), height);
-									gl.glVertex3d(ptB.getX(), ptB.getY(), height);
-									gl.glVertex3d(ptB.getX(), ptB.getY(), 0.0);
-									gl.glVertex3d(ptA.getX(), ptA.getY(), 0.0);
-									
-									gl.glVertex3d(ptB.getX(), ptB.getY(), height);
-									gl.glVertex3d(ptC.getX(), ptC.getY(), height);
-									gl.glVertex3d(ptC.getX(), ptC.getY(), 0.0);
-									gl.glVertex3d(ptB.getX(), ptB.getY(), 0.0);
-									
-									gl.glVertex3d(ptC.getX(), ptC.getY(), height);
-									gl.glVertex3d(ptA.getX(), ptA.getY(), height);
-									gl.glVertex3d(ptA.getX(), ptA.getY(), 0.0);
-									gl.glVertex3d(ptC.getX(), ptC.getY(), 0.0);
-								}				
-							gl.glEnd();						
+								int q = 0;
+								for(Point2D p : qList){
+									if(q%4 == 0 || q%4 == 1){
+										gl.glVertex3d(p.getX(), p.getY(), 0.0);
+									}else{
+										gl.glVertex3d(p.getX(), p.getY(), height);
+									}
+									q++;
+								}
+							gl.glEnd();
 							
+							Point2DList lnList = includedRegion.getPoint2DListEdges();
+							gl.glColor4f(0.6f, 0.75f, 0.75f, 1.0f);
+							gl.glBegin(GL.GL_LINES);
+								for(Point2D p : lnList){
+									gl.glVertex3d(p.getX(), p.getY(), 0.0);
+								}
+								for(Point2D p : lnList){
+									gl.glVertex3d(p.getX(), p.getY(), height);
+								}
+								for(Point2D p : lnList){
+									gl.glVertex3d(p.getX(), p.getY(), 0.0);
+									gl.glVertex3d(p.getX(), p.getY(), height);
+								}
+							gl.glEnd();							
 						}
 					}
 				}
+			}catch(Exception ex){
+				System.out.println(ex.getClass().getName());
 			}
-		}
-		
+		}		
 	}
 	
 	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
