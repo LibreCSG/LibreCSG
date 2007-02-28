@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
 import ui.menuet.Menuet;
+import backend.global.AvoColors;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D;
 import backend.model.Feature2D3D;
@@ -284,10 +285,10 @@ public class GLView {
 							// the same depth (in particular, 0.0) still get drawn.
 							gl.glDisable(GL.GL_DEPTH_TEST);
 							// set grid color						
-							gl.glColor4f(AvoGlobal.GL_COLOR4_GRID_DARK[0], AvoGlobal.GL_COLOR4_GRID_DARK[1],
-							  		AvoGlobal.GL_COLOR4_GRID_DARK[2], AvoGlobal.GL_COLOR4_GRID_DARK[3]);
-							gl.glColor4f(AvoGlobal.GL_COLOR4_GRID_LIGHT[0], AvoGlobal.GL_COLOR4_GRID_LIGHT[1],
-						  			AvoGlobal.GL_COLOR4_GRID_LIGHT[2], AvoGlobal.GL_COLOR4_GRID_LIGHT[3]);
+							gl.glColor4f(AvoColors.GL_COLOR4_GRID_DARK[0], AvoColors.GL_COLOR4_GRID_DARK[1],
+									AvoColors.GL_COLOR4_GRID_DARK[2], AvoColors.GL_COLOR4_GRID_DARK[3]);
+							gl.glColor4f(AvoColors.GL_COLOR4_GRID_LIGHT[0], AvoColors.GL_COLOR4_GRID_LIGHT[1],
+									AvoColors.GL_COLOR4_GRID_LIGHT[2], AvoColors.GL_COLOR4_GRID_LIGHT[3]);
 							// draw grid
 							gl.glDisable(GL.GL_LINE_SMOOTH);
 							GLDynPrim.mesh(gl, -10.0, 10.0, -10.0, 10.0, 20, 20);
@@ -313,13 +314,13 @@ public class GLView {
 									for(int i=0; i < sketch.getFeat2DListSize(); i++){
 										Feature2D f2D = sketch.getAtIndex(i);
 										if(f2D.isSelected){
-								    		gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_ACTIVE[0], AvoGlobal.GL_COLOR4_2D_ACTIVE[1],
-						  									AvoGlobal.GL_COLOR4_2D_ACTIVE[2], AvoGlobal.GL_COLOR4_2D_ACTIVE[3]);
+								    		gl.glColor4f(	AvoColors.GL_COLOR4_2D_ACTIVE[0], AvoColors.GL_COLOR4_2D_ACTIVE[1],
+								    						AvoColors.GL_COLOR4_2D_ACTIVE[2], AvoColors.GL_COLOR4_2D_ACTIVE[3]);
 								    		// TODO: HACK, don't build primatives here.. build when created/modified!
 								    		f2D.buildPrim2DList();
 								    	}else{
-								    		gl.glColor4f(	AvoGlobal.GL_COLOR4_2D_NONACT[0], AvoGlobal.GL_COLOR4_2D_NONACT[1],
-								  							AvoGlobal.GL_COLOR4_2D_NONACT[2], AvoGlobal.GL_COLOR4_2D_NONACT[3]);
+								    		gl.glColor4f(	AvoColors.GL_COLOR4_2D_NONACT[0], AvoColors.GL_COLOR4_2D_NONACT[1],
+								    						AvoColors.GL_COLOR4_2D_NONACT[2], AvoColors.GL_COLOR4_2D_NONACT[3]);
 								    	}
 										for(Prim2D prim : f2D.prim2DList){
 								    		prim.glDraw(gl);
@@ -420,8 +421,8 @@ public class GLView {
 		gl = glContext.getGL ();
 		glu = new GLU();
 		
-		gl.glClearColor(AvoGlobal.GL_COLOR4_BACKGND[0],AvoGlobal.GL_COLOR4_BACKGND[1],
-						AvoGlobal.GL_COLOR4_BACKGND[2],AvoGlobal.GL_COLOR4_BACKGND[3]);
+		gl.glClearColor(AvoColors.GL_COLOR4_BACKGND[0],AvoColors.GL_COLOR4_BACKGND[1],
+						AvoColors.GL_COLOR4_BACKGND[2],AvoColors.GL_COLOR4_BACKGND[3]);
 		gl.glColor3f(1.0f, 0.0f, 0.0f);
 		gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);
 		gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
@@ -496,5 +497,15 @@ public class GLView {
 		rotation_z = 0.0f;
 		translation_x = 0.0f;
 		translation_y = 0.0f;
+		updateGLView = true;
+	}
+	
+	public void setViewIso(){
+		rotation_x = -45.0f;
+		rotation_y = 0.0f;
+		rotation_z = 45.0f;
+		translation_x = 0.0f;
+		translation_y = 0.0f;
+		updateGLView = true;
 	}
 }

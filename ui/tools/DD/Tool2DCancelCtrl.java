@@ -1,5 +1,13 @@
-package ui.tools;
+package ui.tools.DD;
 
+import org.eclipse.swt.events.MouseEvent;
+
+import ui.tools.ToolCtrl2D;
+import ui.tools.ToolModel;
+import backend.adt.ParamSet;
+import backend.global.AvoGlobal;
+import backend.model.Sketch;
+import backend.model.sketch.Prim2DList;
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -24,9 +32,33 @@ package ui.tools;
 //
 
 /*
-* @author  Adam Kumpf
-* @created Feb. 2007
-*/
-public interface ToolInterface3D3D extends ToolInterface{
+ * @author  Adam Kumpf
+ * @created Feb. 2007
+ */
+public class Tool2DCancelCtrl implements ToolCtrl2D {
+	/**
+	 * All of the tool's main controller functionality:
+	 * (mouse handling, button clicking, etc.) 
+	 */
+	public Tool2DCancelCtrl() {
+	}
+
+	public void glMouseDown(double x, double y, double z, MouseEvent e) {
+	}
+
+	public void glMouseDrag(double x, double y, double z, MouseEvent e) {
+	}
+
+	public void glMouseUp(double x, double y, double z, MouseEvent e) {
+	}
+
+	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
+	}
+
+	public void menuetToolSelected() {
+		AvoGlobal.menuet.
+	}
+
+
 
 }

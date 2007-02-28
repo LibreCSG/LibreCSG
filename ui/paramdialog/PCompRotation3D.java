@@ -19,6 +19,7 @@ import backend.adt.Param;
 import backend.adt.ParamNotCorrectTypeException;
 import backend.adt.ParamSet;
 import backend.adt.Rotation3D;
+import backend.global.AvoColors;
 import backend.global.AvoGlobal;
 
 
@@ -250,11 +251,11 @@ public class PCompRotation3D extends ParamComp{
 		//
 		if(p.isDerivedParam()){
 			tx.setEditable(false);
-			tx.setBackground(AvoGlobal.COLOR_PARAM_DERIVED);	
+			tx.setBackground(AvoColors.COLOR_PARAM_DERIVED);	
 			ty.setEditable(false);
-			ty.setBackground(AvoGlobal.COLOR_PARAM_DERIVED);
+			ty.setBackground(AvoColors.COLOR_PARAM_DERIVED);
 			tz.setEditable(false);
-			tz.setBackground(AvoGlobal.COLOR_PARAM_DERIVED);
+			tz.setBackground(AvoColors.COLOR_PARAM_DERIVED);
 		}
 		
 		//

@@ -22,6 +22,7 @@ import ui.event.ParamListener;
 import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.data.utilities.ImageUtils;
+import backend.global.AvoColors;
 import backend.global.AvoGlobal;
 
 
@@ -79,7 +80,7 @@ public class DynParamDialog {
 		
 		paramCompMain = new Composite(comp,SWT.NONE);
 		paramCompMain.setBounds(10,10,bodyWidth,bodyHeight);
-		paramCompMain.setBackground(AvoGlobal.COLOR_PARAM_BG);
+		paramCompMain.setBackground(AvoColors.COLOR_PARAM_BG);
 		paramCompMain.setBounds(1,1,bodyWidth,bodyHeight);
 		spComp = new ScrolledComposite(paramCompMain, SWT.V_SCROLL);
 		spComp.setBounds(BORDER_WIDTH,BORDER_WIDTH,bodyWidth-2*BORDER_WIDTH,bodyHeight-2*BORDER_WIDTH);
@@ -92,17 +93,17 @@ public class DynParamDialog {
 		
 		paramCompTab = new Composite(comp,SWT.NONE);
 		paramCompTab.setBounds(10,0,TAB_WIDTH,TAB_HEIGHT);
-		paramCompTab.setBackground(AvoGlobal.COLOR_PARAM_BG);	
+		paramCompTab.setBackground(AvoColors.COLOR_PARAM_BG);	
 		paramCompTab.setBounds(1,1,TAB_WIDTH,TAB_HEIGHT);
 		tabLabel = new Label(paramCompTab, SWT.NONE);
 		tabLabel.setText("");
 		tabLabel.setBounds(BORDER_WIDTH,BORDER_WIDTH,TAB_TEXT_WIDTH-2*BORDER_WIDTH,TAB_HEIGHT-BORDER_WIDTH);
-		tabLabel.setBackground(AvoGlobal.COLOR_PARAM_BG);
+		tabLabel.setBackground(AvoColors.COLOR_PARAM_BG);
 		
 		int bWidth = TAB_WIDTH-TAB_TEXT_WIDTH-BORDER_WIDTH;
 		Button bOK = new Button(paramCompTab, SWT.PUSH);
 		bOK.setBounds(TAB_TEXT_WIDTH,BORDER_WIDTH,bWidth,TAB_HEIGHT-BORDER_WIDTH);
-		bOK.setBackground(AvoGlobal.COLOR_PARAM_BG);
+		bOK.setBackground(AvoColors.COLOR_PARAM_BG);
 		bOK.setToolTipText("OK");
 		bOK.addPaintListener(new PaintListener(){
 			public void paintControl(PaintEvent e) {

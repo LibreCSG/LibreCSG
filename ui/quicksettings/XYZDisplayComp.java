@@ -9,6 +9,7 @@ import org.eclipse.swt.widgets.Label;
 
 import ui.event.GLViewListener;
 import ui.utilities.NumUtils;
+import backend.global.AvoColors;
 import backend.global.AvoGlobal;
 
 
@@ -49,7 +50,7 @@ public class XYZDisplayComp extends Composite{
 		super(parent, style);
 		
 		this.setLayout(new RowLayout(SWT.HORIZONTAL));
-		this.setBackground(AvoGlobal.COLOR_QSET_BG);
+		this.setBackground(AvoColors.COLOR_QSET_BG);
 		
 		FontData fd = new FontData();
 		fd.setHeight(10);
@@ -60,29 +61,29 @@ public class XYZDisplayComp extends Composite{
 		Label llx = new Label(this, SWT.NO_BACKGROUND);
 		llx.setFont(f);
 		llx.setText("X:");
-		llx.setBackground(AvoGlobal.COLOR_QSET_BG);
+		llx.setBackground(AvoColors.COLOR_QSET_BG);
 		lX = new Label(this, SWT.NONE);	
 		lX.setAlignment(SWT.RIGHT);
 		lX.setFont(f);
-		lX.setBackground(AvoGlobal.COLOR_QSET_BG);
+		lX.setBackground(AvoColors.COLOR_QSET_BG);
 		
 		Label lly = new Label(this, SWT.NONE);
 		lly.setFont(f);
 		lly.setText(" Y:");
-		lly.setBackground(AvoGlobal.COLOR_QSET_BG);
+		lly.setBackground(AvoColors.COLOR_QSET_BG);
 		lY = new Label(this, SWT.NONE);
 		lY.setAlignment(SWT.RIGHT);
 		lY.setFont(f);
-		lY.setBackground(AvoGlobal.COLOR_QSET_BG);
+		lY.setBackground(AvoColors.COLOR_QSET_BG);
 		
 		Label llz = new Label(this, SWT.NONE);
 		llz.setFont(f);
 		llz.setText(" Z:");
-		llz.setBackground(AvoGlobal.COLOR_QSET_BG);
+		llz.setBackground(AvoColors.COLOR_QSET_BG);
 		lZ = new Label(this, SWT.NONE);
 		lZ.setAlignment(SWT.RIGHT);
 		lZ.setFont(f);
-		lZ.setBackground(AvoGlobal.COLOR_QSET_BG);
+		lZ.setBackground(AvoColors.COLOR_QSET_BG);
 		
 		updateXYZ();
 		

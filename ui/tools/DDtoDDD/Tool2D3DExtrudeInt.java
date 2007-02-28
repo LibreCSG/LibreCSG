@@ -6,7 +6,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 
 import ui.menuet.Menuet;
-import ui.tools.ToolInterface2D3D;
+import ui.tools.ToolCtrl2D3D;
 import backend.adt.PType;
 import backend.adt.Param;
 import backend.adt.ParamSet;
@@ -45,7 +45,7 @@ import backend.model.sketch.Region2D;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2D3DExtrudeInt implements ToolInterface2D3D{
+public class Tool2D3DExtrudeInt implements ToolCtrl2D3D{
 
 	boolean shiftIsDown = false;
 	

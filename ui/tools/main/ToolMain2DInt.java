@@ -2,7 +2,7 @@ package ui.tools.main;
 
 import org.eclipse.swt.events.MouseEvent;
 
-import ui.tools.ToolInterfaceMain;
+import ui.tools.ToolCtrlMain;
 import backend.adt.PType;
 import backend.adt.ParamSet;
 import backend.adt.Point3D;
@@ -35,7 +35,7 @@ import backend.adt.Rotation3D;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class ToolMain2DInt implements ToolInterfaceMain{
+public class ToolMain2DInt implements ToolCtrlMain{
 
 	// The Sketch Creation/Param Management interface	
 	

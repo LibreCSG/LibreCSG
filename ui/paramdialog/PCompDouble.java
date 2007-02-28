@@ -18,6 +18,7 @@ import backend.adt.PType;
 import backend.adt.Param;
 import backend.adt.ParamNotCorrectTypeException;
 import backend.adt.ParamSet;
+import backend.global.AvoColors;
 import backend.global.AvoGlobal;
 
 
@@ -140,7 +141,7 @@ public class PCompDouble extends ParamComp{
 		//
 		if(p.isDerivedParam()){
 			tD.setEditable(false);
-			tD.setBackground(AvoGlobal.COLOR_PARAM_DERIVED);			
+			tD.setBackground(AvoColors.COLOR_PARAM_DERIVED);			
 		}		
 		
 		//

@@ -44,11 +44,9 @@ import ui.menuet.MenuetElement;
  *   - handling of tool-related events in the GLview
  *   - construction of elements via GL primatives
  */
-public abstract class Tool{
+public abstract class ToolView{
 
 	public MenuetElement mElement = null;
-	
-	public ToolInterface toolInterface;
 	
 	/**
 	 * once the MenuetElement and other
@@ -58,7 +56,6 @@ public abstract class Tool{
 	 * to the tool gorup.
 	 */
 	abstract public void applyToolGroupSettings();
-	
 	
 	/**
 	 * Defined by each tool group.  This

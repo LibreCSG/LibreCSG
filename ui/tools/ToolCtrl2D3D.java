@@ -1,5 +1,9 @@
 package ui.tools;
 
+import javax.media.opengl.GL;
+
+import backend.model.Feature2D3D;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -27,8 +31,8 @@ package ui.tools;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public interface ToolInterfaceMain extends ToolInterface {
-	
-	// nothing here for now.. but keeps ToolInterface structure consistent for all Tools.
+public interface ToolCtrl2D3D extends ToolCtrl{
+
+	abstract public void draw3DFeature(GL gl, Feature2D3D feat2D3D);
 	
 }

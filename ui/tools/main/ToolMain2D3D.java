@@ -6,7 +6,7 @@ import org.eclipse.swt.widgets.MessageBox;
 import ui.menuet.MEButton;
 import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
-import ui.tools.ToolMain;
+import ui.tools.ToolViewMain;
 import backend.data.utilities.ImageUtils;
 import backend.global.AvoGlobal;
 import backend.model.Sketch;
@@ -38,7 +38,7 @@ import backend.model.Sketch;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class ToolMain2D3D extends ToolMain{
+public class ToolMain2D3D extends ToolViewMain{
 
 	public ToolMain2D3D(Menuet menuet){	
 		

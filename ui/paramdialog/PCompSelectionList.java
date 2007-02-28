@@ -20,6 +20,7 @@ import backend.adt.Param;
 import backend.adt.ParamNotCorrectTypeException;
 import backend.adt.ParamSet;
 import backend.adt.SelectionList;
+import backend.global.AvoColors;
 import backend.global.AvoGlobal;
 
 public class PCompSelectionList extends ParamComp{
@@ -144,9 +145,9 @@ public class PCompSelectionList extends ParamComp{
 	void setBGColor(){		
 		SelectionList sl = getParamData();		
 		if(sl.isSatisfied){
-			selComp.setBackground(AvoGlobal.COLOR_PARAM_SEL_SAT);
+			selComp.setBackground(AvoColors.COLOR_PARAM_SEL_SAT);
 		}else{
-			selComp.setBackground(AvoGlobal.COLOR_PARAM_SEL_UNSAT);
+			selComp.setBackground(AvoColors.COLOR_PARAM_SEL_UNSAT);
 		}		
 	}
 }

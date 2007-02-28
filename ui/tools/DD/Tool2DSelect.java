@@ -3,7 +3,7 @@ package ui.tools.DD;
 import ui.menuet.MEButton;
 import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
-import ui.tools.Tool2D;
+import ui.tools.ToolView2D;
 import backend.data.utilities.ImageUtils;
 import backend.global.AvoGlobal;
 
@@ -34,7 +34,7 @@ import backend.global.AvoGlobal;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DSelect extends Tool2D{
+public class Tool2DSelect extends ToolView2D{
 
 	public Tool2DSelect(Menuet menuet){	
 		

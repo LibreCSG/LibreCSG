@@ -1,8 +1,5 @@
 package backend.global;
 
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Display;
-
 import ui.event.GLViewEventHandler;
 import ui.event.ModelEventHandler;
 import ui.event.ParamEventHandler;
@@ -11,6 +8,7 @@ import ui.opengl.GLView;
 import ui.opengl.RenderLevel;
 import ui.paramdialog.DynParamDialog;
 import ui.treeviewer.TreeViewer;
+import backend.adt.ParamSet;
 import backend.model.Project;
 
 
@@ -40,41 +38,16 @@ import backend.model.Project;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class AvoGlobal {
 
-	
-	// TODO: move all colors to a new class -- AvoColors
-	/**
-	 * Background color of Menuet in various modes.
-	 */
-	public static final Color COLOR_MENUET_MAIN   = new Color(Display.getCurrent(),  230,  230,  230);
-	public static final Color COLOR_MENUET_2D     = new Color(Display.getCurrent(),  180,  240,  180);
-	public static final Color COLOR_MENUET_2Dto3D = new Color(Display.getCurrent(),  180,  180,  240);
-	public static final Color COLOR_MENUET_3D     = new Color(Display.getCurrent(),  220,  220,  180);
-	
-	/**
-	 * colors for special menuet buttons
-	 */
-	public static final Color COLOR_MENUET_DONE_MO = new Color(Display.getCurrent(),  200,  255,  200);
-	public static final Color COLOR_MENUET_DONE_US = new Color(Display.getCurrent(),  230,  255,  230);
-	public static final Color COLOR_MENUET_CNCL_MO = new Color(Display.getCurrent(),  255,  200,  200);
-	public static final Color COLOR_MENUET_CNCL_US = new Color(Display.getCurrent(),  255,  230,  230);	
-	public static final Color COLOR_MENUET_TLBX_MO = new Color(Display.getCurrent(),  200,  200,  255);
-	public static final Color COLOR_MENUET_TLBX_US = new Color(Display.getCurrent(),  220,  220,  255);
-	
-	/**
-	 * colors for parameter dialog
-	 */
-	public static final Color COLOR_PARAM_BG       = new Color(Display.getCurrent(),  220,  210,  240);
-	public static final Color COLOR_PARAM_DERIVED  = new Color(Display.getCurrent(),  220,  220,  240);
-	public static final Color COLOR_PARAM_SEL_SAT  = new Color(Display.getCurrent(),  160,  240,  160);
-	public static final Color COLOR_PARAM_SEL_UNSAT= new Color(Display.getCurrent(),  240,  160,  160);
-	
-	/**
-	 * colors for QuickSettings bar
-	 */
-	public static final Color COLOR_QSET_BG = new Color(Display.getCurrent(),  220,  220,  240);
-	
+/**
+ * avoCADo's main global variables.  Refernces to global state
+ * should be made sparingly if possible to reduce the amount of
+ * cross-linked and depenedent code.  however, many methods may
+ * require information about other parts of the application and
+ * access via this global state is preffered over directly accessing
+ * information in generally unrelated classes.
+ */
+public class AvoGlobal {
 
 	/**
 	 * The main interaction menu.
@@ -82,22 +55,30 @@ public class AvoGlobal {
 	 * prioritization of elements.
 	 */
 	public static Menuet menuet;
+	//	 TODO: make Menuet private
 	
 	/**
 	 * The main 3D viewport
 	 */
 	public static GLView glView;
+	//	 TODO: make GLView private
 	
 	/**
 	 * The dynamically displayed parameter Dialog
 	 */
 	public static DynParamDialog paramDialog;
+	//	 TODO: make DynParamDialog private
+	
+	public static void setActiveParamSet(ParamSet paramSet){
+		paramDialog.setParamSet(paramSet);
+	}
+	
 	
 	/**
 	 * The tree view of the current Project
 	 */
 	public static TreeViewer treeViewer;
-	
+	//	 TODO: make TreeViewer private	
 	
 
 	//public static Tool currentTool     = null;
@@ -120,15 +101,6 @@ public class AvoGlobal {
 	public static double  gridSize    = 1.0;  
 	public static double  snapSize    = 0.5;
 	public static boolean snapEnabled = true;
-	
-	//
-	//  glView Colors
-	//
-	public static final float[] GL_COLOR4_BACKGND    = new float[] {0.95f, 0.95f, 1.0f, 1.0f};
-	public static final float[] GL_COLOR4_GRID_DARK  = new float[] {0.6f, 0.6f, 0.6f, 1.0f}; 
-	public static final float[] GL_COLOR4_GRID_LIGHT = new float[] {0.8f, 0.8f, 0.8f, 1.0f}; 
-	public static final float[] GL_COLOR4_2D_NONACT  = new float[] {0.2f, 0.4f, 0.9f, 1.0f}; 
-	public static final float[] GL_COLOR4_2D_ACTIVE  = new float[] {1.0f, 0.5f, 0.0f, 1.0f}; 
 	
 
 	// TODO: perhaps move event handler just into their own static selves instead of AvoGlobal?
