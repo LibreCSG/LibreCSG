@@ -2,7 +2,7 @@ package ui.tools.DD;
 
 import org.eclipse.swt.events.MouseEvent;
 
-import ui.tools.ToolInterface2D;
+import ui.tools.ToolCtrl2D;
 import backend.adt.ParamSet;
 import backend.global.AvoGlobal;
 import backend.model.Sketch;
@@ -34,7 +34,7 @@ import backend.model.sketch.Prim2DList;
  * @author  Adam Kumpf
  * @created Feb. 2007
  */
-public class Tool2DDoneInt implements ToolInterface2D {
+public class Tool2DDoneInt implements ToolCtrl2D {
 	/**
 	 * All of the tool's main functionality mouse handling, glView drawing,
 	 * parameter storage, etc.

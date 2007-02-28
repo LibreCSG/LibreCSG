@@ -5,7 +5,7 @@ import org.eclipse.swt.events.MouseListener;
 
 import ui.utilities.ColorUtils;
 import backend.data.utilities.ImageUtils;
-import backend.global.AvoGlobal;
+import backend.global.AvoColors;
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -45,15 +45,15 @@ public class METoolbox{
 		toolboxButton.mePreferredHeight = 50;
 		toolboxButton.setToolTipText("Toolbox of all possible tools that \n" +
 				       				 "can be used in the current mode.");
-		toolboxButton.meColorMouseOver  = AvoGlobal.COLOR_MENUET_TLBX_MO;
-		toolboxButton.meColorUnselected = AvoGlobal.COLOR_MENUET_TLBX_US;
+		toolboxButton.meColorMouseOver  = AvoColors.COLOR_MENUET_TLBX_MO;
+		toolboxButton.meColorUnselected = AvoColors.COLOR_MENUET_TLBX_US;
 		toolboxButton.meColorBackground = ColorUtils.getModeBGColorByMode(mode);		
 		toolboxButton.addMouseListener(new MouseListener(){
 			public void mouseDoubleClick(MouseEvent e) {		
 			}
 			public void mouseDown(MouseEvent e) {
 				// TODO: show the toolbox of all the current mode's tools
-				System.out.println("Open the toolbox!");			
+				System.out.println("Open the toolbox! (not implemented yet)  :[  ");			
 			}
 			public void mouseUp(MouseEvent e) {				
 			}			
@@ -65,8 +65,8 @@ public class METoolbox{
 		lastToolButton.mePreferredHeight = 50;
 		lastToolButton.meDispOptions = MenuetElement.ME_TEXT_ONLY;
 		lastToolButton.mePriority = 6; // start out not showing lastTool button
-		lastToolButton.meColorMouseOver  = AvoGlobal.COLOR_MENUET_TLBX_MO;
-		lastToolButton.meColorUnselected = AvoGlobal.COLOR_MENUET_TLBX_US;
+		lastToolButton.meColorMouseOver  = AvoColors.COLOR_MENUET_TLBX_MO;
+		lastToolButton.meColorUnselected = AvoColors.COLOR_MENUET_TLBX_US;
 		lastToolButton.meColorBackground = ColorUtils.getModeBGColorByMode(mode);
 	}
 	

@@ -6,7 +6,7 @@ import org.eclipse.swt.events.MouseEvent;
 
 import backend.adt.ParamSet;
 import backend.model.Feature2D3D;
-import ui.tools.ToolInterface2D3D;
+import ui.tools.ToolCtrl2D3D;
 
 
 //
@@ -35,7 +35,7 @@ import ui.tools.ToolInterface2D3D;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2D3DDoneInt implements ToolInterface2D3D{
+public class Tool2D3DDoneInt implements ToolCtrl2D3D{
 
 	public void draw3DFeature(GL gl, Feature2D3D feat2D3D) {
 	}

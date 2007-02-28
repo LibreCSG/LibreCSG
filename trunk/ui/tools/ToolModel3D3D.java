@@ -1,9 +1,4 @@
-package ui.tools.main;
-
-import org.eclipse.swt.events.MouseEvent;
-
-import ui.tools.ToolCtrlMain;
-import backend.adt.ParamSet;
+package ui.tools;
 
 
 //
@@ -32,29 +27,6 @@ import backend.adt.ParamSet;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class ToolMainNoneInt implements ToolCtrlMain{
-
-	public void glMouseDown(double x, double y, double z, MouseEvent e) {
-	}
-
-	public void glMouseDrag(double x, double y, double z, MouseEvent e) {
-	}
-
-	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
-	}
-
-	public void glMouseUp(double x, double y, double z, MouseEvent e) {
-	}
-
-	public boolean paramSetIsValid(ParamSet paramSet) {
-		return false;
-	}
-
-	public void updateDerivedParams(ParamSet paramSet) {
-		// no derived params for this feature.		
-	}
-
-	public void finalize(ParamSet paramSet) {
-	}
+public interface ToolModel3D3D extends ToolModel{
 
 }

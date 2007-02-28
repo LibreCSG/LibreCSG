@@ -1,8 +1,7 @@
 package ui.tools;
 
-import javax.media.opengl.GL;
-
-import backend.model.Feature2D3D;
+import backend.adt.ParamSet;
+import backend.model.sketch.Prim2DList;
 
 
 //
@@ -31,8 +30,13 @@ import backend.model.Feature2D3D;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public interface ToolInterface2D3D extends ToolInterface{
+public interface ToolModel2D extends ToolModel{
 
-	abstract public void draw3DFeature(GL gl, Feature2D3D feat2D3D);
+	/**
+	 * build the 2D feature from a ParamSet. 
+	 * @param paramSet a <em>valid</em> ParamSet for the given ToolInterface2D
+	 * @return Prim2DList of drawable 2D primitaves, or <b>null</b> if no Prim2D to be added.
+	 */
+	abstract Prim2DList buildPrim2DList(ParamSet paramSet);
 	
 }

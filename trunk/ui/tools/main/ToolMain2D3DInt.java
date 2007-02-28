@@ -2,7 +2,7 @@ package ui.tools.main;
 
 import org.eclipse.swt.events.MouseEvent;
 
-import ui.tools.ToolInterfaceMain;
+import ui.tools.ToolCtrlMain;
 import backend.adt.ParamSet;
 
 
@@ -32,7 +32,7 @@ import backend.adt.ParamSet;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class ToolMain2D3DInt implements ToolInterfaceMain{
+public class ToolMain2D3DInt implements ToolCtrlMain{
 
 	public void glMouseDown(double x, double y, double z, MouseEvent e) {
 	}

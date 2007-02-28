@@ -3,7 +3,8 @@ package backend.adt;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
-import ui.tools.ToolInterface;
+import ui.tools.ToolCtrl;
+import ui.tools.ToolModel;
 
 
 //
@@ -35,13 +36,13 @@ import ui.tools.ToolInterface;
 public class ParamSet {
 
 	public String label;
-	protected ToolInterface toolInterface;
+	protected ToolCtrl  toolInterface;
 	protected LinkedHashMap <String,Param>paramSet = new LinkedHashMap<String,Param>();
 	
 	/**
 	 * construct a new parameter set.
 	 */
-	public ParamSet(String label, ToolInterface toolInterface){
+	public ParamSet(String label, ToolCtrl toolInterface){
 		this.label = label;
 		if(toolInterface == null){
 			System.out.println(" *** WARNING *** ParamSet was given a NULL ToolInterface.  This is a bad idea!");
@@ -54,7 +55,7 @@ public class ParamSet {
 	 * and manipulate the parameter set.
 	 * @return the tool interface
 	 */
-	public ToolInterface getToolInterface(){
+	public ToolCtrl getToolInterface(){
 		return toolInterface;
 	}
 	

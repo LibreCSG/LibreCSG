@@ -1,6 +1,6 @@
 package ui.menuet;
 
-import ui.tools.DD.Tool2DCancel;
+import ui.tools.DD.Tool2DCancelView;
 import ui.tools.DD.Tool2DCircle;
 import ui.tools.DD.Tool2DDone;
 import ui.tools.DD.Tool2DLine;
@@ -12,6 +12,7 @@ import ui.tools.DDtoDDD.Tool2D3DRevolve;
 import ui.tools.main.ToolMain2D;
 import ui.tools.main.ToolMain2D3D;
 import ui.tools.main.ToolMainNone;
+import backend.global.AvoColors;
 import backend.global.AvoGlobal;
 
 
@@ -55,10 +56,10 @@ public class MenuetBuilder {
 		//  TOOL MODE:  2D
 		//
 		new Tool2DDone(menuet);
-		new Tool2DCancel(menuet);
+		new Tool2DCancelView(menuet);
 		
 		MELabel label2D = new MELabel(menuet,Menuet.MENUET_MODE_2D);
-		label2D.meColorBackground = AvoGlobal.COLOR_MENUET_2D;
+		label2D.meColorBackground = AvoColors.COLOR_MENUET_2D;
 		label2D.meLabel = "2D";
 		label2D.textIsBold = true;
 		
@@ -78,7 +79,7 @@ public class MenuetBuilder {
 		new Tool2D3DDone(menuet);
 		
 		MELabel label2D3D = new MELabel(menuet,Menuet.MENUET_MODE_2Dto3D);
-		label2D3D.meColorBackground = AvoGlobal.COLOR_MENUET_2Dto3D;
+		label2D3D.meColorBackground = AvoColors.COLOR_MENUET_2Dto3D;
 		label2D3D.meLabel = "2Dto3D";
 		label2D3D.textIsBold = true;
 		
@@ -90,7 +91,7 @@ public class MenuetBuilder {
 		//  TOOL MODE:  Main
 		//
 		MELabel labelMAIN = new MELabel(menuet,Menuet.MENUET_MODE_MAIN);
-		labelMAIN.meColorBackground = AvoGlobal.COLOR_MENUET_MAIN;
+		labelMAIN.meColorBackground = AvoColors.COLOR_MENUET_MAIN;
 		labelMAIN.meLabel = "Tools";
 		labelMAIN.textIsBold = true;
 		

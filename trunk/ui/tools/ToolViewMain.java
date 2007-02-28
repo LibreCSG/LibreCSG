@@ -1,9 +1,10 @@
-package ui.tools.main;
+package ui.tools;
 
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 
-import ui.tools.ToolCtrlMain;
-import backend.adt.ParamSet;
+import ui.menuet.Menuet;
+import backend.global.AvoColors;
 
 
 //
@@ -32,29 +33,31 @@ import backend.adt.ParamSet;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class ToolMainNoneInt implements ToolCtrlMain{
+public abstract class ToolViewMain extends ToolView {
 
-	public void glMouseDown(double x, double y, double z, MouseEvent e) {
+	/**
+	 * This is applied only after the MenuetElement
+	 * has been created to add on functionality
+	 * common to all tools in the gorup.
+	 */
+	public void applyToolGroupSettings() {
+		if(mElement != null){
+			mElement.meColorBackground = AvoColors.COLOR_MENUET_MAIN;
+			mElement.addMouseListener(new MouseListener(){
+				public void mouseDoubleClick(MouseEvent e) {
+				}
+				public void mouseDown(MouseEvent e) {
+					toolSelected();
+				}
+				public void mouseUp(MouseEvent e) {
+				}				
+			});
+		}
 	}
 
-	public void glMouseDrag(double x, double y, double z, MouseEvent e) {
+	public int getToolMode() {
+		return Menuet.MENUET_MODE_MAIN;
 	}
 
-	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
-	}
-
-	public void glMouseUp(double x, double y, double z, MouseEvent e) {
-	}
-
-	public boolean paramSetIsValid(ParamSet paramSet) {
-		return false;
-	}
-
-	public void updateDerivedParams(ParamSet paramSet) {
-		// no derived params for this feature.		
-	}
-
-	public void finalize(ParamSet paramSet) {
-	}
-
+	
 }

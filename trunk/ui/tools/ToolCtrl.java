@@ -31,7 +31,12 @@ import backend.adt.ParamSet;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public interface ToolInterface {
+
+/**
+ * All of the tool's main controller functionality:
+ * (mouse handling, button clicking, etc.) 
+ */
+public interface ToolCtrl {
 	
 	/**
 	 * glView calls this when it recieved a <em>mousedown</em> event.
@@ -80,27 +85,11 @@ public interface ToolInterface {
 	abstract public void glMouseUp(double x, double y, double z,  MouseEvent e);
 	
 	/**
-	 * Finalize the ParamSet for the given tool.  For example, this will 
-	 * be called when the "done" button of the ParamDialog is clicked 
-	 * for a particular tool.
-	 * @param paramSet the set of parameters to finalize via this ToolInterface.
+	 * This is called by the menuet element (the tool's view)
+	 * when the element is clicked or otherwise selected.
 	 */
-	abstract public void finalize(ParamSet paramSet);
+	abstract public void menuetToolSelected();
 	
-	/**
-	 * verify that the parameter data is in fact valid/complete.
-	 * This include checks of each expected element in the set
-	 * for inclusion in the set and that it is the correct type.
-	 * @param paramSet ParamSet to be checked.
-	 * @return true iff paramSet is valid for the given ToolInterface
-	 */
-	abstract public boolean paramSetIsValid(ParamSet paramSet);
-	
-	/**
-	 * update all derived params in the ParamSet if any exist via this ToolInterface.
-	 * @param paramSet a <em>valid</em> paramSet for the given ToolInterface.
-	 */	
-	abstract public void updateDerivedParams(ParamSet paramSet);
 	
 }
 

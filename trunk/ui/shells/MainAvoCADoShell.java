@@ -20,6 +20,7 @@ import ui.paramdialog.DynParamDialog;
 import ui.quicksettings.QuickSettings;
 import ui.treeviewer.TreeViewer;
 import backend.data.utilities.ImageUtils;
+import backend.global.AvoColors;
 import backend.global.AvoGlobal;
 
 //
@@ -111,7 +112,7 @@ public class MainAvoCADoShell{
 		AvoGlobal.menuet = new Menuet(shell, SWT.NONE);
 		// put all of the elements onto the menuet!	
 		MenuetBuilder.buildMenuet(AvoGlobal.menuet); 
-		AvoGlobal.menuet.setBackground(AvoGlobal.COLOR_MENUET_MAIN);
+		AvoGlobal.menuet.setBackground(AvoColors.COLOR_MENUET_MAIN);
 		GridData gd0 = new GridData(GridData.FILL_VERTICAL);
 		gd0.grabExcessVerticalSpace = true;
 		gd0.widthHint = Menuet.MENUET_WIDTH;

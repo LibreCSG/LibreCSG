@@ -3,7 +3,7 @@ package ui.tools.main;
 import ui.menuet.MEButton;
 import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
-import ui.tools.ToolMain;
+import ui.tools.ToolViewMain;
 import backend.data.utilities.ImageUtils;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D3D;
@@ -11,7 +11,7 @@ import backend.model.Group;
 import backend.model.Part;
 import backend.model.Sketch;
 
-public class ToolMainNone extends ToolMain{
+public class ToolMainNone extends ToolViewMain{
 
 	
 	//

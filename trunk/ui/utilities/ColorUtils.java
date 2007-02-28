@@ -4,6 +4,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 
 import ui.menuet.Menuet;
+import backend.global.AvoColors;
 import backend.global.AvoGlobal;
 
 
@@ -45,19 +46,19 @@ public class ColorUtils {
 		Color clr;
 		switch(mode){
 			case(Menuet.MENUET_MODE_MAIN):{
-				clr = AvoGlobal.COLOR_MENUET_MAIN;
+				clr = AvoColors.COLOR_MENUET_MAIN;
 				break;
 			}			
 			case(Menuet.MENUET_MODE_2D):{
-				clr = AvoGlobal.COLOR_MENUET_2D;
+				clr = AvoColors.COLOR_MENUET_2D;
 				break;
 			}
 			case(Menuet.MENUET_MODE_2Dto3D):{
-				clr = AvoGlobal.COLOR_MENUET_2Dto3D;
+				clr = AvoColors.COLOR_MENUET_2Dto3D;
 				break;
 			}
 			case(Menuet.MENUET_MODE_3D):{
-				clr = AvoGlobal.COLOR_MENUET_3D;
+				clr = AvoColors.COLOR_MENUET_3D;
 				break;
 			}
 			default:{

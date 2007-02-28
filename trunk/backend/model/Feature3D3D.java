@@ -3,7 +3,7 @@ package backend.model;
 import java.util.LinkedList;
 import java.util.List;
 
-import ui.tools.ToolInterface3D3D;
+import ui.tools.ToolCtrl3D3D;
 import backend.adt.ParamSet;
 import backend.global.AvoGlobal;
 
@@ -37,13 +37,13 @@ import backend.global.AvoGlobal;
 public class Feature3D3D implements SubPart{
 
 	protected List<SubPart> subPartList     = new LinkedList<SubPart>();
-	protected ToolInterface3D3D toolInt3D3D = null;
+	protected ToolCtrl3D3D toolInt3D3D = null;
 	public    ParamSet paramSet             = null;
 	
 	protected Part part;
 	protected int ID;
 	
-	public Feature3D3D(Part part, ToolInterface3D3D toolInt3D3D, ParamSet paramSet, int ID){
+	public Feature3D3D(Part part, ToolCtrl3D3D toolInt3D3D, ParamSet paramSet, int ID){
 		this.part = part;
 		this.paramSet = paramSet;
 		this.toolInt3D3D = toolInt3D3D;

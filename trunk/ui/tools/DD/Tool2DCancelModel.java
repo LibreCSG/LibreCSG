@@ -1,12 +1,11 @@
 package ui.tools.DD;
 
-import org.eclipse.swt.events.MouseEvent;
-
-import ui.tools.ToolInterface2D;
 import backend.adt.ParamSet;
 import backend.global.AvoGlobal;
 import backend.model.Sketch;
 import backend.model.sketch.Prim2DList;
+import ui.tools.ToolModel2D;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -31,33 +30,10 @@ import backend.model.sketch.Prim2DList;
 //
 
 /*
- * @author  Adam Kumpf
- * @created Feb. 2007
- */
-public class Tool2DCancelInt implements ToolInterface2D {
-	/**
-	 * All of the tool's main functionality mouse handling, glView drawing,
-	 * parameter storage, etc.
-	 * 
-	 */
-	public Tool2DCancelInt() {
-	}
-
-	public void glMouseDown(double x, double y, double z, MouseEvent e) {
-	}
-
-	public void glMouseDrag(double x, double y, double z, MouseEvent e) {
-	}
-
-	public void glMouseUp(double x, double y, double z, MouseEvent e) {
-	}
-
-	public Prim2DList buildPrimList(ParamSet p) {
-		return null;
-	}
-
-	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
-	}
+* @author  Adam Kumpf
+* @created Feb. 2007
+*/
+public class Tool2DCancelModel implements ToolModel2D{
 
 	public boolean paramSetIsValid(ParamSet paramSet) {
 		return false;
@@ -73,5 +49,8 @@ public class Tool2DCancelInt implements ToolInterface2D {
 			sketch.deselectAllFeat2D();
 		}
 	}
-
+	
+	public Prim2DList buildPrim2DList(ParamSet p) {
+		return null;
+	}
 }

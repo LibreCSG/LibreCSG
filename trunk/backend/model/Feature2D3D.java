@@ -1,6 +1,6 @@
 package backend.model;
 
-import ui.tools.ToolInterface2D3D;
+import ui.tools.ToolCtrl2D3D;
 import backend.adt.ParamSet;
 
 
@@ -32,7 +32,7 @@ import backend.adt.ParamSet;
 */
 public class Feature2D3D implements SubPart{
 	
-	public    ToolInterface2D3D toolInt2D3D = null;
+	public    ToolCtrl2D3D toolInt2D3D = null;
 	public    ParamSet          paramSet    = null;
 	
 	protected int primarySketchID;

@@ -7,7 +7,7 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.widgets.Composite;
 
-import ui.tools.Tool;
+import ui.tools.ToolView;
 import ui.utilities.ColorUtils;
 import backend.global.AvoGlobal;
 
@@ -64,7 +64,7 @@ public class Menuet extends Composite{
 	 * the actual functionality of the tool that is currently
 	 * selected.
 	 */
-	public Tool currentTool;
+	public ToolView currentTool;
 	
 	
 	/**

@@ -56,6 +56,15 @@ public class AvoMenuBar {
 			miFile.setMenu(fileSub);
 			MenuItem fsNew = new MenuItem(fileSub, SWT.PUSH);
 			fsNew.setText("&New");
+			fsNew.addSelectionListener(new SelectionListener(){
+				public void widgetDefaultSelected(SelectionEvent e) {					
+				}
+				public void widgetSelected(SelectionEvent e) {
+					// TODO Create new project, after checking to make sure
+					//      current project is either empty or no new changes 
+					//      have been made since the last save.
+				}				
+			});
 			MenuItem fsQuit = new MenuItem(fileSub, SWT.PUSH);
 			fsQuit.setText("&Quit");
 			fsQuit.addSelectionListener(new SelectionListener(){
@@ -80,12 +89,21 @@ public class AvoMenuBar {
 			Menu viewSub = new Menu(menu.getShell(), SWT.DROP_DOWN);
 			miView.setMenu(viewSub);
 			MenuItem vsTop = new MenuItem(viewSub, SWT.PUSH);
-			vsTop.setText("Top");
+			vsTop.setText("&Top");
 			vsTop.addSelectionListener(new SelectionListener(){
 				public void widgetDefaultSelected(SelectionEvent e) {
 				}
 				public void widgetSelected(SelectionEvent e) {
 					AvoGlobal.glView.setViewTop();
+				}				
+			});
+			MenuItem vsIso = new MenuItem(viewSub, SWT.PUSH);
+			vsIso.setText("&Isometric");
+			vsIso.addSelectionListener(new SelectionListener(){
+				public void widgetDefaultSelected(SelectionEvent e) {
+				}
+				public void widgetSelected(SelectionEvent e) {
+					AvoGlobal.glView.setViewIso();
 				}				
 			});
 		}

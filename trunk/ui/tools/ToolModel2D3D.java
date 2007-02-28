@@ -1,11 +1,5 @@
 package ui.tools;
 
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
-
-import ui.menuet.Menuet;
-import backend.global.AvoGlobal;
-
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -33,31 +27,6 @@ import backend.global.AvoGlobal;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public abstract class ToolMain extends Tool {
+public interface ToolModel2D3D extends ToolModel{
 
-	/**
-	 * This is applied only after the MenuetElement
-	 * has been created to add on functionality
-	 * common to all tools in the gorup.
-	 */
-	public void applyToolGroupSettings() {
-		if(mElement != null){
-			mElement.meColorBackground = AvoGlobal.COLOR_MENUET_MAIN;
-			mElement.addMouseListener(new MouseListener(){
-				public void mouseDoubleClick(MouseEvent e) {
-				}
-				public void mouseDown(MouseEvent e) {
-					toolSelected();
-				}
-				public void mouseUp(MouseEvent e) {
-				}				
-			});
-		}
-	}
-
-	public int getToolMode() {
-		return Menuet.MENUET_MODE_MAIN;
-	}
-
-	
 }
