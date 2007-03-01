@@ -1,10 +1,7 @@
-package ui.tools.DDtoDDD;
+package ui.tools.toolMain;
 
-import javax.media.opengl.GL;
-
+import ui.tools.ToolModelMain;
 import backend.adt.ParamSet;
-import backend.model.Feature2D3D;
-import ui.tools.ToolModel2D3D;
 
 
 //
@@ -25,7 +22,7 @@ import ui.tools.ToolModel2D3D;
 //GNU General Public License for more details.
 //
 //You should have received a copy of the GNU General Public License
-//along with AvoCADo; if not, write to the Free Software
+//along with AvoCADo; if not, write to the Free Softwares
 //Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
@@ -33,12 +30,9 @@ import ui.tools.ToolModel2D3D;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2D3DDoneModel implements ToolModel2D3D{
+public class ToolMain2D3DModel implements ToolModelMain{
 
-	public void draw3DFeature(GL gl, Feature2D3D feat2D3D) {
-	}
-
-	public void finalize(ParamSet paramSet) {
+	public void finalize(ParamSet paramSet) {		
 	}
 
 	public boolean paramSetIsValid(ParamSet paramSet) {
