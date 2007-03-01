@@ -1,7 +1,7 @@
 package ui.menuet;
 
 import ui.tools.DD.Tool2DCancelView;
-import ui.tools.DD.Tool2DCircle;
+import ui.tools.DD.Tool2DCircleView;
 import ui.tools.DD.Tool2DDone;
 import ui.tools.DD.Tool2DLine;
 import ui.tools.DD.Tool2DRect;
@@ -9,9 +9,8 @@ import ui.tools.DD.Tool2DSelect;
 import ui.tools.DDtoDDD.Tool2D3DDone;
 import ui.tools.DDtoDDD.Tool2D3DExtrude;
 import ui.tools.DDtoDDD.Tool2D3DRevolve;
-import ui.tools.main.ToolMain2D;
-import ui.tools.main.ToolMain2D3D;
-import ui.tools.main.ToolMainNone;
+import ui.tools.main.ToolMain2D3DView;
+import ui.tools.main.ToolMain2DView;
 import backend.global.AvoColors;
 import backend.global.AvoGlobal;
 
@@ -64,7 +63,7 @@ public class MenuetBuilder {
 		label2D.textIsBold = true;
 		
 		new Tool2DLine(menuet);
-		new Tool2DCircle(menuet);
+		new Tool2DCircleView(menuet);
 		new Tool2DRect(menuet);
 		
 		
@@ -95,12 +94,9 @@ public class MenuetBuilder {
 		labelMAIN.meLabel = "Tools";
 		labelMAIN.textIsBold = true;
 		
-		new ToolMain2D(menuet);
-		new ToolMain2D3D(menuet);
-		ToolMainNone tmn = new ToolMainNone(menuet);
-		AvoGlobal.menuet.currentTool = tmn;
-		AvoGlobal.menuet.currentToolMode = Menuet.MENUET_MODE_MAIN;
-		
+		new ToolMain2DView(menuet);
+		new ToolMain2D3DView(menuet);
+		AvoGlobal.menuet.currentToolMode = Menuet.MENUET_MODE_MAIN;		
 		
 	}
 	

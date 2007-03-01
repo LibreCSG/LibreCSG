@@ -7,6 +7,7 @@ import ui.menuet.Menuet;
 import ui.opengl.GLView;
 import ui.opengl.RenderLevel;
 import ui.paramdialog.DynParamDialog;
+import ui.tools.ToolCtrl;
 import ui.treeviewer.TreeViewer;
 import backend.adt.ParamSet;
 import backend.model.Project;
@@ -72,6 +73,9 @@ public class AvoGlobal {
 	public static void setActiveParamSet(ParamSet paramSet){
 		paramDialog.setParamSet(paramSet);
 	}
+	
+	
+	public static ToolCtrl activeToolController = null;
 	
 	
 	/**

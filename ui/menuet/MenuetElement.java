@@ -68,9 +68,11 @@ public abstract class MenuetElement extends Canvas{
 	public boolean isSelected  = false;
 	
 	private boolean isShown = false;
+	public final int toolMode;
 	
-	public MenuetElement(Composite parent) {
+	public MenuetElement(Composite parent, int mode) {
 		super(parent, SWT.NONE);
+		this.toolMode = mode;
 		this.addPaintListener(new PaintListener(){
 			public void paintControl(PaintEvent e) {
 				paintElement(e);

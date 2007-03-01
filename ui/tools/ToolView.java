@@ -1,6 +1,7 @@
 package ui.tools;
 
 import ui.menuet.MenuetElement;
+import backend.global.AvoGlobal;
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -65,6 +66,68 @@ public abstract class ToolView{
 	 */
 	abstract public int  getToolMode();
 	
+	/**
+	 * <b>Setup the application to operate via a different tool / mode.</b><br>
+	 * Typically the majority of the functionality can be easily accomplished 
+	 * by making a call to either changeMenuetTool() or changeMenuetToolMode().  
+	 */
 	abstract public void toolSelected();
+	
+	/**
+	 * changes the menuet tool by: <br>
+	 *   - (1) call menuetElementDeselected() (via the active controller in AvoGlobal) if != NULL.<br>
+	 *   - (2) update the state of the menuet to reflect selection changes (via selectButton)<br>
+	 *   - (3) set the active tool controller (via AvoGlobal) to match the menuet's mode.<br>
+	 *   - (4) call menuetElementSelected() for this tool<br><br>	  
+	 * 
+	 * @param mElement MenuetElement to set as selected
+	 * @param toolCtrl ToolController to use for mouse/keyboard/etc. interfaces
+	 */
+	protected void changeMenuetTool(MenuetElement mElement, ToolCtrl toolCtrl){
+		// (1) call menuetElementDeselected() (via the active controller in AvoGlobal) if != NULL.
+		if(AvoGlobal.activeToolController != null){
+			AvoGlobal.activeToolController.menuetElementDeselected();
+		}
+		
+		// (2) update the state of the menuet to reflect selection changes (via selectButton)
+		AvoGlobal.menuet.selectButton(mElement);
+		
+		// (3) set the active tool controller (via AvoGlobal) to match the menuet's mode.
+		AvoGlobal.activeToolController = toolCtrl;
+		
+		// (4) call menuetToolSelected() for this tool
+		if(toolCtrl != null){
+			toolCtrl.menuetElementSelected();		
+		}
+	}
+	
+	/**
+	 * changes the menuet tool by: <br>
+	 *   - (1) call menuetElementDeselected() (via the active controller in AvoGlobal) if != NULL.<br>
+	 *   - (2) update the state of the menuet to reflect the desired mode (via setCurrentToolMode)<br>
+	 *   - (3) set the active tool controller (via AvoGlobal) to match the menuet's mode.<br>
+	 *   - (4) call menuetElementSelected() for this tool<br><br>	  
+	 * 
+	 * @param mode Menuet tool mode to select (Menuet.MENUET_MODE_???)
+	 * @param toolCtrl ToolController to use for mouse/keyboard/etc. interfaces
+	 */
+	protected void changeMenuetToolMode(int mode, ToolCtrl toolCtrl){
+		// (1) call menuetElementDeselected() (via the active controller in AvoGlobal) if != NULL.
+		if(AvoGlobal.activeToolController != null){
+			AvoGlobal.activeToolController.menuetElementDeselected();
+		}
+
+		// (2) update the state of the menuet to reflect the desired mode (via setCurrentToolMode)
+		AvoGlobal.menuet.setCurrentToolMode(mode);
+		
+		// (3) set the active tool controller (via AvoGlobal) to match the menuet's mode.
+		AvoGlobal.activeToolController = toolCtrl;
+		
+		// (4) call menuetToolSelected() for this tool
+		if(toolCtrl != null){
+			toolCtrl.menuetElementSelected();
+		}
+		
+	}
 	
 }

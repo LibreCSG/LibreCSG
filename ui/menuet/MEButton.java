@@ -42,7 +42,7 @@ public class MEButton extends MenuetElement{
 	boolean mouseIsOver = false;
 	
 	public MEButton(Menuet menuet, int mode){
-		super(menuet);
+		super(menuet, mode);
 		
 		// let menuet know about the new element
 		menuet.addMenuetElement(this, mode); 

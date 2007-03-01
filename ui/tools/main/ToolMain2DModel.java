@@ -1,12 +1,8 @@
 package ui.tools.main;
 
-import org.eclipse.swt.events.MouseEvent;
-
-import ui.tools.ToolCtrlMain;
 import backend.adt.PType;
 import backend.adt.ParamSet;
-import backend.adt.Point3D;
-import backend.adt.Rotation3D;
+import ui.tools.ToolModelMain;
 
 
 //
@@ -35,20 +31,9 @@ import backend.adt.Rotation3D;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class ToolMain2DInt implements ToolCtrlMain{
+public class ToolMain2DModel implements ToolModelMain{
 
-	// The Sketch Creation/Param Management interface	
-	
-	public void glMouseDown(double x, double y, double z, MouseEvent e) {
-	}
-
-	public void glMouseDrag(double x, double y, double z, MouseEvent e) {
-	}
-
-	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
-	}
-
-	public void glMouseUp(double x, double y, double z, MouseEvent e) {
+	public void finalize(ParamSet paramSet) {
 	}
 
 	public boolean paramSetIsValid(ParamSet paramSet) {
@@ -65,11 +50,6 @@ public class ToolMain2DInt implements ToolCtrlMain{
 	}
 
 	public void updateDerivedParams(ParamSet paramSet) {
-		// no derived params for this feature.
-		
-	}
-
-	public void finalize(ParamSet paramSet) {
 	}
 
 }

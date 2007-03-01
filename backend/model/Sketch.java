@@ -1,20 +1,16 @@
 package backend.model;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import ui.tools.main.ToolMain2DInt;
+import ui.tools.main.ToolMain2DModel;
 import backend.adt.Param;
 import backend.adt.ParamSet;
-import backend.adt.Point2D;
 import backend.adt.Point3D;
 import backend.adt.Rotation3D;
 import backend.global.AvoGlobal;
 import backend.model.sketch.Prim2D;
-import backend.model.sketch.Prim2DCycle;
 import backend.model.sketch.Prim2DList;
-import backend.model.sketch.PrimPair2D;
 import backend.model.sketch.Region2D;
 import backend.model.sketch.Region2DList;
 
@@ -69,8 +65,8 @@ public class Sketch implements SubPart{
 	public Sketch(Part part, int ID){
 		this.part = part;
 		this.ID = ID;
-		// TODO: need sketch tool interface!!
-		paramSet = new ParamSet("Sketch", new ToolMain2DInt());
+		// TODO: need sketch tool interface -- stange way to do this? (sketch tool)? !!
+		paramSet = new ParamSet("Sketch", new ToolMain2DModel());
 		paramSet.addParam("o", new Param("Offset", new Point3D(0.0, 0.0, 0.0)));
 		paramSet.addParam("r", new Param("Rotation", new Rotation3D(0.0, 0.0, 0.0)));
 		paramSet.label = "Sketch";
