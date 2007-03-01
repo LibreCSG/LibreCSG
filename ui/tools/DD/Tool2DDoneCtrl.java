@@ -2,11 +2,10 @@ package ui.tools.DD;
 
 import org.eclipse.swt.events.MouseEvent;
 
-import ui.tools.ToolCtrl2D;
-import backend.adt.ParamSet;
 import backend.global.AvoGlobal;
 import backend.model.Sketch;
-import backend.model.sketch.Prim2DList;
+
+import ui.tools.ToolCtrl2D;
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -34,13 +33,13 @@ import backend.model.sketch.Prim2DList;
  * @author  Adam Kumpf
  * @created Feb. 2007
  */
-public class Tool2DDoneInt implements ToolCtrl2D {
+public class Tool2DDoneCtrl implements ToolCtrl2D {
 	/**
 	 * All of the tool's main functionality mouse handling, glView drawing,
 	 * parameter storage, etc.
 	 * 
 	 */
-	public Tool2DDoneInt() {
+	public Tool2DDoneCtrl() {
 	}
 
 	public void glMouseDown(double x, double y, double z, MouseEvent e) {
@@ -52,26 +51,26 @@ public class Tool2DDoneInt implements ToolCtrl2D {
 	public void glMouseUp(double x, double y, double z, MouseEvent e) {
 	}
 
-	public Prim2DList buildPrimList(ParamSet p) {
-		return null;
-	}
-
 	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
 	}
 
-	public boolean paramSetIsValid(ParamSet paramSet) {
-		return false;
+	public void menuetElementDeselected() {
 	}
 
-	public void updateDerivedParams(ParamSet paramSet) {
-		// no derived params for this feature.
-	}
-
-	public void finalize(ParamSet paramSet) {
+	public void menuetElementSelected() {
 		Sketch sketch = AvoGlobal.project.getActiveSketch();
+
 		if(sketch != null){
-			sketch.deselectAllFeat2D();
+			if(sketch.getFeat2DListSize() == 0){
+				// if sketch has no Feature2D, then discard it.
+				AvoGlobal.project.getActivePart().removeActiveSubPart();
+			}else{
+				// deselect Feat2D and keep the sketch.
+				sketch.deselectAllFeat2D();			
+			}
 		}
 	}
+
+
 
 }

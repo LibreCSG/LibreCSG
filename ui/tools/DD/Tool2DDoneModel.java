@@ -1,16 +1,10 @@
 package ui.tools.DD;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.MouseEvent;
-
-import ui.tools.ToolCtrl2D;
 import backend.adt.ParamSet;
-import backend.adt.Point2D;
 import backend.global.AvoGlobal;
-import backend.model.Feature2D;
 import backend.model.Sketch;
-import backend.model.sketch.Prim2D;
 import backend.model.sketch.Prim2DList;
+import ui.tools.ToolModel2D;
 
 
 //
@@ -39,59 +33,10 @@ import backend.model.sketch.Prim2DList;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DSelectInt implements ToolCtrl2D {
-	
-	boolean shiftIsDown = false;
-	
-	/**
-	 * All of the tool's main functionality
-	 * mouse handling, glView drawing, 
-	 * parameter storage, etc.
-	 *
-	 */
-	public Tool2DSelectInt(){		
-	}
-	
-	public void glMouseDown(double x, double y, double z,  MouseEvent e) {
-		Sketch sketch = AvoGlobal.project.getActiveSketch();
-		if(sketch != null){		
-			
-			if((e.stateMask & SWT.SHIFT) != 0){
-				shiftIsDown = true;
-			}else{
-				shiftIsDown = false;
-			}
-			if(!shiftIsDown){				
-				sketch.deselectAllFeat2D();
-			}
-	
-			//
-			// iterate over all features in the current set to see if they've been clicked
-			//
-			for(int i = 0; i < sketch.getFeat2DListSize(); i++){
-				Feature2D f2D = sketch.getAtIndex(i);
-				for(Prim2D prim2D : f2D.prim2DList){
-					if(prim2D.distFromPrim(new Point2D(x,y)) < 0.2){
-						f2D.isSelected = true;
-					}
-				}
-			}
-			AvoGlobal.glView.updateGLView = true;
-			
-		}
-	}
+public class Tool2DDoneModel implements ToolModel2D{
 
-	public void glMouseDrag(double x, double y, double z,  MouseEvent e) {
-	}
-
-	public void glMouseUp(double x, double y, double z,  MouseEvent e) {
-	}
-
-	public Prim2DList buildPrimList(ParamSet p) {
+	public Prim2DList buildPrim2DList(ParamSet paramSet) {
 		return null;
-	}
-
-	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
 	}
 
 	public boolean paramSetIsValid(ParamSet paramSet) {

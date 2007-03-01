@@ -3,15 +3,12 @@ package ui.tools.DD;
 import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolCtrl2D;
-import backend.adt.PType;
 import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D;
 import backend.model.Sketch;
-import backend.model.sketch.Prim2DLine;
-import backend.model.sketch.Prim2DList;
 
 
 //
@@ -40,7 +37,7 @@ import backend.model.sketch.Prim2DList;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DRectInt implements ToolCtrl2D {
+public class Tool2DRectCtrl implements ToolCtrl2D {
 
 	/**
 	 * All of the tool's main functionality
@@ -48,7 +45,7 @@ public class Tool2DRectInt implements ToolCtrl2D {
 	 * parameter storage, etc.
 	 *
 	 */
-	public Tool2DRectInt(){		
+	public Tool2DRectCtrl(){		
 	}
 	
 	public void glMouseDown(double x, double y, double z,  MouseEvent e) {
@@ -62,7 +59,7 @@ public class Tool2DRectInt implements ToolCtrl2D {
 			//
 			// Build parameter set for this feature
 			//
-			ParamSet pSet = new ParamSet("Rectangle", this);
+			ParamSet pSet = new ParamSet("Rectangle", new Tool2DRectModel());
 			pSet.addParam("a", new Param("Pt.A", new Point2D(x,y)));
 			pSet.addParam("b", new Param("Pt.B", new Point2D(x,y)));
 			Param width = new Param("Width", 0.0);
@@ -75,7 +72,7 @@ public class Tool2DRectInt implements ToolCtrl2D {
 			//
 			// add the new feature to the end of the feature set
 			// and set it as the active feature2D.		
-			int indx = sketch.add(new Feature2D(sketch, this, pSet));
+			int indx = sketch.add(new Feature2D(sketch, new Tool2DRectModel(), pSet));
 			sketch.setActiveFeat2D(indx);
 			
 			//
@@ -101,7 +98,7 @@ public class Tool2DRectInt implements ToolCtrl2D {
 			//
 			try{
 				paramSet.changeParam("b", new Point2D(x,y));
-				updateDerivedParams(paramSet);
+				(new Tool2DRectModel()).updateDerivedParams(paramSet);
 			}catch(Exception ex){
 				System.out.println(ex.getClass());
 			}		
@@ -121,7 +118,7 @@ public class Tool2DRectInt implements ToolCtrl2D {
 			//
 			try{
 				paramSet.changeParam("b", new Point2D(x,y));
-				updateDerivedParams(paramSet);
+				(new Tool2DRectModel()).updateDerivedParams(paramSet);
 				
 				Point2D ptA = paramSet.getParam("a").getDataPoint2D();
 				Point2D ptB = paramSet.getParam("b").getDataPoint2D();
@@ -140,59 +137,16 @@ public class Tool2DRectInt implements ToolCtrl2D {
 		}		
 	}
 
-	public Prim2DList buildPrimList(ParamSet paramSet) {
-		try{
-			Point2D ptA  = paramSet.getParam("a").getDataPoint2D();
-			Point2D ptB  = paramSet.getParam("b").getDataPoint2D();
-			Point2D ptAB = new Point2D(ptA.getX(),ptB.getY());
-			Point2D ptBA = new Point2D(ptB.getX(),ptA.getY());
-			Prim2DList primList = new Prim2DList();
-			primList.add(new Prim2DLine(ptA,ptAB));
-			primList.add(new Prim2DLine(ptA,ptBA));
-			primList.add(new Prim2DLine(ptB,ptAB));
-			primList.add(new Prim2DLine(ptB,ptBA));
-			return primList;
-		}catch(Exception ex){
-			System.out.println(ex.getClass());
-		}
-		return null;
-	}
+
 
 	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
 	}
 
-	public boolean paramSetIsValid(ParamSet paramSet) {
-		//		 ParamSet:  "Rectangle"
-		// --------------------------------
-		// # "a"  ->  "Pt.A"    <Point2D>
-		// # "b"  ->  "Pt.B"    <Point2D>
-		// # "w"  ->  "Width"   <Double> @derived
-		// # "h"  ->  "Height"  <Double> @derived
-		// --------------------------------		
-		boolean isValid = (	paramSet != null &&
-							paramSet.label == "Rectangle" &&
-							paramSet.hasParam("a", PType.Point2D) &&
-							paramSet.hasParam("b", PType.Point2D) &&
-							paramSet.hasParam("w", PType.Double) &&
-							paramSet.hasParam("h", PType.Double));
-		return isValid;
+	public void menuetElementDeselected() {		
 	}
 
-	public void updateDerivedParams(ParamSet paramSet) {
-		try{
-			Point2D ptA = paramSet.getParam("a").getDataPoint2D();
-			Point2D ptB = paramSet.getParam("b").getDataPoint2D();
-			paramSet.changeParam("w", Math.abs(ptA.getX() - ptB.getX()));
-			paramSet.changeParam("h", Math.abs(ptA.getY() - ptB.getY()));
-		}catch(Exception ex){
-			System.out.println(ex.getClass());
-		}		
+	public void menuetElementSelected() {
 	}
 
-	public void finalize(ParamSet paramSet) {
-		Sketch sketch = AvoGlobal.project.getActiveSketch();
-		if(sketch != null){
-			sketch.deselectAllFeat2D();
-		}
-	}
+
 }
