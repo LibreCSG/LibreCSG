@@ -38,9 +38,9 @@ import backend.model.Sketch;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class ToolMain2D3D extends ToolViewMain{
+public class ToolMain2D3DView extends ToolViewMain{
 
-	public ToolMain2D3D(Menuet menuet){	
+	public ToolMain2D3DView(Menuet menuet){	
 		
 		// initialize GUI elements
 		mElement = new MEButton(menuet, this.getToolMode());
@@ -52,8 +52,6 @@ public class ToolMain2D3D extends ToolViewMain{
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
 		
 		this.applyToolGroupSettings();	// APPLY MAIN GROUP SETTINGS
-		
-		toolInterface = new ToolMain2D3DInt();
 	}
 
 	@Override
@@ -68,11 +66,12 @@ public class ToolMain2D3D extends ToolViewMain{
 							"list of elements.");
 			m.setText("Please select a sketch");
 			m.open();
-		}else{
+		}else{			
 			// there is a sketch active!
-			AvoGlobal.menuet.disableAllTools();
-			AvoGlobal.menuet.setCurrentToolMode(Menuet.MENUET_MODE_2Dto3D);
-			AvoGlobal.menuet.updateToolModeDisplayed();	
+			
+			changeMenuetToolMode(Menuet.MENUET_MODE_2Dto3D, new ToolMain2D3DCtrl());
+			
+			// TODO: Building should not be done in the view!!
 			sketch.buildRegions();
 			
 			int i = AvoGlobal.project.getActivePart().addNewFeat2D3D(sketch.getID());

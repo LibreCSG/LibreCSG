@@ -36,13 +36,13 @@ import ui.tools.ToolModel;
 public class ParamSet {
 
 	public String label;
-	protected ToolCtrl  toolInterface;
+	protected ToolModel  toolInterface;
 	protected LinkedHashMap <String,Param>paramSet = new LinkedHashMap<String,Param>();
 	
 	/**
 	 * construct a new parameter set.
 	 */
-	public ParamSet(String label, ToolCtrl toolInterface){
+	public ParamSet(String label, ToolModel toolInterface){
 		this.label = label;
 		if(toolInterface == null){
 			System.out.println(" *** WARNING *** ParamSet was given a NULL ToolInterface.  This is a bad idea!");
@@ -55,7 +55,7 @@ public class ParamSet {
 	 * and manipulate the parameter set.
 	 * @return the tool interface
 	 */
-	public ToolCtrl getToolInterface(){
+	public ToolModel getToolInterface(){
 		return toolInterface;
 	}
 	

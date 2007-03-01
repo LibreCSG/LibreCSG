@@ -160,19 +160,18 @@ public class GLView {
 				// let current tool know that the left mouse has been clicked
 				//
 				if(mouse_down_button == MOUSE_LEFT && 
-						AvoGlobal.menuet.currentTool != null && 
-						AvoGlobal.menuet.currentTool.toolInterface != null){
+						AvoGlobal.activeToolController != null){
 					double[] coor = getWorldCoorFromMouse(e.x,e.y);
-					AvoGlobal.menuet.currentTool.toolInterface.glMouseDown(coor[0], coor[1], coor[2], e);
+					AvoGlobal.activeToolController.glMouseDown(coor[0], coor[1], coor[2], e);
 					updateGLView = true;
 				}				
 			}
 			public void mouseUp(MouseEvent e) {
 				if(mouse_down_button == MOUSE_LEFT && 
 						glCanvas.getBounds().contains(e.x,e.y) && 
-						(AvoGlobal.menuet.currentTool != null && AvoGlobal.menuet.currentTool.toolInterface != null)){
+						(AvoGlobal.activeToolController != null)){
 					double[] coor = getWorldCoorFromMouse(e.x,e.y);
-					AvoGlobal.menuet.currentTool.toolInterface.glMouseUp(coor[0], coor[1], coor[2], e);					
+					AvoGlobal.activeToolController.glMouseUp(coor[0], coor[1], coor[2], e);					
 				}
 				mouse_down_button = -1;
 				updateGLView = true;
@@ -218,12 +217,11 @@ public class GLView {
 				if(glCanvas.getBounds().contains(e.x,e.y)){
 					updateGLView = true;
 					double[] coor = getWorldCoorFromMouse(e.x,e.y);
-					if(AvoGlobal.menuet.currentTool != null && AvoGlobal.menuet.currentTool.toolInterface != null){
+					if(AvoGlobal.activeToolController != null){
 						if(mouse_down_button == MOUSE_LEFT){
-							AvoGlobal.menuet.currentTool.toolInterface.glMouseDrag(coor[0], coor[1], coor[2], e);
+							AvoGlobal.activeToolController.glMouseDrag(coor[0], coor[1], coor[2], e);
 						}else{
 							if(mouse_down_button == -1){
-								AvoGlobal.menuet.currentTool.toolInterface.glMouseMovedUp(coor[0], coor[1], coor[2], e);
 							}
 						}
 					}
@@ -342,7 +340,7 @@ public class GLView {
 						if(mouse_down_button != MOUSE_MIDDLE && 
 								mouse_down_button != MOUSE_MIDDLE_SHIFT && 
 								mouse_down_button != MOUSE_MIDDLE_CTRL &&
-								AvoGlobal.menuet.currentTool != null){
+								AvoGlobal.activeToolController != null){
 							drawToolEndPos();
 						}
 

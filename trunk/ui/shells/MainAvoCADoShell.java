@@ -118,7 +118,6 @@ public class MainAvoCADoShell{
 		gd0.widthHint = Menuet.MENUET_WIDTH;
 		gd0.minimumWidth = Menuet.MENUET_WIDTH;
 		AvoGlobal.menuet.setLayoutData(gd0);
-		AvoGlobal.menuet.updateToolModeDisplayed();
 		
 		
 		//

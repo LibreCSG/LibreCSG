@@ -1,10 +1,12 @@
-package ui.tools.DD;
+package ui.tools.main;
 
 import org.eclipse.swt.events.MouseEvent;
 
 import backend.global.AvoGlobal;
+import backend.model.Sketch;
 
-import ui.tools.ToolCtrl2D;
+import ui.tools.ToolCtrlMain;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -29,40 +31,45 @@ import ui.tools.ToolCtrl2D;
 //
 
 /*
- * @author  Adam Kumpf
- * @created Feb. 2007
- */
-public class Tool2DCancelCtrl implements ToolCtrl2D {
-	/**
-	 * All of the tool's main controller functionality:
-	 * (mouse handling, button clicking, etc.) 
-	 */
-	public Tool2DCancelCtrl() {
-	}
-
+* @author  Adam Kumpf
+* @created Feb. 2007
+*/
+public class ToolMain2DCtrl implements ToolCtrlMain{
+	
 	public void glMouseDown(double x, double y, double z, MouseEvent e) {
 	}
 
 	public void glMouseDrag(double x, double y, double z, MouseEvent e) {
 	}
 
-	public void glMouseUp(double x, double y, double z, MouseEvent e) {
+	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
 	}
 
-	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
+	public void glMouseUp(double x, double y, double z, MouseEvent e) {
 	}
 
 	public void menuetElementDeselected() {
 	}
 
 	public void menuetElementSelected() {
-		// TODO: remove sketch when Cancel is pushed.
-		//       this should also force the TreeViewer to rebuild itself.
+		//
+		// create new Feature3D to use for subsequent 2D sketches
+		//
+		if(AvoGlobal.project.getActiveGroup() == null){
+			int i = AvoGlobal.project.addNewGroup();
+			AvoGlobal.project.setActiveGroup(i);
+		}
+		if(AvoGlobal.project.getActivePart() == null){
+			int i = AvoGlobal.project.getActiveGroup().addNewPart();
+			AvoGlobal.project.getActiveGroup().setActivePart(i);
+		}
 		
-		AvoGlobal.setActiveParamSet(null);					
-		AvoGlobal.glView.updateGLView = true;
+		int i = AvoGlobal.project.getActivePart().addNewSketch();
+		AvoGlobal.project.getActivePart().setActiveSubPart(i);
+		Sketch sketch = AvoGlobal.project.getActiveSketch();
+		if(sketch != null){
+			AvoGlobal.paramDialog.setParamSet(sketch.paramSet);
+		}
 	}
-
-
 
 }

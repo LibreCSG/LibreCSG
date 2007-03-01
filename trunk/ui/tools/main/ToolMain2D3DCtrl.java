@@ -3,7 +3,6 @@ package ui.tools.main;
 import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolCtrlMain;
-import backend.adt.ParamSet;
 
 
 //
@@ -32,7 +31,7 @@ import backend.adt.ParamSet;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class ToolMainNoneInt implements ToolCtrlMain{
+public class ToolMain2D3DCtrl implements ToolCtrlMain{
 
 	public void glMouseDown(double x, double y, double z, MouseEvent e) {
 	}
@@ -46,15 +45,10 @@ public class ToolMainNoneInt implements ToolCtrlMain{
 	public void glMouseUp(double x, double y, double z, MouseEvent e) {
 	}
 
-	public boolean paramSetIsValid(ParamSet paramSet) {
-		return false;
+	public void menuetElementDeselected() {
 	}
 
-	public void updateDerivedParams(ParamSet paramSet) {
-		// no derived params for this feature.		
-	}
-
-	public void finalize(ParamSet paramSet) {
+	public void menuetElementSelected() {
 	}
 
 }

@@ -1,9 +1,10 @@
 package ui.tools.main;
 
-import org.eclipse.swt.events.MouseEvent;
-
-import ui.tools.ToolCtrlMain;
-import backend.adt.ParamSet;
+import ui.menuet.MEButton;
+import ui.menuet.Menuet;
+import ui.menuet.MenuetElement;
+import ui.tools.ToolViewMain;
+import backend.data.utilities.ImageUtils;
 
 
 //
@@ -24,7 +25,7 @@ import backend.adt.ParamSet;
 //GNU General Public License for more details.
 //
 //You should have received a copy of the GNU General Public License
-//along with AvoCADo; if not, write to the Free Software
+//along with AvoCADo; if not, write to the Free Softwares
 //Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
@@ -32,29 +33,25 @@ import backend.adt.ParamSet;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class ToolMain2D3DInt implements ToolCtrlMain{
+public class ToolMain2DView extends ToolViewMain{
 
-	public void glMouseDown(double x, double y, double z, MouseEvent e) {
+	public ToolMain2DView(Menuet menuet){	
+		
+		// initialize GUI elements
+		mElement = new MEButton(menuet, this.getToolMode());
+		mElement.mePreferredHeight = 100;
+		mElement.meLabel = "2D";
+		mElement.meIcon = ImageUtils.getIcon("menuet/MAIN_2D.png", 24, 24);
+		mElement.setToolTipText("2D Sketch Mode");
+		mElement.mePriority = 0; 	// 0 = always show element, >5 = never show element
+		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
+		
+		this.applyToolGroupSettings();	// APPLY MAIN GROUP SETTINGS
 	}
 
-	public void glMouseDrag(double x, double y, double z, MouseEvent e) {
-	}
-
-	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
-	}
-
-	public void glMouseUp(double x, double y, double z, MouseEvent e) {
-	}
-
-	public boolean paramSetIsValid(ParamSet paramSet) {
-		return false;
-	}
-
-	public void updateDerivedParams(ParamSet paramSet) {
-		// no derived params for this feature.
-	}
-
-	public void finalize(ParamSet paramSet) {
+	@Override
+	public void toolSelected() {
+		changeMenuetToolMode(Menuet.MENUET_MODE_2D, new ToolMain2DCtrl());
 	}
 
 }

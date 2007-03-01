@@ -3,15 +3,12 @@ package ui.tools.DD;
 import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolCtrl2D;
-import backend.adt.PType;
 import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D;
 import backend.model.Sketch;
-import backend.model.sketch.Prim2DArc;
-import backend.model.sketch.Prim2DList;
 
 
 //
@@ -40,7 +37,7 @@ import backend.model.sketch.Prim2DList;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DCircleInt implements ToolCtrl2D  {
+public class Tool2DCircleCtrl implements ToolCtrl2D  {
 
 	/**
 	 * All of the tool's main functionality
@@ -48,7 +45,7 @@ public class Tool2DCircleInt implements ToolCtrl2D  {
 	 * parameter storage, etc.
 	 *
 	 */
-	public Tool2DCircleInt(){
+	public Tool2DCircleCtrl(){
 	}
 	
 	
@@ -63,14 +60,14 @@ public class Tool2DCircleInt implements ToolCtrl2D  {
 			//
 			// Build parameter set for this feature
 			//
-			ParamSet pSet = new ParamSet("Circle", this);
+			ParamSet pSet = new ParamSet("Circle", new Tool2DCircleModel());
 			pSet.addParam("c", new Param("Center", new Point2D(x,y)));
 			pSet.addParam("r", new Param("Radius", 0.0));
 			
 			//
 			// add the new feature to the end of the feature set
 			// and set it as the active feature2D.		
-			int indx = sketch.add(new Feature2D(sketch, this, pSet));
+			int indx = sketch.add(new Feature2D(sketch, new Tool2DCircleModel(), pSet));
 			sketch.setActiveFeat2D(indx);
 			
 			//
@@ -131,48 +128,18 @@ public class Tool2DCircleInt implements ToolCtrl2D  {
 		}
 	}
 
-	public Prim2DList buildPrimList(ParamSet paramSet) {
-		try{
-			Point2D ptCenter = paramSet.getParam("c").getDataPoint2D();
-			double  radius   = paramSet.getParam("r").getDataDouble();
-			Prim2DList primList = new Prim2DList();
-			primList.add(new Prim2DArc(ptCenter,radius,0.0,360.0));
-			return primList;
-		}catch(Exception ex){
-			System.out.println(ex.getClass());
-		}
-		return null;
-	}
-
-
 	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
 	}
 
 
-	public boolean paramSetIsValid(ParamSet paramSet) {
-		//		 ParamSet:  "Circle"
-		// --------------------------------
-		// # "c"  ->  "Center"    <Point2D>
-		// # "r"  ->  "Radius"    <Double>
-		// --------------------------------		
-		boolean isValid = (	paramSet != null &&
-							paramSet.label == "Circle" &&
-							paramSet.hasParam("c", PType.Point2D) &&
-							paramSet.hasParam("r", PType.Double));
-		return isValid;
+	public void menuetElementDeselected() {
 	}
 
 
-	public void updateDerivedParams(ParamSet paramSet) {	
-		// no derived params for this feature.
+	public void menuetElementSelected() {
 	}
 
 
-	public void finalize(ParamSet paramSet) {
-		Sketch sketch = AvoGlobal.project.getActiveSketch();
-		if(sketch != null){
-			sketch.deselectAllFeat2D();
-		}
-	}
+
 	
 }

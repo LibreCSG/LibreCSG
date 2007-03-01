@@ -1,12 +1,10 @@
-package ui.tools.main;
+package ui.tools.DD;
 
 import ui.menuet.MEButton;
 import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
-import ui.tools.ToolViewMain;
+import ui.tools.ToolView2D;
 import backend.data.utilities.ImageUtils;
-import backend.global.AvoGlobal;
-import backend.model.Sketch;
 
 
 //
@@ -35,47 +33,25 @@ import backend.model.Sketch;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class ToolMain2D extends ToolViewMain{
+public class Tool2DCircleView extends ToolView2D{
 
-	public ToolMain2D(Menuet menuet){	
+	public Tool2DCircleView(Menuet menuet){	
 		
 		// initialize GUI elements
 		mElement = new MEButton(menuet, this.getToolMode());
-		mElement.mePreferredHeight = 100;
-		mElement.meLabel = "2D";
-		mElement.meIcon = ImageUtils.getIcon("menuet/MAIN_2D.png", 24, 24);
-		mElement.setToolTipText("2D Sketch Mode");
+		mElement.mePreferredHeight = 50;
+		mElement.meLabel = "Circle";
+		mElement.meIcon = ImageUtils.getIcon("menuet/2D_Circle.png", 24, 24);
+		mElement.setToolTipText("Circle");
 		mElement.mePriority = 0; 	// 0 = always show element, >5 = never show element
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
 		
-		this.applyToolGroupSettings();	// APPLY MAIN GROUP SETTINGS
-		
-		toolInterface = new ToolMain2DInt();
+		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
 	}
-
+	
 	@Override
 	public void toolSelected() {
-		AvoGlobal.menuet.disableAllTools();
-		AvoGlobal.menuet.setCurrentToolMode(Menuet.MENUET_MODE_2D);
-		AvoGlobal.menuet.updateToolModeDisplayed();
-		//
-		// create new Feature3D to use for subsequent 2D sketches
-		//
-		if(AvoGlobal.project.getActiveGroup() == null){
-			int i = AvoGlobal.project.addNewGroup();
-			AvoGlobal.project.setActiveGroup(i);
-		}
-		if(AvoGlobal.project.getActivePart() == null){
-			int i = AvoGlobal.project.getActiveGroup().addNewPart();
-			AvoGlobal.project.getActiveGroup().setActivePart(i);
-		}
-		
-		int i = AvoGlobal.project.getActivePart().addNewSketch();
-		AvoGlobal.project.getActivePart().setActiveSubPart(i);
-		Sketch sketch = AvoGlobal.project.getActiveSketch();
-		if(sketch != null){
-			AvoGlobal.paramDialog.setParamSet(sketch.paramSet);
-		}
+		changeMenuetTool(mElement, new Tool2DCircleCtrl());
 	}
-
+	
 }

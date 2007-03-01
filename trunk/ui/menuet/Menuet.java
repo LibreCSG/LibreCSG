@@ -7,9 +7,7 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.widgets.Composite;
 
-import ui.tools.ToolView;
 import ui.utilities.ColorUtils;
-import backend.global.AvoGlobal;
 
 
 //
@@ -59,15 +57,6 @@ public class Menuet extends Composite{
 	protected int  currentToolMode = MENUET_MODE_MAIN;	
 	
 	/**
-	 * The current tool being used.  this is much more than
-	 * just the pretty User-Interface component.. this provides
-	 * the actual functionality of the tool that is currently
-	 * selected.
-	 */
-	public ToolView currentTool;
-	
-	
-	/**
 	 * Array of LinkedLists, each containing all of 
 	 * the button/label/etc. for a particular mode.
 	 */
@@ -105,7 +94,12 @@ public class Menuet extends Composite{
 			System.out.println("invalid tool mode specified.. ignoring setCurrentToolMode call");
 			return;
 		}
-		currentToolMode = toolMode;
+		if(toolMode != currentToolMode){
+			disableAllTools();
+			currentToolMode = toolMode;
+			updateToolModeDisplayed();
+		}
+		
 	}
 	
 	/**
@@ -133,11 +127,11 @@ public class Menuet extends Composite{
 		}
 	}
 	
-	public void updateToolModeDisplayed(){
+	private void updateToolModeDisplayed(){
 		respositionMenuetElements(Menuet.this.getBounds().height,Menuet.this.getBounds().width);
 	}
 	
-	public void disableAllTools(){
+	private void disableAllTools(){
 		for(int i=0; i<MENUET_TOTAL_MODES; i++){
 			Iterator iter = menuetElements[i].iterator();
 			while(iter.hasNext()){
@@ -155,6 +149,12 @@ public class Menuet extends Composite{
 	 * @param me
 	 */
 	public void selectButton(MenuetElement me){
+		int newToolMode = me.toolMode;
+		if(newToolMode != currentToolMode){
+			disableAllTools();
+			currentToolMode = newToolMode;
+			updateToolModeDisplayed();
+		}
 		Iterator iter = menuetElements[currentToolMode].iterator();
 		while(iter.hasNext()){
 			MenuetElement mElement = (MenuetElement)iter.next();

@@ -1,5 +1,7 @@
-package ui.tools;
+package ui.tools.main;
 
+import backend.adt.ParamSet;
+import ui.tools.ToolModel2D3D;
 
 
 //
@@ -20,7 +22,7 @@ package ui.tools;
 //GNU General Public License for more details.
 //
 //You should have received a copy of the GNU General Public License
-//along with AvoCADo; if not, write to the Free Software
+//along with AvoCADo; if not, write to the Free Softwares
 //Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
@@ -28,6 +30,16 @@ package ui.tools;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public interface ToolCtrl2D extends ToolCtrl{
+public class ToolMain2D3DModel implements ToolModel2D3D{
+
+	public void finalize(ParamSet paramSet) {		
+	}
+
+	public boolean paramSetIsValid(ParamSet paramSet) {
+		return false;
+	}
+
+	public void updateDerivedParams(ParamSet paramSet) {
+	}
 
 }

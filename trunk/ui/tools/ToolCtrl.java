@@ -2,8 +2,6 @@ package ui.tools;
 
 import org.eclipse.swt.events.MouseEvent;
 
-import backend.adt.ParamSet;
-
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -88,8 +86,13 @@ public interface ToolCtrl {
 	 * This is called by the menuet element (the tool's view)
 	 * when the element is clicked or otherwise selected.
 	 */
-	abstract public void menuetToolSelected();
+	abstract public void menuetElementSelected();
 	
-	
+	/**
+	 * This is called by the menuet element (the tool's view) when 
+	 * the element is deselected (e.g., another tool is clicked).
+	 * The tool should finalize the activeParamSet if necessary.
+	 */
+	abstract public void menuetElementDeselected();
 }
 

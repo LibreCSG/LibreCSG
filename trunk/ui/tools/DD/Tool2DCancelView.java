@@ -6,7 +6,6 @@ import org.eclipse.swt.widgets.MessageBox;
 import ui.menuet.MEButton;
 import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
-import ui.tools.ToolCtrl2D;
 import ui.tools.ToolView2D;
 import backend.global.AvoColors;
 import backend.global.AvoGlobal;
@@ -56,43 +55,13 @@ public class Tool2DCancelView extends ToolView2D{
 	}
 
 	@Override
-	public void toolSelected() {
-		// 
-		// two actions should always be performed:
-		// (1) update the state of the menuet to reflect selection changes
-		// (2) set the current tool controller (via AvoGlobal) to that which was selected.
-		//
-		
-		//
-		// (1) update menuet's state
-		//
-		
-		
-		//
-		// (2) call to the tool's controller to set it as selected.
-		//
-		ToolCtrl2D toolCtrl = new Tool2DCancelCtrl();
-		toolCtrl.menuetToolSelected();
-		
-		
-		
-		AvoGlobal.paramDialog.finalizeCurrentParams();
+	public void toolSelected() {		
 		MessageBox m = new MessageBox(AvoGlobal.menuet.getShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO);
 		m.setMessage("Are you sure you want to discard ALL changes\nand exit the 2D drawing mode?");
 		m.setText("Discard ALL Changes?");
-		if(m.open() == SWT.YES){		
-			AvoGlobal.menuet.disableAllTools();
-			AvoGlobal.menuet.setCurrentToolMode(Menuet.MENUET_MODE_MAIN);
-			
-			// TODO: remove sketch when Cancel is pushed.
-			//       this should also force the TreeViewer to rebuild itself.
-
-			AvoGlobal.setActiveParamSet(null);
-			
-			AvoGlobal.menuet.currentTool = null;			
-			
-			AvoGlobal.menuet.updateToolModeDisplayed();
-			AvoGlobal.glView.updateGLView = true;
+		if(m.open() == SWT.YES){
+			this.changeMenuetToolMode(Menuet.MENUET_MODE_MAIN, new Tool2DCancelCtrl());
 		}
+
 	}
 }

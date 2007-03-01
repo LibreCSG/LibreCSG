@@ -63,6 +63,7 @@ public class ColorUtils {
 			}
 			default:{
 				clr = new Color(Display.getCurrent(),0,0,0);
+				System.out.println(" *** Unrecognized menuet color mode in ColorUtils");
 				break;
 			}
 		}
