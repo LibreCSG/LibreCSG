@@ -1,8 +1,11 @@
-package ui.tools.DDtoDDD;
+package ui.tools.toolMain;
 
 import org.eclipse.swt.events.MouseEvent;
 
-import ui.tools.ToolCtrl2D3D;
+import backend.global.AvoGlobal;
+import backend.model.Sketch;
+
+import ui.tools.ToolCtrlMain;
 
 
 //
@@ -31,8 +34,8 @@ import ui.tools.ToolCtrl2D3D;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2D3DDoneCtrl implements ToolCtrl2D3D{
-
+public class ToolMain2DCtrl implements ToolCtrlMain{
+	
 	public void glMouseDown(double x, double y, double z, MouseEvent e) {
 	}
 
@@ -49,6 +52,24 @@ public class Tool2D3DDoneCtrl implements ToolCtrl2D3D{
 	}
 
 	public void menuetElementSelected() {
+		//
+		// create new Feature3D to use for subsequent 2D sketches
+		//
+		if(AvoGlobal.project.getActiveGroup() == null){
+			int i = AvoGlobal.project.addNewGroup();
+			AvoGlobal.project.setActiveGroup(i);
+		}
+		if(AvoGlobal.project.getActivePart() == null){
+			int i = AvoGlobal.project.getActiveGroup().addNewPart();
+			AvoGlobal.project.getActiveGroup().setActivePart(i);
+		}
+		
+		int i = AvoGlobal.project.getActivePart().addNewSketch();
+		AvoGlobal.project.getActivePart().setActiveSubPart(i);
+		Sketch sketch = AvoGlobal.project.getActiveSketch();
+		if(sketch != null){
+			AvoGlobal.paramDialog.setParamSet(sketch.paramSet);
+		}
 	}
 
 }

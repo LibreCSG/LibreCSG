@@ -1,15 +1,10 @@
-package ui.tools.main;
-
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.MessageBox;
+package ui.tools.toolMain;
 
 import ui.menuet.MEButton;
 import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
 import ui.tools.ToolViewMain;
 import backend.data.utilities.ImageUtils;
-import backend.global.AvoGlobal;
-import backend.model.Sketch;
 
 
 //
@@ -30,7 +25,7 @@ import backend.model.Sketch;
 //GNU General Public License for more details.
 //
 //You should have received a copy of the GNU General Public License
-//along with AvoCADo; if not, write to the Free Software
+//along with AvoCADo; if not, write to the Free Softwares
 //Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
@@ -38,16 +33,16 @@ import backend.model.Sketch;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class ToolMain2D3DView extends ToolViewMain{
+public class ToolMain2DView extends ToolViewMain{
 
-	public ToolMain2D3DView(Menuet menuet){	
+	public ToolMain2DView(Menuet menuet){	
 		
 		// initialize GUI elements
 		mElement = new MEButton(menuet, this.getToolMode());
 		mElement.mePreferredHeight = 100;
-		mElement.meLabel = "2Dto3D";
-		mElement.meIcon = ImageUtils.getIcon("menuet/MAIN_2Dto3D.png", 24, 24);
-		mElement.setToolTipText("Transform 2D sketches\ninto various 3D shapes.");
+		mElement.meLabel = "2D";
+		mElement.meIcon = ImageUtils.getIcon("menuet/MAIN_2D.png", 24, 24);
+		mElement.setToolTipText("2D Sketch Mode");
 		mElement.mePriority = 0; 	// 0 = always show element, >5 = never show element
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
 		
@@ -56,28 +51,7 @@ public class ToolMain2D3DView extends ToolViewMain{
 
 	@Override
 	public void toolSelected() {
-		Sketch sketch = AvoGlobal.project.getActiveSketch();
-		if(sketch == null || sketch.isConsumed){
-			MessageBox m = new MessageBox(AvoGlobal.menuet.getShell(), SWT.ICON_QUESTION | SWT.OK);
-			m.setMessage(	"You must select an unconsumed sketch before\n" +
-							"any 2Dto3D operations can be performed.\n\n" +
-							"Please create a new sketch or select one\n" +
-							"by double-clicking on it in the project's\n" +
-							"list of elements.");
-			m.setText("Please select a sketch");
-			m.open();
-		}else{			
-			// there is a sketch active!
-			
-			changeMenuetToolMode(Menuet.MENUET_MODE_2Dto3D, new ToolMain2D3DCtrl());
-			
-			// TODO: Building should not be done in the view!!
-			sketch.buildRegions();
-			
-			int i = AvoGlobal.project.getActivePart().addNewFeat2D3D(sketch.getID());
-			AvoGlobal.project.getActivePart().setActiveSubPart(i);
-			
-		}
+		changeMenuetToolMode(Menuet.MENUET_MODE_2D, new ToolMain2DCtrl());
 	}
-	
+
 }

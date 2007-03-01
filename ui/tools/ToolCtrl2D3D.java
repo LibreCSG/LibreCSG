@@ -1,8 +1,5 @@
 package ui.tools;
 
-import javax.media.opengl.GL;
-
-import backend.model.Feature2D3D;
 
 
 //
