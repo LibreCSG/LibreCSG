@@ -1,5 +1,9 @@
 package ui.tools;
 
+import javax.media.opengl.GL;
+
+import backend.model.Feature2D3D;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -29,4 +33,7 @@ package ui.tools;
 */
 public interface ToolModel2D3D extends ToolModel{
 
+	// TODO: should not actually do drawing! (I think?!?)
+	abstract public void draw3DFeature(GL gl, Feature2D3D feat2D3D);
+	
 }

@@ -1,7 +1,8 @@
-package backend.model;
+package ui.tools.DDtoDDD;
 
-import ui.tools.ToolModel2D3D;
-import backend.adt.ParamSet;
+import org.eclipse.swt.events.MouseEvent;
+
+import ui.tools.ToolCtrl2D3D;
 
 
 //
@@ -30,48 +31,24 @@ import backend.adt.ParamSet;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Feature2D3D implements SubPart{
-	
-	public    ToolModel2D3D     toolMod2D3D = null;
-	public    ParamSet          paramSet    = null;
-	
-	protected int primarySketchID;
-	
-	protected Part part;
-	protected int ID;
-	
-	public Feature2D3D(Part part, int primarySketchID, int ID){
-		this.part = part;
-		this.primarySketchID = primarySketchID;
-		this.ID = ID;
-	}	
-	
-	public Part getParentPart(){
-		return this.part;
-	}
-	
-	public int getID(){
-		int newInt = ID;
-		return newInt;
-	}
-	
-	public Sketch getPrimarySketch(){
-		return part.getSketchByID(primarySketchID);
-	}
-	
-	//TODO: handle how sketches are linked to the Feature2D3D (sketch by number?)
-	
-	public Feature2D3D getFeature2D3D() {
-		return this;
+public class Tool2D3DDoneCtrl implements ToolCtrl2D3D{
+
+	public void glMouseDown(double x, double y, double z, MouseEvent e) {
 	}
 
-	public Feature3D3D getFeature3D3D() {
-		return null;
+	public void glMouseDrag(double x, double y, double z, MouseEvent e) {
 	}
 
-	public Sketch getSketch() {
-		return null;
+	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
 	}
-	
-	
+
+	public void glMouseUp(double x, double y, double z, MouseEvent e) {
+	}
+
+	public void menuetElementDeselected() {
+	}
+
+	public void menuetElementSelected() {
+	}
+
 }

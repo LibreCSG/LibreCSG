@@ -2,13 +2,13 @@ package ui.menuet;
 
 import ui.tools.DD.Tool2DCancelView;
 import ui.tools.DD.Tool2DCircleView;
-import ui.tools.DD.Tool2DDone;
-import ui.tools.DD.Tool2DLine;
-import ui.tools.DD.Tool2DRect;
-import ui.tools.DD.Tool2DSelect;
-import ui.tools.DDtoDDD.Tool2D3DDone;
-import ui.tools.DDtoDDD.Tool2D3DExtrude;
-import ui.tools.DDtoDDD.Tool2D3DRevolve;
+import ui.tools.DD.Tool2DDoneView;
+import ui.tools.DD.Tool2DLineView;
+import ui.tools.DD.Tool2DRectView;
+import ui.tools.DD.Tool2DSelectView;
+import ui.tools.DDtoDDD.Tool2D3DDoneView;
+import ui.tools.DDtoDDD.Tool2D3DExtrudeView;
+import ui.tools.DDtoDDD.Tool2D3DRevolveView;
 import ui.tools.main.ToolMain2D3DView;
 import ui.tools.main.ToolMain2DView;
 import backend.global.AvoColors;
@@ -54,7 +54,7 @@ public class MenuetBuilder {
 		//
 		//  TOOL MODE:  2D
 		//
-		new Tool2DDone(menuet);
+		new Tool2DDoneView(menuet);
 		new Tool2DCancelView(menuet);
 		
 		MELabel label2D = new MELabel(menuet,Menuet.MENUET_MODE_2D);
@@ -62,28 +62,28 @@ public class MenuetBuilder {
 		label2D.meLabel = "2D";
 		label2D.textIsBold = true;
 		
-		new Tool2DLine(menuet);
+		new Tool2DLineView(menuet);
 		new Tool2DCircleView(menuet);
-		new Tool2DRect(menuet);
+		new Tool2DRectView(menuet);
 		
 		
 		new METoolbox(menuet,Menuet.MENUET_MODE_2D);
 		
-		new Tool2DSelect(menuet);
+		new Tool2DSelectView(menuet);
 		
 		
 		//
 		//  TOOL MODE:  2Dto3D
 		//
-		new Tool2D3DDone(menuet);
+		new Tool2D3DDoneView(menuet);
 		
 		MELabel label2D3D = new MELabel(menuet,Menuet.MENUET_MODE_2Dto3D);
 		label2D3D.meColorBackground = AvoColors.COLOR_MENUET_2Dto3D;
 		label2D3D.meLabel = "2Dto3D";
 		label2D3D.textIsBold = true;
 		
-		new Tool2D3DExtrude(menuet);
-		new Tool2D3DRevolve(menuet);
+		new Tool2D3DExtrudeView(menuet);
+		new Tool2D3DRevolveView(menuet);
 		
 		
 		//
