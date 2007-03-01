@@ -5,9 +5,7 @@ import javax.media.opengl.GL;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 
-import ui.menuet.Menuet;
 import ui.tools.ToolCtrl2D3D;
-import backend.adt.PType;
 import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
@@ -47,35 +45,13 @@ import backend.model.sketch.Region2D;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2D3DRevolveInt implements ToolCtrl2D3D{
+public class Tool2D3DRevolveCtrl implements ToolCtrl2D3D{
 
 	public void draw3DFeature(GL gl, Feature2D3D feat2D3D) {
 		// TODO Auto-generated method stub
 	}
 
-	public void finalize(ParamSet paramSet) {
-		// finalize revolve and return to main menu
-		Feature2D3D feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
-		if(feat2D3D != null){
-			Sketch sketch = feat2D3D.getPrimarySketch();
-			if(sketch != null){
-				// TODO: only keep feature and consume sketch if selectionLists are all satisfied as well.
-				sketch.isConsumed = true;
-			}else{
-				AvoGlobal.project.getActivePart().removeActiveSubPart();				
-			}
-			
-			AvoGlobal.menuet.disableAllTools();
-			AvoGlobal.menuet.setCurrentToolMode(Menuet.MENUET_MODE_MAIN);
-			AvoGlobal.paramDialog.setParamSet(null);
-			AvoGlobal.menuet.currentTool = null;			
-			AvoGlobal.menuet.updateToolModeDisplayed();
-			AvoGlobal.glView.updateGLView = true;		
-			
-		}else{
-			System.out.println("I have no idea what's going on?!?  the active feature2D3D was null!?!");
-		}
-	}
+
 
 	public void glMouseDown(double x, double y, double z, MouseEvent e) {
 		Feature2D3D feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
@@ -83,9 +59,9 @@ public class Tool2D3DRevolveInt implements ToolCtrl2D3D{
 			Sketch sketch = feat2D3D.getPrimarySketch();
 			if(sketch != null){
 				ParamSet paramSet = feat2D3D.paramSet;
-				if(!paramSetIsValid(paramSet)){
+				if(!(new Tool2D3DRevolveModel()).paramSetIsValid(paramSet)){
 					// paramSet is not valid for this feature, create a new one.
-					paramSet = new ParamSet("Revolve", this);
+					paramSet = new ParamSet("Revolve", new Tool2D3DRevolveModel());
 					paramSet.addParam("regions", new Param("Regions", new SelectionList()));
 					paramSet.addParam("centerline", new Param("CenterLine", new SelectionList()));
 					paramSet.addParam("angle", new Param("Angle", 360.0));
@@ -151,26 +127,18 @@ public class Tool2D3DRevolveInt implements ToolCtrl2D3D{
 
 	public void glMouseUp(double x, double y, double z, MouseEvent e) {
 	}
-
-	public boolean paramSetIsValid(ParamSet paramSet) {
-		//		 ParamSet:  "Revolve"
-		// --------------------------------
-		// # "regions"     ->  "Regions"     <SelectionList>
-		// # "centerline"  ->  "CenterLine"  <SelectionList>
-		// # "angle"       ->  "Angle"       <Double>
-		// # "offset"      ->  "OffsetAngle" <Double>
-		// --------------------------------		
-		boolean isValid = (	paramSet != null &&
-							paramSet.label == "Revolve" &&
-							paramSet.hasParam("regions", PType.SelectionList) &&
-							paramSet.hasParam("centerline", PType.SelectionList) &&
-							paramSet.hasParam("angle", PType.Double) &&
-							paramSet.hasParam("offset", PType.Double));
-		return isValid;
+	
+	public void menuetElementDeselected() {
 	}
 
-	public void updateDerivedParams(ParamSet paramSet) {
-		// no derive parameters for this feature.	
+	public void menuetElementSelected() {
+		//
+		// Set tool Interface to this feature
+		//
+		Feature2D3D feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
+		if(feat2D3D != null){
+			feat2D3D.toolMod2D3D = new Tool2D3DRevolveModel();
+		}
 	}
-
+	
 }

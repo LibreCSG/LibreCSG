@@ -36,9 +36,9 @@ import backend.model.Feature2D3D;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2D3DRevolve extends ToolView2D3D{
+public class Tool2D3DRevolveView extends ToolView2D3D{
 
-	public Tool2D3DRevolve(Menuet menuet){	
+	public Tool2D3DRevolveView(Menuet menuet){	
 		
 		// initialize GUI elements
 		mElement = new MEButton(menuet, this.getToolMode());
@@ -50,22 +50,10 @@ public class Tool2D3DRevolve extends ToolView2D3D{
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
 		
 		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
-		
-		toolInterface = new Tool2D3DRevolveInt();
 	}
 
 	public void toolSelected() {
-		AvoGlobal.paramDialog.finalizeCurrentParams();
-		AvoGlobal.menuet.selectButton(mElement);
-		AvoGlobal.menuet.currentTool = this;
-		
-		//
-		// Set tool Interface to this feature
-		//
-		Feature2D3D feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
-		if(feat2D3D != null){
-			feat2D3D.toolInt2D3D = new Tool2D3DRevolveInt();
-		}
+		changeMenuetTool(mElement, new Tool2D3DRevolveCtrl());
 	}
 	
 }

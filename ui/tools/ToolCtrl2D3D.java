@@ -32,7 +32,5 @@ import backend.model.Feature2D3D;
 * @created Feb. 2007
 */
 public interface ToolCtrl2D3D extends ToolCtrl{
-
-	abstract public void draw3DFeature(GL gl, Feature2D3D feat2D3D);
 	
 }

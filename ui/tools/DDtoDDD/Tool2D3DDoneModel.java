@@ -2,11 +2,9 @@ package ui.tools.DDtoDDD;
 
 import javax.media.opengl.GL;
 
-import org.eclipse.swt.events.MouseEvent;
-
 import backend.adt.ParamSet;
 import backend.model.Feature2D3D;
-import ui.tools.ToolCtrl2D3D;
+import ui.tools.ToolModel2D3D;
 
 
 //
@@ -35,7 +33,7 @@ import ui.tools.ToolCtrl2D3D;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2D3DDoneInt implements ToolCtrl2D3D{
+public class Tool2D3DDoneModel implements ToolModel2D3D{
 
 	public void draw3DFeature(GL gl, Feature2D3D feat2D3D) {
 	}
@@ -43,23 +41,11 @@ public class Tool2D3DDoneInt implements ToolCtrl2D3D{
 	public void finalize(ParamSet paramSet) {
 	}
 
-	public void glMouseDown(double x, double y, double z, MouseEvent e) {
-	}
-
-	public void glMouseDrag(double x, double y, double z, MouseEvent e) {
-	}
-
-	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
-	}
-
-	public void glMouseUp(double x, double y, double z, MouseEvent e) {
-	}
-
 	public boolean paramSetIsValid(ParamSet paramSet) {
 		return false;
 	}
 
-	public void updateDerivedParams(ParamSet paramSet) {		
+	public void updateDerivedParams(ParamSet paramSet) {
 	}
 
 }

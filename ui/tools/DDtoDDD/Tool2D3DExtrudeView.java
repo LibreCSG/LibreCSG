@@ -5,7 +5,6 @@ import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
 import ui.tools.ToolView2D3D;
 import backend.data.utilities.ImageUtils;
-import backend.global.AvoGlobal;
 
 
 //
@@ -34,37 +33,25 @@ import backend.global.AvoGlobal;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2D3DDone extends ToolView2D3D{
+public class Tool2D3DExtrudeView extends ToolView2D3D{
 
-	public Tool2D3DDone(Menuet menuet){	
+
+	public Tool2D3DExtrudeView(Menuet menuet){	
 		
 		// initialize GUI elements
 		mElement = new MEButton(menuet, this.getToolMode());
-		mElement.mePreferredHeight = 100;
-		mElement.meColorMouseOver  = AvoGlobal.COLOR_MENUET_DONE_MO;
-		mElement.meColorUnselected = AvoGlobal.COLOR_MENUET_DONE_US; 
-		mElement.meLabel = "Done";
-		mElement.meIcon = ImageUtils.getIcon("menuet/Done.png", 24, 24);
-		mElement.setToolTipText("Finish working in the 2Dto3D mode,\nkeeping any changes that have been made.");
+		mElement.mePreferredHeight = 50;
+		mElement.meLabel = "Extrude";
+		mElement.meIcon = ImageUtils.getIcon("menuet/2D3D_Extrude.png", 24, 24);
+		mElement.setToolTipText("Extrude a 2D region.");
 		mElement.mePriority = 0; 	// 0 = always show element, >5 = never show element
-		mElement.meDispOptions = MenuetElement.ME_TRY_ICON;
+		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
 		
 		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
-		
-		toolInterface = new Tool2D3DDoneInt();
 	}
 
-	@Override
 	public void toolSelected() {
-		AvoGlobal.paramDialog.finalizeCurrentParams();
-		AvoGlobal.menuet.disableAllTools();
-		AvoGlobal.menuet.setCurrentToolMode(Menuet.MENUET_MODE_MAIN);
-		AvoGlobal.paramDialog.setParamSet(null);
-		AvoGlobal.menuet.currentTool = null;			
-		AvoGlobal.menuet.updateToolModeDisplayed();
-		AvoGlobal.glView.updateGLView = true;				
-		
-		// TODO: if the feat2D3D isn't complete, then (1) let the user know, and then (2) delete it if user desires.
+		changeMenuetTool(mElement, new Tool2D3DExtrudeCtrl());
 	}
 	
 }
