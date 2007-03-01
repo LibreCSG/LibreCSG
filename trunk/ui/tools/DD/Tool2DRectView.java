@@ -5,7 +5,6 @@ import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
 import ui.tools.ToolView2D;
 import backend.data.utilities.ImageUtils;
-import backend.global.AvoGlobal;
 
 
 //
@@ -34,30 +33,26 @@ import backend.global.AvoGlobal;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DSelect extends ToolView2D{
-
-	public Tool2DSelect(Menuet menuet){	
+public class Tool2DRectView extends ToolView2D{
+	
+	public Tool2DRectView(Menuet menuet){	
 		
 		// initialize GUI elements
 		mElement = new MEButton(menuet, this.getToolMode());
 		mElement.mePreferredHeight = 50;
-		mElement.meLabel = "Select";
-		mElement.meIcon = ImageUtils.getIcon("menuet/Select.png", 24, 24);
-		mElement.setToolTipText("Select objects to \nmodify their properties.");
+		mElement.meLabel = "Rect";
+		mElement.meIcon = ImageUtils.getIcon("menuet/2D_Rect.png", 24, 24);
+		mElement.setToolTipText("Rectangle");
 		mElement.mePriority = 0; 	// 0 = always show element, >5 = never show element
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
-		mElement.meAlignToBottom();
 		
 		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
-		
-		toolInterface = new Tool2DSelectInt();
 	}
 
 	@Override
 	public void toolSelected() {
-		AvoGlobal.paramDialog.finalizeCurrentParams();
-		AvoGlobal.menuet.selectButton(mElement);
-		AvoGlobal.menuet.currentTool = this;
+		changeMenuetTool(mElement, new Tool2DRectCtrl());
 	}
-	
+
+
 }

@@ -5,8 +5,6 @@ import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
 import ui.tools.ToolView2D;
 import backend.data.utilities.ImageUtils;
-import backend.global.AvoGlobal;
-import backend.model.Sketch;
 
 
 //
@@ -35,50 +33,29 @@ import backend.model.Sketch;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DDone extends ToolView2D{
-	
-	public Tool2DDone(Menuet menuet){	
+public class Tool2DLineView extends ToolView2D{
+
+	public Tool2DLineView(Menuet menuet){	
 		
 		// initialize GUI elements
 		mElement = new MEButton(menuet, this.getToolMode());
-		mElement.mePreferredHeight = 100;
-		mElement.meColorMouseOver  = AvoGlobal.COLOR_MENUET_DONE_MO;
-		mElement.meColorUnselected = AvoGlobal.COLOR_MENUET_DONE_US; 
-		mElement.meLabel = "Done";
-		mElement.meIcon = ImageUtils.getIcon("menuet/Done.png", 24, 24);
-		mElement.setToolTipText("Finish working in the 2D mode.");
+		mElement.mePreferredHeight = 50;
+		mElement.meLabel = "Line";
+		mElement.meIcon = ImageUtils.getIcon("menuet/2D_Line.png", 24, 24);
+		mElement.setToolTipText("Line");
 		mElement.mePriority = 0; 	// 0 = always show element, >5 = never show element
-		mElement.meDispOptions = MenuetElement.ME_TRY_ICON;
+		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
 		
 		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
-		
-		toolInterface = new Tool2DDoneInt();
 	}
 
 	@Override
 	public void toolSelected() {
-		AvoGlobal.paramDialog.finalizeCurrentParams();
-		AvoGlobal.menuet.disableAllTools();
-		AvoGlobal.menuet.setCurrentToolMode(Menuet.MENUET_MODE_MAIN);
-		AvoGlobal.paramDialog.setParamSet(null);
-		AvoGlobal.menuet.currentTool = null;			
-		AvoGlobal.menuet.updateToolModeDisplayed();
-		AvoGlobal.glView.updateGLView = true;		
-		
-		Sketch sketch = AvoGlobal.project.getActiveSketch();
-
-		if(sketch != null){
-			if(sketch.getFeat2DListSize() == 0){
-				// if sketch has no Feature2D, then discard it.
-				AvoGlobal.project.getActivePart().removeActiveSubPart();
-			}else{
-				// deselect Feat2D and keep the sketch.
-				sketch.deselectAllFeat2D();			
-			}
-		}
-		
+		changeMenuetTool(mElement, new Tool2DLineCtrl());
 	}
+
 	
 
 	
 }
+
