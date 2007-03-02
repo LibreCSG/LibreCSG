@@ -106,7 +106,8 @@ public class GLView {
 		glCanvas = new GLCanvas(comp, SWT.NONE, data);
 		
 		GLCapabilities glc = new GLCapabilities();
-		System.out.println("DepthBits:" + glc.getDepthBits() + 
+		System.out.println("JOGL -- OpenGL Capabilities -- " +
+				"DepthBits:" + glc.getDepthBits() + 
 				"; DoubleBuff:" + glc.getDoubleBuffered() + 
 				"; HWAccel:" + glc.getHardwareAccelerated() + 
 				"; StencilBits:" + glc.getStencilBits() +

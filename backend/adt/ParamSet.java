@@ -3,8 +3,10 @@ package backend.adt;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
-import ui.tools.ToolCtrl;
 import ui.tools.ToolModel;
+import ui.tools.ToolModel2D;
+import ui.tools.ToolModel2D3D;
+import ui.tools.ToolModel3D3D;
 
 
 //
@@ -36,29 +38,80 @@ import ui.tools.ToolModel;
 public class ParamSet {
 
 	public String label;
-	protected ToolModel  toolInterface;
+	protected ToolModel  toolModel;
 	protected LinkedHashMap <String,Param>paramSet = new LinkedHashMap<String,Param>();
 	
 	/**
 	 * construct a new parameter set.
 	 */
-	public ParamSet(String label, ToolModel toolInterface){
+	public ParamSet(String label, ToolModel toolModel){
 		this.label = label;
-		if(toolInterface == null){
+		if(toolModel == null){
 			System.out.println(" *** WARNING *** ParamSet was given a NULL ToolInterface.  This is a bad idea!");
 		}
-		this.toolInterface = toolInterface;
+		this.toolModel = toolModel;
 	}
 	
 	/**
-	 * get the tool interface used to build
+	 * get the tool model used to build
 	 * and manipulate the parameter set.
-	 * @return the tool interface
+	 * @return the tool model
 	 */
-	public ToolModel getToolInterface(){
-		return toolInterface;
+	public ToolModel getToolModel(){
+		return toolModel;
 	}
 	
+	/**
+	 * check to see if the tool model associated with this 
+	 * ParamSet is a ToolModel2D, and if so return it.  
+	 * otherwise, return NULL. 
+	 * @return the ToolModel2D, or NULL
+	 */
+	public ToolModel2D getToolModel2D(){
+		// TODO: get rid of cast?!
+		if(toolModel != null && toolModel instanceof ToolModel2D){
+			return (ToolModel2D)toolModel;
+		}
+		return null;
+	}
+	
+	/**
+	 * try to finalize the ParamSet by calling finalize from
+	 * the tool model, if the tool model is not NULL.
+	 */
+	public void tryToFinalize(){
+		if(toolModel != null){
+			toolModel.finalize(this);
+		}
+	}
+	
+	/**
+	 * check to see if the tool model associated with this 
+	 * ParamSet is a ToolModel2D3D, and if so return it.  
+	 * otherwise, return NULL. 
+	 * @return the ToolModel2D3D, or NULL
+	 */
+	public ToolModel2D3D getToolModel2D3D(){
+		// TODO: get rid of cast?!
+		if(toolModel != null && toolModel instanceof ToolModel2D3D){
+			return (ToolModel2D3D)toolModel;
+		}
+		return null;
+	}
+	
+	/**
+	 * check to see if the tool model associated with this 
+	 * ParamSet is a ToolModel3D3D, and if so return it.  
+	 * otherwise, return NULL. 
+	 * @return the ToolModel3D3D, or NULL
+	 */
+	public ToolModel3D3D getToolModel3D3D(){
+		// TODO: get rid of cast?!
+		if(toolModel != null && toolModel instanceof ToolModel3D3D){
+			return (ToolModel3D3D)toolModel;
+		}
+		return null;
+	}
 	
 	/**
 	 * update all of the Derived Parameters in the ParamSet
@@ -68,9 +121,9 @@ public class ParamSet {
 	 * a typo or incorrect variable type is to blame)
 	 */
 	public void updateDerivedParams(){
-		if(toolInterface != null){			
-			if(toolInterface.paramSetIsValid(this)){
-				toolInterface.updateDerivedParams(this);
+		if(toolModel != null){			
+			if(toolModel.paramSetIsValid(this)){
+				toolModel.updateDerivedParams(this);
 			}else{
 				System.out.println(" *** PARAM SET *** param set was not valid! not performing derived parameter update.");
 			}	
