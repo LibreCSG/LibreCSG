@@ -132,13 +132,6 @@ public class Tool2D3DRevolveCtrl implements ToolCtrl2D3D{
 	}
 
 	public void menuetElementSelected() {
-		//
-		// Set tool Interface to this feature
-		//
-		Feature2D3D feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
-		if(feat2D3D != null){
-			feat2D3D.toolMod2D3D = new Tool2D3DRevolveModel();
-		}
 	}
 	
 }
