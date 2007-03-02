@@ -70,6 +70,7 @@ public class ToolMain2DCtrl implements ToolCtrlMain{
 		if(sketch != null){
 			AvoGlobal.paramDialog.setParamSet(sketch.paramSet);
 		}
+		AvoGlobal.glView.updateGLView = true; // force update since grid should now be displayed...
 	}
 
 }
