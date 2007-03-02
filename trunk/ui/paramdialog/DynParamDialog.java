@@ -116,8 +116,8 @@ public class DynParamDialog {
 			}
 			public void mouseDown(MouseEvent e) {
 				// handle "OK" click in paramDialog
-				if(paramSet != null && paramSet.getToolInterface() != null){
-					paramSet.getToolInterface().finalize(paramSet);
+				if(paramSet != null){
+					paramSet.tryToFinalize();
 				}
 				animator.animateBackwards(0);
 			}
@@ -129,8 +129,8 @@ public class DynParamDialog {
 			}
 			public void widgetSelected(SelectionEvent e) {
 				// handle "OK" click in paramDialog
-				if(paramSet != null && paramSet.getToolInterface() != null){
-					paramSet.getToolInterface().finalize(paramSet);
+				if(paramSet != null){
+					paramSet.tryToFinalize();
 				}
 				animator.animateBackwards(0);
 			}			
@@ -289,8 +289,8 @@ public class DynParamDialog {
 	 * set of parameters is properly finalized.
 	 */
 	public void finalizeCurrentParams(){
-		if(paramSet != null && paramSet.getToolInterface() != null){
-			paramSet.getToolInterface().finalize(paramSet);
+		if(paramSet != null){
+			paramSet.tryToFinalize();
 		}
 		animator.animateBackwards(0);
 	}
