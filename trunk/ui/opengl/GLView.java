@@ -330,10 +330,10 @@ public class GLView {
 								}
 								
 								Feature2D3D feat2D3D = subPart.getFeature2D3D();
-								if(feat2D3D != null && feat2D3D.toolMod2D3D != null){
+								if(feat2D3D != null && feat2D3D.paramSet != null && feat2D3D.paramSet.getToolModel2D3D() != null){
 									// TODO: getActiveSketch is old skoool :(
 									//   - reference to sketch should be simply handled via the paramSet! (selection list?)
-									feat2D3D.toolMod2D3D.draw3DFeature(gl, feat2D3D);
+									feat2D3D.paramSet.getToolModel2D3D().draw3DFeature(gl, feat2D3D);
 								}
 							}
 						}

@@ -33,7 +33,6 @@ import backend.model.sketch.Prim2DList;
 */
 public class Feature2D {
 
-	protected ToolModel2D 	  toolMod2D  = null; 
 	public boolean		      isSelected = true;
 	public ParamSet           paramSet   = null;
 	
@@ -49,7 +48,6 @@ public class Feature2D {
 	//	 TODO: Feature 2D should not take in model?!?! only in param set?!?!
 	public Feature2D(Sketch sketch, ToolModel2D toolMod, ParamSet paramSet){
 		this.sketch = sketch;
-		this.toolMod2D = toolMod;
 		this.paramSet  = paramSet;
 	}
 	
@@ -58,13 +56,19 @@ public class Feature2D {
 	}
 	
 	public void buildPrim2DList(){
-		if(toolMod2D != null && paramSet != null){
-			prim2DList = this.toolMod2D.buildPrim2DList(paramSet);
+		if(paramSet != null){
+			ToolModel2D toolModel2D = paramSet.getToolModel2D();
+			if(toolModel2D != null){
+				prim2DList = toolModel2D.buildPrim2DList(paramSet);
+			}
 		}
 	}
 	
 	public ToolModel2D getToolInterface2D(){
-		return toolMod2D;
+		if(paramSet != null){
+			return paramSet.getToolModel2D();
+		}		
+		return null;
 	}
 	
 }

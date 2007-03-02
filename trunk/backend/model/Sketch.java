@@ -48,7 +48,7 @@ public class Sketch implements SubPart{
 	 */
 	protected List<Feature2D> feat2DList = new LinkedList<Feature2D>();
 	protected Region2DList    regionList = new Region2DList();
-	public ParamSet             paramSet = null;
+	public    ParamSet        paramSet   = null;
 	
 	protected int activeFeat2D = -1;
 	
