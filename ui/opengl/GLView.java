@@ -291,6 +291,19 @@ public class GLView {
 							// draw grid
 							gl.glDisable(GL.GL_LINE_SMOOTH);
 							GLDynPrim.mesh(gl, -10.0, 10.0, -10.0, 10.0, 20, 20);
+							
+							gl.glBegin(GL.GL_LINES);
+								gl.glColor4f(	AvoColors.GL_COLOR4_2D_X_AXIS[0], AvoColors.GL_COLOR4_2D_X_AXIS[1], 
+												AvoColors.GL_COLOR4_2D_X_AXIS[2], AvoColors.GL_COLOR4_2D_X_AXIS[3]);
+								gl.glVertex3d(-10.0, 0.0, 0.0);
+								gl.glVertex3d( 10.0, 0.0, 0.0);
+								gl.glColor4f(	AvoColors.GL_COLOR4_2D_Y_AXIS[0], AvoColors.GL_COLOR4_2D_Y_AXIS[1], 
+												AvoColors.GL_COLOR4_2D_Y_AXIS[2], AvoColors.GL_COLOR4_2D_Y_AXIS[3]);
+								gl.glVertex3d(0.0, -10.0, 0.0);
+								gl.glVertex3d(0.0,  10.0, 0.0);
+							gl.glEnd();
+							
+							
 							gl.glEnable(GL.GL_LINE_SMOOTH);
 							gl.glEnable(GL.GL_DEPTH_TEST);
 						}
@@ -299,7 +312,7 @@ public class GLView {
 						gl.glLineWidth(2.5f);
 
 						gl.glColor3f(1.0f,0.0f,0.0f);
-						cad_3DX(0.0f,0.0f,0.0f,0.25f);
+						cad_3DXYZ(0.0f,0.0f,0.0f,0.25f);
 						
 						if(AvoGlobal.project.getActivePart() != null){
 							for(int q=0; q < AvoGlobal.project.getActivePart().getSubPartListSize(); q++){
@@ -397,6 +410,66 @@ public class GLView {
 		gl.glEnd();		
 	}
 	
+	public void cad_3DXYZ(float x, float y, float z, float size){
+		float a = 0.85f;
+		float b = 1.0f-a;
+		float c = b*0.5f;
+		gl.glBegin(GL.GL_LINES);
+			gl.glColor4f(	AvoColors.GL_COLOR4_2D_X_AXIS[0], AvoColors.GL_COLOR4_2D_X_AXIS[1], 
+							AvoColors.GL_COLOR4_2D_X_AXIS[2], AvoColors.GL_COLOR4_2D_X_AXIS[3]);
+			gl.glVertex3f(x+size, y, z);
+			gl.glVertex3f(x, y, z);
+			gl.glVertex3f(x+size, y, z);
+			gl.glVertex3f(x+a*size, y+b*size, z);
+			gl.glVertex3f(x+size, y, z);
+			gl.glVertex3f(x+a*size, y-b*size, z);
+			gl.glColor4f(	AvoColors.GL_COLOR4_2D_Y_AXIS[0], AvoColors.GL_COLOR4_2D_Y_AXIS[1], 
+							AvoColors.GL_COLOR4_2D_Y_AXIS[2], AvoColors.GL_COLOR4_2D_Y_AXIS[3]);
+			gl.glVertex3f(x, y+size, z);
+			gl.glVertex3f(x, y, z);		
+			gl.glVertex3f(x, y+size, z);
+			gl.glVertex3f(x, y+a*size, z+b*size);
+			gl.glVertex3f(x, y+size, z);
+			gl.glVertex3f(x, y+a*size, z-b*size);
+			gl.glColor4f(	AvoColors.GL_COLOR4_2D_Z_AXIS[0], AvoColors.GL_COLOR4_2D_Z_AXIS[1], 
+							AvoColors.GL_COLOR4_2D_Z_AXIS[2], AvoColors.GL_COLOR4_2D_Z_AXIS[3]);			
+			gl.glVertex3f(x, y, z+size);
+			gl.glVertex3f(x, y, z);		
+			gl.glVertex3f(x, y, z+size);
+			gl.glVertex3f(x+b*size, y, z+a*size);	
+			gl.glVertex3f(x, y, z+size);
+			gl.glVertex3f(x-b*size, y, z+a*size);
+			gl.glColor4f(	AvoColors.GL_COLOR4_2D_ORIGIN[0], AvoColors.GL_COLOR4_2D_ORIGIN[1], 
+							AvoColors.GL_COLOR4_2D_ORIGIN[2], AvoColors.GL_COLOR4_2D_ORIGIN[3]);
+			gl.glVertex3f(x+c*size, y+c*size, z+c*size);
+			gl.glVertex3f(x-c*size, y+c*size, z+c*size);
+			gl.glVertex3f(x-c*size, y+c*size, z+c*size);
+			gl.glVertex3f(x-c*size, y-c*size, z+c*size);
+			gl.glVertex3f(x-c*size, y-c*size, z+c*size);
+			gl.glVertex3f(x+c*size, y-c*size, z+c*size);
+			gl.glVertex3f(x+c*size, y-c*size, z+c*size);
+			gl.glVertex3f(x+c*size, y+c*size, z+c*size);
+			
+			gl.glVertex3f(x+c*size, y+c*size, z-c*size);
+			gl.glVertex3f(x-c*size, y+c*size, z-c*size);
+			gl.glVertex3f(x-c*size, y+c*size, z-c*size);
+			gl.glVertex3f(x-c*size, y-c*size, z-c*size);
+			gl.glVertex3f(x-c*size, y-c*size, z-c*size);
+			gl.glVertex3f(x+c*size, y-c*size, z-c*size);
+			gl.glVertex3f(x+c*size, y-c*size, z-c*size);
+			gl.glVertex3f(x+c*size, y+c*size, z-c*size);
+			
+			gl.glVertex3f(x+c*size, y+c*size, z+c*size);
+			gl.glVertex3f(x+c*size, y+c*size, z-c*size);
+			gl.glVertex3f(x-c*size, y+c*size, z+c*size);
+			gl.glVertex3f(x-c*size, y+c*size, z-c*size);
+			gl.glVertex3f(x-c*size, y-c*size, z+c*size);
+			gl.glVertex3f(x-c*size, y-c*size, z-c*size);
+			gl.glVertex3f(x+c*size, y-c*size, z+c*size);
+			gl.glVertex3f(x+c*size, y-c*size, z-c*size);
+		gl.glEnd();
+	}
+	
 	public void cad_2DCross(float x, float y, float z, float size){
 		float sizeB = size*0.7f;
 		gl.glLineWidth(1.0f);
@@ -407,12 +480,12 @@ public class GLView {
 			gl.glVertex3f(x+sizeB, y-sizeB, z);			
 		gl.glEnd();	
 		gl.glLineWidth(2.25f);
-		gl.glBegin(GL.GL_LINES);
-			gl.glVertex3f(x, y+size, z);
-			gl.glVertex3f(x, y-size, z);
-			gl.glVertex3f(x+size, y, z);
-			gl.glVertex3f(x-size, y, z);			
-		gl.glEnd();	
+//		gl.glBegin(GL.GL_LINES);
+//			gl.glVertex3f(x, y+size, z);
+//			gl.glVertex3f(x, y-size, z);
+//			gl.glVertex3f(x+size, y, z);
+//			gl.glVertex3f(x-size, y, z);			
+//		gl.glEnd();	
 	}
 
 	private void glInit(){

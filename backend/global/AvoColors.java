@@ -75,8 +75,9 @@ public class AvoColors {
 	public static final float[] GL_COLOR4_GRID_LIGHT = new float[] {0.8f, 0.8f, 0.8f, 1.0f}; 
 	public static final float[] GL_COLOR4_2D_NONACT  = new float[] {0.2f, 0.4f, 0.9f, 1.0f}; 
 	public static final float[] GL_COLOR4_2D_ACTIVE  = new float[] {1.0f, 0.5f, 0.0f, 1.0f}; 
-	public static final float[] GL_COLOR4_2D_X_AXIS  = new float[] {1.0f, 0.5f, 0.5f, 1.0f}; // red
-	public static final float[] GL_COLOR4_2D_Y_AXIS  = new float[] {0.5f, 1.0f, 0.5f, 1.0f}; // green
-	public static final float[] GL_COLOR4_2D_Z_AXIS  = new float[] {0.5f, 0.5f, 1.0f, 1.0f}; // blue
+	public static final float[] GL_COLOR4_2D_X_AXIS  = new float[] {1.0f, 0.2f, 0.2f, 1.0f}; // red
+	public static final float[] GL_COLOR4_2D_Y_AXIS  = new float[] {0.2f, 1.0f, 0.2f, 1.0f}; // green
+	public static final float[] GL_COLOR4_2D_Z_AXIS  = new float[] {0.2f, 0.2f, 1.0f, 1.0f}; // blue
+	public static final float[] GL_COLOR4_2D_ORIGIN  = new float[] {0.6f, 0.6f, 0.6f, 0.6f}; // grey
 	
 }
