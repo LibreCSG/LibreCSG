@@ -6,6 +6,7 @@ import org.eclipse.swt.events.MouseListener;
 import ui.utilities.ColorUtils;
 import backend.data.utilities.ImageUtils;
 import backend.global.AvoColors;
+import backend.global.AvoGlobal;
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -52,8 +53,7 @@ public class METoolbox{
 			public void mouseDoubleClick(MouseEvent e) {		
 			}
 			public void mouseDown(MouseEvent e) {
-				// TODO: show the toolbox of all the current mode's tools
-				System.out.println("Open the toolbox! (not implemented yet)  :[  ");			
+				AvoGlobal.toolboxDialog.loadToolBoxForCurrentMode();
 			}
 			public void mouseUp(MouseEvent e) {				
 			}			

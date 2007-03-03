@@ -63,6 +63,11 @@ public class AvoColors {
 	public static final Color COLOR_PARAM_SEL_UNSAT= new Color(Display.getCurrent(),  240,  160,  160);
 	
 	/**
+	 * colors for MenuetToolboxDialog
+	 */
+	public static final Color COLOR_TOOLBOX_BG     = new Color(Display.getCurrent(),  220,  220,  255);
+	
+	/**
 	 * colors for QuickSettings bar
 	 */
 	public static final Color COLOR_QSET_BG = new Color(Display.getCurrent(),  220,  220,  240);

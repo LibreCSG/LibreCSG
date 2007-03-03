@@ -4,6 +4,7 @@ import ui.event.GLViewEventHandler;
 import ui.event.ModelEventHandler;
 import ui.event.ParamEventHandler;
 import ui.menuet.Menuet;
+import ui.menuet.MenuetToolboxDialog;
 import ui.opengl.GLView;
 import ui.opengl.RenderLevel;
 import ui.paramdialog.DynParamDialog;
@@ -76,6 +77,11 @@ public class AvoGlobal {
 	
 	
 	public static ToolCtrl activeToolController = null;
+	
+	/**
+	 * The toolbox of all possible tools in the current mode.
+	 */
+	public static MenuetToolboxDialog toolboxDialog;
 	
 	
 	/**
