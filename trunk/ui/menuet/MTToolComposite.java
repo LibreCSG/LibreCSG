@@ -1,5 +1,7 @@
 package ui.menuet;
 
+import java.util.LinkedList;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -8,10 +10,11 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-import ui.tools.ToolView;
+import backend.global.AvoGlobal;
 
 
 //
@@ -42,7 +45,9 @@ import ui.tools.ToolView;
 */
 public class MTToolComposite extends Composite{
 
-	MenuetElement mElement;
+	MenuetElement mElement; // the element to display in the composite
+	
+	public final static int numLastTools = 1;
 	
 	MTToolComposite(Composite parent, int type, MenuetElement mElement) {
 		super(parent, type);
@@ -82,11 +87,44 @@ public class MTToolComposite extends Composite{
 			public void widgetDefaultSelected(SelectionEvent e) {	
 			}
 			public void widgetSelected(SelectionEvent e) {
-				ToolView toolView = MTToolComposite.this.mElement.toolView;
-				if(toolView != null){
-					toolView.toolSelected();
-					// TODO: signal to toolboxDialog to now close itself, and update the "last used tool"
-				}				
+				//
+				// here's the deal. 
+				//   get the current tool mode, 
+				//   look through all tools to find toolboxLastUsed, (always index toolbox + 1)
+				//   set toolBoxLastUsed to the newly selected mElement
+				//   mimic a mousedown to the newly selected mElement.
+				//
+				LinkedList<MenuetElement> mElements = AvoGlobal.menuet.menuetElements[AvoGlobal.menuet.currentToolMode];
+				int lastToolI = -1;
+				for(int i=0; i<mElements.size(); i++){
+					if(mElements.get(i).meLabel.equals(METoolbox.meToolboxLabel)){
+						lastToolI = i+1;
+					}
+				}
+				if(lastToolI != -1){					
+					MenuetElement newToolSel = MTToolComposite.this.mElement;	
+					if(newToolSel.isStoredInToolbox){
+						METoolbox.makeMenuetElementTBoxLast(newToolSel); 
+						mElements.add(lastToolI, newToolSel);
+						MenuetElement oldLastTool = mElements.get(lastToolI + METoolbox.numLastTools);
+						oldLastTool.mePriority = 6; // does not paint. (hide back in toolbox)
+						mElements.remove(lastToolI + METoolbox.numLastTools);
+						newToolSel.notifyListeners(SWT.MouseDown, new Event());
+					}else{
+						System.out.println("trying to select an element in the toolbox that does not belong!!");
+					}
+				}
+				AvoGlobal.toolboxDialog.closeToolBox();
+				AvoGlobal.menuet.updateToolModeDisplayed();
+				
+				
+				
+//				ToolView toolView = MTToolComposite.this.mElement.toolView;
+//				if(toolView != null){					
+//					toolView.toolSelected();
+//					// TODO: signal to toolboxDialog to update the "last used tool"
+//					AvoGlobal.toolboxDialog.closeToolBox();
+//				}				
 			}			
 		});
 		
@@ -109,7 +147,8 @@ public class MTToolComposite extends Composite{
 		
 		Text t1 = new Text(compBot, SWT.MULTI | SWT.WRAP);
 		if(mElement.getToolTipText() != null){
-			t1.setText(mElement.getToolTipText());
+			// remove "\n" that may exist in the toolTipText
+			t1.setText(mElement.getToolTipText().replace('\n', ' '));
 		}else{
 			t1.setText("null tooltip info...");
 		}

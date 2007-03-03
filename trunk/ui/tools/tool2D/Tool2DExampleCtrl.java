@@ -37,7 +37,7 @@ import backend.model.Sketch;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DCircleCtrl implements ToolCtrl2D  {
+public class Tool2DExampleCtrl implements ToolCtrl2D{
 
 	/**
 	 * All of the tool's main functionality
@@ -45,9 +45,8 @@ public class Tool2DCircleCtrl implements ToolCtrl2D  {
 	 * parameter storage, etc.
 	 *
 	 */
-	public Tool2DCircleCtrl(){
+	public Tool2DExampleCtrl(){		
 	}
-	
 	
 	public void glMouseDown(double x, double y, double z,  MouseEvent e) {
 		Sketch sketch = AvoGlobal.project.getActiveSketch();
@@ -60,10 +59,10 @@ public class Tool2DCircleCtrl implements ToolCtrl2D  {
 			//
 			// Build parameter set for this feature
 			//
-			ParamSet pSet = new ParamSet("Circle", new Tool2DCircleModel());
+			ParamSet pSet = new ParamSet("Example", new Tool2DExampleModel());
 			pSet.addParam("c", new Param("Center", new Point2D(x,y)));
-			pSet.addParam("r", new Param("Radius", 0.0));
-			
+			pSet.addParam("s", new Param("Size", 4.0));
+			pSet.addParam("t", new Param("Triangles", 9));			
 			//
 			// add the new feature to the end of the feature set
 			// and set it as the active feature2D.		
@@ -79,67 +78,21 @@ public class Tool2DCircleCtrl implements ToolCtrl2D  {
 		}
 	}
 
-	public void glMouseDrag(double x, double y, double z,  MouseEvent e) {
-		Feature2D feat2D = AvoGlobal.project.getActiveFeat2D();
-		if(feat2D != null){
-			//
-			// get parameter set
-			//
-			ParamSet paramSet = feat2D.paramSet;
-		
-			//
-			// update param values
-			//
-			try{
-				Point2D ptCenter = paramSet.getParam("c").getDataPoint2D();
-				paramSet.changeParam("r", ptCenter.computeDist(new Point2D(x,y)));
-			}catch(Exception ex){
-				System.out.println(ex.getClass());
-			}
-		}
+	public void glMouseDrag(double x, double y, double z, MouseEvent e) {
 	}
 
 	public void glMouseUp(double x, double y, double z,  MouseEvent e) {
-		Feature2D feat2D = AvoGlobal.project.getActiveFeat2D();
-		if(feat2D != null){
-			//
-			// get parameter set
-			//
-			ParamSet paramSet = feat2D.paramSet;
-			
-			//
-			// finalize the feature's formation
-			//
-			try{
-				Point2D ptCenter = paramSet.getParam("c").getDataPoint2D();
-				paramSet.changeParam("r", ptCenter.computeDist(new Point2D(x,y)));
-				
-				// * discard if radius == 0.0
-				Double radius = paramSet.getParam("r").getDataDouble();
-				if(radius == 0.0){
-					System.out.println("radius was zero... feature discarded");
-					// remove feature2D from the set!
-					AvoGlobal.project.getActiveSketch().removeActiveFeat2D();
-					AvoGlobal.paramDialog.setParamSet(null);
-				}
-			}catch(Exception ex){
-				System.out.println(ex.getClass());
-			}						
-		}
 	}
+
+
 
 	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
 	}
 
-
 	public void menuetElementDeselected() {		
 	}
 
-
 	public void menuetElementSelected() {
 	}
-
-
-
 	
 }

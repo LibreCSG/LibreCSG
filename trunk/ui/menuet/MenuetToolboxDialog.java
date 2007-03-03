@@ -1,5 +1,7 @@
 package ui.menuet;
 
+import java.util.LinkedList;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.MouseEvent;
@@ -150,15 +152,18 @@ public class MenuetToolboxDialog {
 		
 		//
 		// TODO: add all of the tools in the current mode
-		//
-		for(int i=0; i<7; i++){
-			MTToolComposite cnew = new MTToolComposite(tboxComp, SWT.BORDER, AvoGlobal.menuet.menuetElements[AvoGlobal.menuet.currentToolMode].get(i));
-			GridData gd = new GridData();
-			gd.grabExcessHorizontalSpace = true;
-			gd.widthHint = 300;
-			cnew.setLayoutData(gd);
-		}
-	
+		// TODO: sort all tools alphabetically
+		LinkedList<MenuetElement> mElements = AvoGlobal.menuet.menuetElements[AvoGlobal.menuet.currentToolMode];
+		for(int i=0; i<mElements.size(); i++){
+			MenuetElement me = mElements.get(i);
+			if(me.isStoredInToolbox){
+				MTToolComposite cnew = new MTToolComposite(tboxComp, SWT.BORDER, me);				
+				GridData gd = new GridData();
+				gd.grabExcessHorizontalSpace = true;
+				gd.widthHint = 300;
+				cnew.setLayoutData(gd);
+			}
+		}	
 		tboxComp.pack();		
         spComp.setMinSize(tboxComp.computeSize(spComp.getClientArea().width-10, SWT.DEFAULT));
 	}
@@ -178,6 +183,10 @@ public class MenuetToolboxDialog {
 	public void loadToolBoxForCurrentMode(){
 		buildTBoxComposite();
 		animator.animateForwards(300);
+	}
+	
+	public void closeToolBox(){
+		animator.animateBackwards(0);
 	}
 	
 	class ToolboxAnim extends Animator{

@@ -72,9 +72,12 @@ public abstract class MenuetElement extends Canvas{
 	public final int toolMode;
 	public final ToolView toolView;
 	
-	public MenuetElement(Composite parent, int mode, ToolView toolView) {
+	public final boolean isStoredInToolbox;
+	
+	public MenuetElement(Composite parent, int mode, ToolView toolView, boolean isStoredInToolbox) {
 		super(parent, SWT.NONE);
 		this.toolMode = mode;
+		this.isStoredInToolbox = isStoredInToolbox;
 		this.addPaintListener(new PaintListener(){
 			public void paintControl(PaintEvent e) {
 				paintElement(e);

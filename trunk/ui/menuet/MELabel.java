@@ -41,7 +41,7 @@ public class MELabel extends MenuetElement{
 	public boolean textIsBold = false;
 	
 	public MELabel(Menuet menuet, int mode, ToolView toolView){
-		super(menuet, mode, toolView);		
+		super(menuet, mode, toolView, false);		
 		// let menuet know about the new element
 		menuet.addMenuetElement(this, mode);
 		this.mePreferredHeight = 30;

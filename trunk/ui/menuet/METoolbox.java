@@ -37,11 +37,12 @@ import backend.global.AvoGlobal;
 public class METoolbox{
 
 	MEButton toolboxButton;
-	MEButton lastToolButton;
+	final public static String meToolboxLabel = "Toolbox";
+	final public static int numLastTools = 1;
 	
 	public METoolbox(Menuet menuet, int mode){		
-		toolboxButton  = new MEButton(menuet, mode, null);		
-		toolboxButton.meLabel = "Toolbox";
+		toolboxButton  = new MEButton(menuet, mode, null, false);		
+		toolboxButton.meLabel = meToolboxLabel;
 		toolboxButton.meIcon  = ImageUtils.getIcon("menuet/Toolbox.png", 24, 24);
 		toolboxButton.mePreferredHeight = 50;
 		toolboxButton.setToolTipText("Toolbox of all possible tools that \n" +
@@ -59,17 +60,22 @@ public class METoolbox{
 			}			
 		});
 		
-		lastToolButton = new MEButton(menuet, mode, null);
-		lastToolButton.meLabel = "";
-		lastToolButton.meIcon  = ImageUtils.getIcon("menuet/Toolbox.png", 24, 24);
-		lastToolButton.mePreferredHeight = 50;
-		lastToolButton.meDispOptions = MenuetElement.ME_TEXT_ONLY;
-		lastToolButton.mePriority = 6; // start out not showing lastTool button
-		lastToolButton.meColorMouseOver  = AvoColors.COLOR_MENUET_TLBX_MO;
-		lastToolButton.meColorUnselected = AvoColors.COLOR_MENUET_TLBX_US;
-		lastToolButton.meColorBackground = ColorUtils.getModeBGColorByMode(mode);
+		for(int i=0; i<numLastTools; i++){
+			MEButton lastToolButton = new MEButton(menuet, mode, null, false);
+			makeMenuetElementTBoxLast(lastToolButton);
+			lastToolButton.meLabel = "??";
+			lastToolButton.mePreferredHeight = 50;
+			lastToolButton.meDispOptions = MenuetElement.ME_TEXT_ONLY;
+			lastToolButton.mePriority = 6; // start out not showing lastTool button
+			lastToolButton.meColorBackground = ColorUtils.getModeBGColorByMode(mode);
+		}		
 	}
 	
+	public static void makeMenuetElementTBoxLast(MenuetElement lastToolButton){		
+		lastToolButton.meColorMouseOver  = AvoColors.COLOR_MENUET_TLBX_MO;
+		lastToolButton.meColorUnselected = AvoColors.COLOR_MENUET_TLBX_US;
+		lastToolButton.mePriority = 0; // awlays show the last tools!
+	}
 
 
 }

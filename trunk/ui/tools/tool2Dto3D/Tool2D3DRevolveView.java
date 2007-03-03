@@ -39,7 +39,7 @@ public class Tool2D3DRevolveView extends ToolView2D3D{
 	public Tool2D3DRevolveView(Menuet menuet){	
 		
 		// initialize GUI elements
-		mElement = new MEButton(menuet, this.getToolMode(), this);
+		mElement = new MEButton(menuet, this.getToolMode(), this, true);
 		mElement.mePreferredHeight = 50;
 		mElement.meLabel = "Revolve";
 		mElement.meIcon = ImageUtils.getIcon("menuet/2D3D_Revolve.png", 24, 24);

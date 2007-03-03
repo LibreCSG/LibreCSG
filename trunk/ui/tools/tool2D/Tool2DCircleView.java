@@ -38,7 +38,7 @@ public class Tool2DCircleView extends ToolView2D{
 	public Tool2DCircleView(Menuet menuet){	
 		
 		// initialize GUI elements
-		mElement = new MEButton(menuet, this.getToolMode(), this);
+		mElement = new MEButton(menuet, this.getToolMode(), this, false);
 		mElement.mePreferredHeight = 50;
 		mElement.meLabel = "Circle";
 		mElement.meIcon = ImageUtils.getIcon("menuet/2D_Circle.png", 24, 24);

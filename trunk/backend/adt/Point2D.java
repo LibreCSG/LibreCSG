@@ -87,6 +87,15 @@ public class Point2D {
 		return new Point2D(x*scaleFactor, y*scaleFactor);
 	}
 	
+	public Point2D getNewRotatedPt(double degrees){
+		double oldX = this.getX();
+		double oldY = this.getY();
+		double radians = degrees * Math.PI / 180.0;
+		Point2D rotated = new Point2D(	Math.cos(radians)*oldX - Math.sin(radians)*oldY,
+										Math.sin(radians)*oldX + Math.cos(radians)*oldY);		
+		return rotated;
+	}
+	
 	/**
 	 * returns <code>true</code> if the current
 	 * point is equal in value to the point

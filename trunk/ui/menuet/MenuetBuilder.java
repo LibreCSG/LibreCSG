@@ -3,6 +3,7 @@ package ui.menuet;
 import ui.tools.tool2D.Tool2DCancelView;
 import ui.tools.tool2D.Tool2DCircleView;
 import ui.tools.tool2D.Tool2DDoneView;
+import ui.tools.tool2D.Tool2DExampleView;
 import ui.tools.tool2D.Tool2DLineView;
 import ui.tools.tool2D.Tool2DRectView;
 import ui.tools.tool2D.Tool2DSelectView;
@@ -65,6 +66,7 @@ public class MenuetBuilder {
 		new Tool2DLineView(menuet);
 		new Tool2DCircleView(menuet);
 		new Tool2DRectView(menuet);
+		new Tool2DExampleView(menuet);
 		
 		
 		new METoolbox(menuet,Menuet.MENUET_MODE_2D);
