@@ -43,8 +43,8 @@ public class MEButton extends MenuetElement{
 	int MEB_SIDE_SPACE  = 8;	// unconsumed space to right of button
 	boolean mouseIsOver = false;
 	
-	public MEButton(Menuet menuet, int mode, ToolView toolView){
-		super(menuet, mode, toolView);
+	public MEButton(Menuet menuet, int mode, ToolView toolView, boolean isStoredInToolbox){
+		super(menuet, mode, toolView, isStoredInToolbox);
 		
 		// let menuet know about the new element
 		menuet.addMenuetElement(this, mode); 

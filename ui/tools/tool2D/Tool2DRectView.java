@@ -38,7 +38,7 @@ public class Tool2DRectView extends ToolView2D{
 	public Tool2DRectView(Menuet menuet){	
 		
 		// initialize GUI elements
-		mElement = new MEButton(menuet, this.getToolMode(), this);
+		mElement = new MEButton(menuet, this.getToolMode(), this, false);
 		mElement.mePreferredHeight = 50;
 		mElement.meLabel = "Rect";
 		mElement.meIcon = ImageUtils.getIcon("menuet/2D_Rect.png", 24, 24);

@@ -38,7 +38,7 @@ public class ToolMain2DView extends ToolViewMain{
 	public ToolMain2DView(Menuet menuet){	
 		
 		// initialize GUI elements
-		mElement = new MEButton(menuet, this.getToolMode(), this);
+		mElement = new MEButton(menuet, this.getToolMode(), this, false);
 		mElement.mePreferredHeight = 100;
 		mElement.meLabel = "2D";
 		mElement.meIcon = ImageUtils.getIcon("menuet/MAIN_2D.png", 24, 24);

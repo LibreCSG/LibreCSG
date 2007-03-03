@@ -69,7 +69,7 @@ public class Tool2DLineCtrl implements ToolCtrl2D {
 			//
 			// add the new feature to the end of the feature set
 			// and set it as the active feature2D.		
-			int indx = sketch.add(new Feature2D(sketch, new Tool2DLineModel(), pSet));
+			int indx = sketch.add(new Feature2D(sketch, pSet));
 			sketch.setActiveFeat2D(indx);
 			
 			//

@@ -1,9 +1,9 @@
-package ui.tools.tool2Dto3D;
+package ui.tools.tool2D;
 
 import ui.menuet.MEButton;
 import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
-import ui.tools.ToolView2D3D;
+import ui.tools.ToolView2D;
 import backend.data.utilities.ImageUtils;
 
 
@@ -33,25 +33,26 @@ import backend.data.utilities.ImageUtils;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2D3DExtrudeView extends ToolView2D3D{
+public class Tool2DExampleView extends ToolView2D{
 
-
-	public Tool2D3DExtrudeView(Menuet menuet){	
+	public Tool2DExampleView(Menuet menuet){	
 		
 		// initialize GUI elements
 		mElement = new MEButton(menuet, this.getToolMode(), this, true);
 		mElement.mePreferredHeight = 50;
-		mElement.meLabel = "Extrude";
-		mElement.meIcon = ImageUtils.getIcon("menuet/2D3D_Extrude.png", 24, 24);
-		mElement.setToolTipText("Extrude a 2D region.");
+		mElement.meLabel = "Example";
+		mElement.meIcon = ImageUtils.getIcon("menuet/2D_Example.png", 24, 24);
+		mElement.setToolTipText("This is an example tool\nmeant to show how something a\nbit more complex than just\na line or a circle can be formed.");
 		mElement.mePriority = 0; 	// 0 = always show element, >5 = never show element
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
 		
 		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
 	}
 
+	@Override
 	public void toolSelected() {
-		changeMenuetTool(mElement, new Tool2D3DExtrudeCtrl());
+		changeMenuetTool(mElement, new Tool2DExampleCtrl());
 	}
+
 	
 }

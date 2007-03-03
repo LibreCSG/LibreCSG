@@ -127,7 +127,10 @@ public class Menuet extends Composite{
 		}
 	}
 	
-	private void updateToolModeDisplayed(){
+	/**
+	 * repositions all menuet elements in the current mode.
+	 */
+	public void updateToolModeDisplayed(){
 		respositionMenuetElements(Menuet.this.getBounds().height,Menuet.this.getBounds().width);
 	}
 	
