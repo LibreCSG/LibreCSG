@@ -378,6 +378,9 @@ public class GLView {
 						glContext.release();	// go ahead, you can have it back.
 						
 						Long timeDiff = System.nanoTime() - startTime;
+						if(timeDiff > 100e6){
+							System.out.println(" *** Time-To-Render Warning!! Render > 100mSec. :: time=" + timeDiff/1e6 + "mSec");
+						}
 						// TODO: dynamically change RenderLevel based on time to render!
 						//System.out.println("Time to render: " + timeDiff);
 						

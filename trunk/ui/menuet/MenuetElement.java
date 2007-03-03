@@ -46,7 +46,7 @@ public abstract class MenuetElement extends Canvas{
 	public final static int ME_TEXT_ONLY  = 43074;	
 	
 	final int ALIGN_TOP    = 0;
-	final int ALIGN_MIDDLE = 1;
+	//final int ALIGN_MIDDLE = 1; // no align middle
 	final int ALIGN_BOTTOM = 2;
 	
 	
@@ -118,9 +118,9 @@ public abstract class MenuetElement extends Canvas{
 	 * middle of the Menuet on which it is placed
 	 * as possible.
 	 */
-	public void meAlignToMiddle(){
-		meAlign = ALIGN_MIDDLE;
-	}
+//	public void meAlignToMiddle(){
+//		meAlign = ALIGN_MIDDLE;
+//	}
 	
 	/**
 	 * align MenuetElement as close to the
@@ -143,9 +143,9 @@ public abstract class MenuetElement extends Canvas{
 	 * true if aligned to Middle
 	 * @return
 	 */	
-	public boolean meIsAlignedMiddle(){
-		return (meAlign == ALIGN_MIDDLE);
-	}
+//	public boolean meIsAlignedMiddle(){
+//		return (meAlign == ALIGN_MIDDLE);
+//	}
 	
 	/**
 	 * true if aligned to Bottom
