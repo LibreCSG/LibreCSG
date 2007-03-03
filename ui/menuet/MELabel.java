@@ -7,6 +7,8 @@ import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 
+import ui.tools.ToolView;
+
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
 //This code is distributed under the terms of the 
@@ -38,8 +40,8 @@ public class MELabel extends MenuetElement{
 	
 	public boolean textIsBold = false;
 	
-	public MELabel(Menuet menuet, int mode){
-		super(menuet, mode);		
+	public MELabel(Menuet menuet, int mode, ToolView toolView){
+		super(menuet, mode, toolView);		
 		// let menuet know about the new element
 		menuet.addMenuetElement(this, mode);
 		this.mePreferredHeight = 30;

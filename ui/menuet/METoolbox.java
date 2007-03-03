@@ -40,7 +40,7 @@ public class METoolbox{
 	MEButton lastToolButton;
 	
 	public METoolbox(Menuet menuet, int mode){		
-		toolboxButton  = new MEButton(menuet,mode);		
+		toolboxButton  = new MEButton(menuet, mode, null);		
 		toolboxButton.meLabel = "Toolbox";
 		toolboxButton.meIcon  = ImageUtils.getIcon("menuet/Toolbox.png", 24, 24);
 		toolboxButton.mePreferredHeight = 50;
@@ -59,7 +59,7 @@ public class METoolbox{
 			}			
 		});
 		
-		lastToolButton = new MEButton(menuet,mode);
+		lastToolButton = new MEButton(menuet, mode, null);
 		lastToolButton.meLabel = "";
 		lastToolButton.meIcon  = ImageUtils.getIcon("menuet/Toolbox.png", 24, 24);
 		lastToolButton.mePreferredHeight = 50;

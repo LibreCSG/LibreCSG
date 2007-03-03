@@ -38,7 +38,7 @@ public class Tool2DSelectView extends ToolView2D{
 	public Tool2DSelectView(Menuet menuet){	
 		
 		// initialize GUI elements
-		mElement = new MEButton(menuet, this.getToolMode());
+		mElement = new MEButton(menuet, this.getToolMode(), this);
 		mElement.mePreferredHeight = 50;
 		mElement.meLabel = "Select";
 		mElement.meIcon = ImageUtils.getIcon("menuet/Select.png", 24, 24);

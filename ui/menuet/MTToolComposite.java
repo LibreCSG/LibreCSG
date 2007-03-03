@@ -1,6 +1,8 @@
 package ui.menuet;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -8,6 +10,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+
+import ui.tools.ToolView;
 
 
 //
@@ -38,8 +42,11 @@ import org.eclipse.swt.widgets.Text;
 */
 public class MTToolComposite extends Composite{
 
+	MenuetElement mElement;
+	
 	MTToolComposite(Composite parent, int type, MenuetElement mElement) {
 		super(parent, type);
+		this.mElement = mElement;
 		
 		GridLayout gl = new GridLayout();
 		gl.numColumns = 1;
@@ -71,6 +78,18 @@ public class MTToolComposite extends Composite{
 		gd11.grabExcessHorizontalSpace = false;
 		b.setLayoutData(gd11);
 		b.setImage(mElement.meIcon);
+		b.addSelectionListener(new SelectionListener(){
+			public void widgetDefaultSelected(SelectionEvent e) {	
+			}
+			public void widgetSelected(SelectionEvent e) {
+				ToolView toolView = MTToolComposite.this.mElement.toolView;
+				if(toolView != null){
+					toolView.toolSelected();
+					// TODO: signal to toolboxDialog to now close itself, and update the "last used tool"
+				}				
+			}			
+		});
+		
 		
 		Label l = new Label(compTop, SWT.CENTER);
 		GridData gd12 = new GridData();
