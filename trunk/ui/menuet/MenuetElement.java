@@ -8,6 +8,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 
+import ui.tools.ToolView;
 import backend.data.utilities.ImageUtils;
 
 
@@ -69,8 +70,9 @@ public abstract class MenuetElement extends Canvas{
 	
 	private boolean isShown = false;
 	public final int toolMode;
+	public final ToolView toolView;
 	
-	public MenuetElement(Composite parent, int mode) {
+	public MenuetElement(Composite parent, int mode, ToolView toolView) {
 		super(parent, SWT.NONE);
 		this.toolMode = mode;
 		this.addPaintListener(new PaintListener(){
@@ -79,6 +81,7 @@ public abstract class MenuetElement extends Canvas{
 			}			
 		});		
 		meIcon = ImageUtils.getIcon("", 24, 24); // load default icon
+		this.toolView = toolView;
 	}
 
 	

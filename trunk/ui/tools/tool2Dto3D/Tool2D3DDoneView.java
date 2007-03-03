@@ -39,7 +39,7 @@ public class Tool2D3DDoneView extends ToolView2D3D{
 	public Tool2D3DDoneView(Menuet menuet){	
 		
 		// initialize GUI elements
-		mElement = new MEButton(menuet, this.getToolMode());
+		mElement = new MEButton(menuet, this.getToolMode(), this);
 		mElement.mePreferredHeight = 100;
 		mElement.meColorMouseOver  = AvoColors.COLOR_MENUET_DONE_MO;
 		mElement.meColorUnselected = AvoColors.COLOR_MENUET_DONE_US; 

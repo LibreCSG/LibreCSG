@@ -39,7 +39,7 @@ public class Tool2D3DExtrudeView extends ToolView2D3D{
 	public Tool2D3DExtrudeView(Menuet menuet){	
 		
 		// initialize GUI elements
-		mElement = new MEButton(menuet, this.getToolMode());
+		mElement = new MEButton(menuet, this.getToolMode(), this);
 		mElement.mePreferredHeight = 50;
 		mElement.meLabel = "Extrude";
 		mElement.meIcon = ImageUtils.getIcon("menuet/2D3D_Extrude.png", 24, 24);

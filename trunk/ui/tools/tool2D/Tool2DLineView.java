@@ -38,7 +38,7 @@ public class Tool2DLineView extends ToolView2D{
 	public Tool2DLineView(Menuet menuet){	
 		
 		// initialize GUI elements
-		mElement = new MEButton(menuet, this.getToolMode());
+		mElement = new MEButton(menuet, this.getToolMode(), this);
 		mElement.mePreferredHeight = 50;
 		mElement.meLabel = "Line";
 		mElement.meIcon = ImageUtils.getIcon("menuet/2D_Line.png", 24, 24);

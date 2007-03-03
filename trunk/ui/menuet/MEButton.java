@@ -8,6 +8,8 @@ import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 
+import ui.tools.ToolView;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -41,8 +43,8 @@ public class MEButton extends MenuetElement{
 	int MEB_SIDE_SPACE  = 8;	// unconsumed space to right of button
 	boolean mouseIsOver = false;
 	
-	public MEButton(Menuet menuet, int mode){
-		super(menuet, mode);
+	public MEButton(Menuet menuet, int mode, ToolView toolView){
+		super(menuet, mode, toolView);
 		
 		// let menuet know about the new element
 		menuet.addMenuetElement(this, mode); 
