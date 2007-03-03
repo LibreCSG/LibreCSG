@@ -149,7 +149,7 @@ public class Menuet extends Composite{
 	/**
 	 * de-select all buttons in the current mode except
 	 * for the element passed in to <em>selectButton</em>.
-	 * @param me
+	 * @param me MenuetElement that should be selected
 	 */
 	public void selectButton(MenuetElement me){
 		int newToolMode = me.toolMode;
@@ -302,10 +302,7 @@ public class Menuet extends Composite{
 				heightMarker += mElement.getBounds().height;
 			}
 		}		
-		
-		
-		// TODO: Allow for MIDDLE aligned MenuetElements
-		
+
 		//
 		// BOTTOM
 		//

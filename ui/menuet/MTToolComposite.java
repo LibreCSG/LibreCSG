@@ -108,6 +108,7 @@ public class MTToolComposite extends Composite{
 						mElements.add(lastToolI, newToolSel);
 						MenuetElement oldLastTool = mElements.get(lastToolI + METoolbox.numLastTools);
 						oldLastTool.mePriority = 6; // does not paint. (hide back in toolbox)
+						// TODO: take out of toolbox (isStoredInToolbox = true..)
 						mElements.remove(lastToolI + METoolbox.numLastTools);
 						newToolSel.notifyListeners(SWT.MouseDown, new Event());
 					}else{

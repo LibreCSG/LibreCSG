@@ -44,7 +44,7 @@ public class Tool2DDoneView extends ToolView2D{
 		mElement.meColorMouseOver  = AvoColors.COLOR_MENUET_DONE_MO;
 		mElement.meColorUnselected = AvoColors.COLOR_MENUET_DONE_US; 
 		mElement.meLabel = "Done";
-		mElement.meIcon = ImageUtils.getIcon("menuet/Done.png", 24, 24);
+		mElement.meIcon = ImageUtils.getIcon("./menuet/Done.png", 24, 24);
 		mElement.setToolTipText("Finish working in the 2D mode.");
 		mElement.mePriority = 0; 	// 0 = always show element, >5 = never show element
 		mElement.meDispOptions = MenuetElement.ME_TRY_ICON;
