@@ -15,6 +15,7 @@ import org.eclipse.swt.widgets.Shell;
 import ui.menubar.AvoMenuBar;
 import ui.menuet.Menuet;
 import ui.menuet.MenuetBuilder;
+import ui.menuet.MenuetToolboxDialog;
 import ui.opengl.GLView;
 import ui.paramdialog.DynParamDialog;
 import ui.quicksettings.QuickSettings;
@@ -163,6 +164,11 @@ public class MainAvoCADoShell{
 		AvoGlobal.paramDialog = new DynParamDialog(mainViewComp);
 		
 		//
+		// Add the MenuetToolboxDialog
+		//
+		AvoGlobal.toolboxDialog = new MenuetToolboxDialog(mainViewComp);
+		
+		//
 		// Add the glView
 		//
 		AvoGlobal.glView = new GLView(mainViewComp);
@@ -175,6 +181,7 @@ public class MainAvoCADoShell{
 				//  the paramDialog is placed over the glView).
 				AvoGlobal.glView.glCanvas.setBounds(mainViewComp.getBounds());
 				AvoGlobal.paramDialog.positionParamDialog();
+				AvoGlobal.toolboxDialog.positionToolboxDialog();
 			}			
 		});
 		
