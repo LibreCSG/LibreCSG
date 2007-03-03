@@ -103,7 +103,7 @@ public class MenuetToolboxDialog {
 		bClose.addPaintListener(new PaintListener(){
 			public void paintControl(PaintEvent e) {
 				GC gc = e.gc;
-				gc.drawImage(ImageUtils.getIcon("./toolbox/Cancel.png", 12,12), 5, 3);
+				gc.drawImage(ImageUtils.getIcon("./Cancel.png", 12,12), 5, 3);
 			}			
 		});
 		bClose.addMouseListener(new MouseListener(){

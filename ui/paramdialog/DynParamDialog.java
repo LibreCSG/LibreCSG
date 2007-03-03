@@ -108,7 +108,7 @@ public class DynParamDialog {
 		bOK.addPaintListener(new PaintListener(){
 			public void paintControl(PaintEvent e) {
 				GC gc = e.gc;
-				gc.drawImage(ImageUtils.getIcon("./paramDialog/OK.png", 12,12), 15, 3);
+				gc.drawImage(ImageUtils.getIcon("./OK.png", 12,12), 15, 3);
 			}			
 		});
 		bOK.addMouseListener(new MouseListener(){
@@ -217,9 +217,7 @@ public class DynParamDialog {
 					break;
 				}
 				case Integer : {
-					// TODO: PCompInt
-					Label l = new Label(paramComp, SWT.SINGLE);
-					l.setText(p.getLabel());
+					new PCompInteger(paramComp, SWT.BORDER, p, paramSet);
 					break;
 				}
 				case Double : {

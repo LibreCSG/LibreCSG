@@ -6,6 +6,7 @@ import backend.adt.ParamSet;
 import backend.adt.Point2D;
 import backend.global.AvoGlobal;
 import backend.model.Sketch;
+import backend.model.sketch.Prim2DArc;
 import backend.model.sketch.Prim2DLine;
 import backend.model.sketch.Prim2DList;
 
@@ -52,6 +53,8 @@ public class Tool2DExampleModel implements ToolModel2D{
 					primList.add(new Prim2DLine(arm.getNewRotatedPt((2*i+1)*degPerTri).addPt(ptC),arm.getNewRotatedPt(2*i*degPerTri).addPt(ptC)));
 					primList.add(new Prim2DLine(ptC,arm.getNewRotatedPt((2*i+1)*degPerTri).addPt(ptC)));
 				}
+				primList.add(new Prim2DArc(ptC, 1.2*size, 0.0, 360.0));
+				primList.add(new Prim2DArc(ptC, 1.25*size, 0.0, 360.0));
 				return primList;
 			}
 		}catch(Exception ex){
