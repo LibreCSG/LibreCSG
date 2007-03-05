@@ -1,13 +1,14 @@
 package ui.tools.tool2D;
 
+import ui.tools.ToolModel2D;
 import backend.adt.PType;
+import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
 import backend.global.AvoGlobal;
 import backend.model.Sketch;
 import backend.model.sketch.Prim2DLine;
 import backend.model.sketch.Prim2DList;
-import ui.tools.ToolModel2D;
 
 
 //
@@ -89,6 +90,19 @@ public class Tool2DRectModel implements ToolModel2D{
 		if(sketch != null){
 			sketch.deselectAllFeat2D();
 		}
+	}
+
+	public ParamSet constructNewParamSet() {
+		ParamSet pSet = new ParamSet("Rectangle", new Tool2DRectModel());
+		pSet.addParam("a", new Param("Pt.A", new Point2D(0.0,0.0)));
+		pSet.addParam("b", new Param("Pt.B", new Point2D(0.0,0.0)));
+		Param width = new Param("Width", 0.0);
+		Param height = new Param("Height", 0.0);
+		width.setParamIsDerived(true);
+		height.setParamIsDerived(true);
+		pSet.addParam("w", width);
+		pSet.addParam("h", height);
+		return pSet;
 	}
 
 }

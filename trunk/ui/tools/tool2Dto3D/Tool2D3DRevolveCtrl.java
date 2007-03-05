@@ -1,12 +1,9 @@
 package ui.tools.tool2Dto3D;
 
-import javax.media.opengl.GL;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolCtrl2D3D;
-import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
 import backend.adt.SelectionList;
@@ -55,11 +52,7 @@ public class Tool2D3DRevolveCtrl implements ToolCtrl2D3D{
 				ParamSet paramSet = feat2D3D.paramSet;
 				if(!(new Tool2D3DRevolveModel()).paramSetIsValid(paramSet)){
 					// paramSet is not valid for this feature, create a new one.
-					paramSet = new ParamSet("Revolve", new Tool2D3DRevolveModel());
-					paramSet.addParam("regions", new Param("Regions", new SelectionList()));
-					paramSet.addParam("centerline", new Param("CenterLine", new SelectionList()));
-					paramSet.addParam("angle", new Param("Angle", 360.0));
-					paramSet.addParam("offset", new Param("OffsetAngle", 0.0));
+					paramSet = (new Tool2D3DRevolveModel()).constructNewParamSet();
 					feat2D3D.paramSet = paramSet;
 				}
 				

@@ -253,7 +253,7 @@ public class Menuet extends Composite{
 			}				
 		}	
 
-		System.out.println("unused Pixels 3: " + unusedPixels3);
+		//System.out.println("unused Pixels 3: " + unusedPixels3);
 		
 		// each MenuetElement is now appropriately sized and hidden/shown...
 		// they just need to be correctly positioned now. :)

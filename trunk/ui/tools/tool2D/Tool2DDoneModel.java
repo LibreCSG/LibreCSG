@@ -54,4 +54,8 @@ public class Tool2DDoneModel implements ToolModel2D{
 		}
 	}
 
+	public ParamSet constructNewParamSet() {
+		return null;
+	}
+
 }

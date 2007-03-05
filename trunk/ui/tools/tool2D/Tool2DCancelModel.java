@@ -53,4 +53,8 @@ public class Tool2DCancelModel implements ToolModel2D{
 	public Prim2DList buildPrim2DList(ParamSet p) {
 		return null;
 	}
+
+	public ParamSet constructNewParamSet() {
+		return null;
+	}
 }

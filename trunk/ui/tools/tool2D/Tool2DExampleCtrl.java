@@ -3,7 +3,6 @@ package ui.tools.tool2D;
 import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolCtrl2D;
-import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
 import backend.global.AvoGlobal;
@@ -59,10 +58,12 @@ public class Tool2DExampleCtrl implements ToolCtrl2D{
 			//
 			// Build parameter set for this feature
 			//
-			ParamSet pSet = new ParamSet("Example", new Tool2DExampleModel());
-			pSet.addParam("c", new Param("Center", new Point2D(x,y)));
-			pSet.addParam("s", new Param("Size", 4.0));
-			pSet.addParam("t", new Param("Triangles", 9));			
+			ParamSet pSet = (new Tool2DExampleModel()).constructNewParamSet();
+			try{
+				pSet.changeParam("c", new Point2D(x,y));
+			}catch(Exception ex){
+				System.out.println("Tool2DExample(mousedown): " + ex.getClass());
+			}			
 			//
 			// add the new feature to the end of the feature set
 			// and set it as the active feature2D.		
