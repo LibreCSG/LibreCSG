@@ -87,6 +87,7 @@ public class MenuetBuilder {
 		new Tool2D3DExtrudeView(menuet);
 		new Tool2D3DRevolveView(menuet);
 		
+		new METoolbox(menuet,Menuet.MENUET_MODE_2Dto3D);
 		
 		//
 		//  TOOL MODE:  Main

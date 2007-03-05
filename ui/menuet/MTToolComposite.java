@@ -105,16 +105,15 @@ public class MTToolComposite extends Composite{
 					MenuetElement newToolSel = MTToolComposite.this.mElement;	
 					if(newToolSel.isStoredInToolbox){
 						int originalIndexOfNewTool = mElements.indexOf(newToolSel);
-						METoolbox.makeMenuetElementTBoxLast(newToolSel); // give element look/feel of toolbox elements
 						mElements.add(lastToolI, newToolSel);
 						newToolSel.meSetShown(true);
+						MenuetElement oldestLastTool = mElements.get(lastToolI + METoolbox.numLastTools);
+						oldestLastTool.meSetShown(false);
 						if(originalIndexOfNewTool < lastToolI){
 							mElements.remove(originalIndexOfNewTool);
 						}else{
 							mElements.remove(originalIndexOfNewTool+1);
-						}
-						MenuetElement oldestLastTool = mElements.get(lastToolI + METoolbox.numLastTools);
-						oldestLastTool.meSetShown(false);
+						}						
 						newToolSel.notifyListeners(SWT.MouseDown, new Event());
 					}else{
 						System.out.println("trying to select an element in the toolbox that does not belong!!");

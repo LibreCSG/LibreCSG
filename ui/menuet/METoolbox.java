@@ -62,7 +62,6 @@ public class METoolbox{
 		
 		for(int i=0; i<numLastTools; i++){
 			MEButton lastToolButton = new MEButton(menuet, mode, null, false);
-			makeMenuetElementTBoxLast(lastToolButton);
 			lastToolButton.meLabel = "??";
 			lastToolButton.mePreferredHeight = 50;
 			lastToolButton.meDispOptions = MenuetElement.ME_TEXT_ONLY;
@@ -70,11 +69,4 @@ public class METoolbox{
 			lastToolButton.meSetShown(false);
 		}		
 	}
-	
-	public static void makeMenuetElementTBoxLast(MenuetElement lastToolButton){		
-		lastToolButton.meColorMouseOver  = AvoColors.COLOR_MENUET_TLBX_MO;
-		lastToolButton.meColorUnselected = AvoColors.COLOR_MENUET_TLBX_US;
-	}
-
-
 }
