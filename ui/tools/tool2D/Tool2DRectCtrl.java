@@ -3,7 +3,6 @@ package ui.tools.tool2D;
 import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolCtrl2D;
-import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
 import backend.global.AvoGlobal;
@@ -59,16 +58,13 @@ public class Tool2DRectCtrl implements ToolCtrl2D {
 			//
 			// Build parameter set for this feature
 			//
-			ParamSet pSet = new ParamSet("Rectangle", new Tool2DRectModel());
-			pSet.addParam("a", new Param("Pt.A", new Point2D(x,y)));
-			pSet.addParam("b", new Param("Pt.B", new Point2D(x,y)));
-			Param width = new Param("Width", 0.0);
-			Param height = new Param("Height", 0.0);
-			width.setParamIsDerived(true);
-			height.setParamIsDerived(true);
-			pSet.addParam("w", width);
-			pSet.addParam("h", height);
-			
+			ParamSet pSet = (new Tool2DRectModel()).constructNewParamSet();
+			try{
+				pSet.changeParam("a", new Point2D(x,y));
+				pSet.changeParam("b", new Point2D(x,y));
+			}catch(Exception ex){
+				System.out.println(this.getClass().getCanonicalName() + " :: " + ex.getClass());
+			}	
 			//
 			// add the new feature to the end of the feature set
 			// and set it as the active feature2D.		

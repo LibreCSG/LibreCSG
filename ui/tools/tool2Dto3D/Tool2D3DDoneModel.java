@@ -48,4 +48,8 @@ public class Tool2D3DDoneModel implements ToolModel2D3D{
 	public void updateDerivedParams(ParamSet paramSet) {
 	}
 
+	public ParamSet constructNewParamSet() {
+		return null;
+	}
+
 }

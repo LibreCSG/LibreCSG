@@ -57,9 +57,7 @@ public class Tool2D3DExtrudeCtrl implements ToolCtrl2D3D{
 				if(!(new Tool2D3DExtrudeModel()).paramSetIsValid(paramSet)){
 					//System.out.println("%% making new extrude paramSet");
 					// paramSet is not valid for this feature, create a new one.
-					paramSet = new ParamSet("Extrude", new Tool2D3DExtrudeModel());
-					paramSet.addParam("regions", new Param("Regions", new SelectionList()));
-					paramSet.addParam("h", new Param("Height", 2*AvoGlobal.gridSize));
+					paramSet = (new Tool2D3DExtrudeModel()).constructNewParamSet();
 					feat2D3D.paramSet = paramSet;
 				}
 				

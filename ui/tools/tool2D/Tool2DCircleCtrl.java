@@ -3,7 +3,6 @@ package ui.tools.tool2D;
 import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolCtrl2D;
-import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
 import backend.global.AvoGlobal;
@@ -60,10 +59,12 @@ public class Tool2DCircleCtrl implements ToolCtrl2D  {
 			//
 			// Build parameter set for this feature
 			//
-			ParamSet pSet = new ParamSet("Circle", new Tool2DCircleModel());
-			pSet.addParam("c", new Param("Center", new Point2D(x,y)));
-			pSet.addParam("r", new Param("Radius", 0.0));
-			
+			ParamSet pSet = (new Tool2DCircleModel()).constructNewParamSet();
+			try{
+				pSet.changeParam("c", new Point2D(x,y));
+			}catch(Exception ex){
+				System.out.println("Tool2DCircle(mousedown): " + ex.getClass());
+			}
 			//
 			// add the new feature to the end of the feature set
 			// and set it as the active feature2D.		
@@ -94,7 +95,7 @@ public class Tool2DCircleCtrl implements ToolCtrl2D  {
 				Point2D ptCenter = paramSet.getParam("c").getDataPoint2D();
 				paramSet.changeParam("r", ptCenter.computeDist(new Point2D(x,y)));
 			}catch(Exception ex){
-				System.out.println(ex.getClass());
+				System.out.println("Tool2DCircle(mousedrag): " + ex.getClass());
 			}
 		}
 	}
@@ -123,7 +124,7 @@ public class Tool2DCircleCtrl implements ToolCtrl2D  {
 					AvoGlobal.paramDialog.setParamSet(null);
 				}
 			}catch(Exception ex){
-				System.out.println(ex.getClass());
+				System.out.println("Tool2DCircle(mouseup): " + ex.getClass());
 			}						
 		}
 	}

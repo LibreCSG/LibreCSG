@@ -4,6 +4,7 @@ import javax.media.opengl.GL;
 
 import ui.tools.ToolModel2D3D;
 import backend.adt.PType;
+import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
 import backend.adt.SelectionList;
@@ -142,6 +143,13 @@ public class Tool2D3DExtrudeModel implements ToolModel2D3D{
 			System.out.println("I have no idea what's going on?!?  the active feature2D3D was null!?!");
 		}
 		
+	}
+
+	public ParamSet constructNewParamSet() {
+		ParamSet pSet = new ParamSet("Extrude", new Tool2D3DExtrudeModel());
+		pSet.addParam("regions", new Param("Regions", new SelectionList()));
+		pSet.addParam("h", new Param("Height", 2*AvoGlobal.gridSize));
+		return pSet;
 	}
 
 }

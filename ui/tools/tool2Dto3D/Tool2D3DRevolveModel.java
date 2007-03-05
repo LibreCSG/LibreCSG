@@ -4,7 +4,9 @@ import javax.media.opengl.GL;
 
 import ui.tools.ToolModel2D3D;
 import backend.adt.PType;
+import backend.adt.Param;
 import backend.adt.ParamSet;
+import backend.adt.SelectionList;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D3D;
 import backend.model.Sketch;
@@ -81,6 +83,15 @@ public class Tool2D3DRevolveModel implements ToolModel2D3D{
 
 	public void updateDerivedParams(ParamSet paramSet) {
 		// no derive parameters for this feature.	
+	}
+
+	public ParamSet constructNewParamSet() {
+		ParamSet pSet = new ParamSet("Revolve", new Tool2D3DRevolveModel());
+		pSet.addParam("angle", new Param("Angle", 360.0));
+		pSet.addParam("offset", new Param("OffsetAngle", 0.0));
+		pSet.addParam("regions", new Param("Regions", new SelectionList()));
+		pSet.addParam("centerline", new Param("CenterLine", new SelectionList()));		
+		return pSet;
 	}
 
 }

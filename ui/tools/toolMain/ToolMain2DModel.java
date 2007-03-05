@@ -52,4 +52,9 @@ public class ToolMain2DModel implements ToolModelMain{
 	public void updateDerivedParams(ParamSet paramSet) {
 	}
 
+	public ParamSet constructNewParamSet() {
+		// TODO SKETCH PARAM SET?!?! (here?!)
+		return null;
+	}
+
 }

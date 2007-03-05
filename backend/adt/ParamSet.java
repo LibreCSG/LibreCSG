@@ -2,6 +2,7 @@ package backend.adt;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 
 import ui.tools.ToolModel;
 import ui.tools.ToolModel2D;
@@ -192,8 +193,8 @@ public class ParamSet {
 		if(paramSet.get(name) != null){
 			paramSet.get(name).change(data);
 		}else{
-			System.out.println("Tried to change a parameter that did not exist in the set!");
-			System.out.println("  --> Name: " + name);
+			System.out.println("* Tried to change a parameter that did not exist in the set!");
+			System.out.println("  --> Tried: " + name + " in Set: " + this.toString());
 			throw new ParamNotFoundException();
 		}		
 	}
@@ -222,5 +223,15 @@ public class ParamSet {
 			System.out.println("ParamSet.hasParam: no param found in set with the name: " + name);
 			return false;
 		}		
+	}
+	
+	public String toString(){
+		String allParams = "";
+		Iterator <Entry<String,Param>>  iter = paramSet.entrySet().iterator();
+		while(iter.hasNext()){
+			Entry<String,Param> e = iter.next();
+			allParams += " " + e.getKey() + "->" + e.getValue().toString();
+		}
+		return this.label + "{" + allParams + "}";
 	}
 }

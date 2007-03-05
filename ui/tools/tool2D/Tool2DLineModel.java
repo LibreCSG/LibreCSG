@@ -1,13 +1,14 @@
 package ui.tools.tool2D;
 
+import ui.tools.ToolModel2D;
 import backend.adt.PType;
+import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
 import backend.global.AvoGlobal;
 import backend.model.Sketch;
 import backend.model.sketch.Prim2DLine;
 import backend.model.sketch.Prim2DList;
-import ui.tools.ToolModel2D;
 
 
 //
@@ -85,6 +86,16 @@ public class Tool2DLineModel implements ToolModel2D{
 		if(sketch != null){
 			sketch.deselectAllFeat2D();
 		}
+	}
+
+	public ParamSet constructNewParamSet() {
+		ParamSet pSet = new ParamSet("Line", new Tool2DLineModel());
+		pSet.addParam("a", new Param("Pt.A", new Point2D(0.0,0.0)));
+		pSet.addParam("b", new Param("Pt.B", new Point2D(0.0,0.0)));
+		Param dist = new Param("Length", 0.0);
+		dist.setParamIsDerived(true);
+		pSet.addParam("l", dist);
+		return pSet;
 	}
 
 }

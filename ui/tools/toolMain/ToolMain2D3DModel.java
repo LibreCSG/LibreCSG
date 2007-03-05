@@ -42,4 +42,8 @@ public class ToolMain2D3DModel implements ToolModelMain{
 	public void updateDerivedParams(ParamSet paramSet) {
 	}
 
+	public ParamSet constructNewParamSet() {
+		return null;
+	}
+
 }

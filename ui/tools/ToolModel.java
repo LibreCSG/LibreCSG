@@ -37,6 +37,13 @@ import backend.adt.ParamSet;
 public interface ToolModel {
 
 	/**
+	 * Construct a new ParamSet that is initialized to
+	 * default values for this tool.  
+	 * @return a <b>valid</b> ParamSet for this tool.
+	 */
+	abstract public ParamSet constructNewParamSet();
+	
+	/**
 	 * Finalize the ParamSet for the given tool.  For example, this will 
 	 * be called when the "done" button of the ParamDialog is clicked 
 	 * for a particular tool.

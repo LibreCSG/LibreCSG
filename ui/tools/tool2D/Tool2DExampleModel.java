@@ -2,6 +2,7 @@ package ui.tools.tool2D;
 
 import ui.tools.ToolModel2D;
 import backend.adt.PType;
+import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
 import backend.global.AvoGlobal;
@@ -86,6 +87,14 @@ public class Tool2DExampleModel implements ToolModel2D{
 		if(sketch != null){
 			sketch.deselectAllFeat2D();
 		}
+	}
+
+	public ParamSet constructNewParamSet() {
+		ParamSet pSet = new ParamSet("Example", new Tool2DExampleModel());
+		pSet.addParam("c", new Param("Center", new Point2D(0.0,0.0)));
+		pSet.addParam("s", new Param("Size", 4.0));
+		pSet.addParam("t", new Param("Triangles", 9));
+		return pSet;
 	}
 	
 }

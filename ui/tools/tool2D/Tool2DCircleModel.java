@@ -1,13 +1,14 @@
 package ui.tools.tool2D;
 
+import ui.tools.ToolModel2D;
 import backend.adt.PType;
+import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
 import backend.global.AvoGlobal;
 import backend.model.Sketch;
 import backend.model.sketch.Prim2DArc;
 import backend.model.sketch.Prim2DList;
-import ui.tools.ToolModel2D;
 
 
 //
@@ -75,6 +76,13 @@ public class Tool2DCircleModel implements ToolModel2D {
 		if(sketch != null){
 			sketch.deselectAllFeat2D();
 		}
+	}
+
+	public ParamSet constructNewParamSet() {
+		ParamSet pSet = new ParamSet("Circle", this);
+		pSet.addParam("c", new Param("Center", new Point2D(0.0,0.0)));
+		pSet.addParam("r", new Param("Radius", 0.0));
+		return pSet;
 	}
 
 }

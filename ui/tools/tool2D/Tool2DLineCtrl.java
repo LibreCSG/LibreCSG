@@ -3,7 +3,6 @@ package ui.tools.tool2D;
 import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolCtrl2D;
-import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
 import backend.global.AvoGlobal;
@@ -59,12 +58,13 @@ public class Tool2DLineCtrl implements ToolCtrl2D {
 			//
 			// Build parameter set for this feature
 			//
-			ParamSet pSet = new ParamSet("Line", new Tool2DLineModel());
-			pSet.addParam("a", new Param("Pt.A", new Point2D(x,y)));
-			pSet.addParam("b", new Param("Pt.B", new Point2D(x,y)));
-			Param dist = new Param("Length", 0.0);
-			dist.setParamIsDerived(true);
-			pSet.addParam("l", dist);
+			ParamSet pSet = (new Tool2DLineModel()).constructNewParamSet();
+			try{
+				pSet.changeParam("a", new Point2D(x,y));
+				pSet.changeParam("b", new Point2D(x,y));
+			}catch(Exception ex){
+				System.out.println(this.getClass().getCanonicalName() + " :: " + ex.getClass());
+			}			
 			
 			//
 			// add the new feature to the end of the feature set
@@ -96,7 +96,7 @@ public class Tool2DLineCtrl implements ToolCtrl2D {
 				paramSet.changeParam("b", new Point2D(x,y));
 				(new Tool2DLineModel()).updateDerivedParams(paramSet);
 			}catch(Exception ex){
-				System.out.println(ex.getClass());
+				System.out.println(this.getClass().getCanonicalName() + " :: " + ex.getClass());
 			}
 		}
 	}
@@ -128,7 +128,7 @@ public class Tool2DLineCtrl implements ToolCtrl2D {
 				}
 				
 			}catch(Exception ex){
-				System.out.println(ex.getClass());
+				System.out.println(this.getClass().getCanonicalName() + " :: " + ex.getClass());
 			}			
 		}
 	}

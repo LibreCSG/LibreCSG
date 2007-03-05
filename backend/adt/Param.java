@@ -201,4 +201,51 @@ public class Param {
 		derivedParam = isDerived;
 	}
 	
+	public String toString(){
+		String string = "";
+		try{
+		switch(this.ptype){
+			case Boolean: {
+				string = getDataBoolean().toString();
+				break;
+			}
+			case Integer: {
+				string = getDataInteger().toString();
+				break;
+			}
+			case Double: {
+				string = getDataDouble().toString();
+				break;
+			}
+			case String: { 
+				string = getDataString().toString();
+				break;
+			}
+			case Point2D: {
+				string = getDataPoint2D().toString();
+				break;
+			}
+			case Point3D: {
+				string = getDataPoint3D().toString();
+				break;
+			}
+			case Rotation3D: {
+				string = getDataRotation3D().toString();
+				break;
+			}
+			case SelectionList: {
+				string = getDataSelectionList().toString();
+				break;
+			}
+			default: {
+				string = "unknown type!! update Param.toString!";
+				break;
+			}
+		}
+		}catch(Exception ex){
+			System.out.println(this.getClass().getCanonicalName() + " :toString: " + ex.getClass());
+		}
+		return "(" + this.plabel + "," + string + ")";
+	}
+	
 }
