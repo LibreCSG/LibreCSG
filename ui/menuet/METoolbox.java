@@ -38,7 +38,7 @@ public class METoolbox{
 
 	MEButton toolboxButton;
 	final public static String meToolboxLabel = "Toolbox";
-	final public static int numLastTools = 1;
+	final public static int numLastTools = 3;
 	
 	public METoolbox(Menuet menuet, int mode){		
 		toolboxButton  = new MEButton(menuet, mode, null, false);		
