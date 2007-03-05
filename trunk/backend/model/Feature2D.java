@@ -45,7 +45,6 @@ public class Feature2D {
 	
 	protected Sketch sketch;
 	
-	//	 TODO: Feature 2D should not take in model?!?! only in param set?!?!
 	public Feature2D(Sketch sketch, ParamSet paramSet){
 		this.sketch = sketch;
 		this.paramSet  = paramSet;

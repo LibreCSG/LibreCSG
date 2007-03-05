@@ -95,7 +95,7 @@ public class TreeViewer {
 		});
 	}
 	
-	// TODO: this should NOT be public.. use a listener for model changes!!
+	// triggered via event listener
 	void buildTreeFromAssembly(){
 		Project project = AvoGlobal.project;
 		
