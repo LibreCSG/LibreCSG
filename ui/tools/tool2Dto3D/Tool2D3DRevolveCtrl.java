@@ -47,12 +47,6 @@ import backend.model.sketch.Region2D;
 */
 public class Tool2D3DRevolveCtrl implements ToolCtrl2D3D{
 
-	public void draw3DFeature(GL gl, Feature2D3D feat2D3D) {
-		// TODO Auto-generated method stub
-	}
-
-
-
 	public void glMouseDown(double x, double y, double z, MouseEvent e) {
 		Feature2D3D feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
 		if(feat2D3D != null){	

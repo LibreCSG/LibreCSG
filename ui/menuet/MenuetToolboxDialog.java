@@ -151,7 +151,6 @@ public class MenuetToolboxDialog {
 		tboxComp.setLayout(gl);
 		
 		//
-		// TODO: add all of the tools in the current mode
 		// TODO: sort all tools alphabetically
 		LinkedList<MenuetElement> mElements = AvoGlobal.menuet.menuetElements[AvoGlobal.menuet.currentToolMode];
 		for(int i=0; i<mElements.size(); i++){
