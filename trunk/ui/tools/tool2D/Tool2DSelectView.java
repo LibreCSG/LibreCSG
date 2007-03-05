@@ -43,7 +43,6 @@ public class Tool2DSelectView extends ToolView2D{
 		mElement.meLabel = "Select";
 		mElement.meIcon = ImageUtils.getIcon("menuet/Select.png", 24, 24);
 		mElement.setToolTipText("Select objects to \nmodify their properties.");
-		mElement.mePriority = 0; 	// 0 = always show element, >5 = never show element
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
 		mElement.meAlignToBottom();
 		

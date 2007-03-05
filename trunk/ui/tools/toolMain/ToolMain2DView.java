@@ -43,7 +43,6 @@ public class ToolMain2DView extends ToolViewMain{
 		mElement.meLabel = "2D";
 		mElement.meIcon = ImageUtils.getIcon("menuet/MAIN_2D.png", 24, 24);
 		mElement.setToolTipText("2D Sketch Mode");
-		mElement.mePriority = 0; 	// 0 = always show element, >5 = never show element
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
 		
 		this.applyToolGroupSettings();	// APPLY MAIN GROUP SETTINGS

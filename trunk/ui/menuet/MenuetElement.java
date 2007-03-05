@@ -46,14 +46,14 @@ public abstract class MenuetElement extends Canvas{
 	public final static int ME_TEXT_ONLY  = 43074;	
 	
 	final int ALIGN_TOP    = 0;
-	//final int ALIGN_MIDDLE = 1; // no align middle
+	//final int ALIGN_MIDDLE = 1; // no align middle, maybe later
 	final int ALIGN_BOTTOM = 2;
 	
 	
 	public Image  meIcon     = null;
 	public String meLabel    = "???";
 	private int   meAlign    = ALIGN_TOP; 	// default alignment
-	public  int   mePriority = 0; 			// zero=top priority, >0=less important, >5=don't show
+	//public  int   mePriority = 0; 			// zero=top priority, >0=less important, >5=don't show
 	public int    meDispOptions = ME_TRY_TEXT;
 	
 	public Color meColorForeground = new Color(this.getDisplay(),   0,   0,   0);
@@ -78,6 +78,7 @@ public abstract class MenuetElement extends Canvas{
 		super(parent, SWT.NONE);
 		this.toolMode = mode;
 		this.isStoredInToolbox = isStoredInToolbox;
+		this.isShown = !isStoredInToolbox;
 		this.addPaintListener(new PaintListener(){
 			public void paintControl(PaintEvent e) {
 				paintElement(e);
@@ -155,11 +156,22 @@ public abstract class MenuetElement extends Canvas{
 		return (meAlign == ALIGN_BOTTOM);
 	}
 	
-	
-	public void setShown(boolean shown){
+	/**
+	 * determines whether a menuet element is to be
+	 * displayed (i.e., shown) in the menuet when the 
+	 * tool mode to which it belongs (e.g., 2D) is active. 
+	 * @param shown the new shown state
+	 */
+	public void meSetShown(boolean shown){
 		isShown = shown;
 	}
 	
+	/**
+	 * determines whether a menuet element is to be
+	 * displayed (i.e., shown) in the menuet when the 
+	 * tool mode to which it belongs (e.g., 2D) is active. 
+	 * @param shown the new shown state
+	 */
 	public boolean meIsShown(){
 		return isShown;
 	}

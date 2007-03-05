@@ -43,7 +43,6 @@ public class Tool2DCircleView extends ToolView2D{
 		mElement.meLabel = "Circle";
 		mElement.meIcon = ImageUtils.getIcon("menuet/2D_Circle.png", 24, 24);
 		mElement.setToolTipText("Circle");
-		mElement.mePriority = 0; 	// 0 = always show element, >5 = never show element
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
 		
 		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS

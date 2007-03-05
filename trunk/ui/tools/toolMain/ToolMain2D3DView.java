@@ -48,7 +48,6 @@ public class ToolMain2D3DView extends ToolViewMain{
 		mElement.meLabel = "2Dto3D";
 		mElement.meIcon = ImageUtils.getIcon("menuet/MAIN_2Dto3D.png", 24, 24);
 		mElement.setToolTipText("Transform 2D sketches\ninto various 3D shapes.");
-		mElement.mePriority = 0; 	// 0 = always show element, >5 = never show element
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
 		
 		this.applyToolGroupSettings();	// APPLY MAIN GROUP SETTINGS

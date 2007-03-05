@@ -107,7 +107,8 @@ public class MTToolComposite extends Composite{
 						METoolbox.makeMenuetElementTBoxLast(newToolSel); 
 						mElements.add(lastToolI, newToolSel);
 						MenuetElement oldLastTool = mElements.get(lastToolI + METoolbox.numLastTools);
-						oldLastTool.mePriority = 6; // does not paint. (hide back in toolbox)
+						oldLastTool.meSetShown(false);
+						newToolSel.meSetShown(true);
 						// TODO: take out of toolbox (isStoredInToolbox = true..)
 						mElements.remove(lastToolI + METoolbox.numLastTools);
 						newToolSel.notifyListeners(SWT.MouseDown, new Event());
@@ -116,16 +117,7 @@ public class MTToolComposite extends Composite{
 					}
 				}
 				AvoGlobal.toolboxDialog.closeToolBox();
-				AvoGlobal.menuet.updateToolModeDisplayed();
-				
-				
-				
-//				ToolView toolView = MTToolComposite.this.mElement.toolView;
-//				if(toolView != null){					
-//					toolView.toolSelected();
-//					// TODO: signal to toolboxDialog to update the "last used tool"
-//					AvoGlobal.toolboxDialog.closeToolBox();
-//				}				
+				AvoGlobal.menuet.updateToolModeDisplayed();			
 			}			
 		});
 		
