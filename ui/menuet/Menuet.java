@@ -139,7 +139,6 @@ public class Menuet extends Composite{
 			Iterator iter = menuetElements[i].iterator();
 			while(iter.hasNext()){
 				MenuetElement mElement = (MenuetElement)iter.next();
-				mElement.setShown(false);
 				mElement.setVisible(false);
 				mElement.isSelected = false;
 			}
@@ -173,50 +172,25 @@ public class Menuet extends Composite{
 	}	
 	
 	void respositionMenuetElements(int totalHeight, int totalWidth){
-		// Step 1: calculate height of MenuetElements, hiding low priority elements if needed
+		// Step 1: calculate height of shown MenuetElements
 		// Step 2: place in appropriate location according to alignment		
 		
 		// System.out.println("repositioning elements...");
 		
-		int mode = currentToolMode;
-		
+		//
+		// compute minimum display height. (& set visible/notvisible)
+		//
 		int totalMinHeight = 0;
-		Iterator iter = menuetElements[mode].iterator();
-		while(iter.hasNext()){ // get height of all elements
-			MenuetElement mElement = (MenuetElement)iter.next();
-			totalMinHeight += mElement.getMinDisplayHeight(totalWidth);
-			if(mElement.mePriority > 5){
-				mElement.setShown(false);
-				mElement.setVisible(false);
-			}else{
-				mElement.setShown(true);
+		int shownElements = 0;
+		for(MenuetElement mElement : menuetElements[currentToolMode]){			
+			if(mElement.meIsShown()){
+				totalMinHeight += mElement.getMinDisplayHeight(totalWidth);
+				shownElements++;
 				mElement.setVisible(true);
+			}else{
+				mElement.setVisible(false);
 			}
-		}	
-
-		int priority = 5;
-		int visibleElements = menuetElements[mode].size();
-				
-		// check to see if items fit...
-		// take away items until they can (in order of priority)		
-		while(totalMinHeight > totalHeight && priority >= 0 ){
-			// trim off items until they fit
-			iter = menuetElements[mode].iterator();
-			while(iter.hasNext()){ 
-				MenuetElement mElement = (MenuetElement)iter.next();
-				if(mElement.meIsShown() && mElement.mePriority > priority){
-					mElement.setShown(false);
-					totalMinHeight -= mElement.getMinDisplayHeight(totalWidth);
-					visibleElements--;
-				}
-				if(totalMinHeight <= totalHeight){
-					break; 	// no need to remove all items of a certain priority
-							// if only a few need to go.
-				}
-			}
-			priority--;
-		}
-		
+		}			
 		
 		
 		// the correct elements to be displayed are now selected...
@@ -232,11 +206,9 @@ public class Menuet extends Composite{
 		float unusedPixels = 0.0f;
 		int constrainedElements = 0; // height of element is pinned to a min/max value
 		// iteration (1)
-		iter = menuetElements[mode].iterator();
-		while(iter.hasNext()){ 
-			MenuetElement mElement = (MenuetElement)iter.next();
+		for(MenuetElement mElement : menuetElements[currentToolMode]){
 			if(mElement.meIsShown()){
-				float newHeightF = (float)mElement.getMinDisplayHeight(totalWidth) + (float)freePixels/(float)visibleElements;
+				float newHeightF = (float)mElement.getMinDisplayHeight(totalWidth) + (float)freePixels/(float)shownElements;
 				int newHeight = (int)Math.floor(newHeightF);
 				int newHeightB = Math.max(mElement.getMinDisplayHeight(totalWidth), Math.min(newHeight, mElement.mePreferredHeight));
 				mElement.setBounds(0,0,0,newHeightB);
@@ -247,14 +219,12 @@ public class Menuet extends Composite{
 			}
 		}		
 		
-		int unconstrainedElements = visibleElements - constrainedElements;
+		int unconstrainedElements = shownElements - constrainedElements;
 		constrainedElements = 0;
 		float unusedPixels2 = 0.0f;
 		// iteration (2)
 		if(unusedPixels >= 1.0f && unconstrainedElements > 0){
-			iter = menuetElements[mode].iterator();
-			while(iter.hasNext()){ 
-				MenuetElement mElement = (MenuetElement)iter.next();
+			for(MenuetElement mElement : menuetElements[currentToolMode]){
 				if(mElement.meIsShown() && mElement.getBounds().height != mElement.mePreferredHeight){
 					float newHeightF = (float)mElement.getBounds().height + (float)unusedPixels/(float)unconstrainedElements;
 					int newHeight = (int)Math.floor(newHeightF);
@@ -269,21 +239,24 @@ public class Menuet extends Composite{
 		}
 		
 		unconstrainedElements -= constrainedElements;
+		float unusedPixels3 = 0.0f;
 		// iteration (3)
 		if(unusedPixels2 >= 1.0f && unconstrainedElements > 0){
-			iter = menuetElements[mode].iterator();
-			while(iter.hasNext()){ 
-				MenuetElement mElement = (MenuetElement)iter.next();
+			for(MenuetElement mElement : menuetElements[currentToolMode]){
 				if(mElement.meIsShown() && mElement.getBounds().height != mElement.mePreferredHeight){
 					float newHeightF = (float)mElement.getBounds().height + (float)unusedPixels2/(float)unconstrainedElements;
 					int newHeight = (int)Math.floor(newHeightF);
 					int newHeightB = Math.max(mElement.getMinDisplayHeight(totalWidth), Math.min(newHeight, mElement.mePreferredHeight));
-					mElement.setBounds(0,0,0,newHeightB);				
+					mElement.setBounds(0,0,0,newHeightB);		
+					unusedPixels3 += newHeight - (float)newHeightB;
 				}
 			}				
 		}	
 
-		// each MenuetElement is now appropriately sized and hidden/shown
+		System.out.println("unused Pixels 3: " + unusedPixels3);
+		
+		// each MenuetElement is now appropriately sized and hidden/shown...
+		// they just need to be correctly positioned now. :)
 		
 		//
 		// BACKGROUND
@@ -294,9 +267,7 @@ public class Menuet extends Composite{
 		// TOP
 		//
 		int heightMarker = 0;		
-		iter = menuetElements[mode].iterator();
-		while(iter.hasNext()){ // place TOP
-			MenuetElement mElement = (MenuetElement)iter.next();
+		for(MenuetElement mElement : menuetElements[currentToolMode]){
 			if(mElement.meIsShown() && mElement.meIsAlignedTop()){
 				mElement.setBounds(0, heightMarker, totalWidth, mElement.getBounds().height);
 				heightMarker += mElement.getBounds().height;
@@ -307,17 +278,13 @@ public class Menuet extends Composite{
 		// BOTTOM
 		//
 		int bottomSize = 0;
-		iter = menuetElements[mode].iterator();
-		while(iter.hasNext()){ // calculate BOTTOM
-			MenuetElement mElement = (MenuetElement)iter.next();
+		for(MenuetElement mElement : menuetElements[currentToolMode]){
 			if(mElement.meIsShown() && mElement.meIsAlignedBottom()){
 				bottomSize += mElement.getBounds().height;	
 			}
 		}
 		heightMarker = totalHeight-bottomSize;
-		iter = menuetElements[mode].iterator();
-		while(iter.hasNext()){ // place BOTTOM
-			MenuetElement mElement = (MenuetElement)iter.next();
+		for(MenuetElement mElement : menuetElements[currentToolMode]){
 			if(mElement.meIsShown() && mElement.meIsAlignedBottom()){				
 				mElement.setBounds(0, heightMarker, totalWidth, mElement.getBounds().height);	
 				heightMarker += mElement.getBounds().height;

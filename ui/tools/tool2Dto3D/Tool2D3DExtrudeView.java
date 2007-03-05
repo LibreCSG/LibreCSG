@@ -44,7 +44,6 @@ public class Tool2D3DExtrudeView extends ToolView2D3D{
 		mElement.meLabel = "Extrude";
 		mElement.meIcon = ImageUtils.getIcon("menuet/2D3D_Extrude.png", 24, 24);
 		mElement.setToolTipText("Extrude a 2D region.");
-		mElement.mePriority = 0; 	// 0 = always show element, >5 = never show element
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
 		
 		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS

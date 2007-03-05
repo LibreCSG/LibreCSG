@@ -66,15 +66,14 @@ public class METoolbox{
 			lastToolButton.meLabel = "??";
 			lastToolButton.mePreferredHeight = 50;
 			lastToolButton.meDispOptions = MenuetElement.ME_TEXT_ONLY;
-			lastToolButton.mePriority = 6; // start out not showing lastTool button
 			lastToolButton.meColorBackground = ColorUtils.getModeBGColorByMode(mode);
+			lastToolButton.meSetShown(false);
 		}		
 	}
 	
 	public static void makeMenuetElementTBoxLast(MenuetElement lastToolButton){		
 		lastToolButton.meColorMouseOver  = AvoColors.COLOR_MENUET_TLBX_MO;
 		lastToolButton.meColorUnselected = AvoColors.COLOR_MENUET_TLBX_US;
-		lastToolButton.mePriority = 0; // awlays show the last tools!
 	}
 
 

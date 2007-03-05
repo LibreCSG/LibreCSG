@@ -46,7 +46,6 @@ public class Tool2DDoneView extends ToolView2D{
 		mElement.meLabel = "Done";
 		mElement.meIcon = ImageUtils.getIcon("./menuet/Done.png", 24, 24);
 		mElement.setToolTipText("Finish working in the 2D mode.");
-		mElement.mePriority = 0; 	// 0 = always show element, >5 = never show element
 		mElement.meDispOptions = MenuetElement.ME_TRY_ICON;
 		
 		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS

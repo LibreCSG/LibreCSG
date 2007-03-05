@@ -43,7 +43,6 @@ public class Tool2DLineView extends ToolView2D{
 		mElement.meLabel = "Line";
 		mElement.meIcon = ImageUtils.getIcon("menuet/2D_Line.png", 24, 24);
 		mElement.setToolTipText("Line");
-		mElement.mePriority = 0; 	// 0 = always show element, >5 = never show element
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
 		
 		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS

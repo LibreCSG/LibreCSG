@@ -43,7 +43,6 @@ public class Tool2DRectView extends ToolView2D{
 		mElement.meLabel = "Rect";
 		mElement.meIcon = ImageUtils.getIcon("menuet/2D_Rect.png", 24, 24);
 		mElement.setToolTipText("Rectangle");
-		mElement.mePriority = 0; 	// 0 = always show element, >5 = never show element
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
 		
 		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS

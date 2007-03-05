@@ -43,7 +43,6 @@ public class Tool2DExampleView extends ToolView2D{
 		mElement.meLabel = "Example";
 		mElement.meIcon = ImageUtils.getIcon("menuet/2D_Example.png", 24, 24);
 		mElement.setToolTipText("This is an example tool\nmeant to show how something a\nbit more complex than just\na line or a circle can be formed.");
-		mElement.mePriority = 6; 	// 0 = always show element, >5 = never show element
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
 		
 		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS

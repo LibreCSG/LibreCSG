@@ -48,7 +48,6 @@ public class Tool2DCancelView extends ToolView2D{
 		mElement.meColorUnselected = AvoColors.COLOR_MENUET_CNCL_US; 
 		mElement.meLabel = "Cancel";
 		mElement.setToolTipText("Cancel ALL changes made \nin the 2D drawing mode.");
-		mElement.mePriority = 0; 	// 0 = always show element, >5 = never show element
 		mElement.meDispOptions = MenuetElement.ME_TEXT_ONLY;
 		
 		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
