@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Text;
 
 import ui.event.ParamListener;
 import ui.utilities.NumUtils;
-import backend.adt.PType;
+import backend.adt.ParamType;
 import backend.adt.Param;
 import backend.adt.ParamNotCorrectTypeException;
 import backend.adt.ParamSet;
@@ -66,7 +66,7 @@ public class PCompInteger extends ParamComp{
 		//
 		// check to make sure param is of correct type
 		//
-		if(p.getType() != PType.Integer){
+		if(p.getType() != ParamType.Integer){
 			System.out.println("trying to display a non-Integer in a PCompInteger (paramDialog)");
 			return;
 		}

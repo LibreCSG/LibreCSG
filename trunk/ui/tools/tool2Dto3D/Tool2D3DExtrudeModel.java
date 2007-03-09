@@ -3,7 +3,7 @@ package ui.tools.tool2Dto3D;
 import javax.media.opengl.GL;
 
 import ui.tools.ToolModel2D3D;
-import backend.adt.PType;
+import backend.adt.ParamType;
 import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
@@ -116,8 +116,8 @@ public class Tool2D3DExtrudeModel implements ToolModel2D3D{
 		// --------------------------------		
 		boolean isValid = (	paramSet != null &&
 							paramSet.label == "Extrude" &&
-							paramSet.hasParam("h", PType.Double) &&
-							paramSet.hasParam("regions", PType.SelectionList));
+							paramSet.hasParam("h", ParamType.Double) &&
+							paramSet.hasParam("regions", ParamType.SelectionList));
 		return isValid;
 	}
 

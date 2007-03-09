@@ -1,7 +1,7 @@
 package ui.tools.tool2D;
 
 import ui.tools.ToolModel2D;
-import backend.adt.PType;
+import backend.adt.ParamType;
 import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
@@ -61,9 +61,9 @@ public class Tool2DLineModel implements ToolModel2D{
 		// --------------------------------		
 		boolean isValid = (	paramSet != null &&
 							paramSet.label == "Line" &&
-							paramSet.hasParam("a", PType.Point2D) &&
-							paramSet.hasParam("b", PType.Point2D) &&
-							paramSet.hasParam("l", PType.Double));
+							paramSet.hasParam("a", ParamType.Point2D) &&
+							paramSet.hasParam("b", ParamType.Point2D) &&
+							paramSet.hasParam("l", ParamType.Double));
 		return isValid;
 	}
 

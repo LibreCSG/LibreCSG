@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 
 import ui.event.ParamListener;
-import backend.adt.PType;
+import backend.adt.ParamType;
 import backend.adt.Param;
 import backend.adt.ParamNotCorrectTypeException;
 import backend.adt.ParamSet;
@@ -69,7 +69,7 @@ public class PCompSelectionList extends ParamComp{
 		//
 		// check to make sure param is of correct type
 		//
-		if(p.getType() != PType.SelectionList){
+		if(p.getType() != ParamType.SelectionList){
 			System.out.println("trying to display a non-SelectionList in a PCompSelectionList (paramDialog)");
 			return;
 		}

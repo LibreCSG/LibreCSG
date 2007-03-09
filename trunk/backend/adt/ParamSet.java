@@ -207,7 +207,7 @@ public class ParamSet {
 	 * @param type
 	 * @return
 	 */
-	public boolean hasParam(String name, PType type){
+	public boolean hasParam(String name, ParamType type){
 		if(paramSet.get(name) != null){
 			if(paramSet.get(name).getType() == type){
 				return true;

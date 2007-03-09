@@ -1,7 +1,7 @@
 package ui.tools.tool2D;
 
 import ui.tools.ToolModel2D;
-import backend.adt.PType;
+import backend.adt.ParamType;
 import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
@@ -73,9 +73,9 @@ public class Tool2DExampleModel implements ToolModel2D{
 		// --------------------------------		
 		boolean isValid = (	paramSet != null &&
 							paramSet.label == "Example" &&
-							paramSet.hasParam("c", PType.Point2D) &&
-							paramSet.hasParam("s", PType.Double) &&
-							paramSet.hasParam("t", PType.Integer));
+							paramSet.hasParam("c", ParamType.Point2D) &&
+							paramSet.hasParam("s", ParamType.Double) &&
+							paramSet.hasParam("t", ParamType.Integer));
 		return isValid;
 	}
 

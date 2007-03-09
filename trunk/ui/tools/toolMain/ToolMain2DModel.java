@@ -1,6 +1,6 @@
 package ui.tools.toolMain;
 
-import backend.adt.PType;
+import backend.adt.ParamType;
 import backend.adt.ParamSet;
 import ui.tools.ToolModelMain;
 
@@ -44,8 +44,8 @@ public class ToolMain2DModel implements ToolModelMain{
 		// --------------------------------		
 		boolean isValid = (	paramSet != null &&
 							paramSet.label == "Sketch" &&
-							paramSet.hasParam("o", PType.Point3D) &&
-							paramSet.hasParam("r", PType.Rotation3D));
+							paramSet.hasParam("o", ParamType.Point3D) &&
+							paramSet.hasParam("r", ParamType.Rotation3D));
 		return isValid;
 	}
 

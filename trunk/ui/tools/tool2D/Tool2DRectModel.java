@@ -1,7 +1,7 @@
 package ui.tools.tool2D;
 
 import ui.tools.ToolModel2D;
-import backend.adt.PType;
+import backend.adt.ParamType;
 import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
@@ -67,10 +67,10 @@ public class Tool2DRectModel implements ToolModel2D{
 		// --------------------------------		
 		boolean isValid = (	paramSet != null &&
 							paramSet.label == "Rectangle" &&
-							paramSet.hasParam("a", PType.Point2D) &&
-							paramSet.hasParam("b", PType.Point2D) &&
-							paramSet.hasParam("w", PType.Double) &&
-							paramSet.hasParam("h", PType.Double));
+							paramSet.hasParam("a", ParamType.Point2D) &&
+							paramSet.hasParam("b", ParamType.Point2D) &&
+							paramSet.hasParam("w", ParamType.Double) &&
+							paramSet.hasParam("h", ParamType.Double));
 		return isValid;
 	}
 

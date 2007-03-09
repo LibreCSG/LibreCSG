@@ -1,7 +1,7 @@
 package ui.tools.tool2D;
 
 import ui.tools.ToolModel2D;
-import backend.adt.PType;
+import backend.adt.ParamType;
 import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
@@ -60,8 +60,8 @@ public class Tool2DCircleModel implements ToolModel2D {
 		// --------------------------------		
 		boolean isValid = (	paramSet != null &&
 							paramSet.label == "Circle" &&
-							paramSet.hasParam("c", PType.Point2D) &&
-							paramSet.hasParam("r", PType.Double));
+							paramSet.hasParam("c", ParamType.Point2D) &&
+							paramSet.hasParam("r", ParamType.Double));
 		return isValid;
 	}
 
