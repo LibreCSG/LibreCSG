@@ -3,7 +3,7 @@ package ui.tools.tool2Dto3D;
 import javax.media.opengl.GL;
 
 import ui.tools.ToolModel2D3D;
-import backend.adt.PType;
+import backend.adt.ParamType;
 import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.SelectionList;
@@ -74,10 +74,10 @@ public class Tool2D3DRevolveModel implements ToolModel2D3D{
 		// --------------------------------		
 		boolean isValid = (	paramSet != null &&
 							paramSet.label == "Revolve" &&
-							paramSet.hasParam("regions", PType.SelectionList) &&
-							paramSet.hasParam("centerline", PType.SelectionList) &&
-							paramSet.hasParam("angle", PType.Double) &&
-							paramSet.hasParam("offset", PType.Double));
+							paramSet.hasParam("regions", ParamType.SelectionList) &&
+							paramSet.hasParam("centerline", ParamType.SelectionList) &&
+							paramSet.hasParam("angle", ParamType.Double) &&
+							paramSet.hasParam("offset", ParamType.Double));
 		return isValid;
 	}
 

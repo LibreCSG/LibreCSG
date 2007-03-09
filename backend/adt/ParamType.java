@@ -27,6 +27,6 @@ package backend.adt;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public enum PType {
+public enum ParamType {
 	Boolean, Integer, Double, String, Point2D, Point3D, Rotation3D, SelectionList
 }

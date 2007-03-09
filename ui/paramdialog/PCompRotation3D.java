@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Text;
 
 import ui.event.ParamListener;
 import ui.utilities.NumUtils;
-import backend.adt.PType;
+import backend.adt.ParamType;
 import backend.adt.Param;
 import backend.adt.ParamNotCorrectTypeException;
 import backend.adt.ParamSet;
@@ -69,7 +69,7 @@ public class PCompRotation3D extends ParamComp{
 		//
 		// check to make sure param is of correct type
 		//
-		if(p.getType() != PType.Rotation3D){
+		if(p.getType() != ParamType.Rotation3D){
 			System.out.println("trying to display a non-Rotation3D in a PCompRotation3D (paramDialog)");
 			return;
 		}
