@@ -33,7 +33,7 @@ package backend.model.CSG;
  * 
  * Simple max/min bounding box to speed up intersection computation.
  */
-public class CSG_Bounds {
+public class CSG_Bounds{
 
 	double minX, minY, minZ, maxX, maxY, maxZ;
 	
@@ -59,6 +59,30 @@ public class CSG_Bounds {
 		maxZ = Math.max(maxZ, v.getZ());
 	}
 	
+	/**
+	 * update the bounds min/max to include another CSG_Bounds
+	 * @param bounds CSG_Bounds to include
+	 */
+	public void includeBounds(CSG_Bounds bounds){
+		includeVertex(new CSG_Vertex(bounds.minX, bounds.minY, bounds.minZ));
+		includeVertex(new CSG_Vertex(bounds.maxX, bounds.maxY, bounds.maxZ));
+	}
 	
+	public String toString(){
+		return "CSG_Bounds:{(" + minX + "," + maxX + ")(" + minY + "," + maxY + ")(" + minZ + "," + maxZ + ")}";
+	}
+	
+	/**
+	 * @return a Deep Copy of the instance of this class.
+	 */
+	public CSG_Bounds deepCopy(){
+		CSG_Bounds clone = new CSG_Bounds(new CSG_Vertex(minX, minY, minZ));
+		clone.includeVertex(new CSG_Vertex(maxX, maxY, maxZ));
+		return clone;
+	}
+	
+	public CSG_Vertex getBoundCenter(){
+		return new CSG_Vertex((minX+maxX)/2.0, (minY+maxY)/2.0, (minZ+maxZ)/2.0);
+	}
 	
 }

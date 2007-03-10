@@ -1,6 +1,7 @@
 package ui.opengl;
 
 import java.nio.FloatBuffer;
+import java.util.Iterator;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLCapabilities;
@@ -31,6 +32,9 @@ import backend.model.Feature2D;
 import backend.model.Feature2D3D;
 import backend.model.Sketch;
 import backend.model.SubPart;
+import backend.model.CSG.CSG_Face;
+import backend.model.CSG.CSG_Solid;
+import backend.model.CSG.CSG_Vertex;
 import backend.model.sketch.Prim2D;
 
 
@@ -374,6 +378,13 @@ public class GLView {
 							gl.glEnd();
 						}
 						
+						
+						//
+						//  TEST Constructive Solid Geometry!
+						//
+						testCSG();
+						
+						
 						glCanvas.swapBuffers(); // double buffering excitement!
 						glContext.release();	// go ahead, you can have it back.
 						
@@ -383,6 +394,9 @@ public class GLView {
 						}
 						// TODO: dynamically change RenderLevel based on time to render!
 						//System.out.println("Time to render: " + timeDiff);
+						
+						
+						
 						
 						updateGLView = false;
 					}
@@ -500,7 +514,7 @@ public class GLView {
 						AvoColors.GL_COLOR4_BACKGND[2],AvoColors.GL_COLOR4_BACKGND[3]);
 		gl.glColor3f(1.0f, 0.0f, 0.0f);
 		gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);
-		gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
+		gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);		
 		gl.glEnable(GL.GL_BLEND);
 		gl.glEnable(GL.GL_AUTO_NORMAL);
 		gl.glColorMaterial(GL.GL_FRONT, GL.GL_DIFFUSE);
@@ -511,6 +525,7 @@ public class GLView {
 		gl.glEnable(GL.GL_DEPTH_TEST);
 		gl.glEnable(GL.GL_SHADE_MODEL);
 		gl.glShadeModel(GL.GL_SMOOTH);
+		gl.glDepthFunc(GL.GL_LEQUAL);
 		
 		glContext.release();
 	
@@ -583,4 +598,110 @@ public class GLView {
 		translation_y = 0.0f;
 		updateGLView = true;
 	}
+	
+	private void testCSG(){
+		gl.glLoadIdentity();
+		gl.glLineWidth(2.0f);
+		gl.glPointSize(5.0f);
+		
+		// solid 1
+		CSG_Vertex v1 = new CSG_Vertex(0.0, 0.0, 0.0);
+		CSG_Vertex v2 = new CSG_Vertex(1.0, 0.0, 0.0);
+		CSG_Vertex v3 = new CSG_Vertex(1.0, 1.0, 0.0);
+		CSG_Vertex v4 = new CSG_Vertex(0.0, 1.0, 0.0);
+		CSG_Vertex v5 = new CSG_Vertex(0.0, 0.0, 1.0);
+		CSG_Vertex v6 = new CSG_Vertex(1.0, 0.0, 1.0);
+		CSG_Vertex v7 = new CSG_Vertex(1.0, 1.0, 1.0);
+		CSG_Vertex v8 = new CSG_Vertex(0.0, 1.0, 1.0);
+		
+		CSG_Face f1 = new CSG_Face(v1, v2, v3, v4);
+		CSG_Face f2 = new CSG_Face(v1, v5, v6, v2);
+		CSG_Face f3 = new CSG_Face(v2, v6, v7, v3);
+		CSG_Face f4 = new CSG_Face(v3, v7, v8, v4);
+		CSG_Face f5 = new CSG_Face(v4, v8, v5, v1);
+		CSG_Face f6 = new CSG_Face(v8, v7, v6, v5);
+		
+		CSG_Solid s1 = new CSG_Solid(f1);
+		s1.addFace(f2);
+		s1.addFace(f3);
+		s1.addFace(f4);
+		s1.addFace(f5);
+		s1.addFace(f6);
+
+		// solid 2
+		CSG_Vertex v1b = new CSG_Vertex(0.75, 0.75, 0.75);
+		CSG_Vertex v2b = new CSG_Vertex(1.75, 0.75, 0.75);
+		CSG_Vertex v3b = new CSG_Vertex(1.75, 1.75, 0.75);
+		CSG_Vertex v4b = new CSG_Vertex(0.75, 1.75, 0.75);
+		CSG_Vertex v5b = new CSG_Vertex(0.75, 0.75, 1.75);
+		CSG_Vertex v6b = new CSG_Vertex(1.75, 0.75, 1.75);
+		CSG_Vertex v7b = new CSG_Vertex(1.75, 1.75, 1.75);
+		CSG_Vertex v8b = new CSG_Vertex(0.75, 1.75, 1.75);
+		
+		CSG_Face f1b = new CSG_Face(v1b, v2b, v3b, v4b);
+		CSG_Face f2b = new CSG_Face(v1b, v5b, v6b, v2b);
+		CSG_Face f3b = new CSG_Face(v2b, v6b, v7b, v3b);
+		CSG_Face f4b = new CSG_Face(v3b, v7b, v8b, v4b);
+		CSG_Face f5b = new CSG_Face(v4b, v8b, v5b, v1b);
+		CSG_Face f6b = new CSG_Face(v8b, v7b, v6b, v5b);
+		
+		CSG_Solid s2 = new CSG_Solid(f1b);
+		s2.addFace(f2b);
+		s2.addFace(f3b);
+		s2.addFace(f4b);
+		s2.addFace(f5b);
+		s2.addFace(f6b);
+				
+		//
+		//  2 solids to play with now!
+		//
+		glDrawSolid(s1);
+		glDrawSolid(s2);
+	}
+	
+	private void glDrawSolid(CSG_Solid s){
+		Iterator<CSG_Face> iter = s.getFacesIter();
+		while(iter.hasNext()){
+			CSG_Face f = iter.next();
+			
+			gl.glColor4f(0.5f, 0.6f, 0.8f, 0.80f);
+			glDrawFace(f);
+			
+			gl.glColor4f(0.3f, 0.3f, 0.3f, 1.0f);
+			glDrawFaceEdges(f);
+			
+			gl.glColor4f(0.8f, 0.3f, 0.4f, 1.0f);
+			glDrawFaceNormal(f);
+		}	
+	}
+	
+	private void glDrawFace(CSG_Face f){
+		gl.glBegin(GL.GL_POLYGON);
+			Iterator<CSG_Vertex> iter = f.getVertexIterator();
+			while(iter.hasNext()){
+				gl.glVertex3dv(iter.next().getXYZ(), 0);
+			}
+		gl.glEnd();
+	}
+	
+	private void glDrawFaceEdges(CSG_Face f){
+		gl.glBegin(GL.GL_LINE_LOOP);
+			Iterator<CSG_Vertex> iter = f.getVertexIterator();
+			while(iter.hasNext()){
+				gl.glVertex3dv(iter.next().getXYZ(), 0);
+			}
+		gl.glEnd();
+	}
+	
+	private void glDrawFaceNormal(CSG_Face f){
+		// draw the normal too for debug
+		CSG_Vertex fCenter = f.getAverageVertex();
+		CSG_Vertex norm = f.getNormal();
+		CSG_Vertex nShifted = new CSG_Vertex(fCenter.getX()+0.25*norm.getX(), fCenter.getY()+0.25*norm.getY(), fCenter.getZ()+0.25*norm.getZ());
+		gl.glBegin(GL.GL_LINES);
+			gl.glVertex3dv(fCenter.getXYZ(), 0);
+			gl.glVertex3dv(nShifted.getXYZ(), 0);
+		gl.glEnd();
+	}
+	
 }

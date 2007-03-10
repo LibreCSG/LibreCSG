@@ -49,7 +49,7 @@ public class CSG_Vertex {
 	public final static int STATUS_BOUNDARY = 7;
 	public final static int STATUS_UNKNOWN  = 8;
 	
-	final double x,y,z;	
+	private final double x,y,z;	
 	List<CSG_Vertex> adjacentVertices = new LinkedList<CSG_Vertex>();
 	int status = STATUS_UNKNOWN;
 	
@@ -71,5 +71,13 @@ public class CSG_Vertex {
 		return z;
 	}
 	
+	public double[] getXYZ(){
+		return new double[] {x, y, z};
+	}
+	
+	public CSG_Vertex deepCopy(){
+		CSG_Vertex clone = new CSG_Vertex(x,y,z);
+		return clone;
+	}
 	
 }
