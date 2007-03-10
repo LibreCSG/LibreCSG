@@ -1,8 +1,5 @@
 package backend.model.CSG;
 
-import java.util.LinkedList;
-import java.util.List;
-
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -32,28 +29,35 @@ import java.util.List;
 */
 
 /**
- * Constructive Solid Geometry :: Face<br/><br/>
+ * Constructive Solid Geometry :: Bounds<br/><br/>
  * 
- * A CSG_Face is a special type of polygon that must:<br/>
- * 1. Be planar and Convex<br/>
- * 2. Have no 3 vertices that are collinear<br/>
- * 3. Have every vertex be unique<br/>
- * 4. Always be viewed as Clockwise <br/><br/>
- * 
- * Algorithms and structures from:<br/>
- * - Laidlaw, Trumbore, and Hughes <br/>
- * - "Constructive Solid Geometry for Polyhedral Objects"<br/>
- * - SIGGRAPH 1986, Volume 20, Number 4, pp.161-170
+ * Simple max/min bounding box to speed up intersection computation.
  */
-public class CSG_Face {
+public class CSG_Bounds {
 
-	List<CSG_Vertex> vertices = new LinkedList<CSG_Vertex>();
-	CSG_Bounds extent;
+	double minX, minY, minZ, maxX, maxY, maxZ;
 	
-	public CSG_Face(){
-		
+	public CSG_Bounds(CSG_Vertex firstVertex){
+		minX = firstVertex.getX();
+		maxX = firstVertex.getX();
+		minY = firstVertex.getY();
+		maxY = firstVertex.getY();
+		minZ = firstVertex.getZ();
+		maxZ = firstVertex.getZ();
 	}
 	
+	/**
+	 * update the bounds min/max to include a CSG_Vertex
+	 * @param v the new CSG_Vertex to include
+	 */
+	public void includeVertex(CSG_Vertex v){
+		minX = Math.min(minX, v.getX());
+		maxX = Math.max(maxX, v.getX());		
+		minY = Math.min(minY, v.getY());
+		maxY = Math.max(maxY, v.getY());		
+		minZ = Math.min(minZ, v.getZ());
+		maxZ = Math.max(maxZ, v.getZ());
+	}
 	
 	
 	
