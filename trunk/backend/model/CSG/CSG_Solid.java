@@ -1,5 +1,9 @@
 package backend.model.CSG;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -27,6 +31,48 @@ package backend.model.CSG;
 * @author  Adam Kumpf
 * @created Mar. 2007
 */
+
+/**
+ * Constructive Solid Geometry :: Face<br/><br/>
+ * 
+ * A CSG_Solid is a water-tight volume in 3D space:<br/>
+ * 1. Composed of CSG_Faces<br/>
+ * 2. No Dangling Faces (all connect to others exactly once at an edge<br/>
+ * 
+ * Algorithms and structures from:<br/>
+ * - Laidlaw, Trumbore, and Hughes <br/>
+ * - "Constructive Solid Geometry for Polyhedral Objects"<br/>
+ * - SIGGRAPH 1986, Volume 20, Number 4, pp.161-170
+ */
 public class CSG_Solid {
 
+	List<CSG_Vertex> vertices = new LinkedList<CSG_Vertex>();
+	List<CSG_Face>   faces    = new LinkedList<CSG_Face>();
+	CSG_Bounds bounds;
+	
+	/**
+	 * Construct a new CSG_Solid that includes the given Face.
+	 * @param firstFace CSG_Face from which to start the CSG_Solid.
+	 */
+	public CSG_Solid(CSG_Face firstFace){
+		faces.add(firstFace);
+		bounds = firstFace.getBounds();
+	}
+	
+	/**
+	 * add a CSG_Face to this CSG_Solid
+	 * @param f the CSG_Face to add.
+	 */
+	public void addFace(CSG_Face f){
+		faces.add(f);
+		bounds.includeBounds(f.getBounds());
+	}
+	
+	/**
+	 * @return the iterator over all faces in this CSG_Solid.
+	 */
+	public Iterator<CSG_Face> getFacesIter(){
+		return faces.iterator();
+	}
+	
 }
