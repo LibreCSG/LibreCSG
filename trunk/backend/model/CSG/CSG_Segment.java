@@ -27,6 +27,37 @@ package backend.model.CSG;
 * @author  Adam Kumpf
 * @created Mar. 2007
 */
+
+/**
+ * Constructive Solid Geometry :: Segment<br/><br/>
+ * 
+ * A line segment in 3D space.<br/><br/> 
+ * 
+ * The CSG_Segment also stores descriptor information 
+ * about the starting, middle, and ending points. 
+ * Additionally, neighboring vertices and distance 
+ * information along a plane intersection line is also 
+ * kept. <br/><br/>
+ * 
+ * Algorithms and structures from:<br/>
+ * - Laidlaw, Trumbore, and Hughes <br/>
+ * - "Constructive Solid Geometry for Polyhedral Objects"<br/>
+ * - SIGGRAPH 1986, Volume 20, Number 4, pp.161-170 * 
+ */
 public class CSG_Segment {
 
+	// Data structure from Fig. 5.1
+	private double distStartFromP;
+	private double distEndFromP;	
+	private enum POINT_DESC { VERTEX, EDGE, FACE, UNKNOWN };
+	private POINT_DESC descStart = POINT_DESC.UNKNOWN;
+	private POINT_DESC descMid   = POINT_DESC.UNKNOWN;
+	private POINT_DESC descEnd   = POINT_DESC.UNKNOWN;
+	private CSG_Vertex vertNearStartPt = null;
+	private CSG_Vertex vertNearEndPt   = null;
+	
+	public CSG_Segment(){
+		
+	}
+	
 }

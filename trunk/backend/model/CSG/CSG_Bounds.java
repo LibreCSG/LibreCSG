@@ -35,7 +35,10 @@ package backend.model.CSG;
  */
 public class CSG_Bounds{
 
-	double minX, minY, minZ, maxX, maxY, maxZ;
+	private double minX, minY, minZ, maxX, maxY, maxZ;
+	
+	private final double TOL = 1e-10; // double tollerance  
+	
 	
 	public CSG_Bounds(CSG_Vertex firstVertex){
 		minX = firstVertex.getX();
@@ -83,6 +86,13 @@ public class CSG_Bounds{
 	
 	public CSG_Vertex getBoundCenter(){
 		return new CSG_Vertex((minX+maxX)/2.0, (minY+maxY)/2.0, (minZ+maxZ)/2.0);
+	}
+	
+	public boolean overlapsBounds(CSG_Bounds b2){
+		boolean xOK = (minX > b2.maxX-TOL) || (b2.minX > maxX-TOL);  
+		boolean yOK = (minY > b2.maxY-TOL) || (b2.minY > maxY-TOL);
+		boolean zOK = (minZ > b2.maxZ-TOL) || (b2.minZ > maxZ-TOL);
+		return (!xOK || !yOK || !zOK);
 	}
 	
 }
