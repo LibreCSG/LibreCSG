@@ -32,6 +32,7 @@ import backend.model.Feature2D;
 import backend.model.Feature2D3D;
 import backend.model.Sketch;
 import backend.model.SubPart;
+import backend.model.CSG.CSG_BooleanOperator;
 import backend.model.CSG.CSG_Face;
 import backend.model.CSG.CSG_Solid;
 import backend.model.CSG.CSG_Vertex;
@@ -655,16 +656,35 @@ public class GLView {
 		//
 		//  2 solids to play with now!
 		//
-		glDrawSolid(s1);
-		glDrawSolid(s2);
+		
+		glDrawSolid(s1, 0.4f, 0.5f, 0.8f);
+		glDrawSolid(s2, 0.4f, 0.5f, 0.8f);
+		
+		CSG_Solid s3i = CSG_BooleanOperator.Intersection(s1, s2);
+		CSG_Solid s3u = CSG_BooleanOperator.Union(s1, s2);
+		CSG_Solid s3s = CSG_BooleanOperator.Subtraction(s1, s2);
+		
+		if(s3i != null){
+			gl.glTranslated(2.0,0.0,0.0);
+			glDrawSolid(s3i, 0.4f, 0.8f, 0.4f);
+		}
+		if(s3u != null){
+			gl.glTranslated(2.0,0.0,0.0);
+			glDrawSolid(s3u, 0.4f, 0.8f, 0.4f);
+		}
+		if(s3s != null){
+			gl.glTranslated(2.0,0.0,0.0);
+			glDrawSolid(s3s, 0.4f, 0.8f, 0.4f);
+		}
+		
 	}
 	
-	private void glDrawSolid(CSG_Solid s){
+	private void glDrawSolid(CSG_Solid s, float r, float g, float b){
 		Iterator<CSG_Face> iter = s.getFacesIter();
 		while(iter.hasNext()){
 			CSG_Face f = iter.next();
 			
-			gl.glColor4f(0.5f, 0.6f, 0.8f, 0.80f);
+			gl.glColor4f(r, g, b, 0.90f);
 			glDrawFace(f);
 			
 			gl.glColor4f(0.3f, 0.3f, 0.3f, 1.0f);

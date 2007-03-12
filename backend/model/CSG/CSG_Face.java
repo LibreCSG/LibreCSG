@@ -47,7 +47,7 @@ import java.util.List;
  * - SIGGRAPH 1986, Volume 20, Number 4, pp.161-170
  */
 public class CSG_Face {
-
+	
 	private List<CSG_Vertex> vertices = new LinkedList<CSG_Vertex>();
 	private CSG_Bounds bounds;
 	private CSG_Vertex normal;
@@ -106,6 +106,8 @@ public class CSG_Face {
 		// B = - [ z1 (x2 - x3) + z2 (x3 - x1) + z3 (x1 - x2) ]
 		// C = - [ x1 (y2 - y3) + x2 (y3 - y1) + x3 (y1 - y2) ]
 		// D = x1 (y2 z3 - y3 z2) + x2 (y3 z1 - y1 z3) + x3 (y1 z2 - y2 z1)
+		//
+		// dist_from_plane = norm(.)vect + D
 		double A = -(v1.getY()*(v2.getZ()-v3.getZ()) + v2.getY()*(v3.getZ()-v1.getZ()) + v3.getY()*(v1.getZ()-v2.getZ())); 
 		double B = -(v1.getZ()*(v2.getX()-v3.getX()) + v2.getZ()*(v3.getX()-v1.getX()) + v3.getZ()*(v1.getX()-v2.getX()));
 		double C = -(v1.getX()*(v2.getY()-v3.getY()) + v2.getX()*(v3.getY()-v1.getY()) + v3.getX()*(v1.getY()-v2.getY()));
@@ -121,7 +123,7 @@ public class CSG_Face {
 		}
 		
 		normal = new CSG_Vertex(A/unitDivider, B/unitDivider, C/unitDivider);
-		normOffset = D;
+		normOffset = D/unitDivider;
 	}
 	
 	/**
@@ -169,5 +171,21 @@ public class CSG_Face {
 	public Iterator<CSG_Vertex> getVertexIterator(){
 		return vertices.iterator();
 	}
+	
+	/**
+	 * get the distance from a CSG_Vertex to the plane
+	 * defined by this Face.
+	 * @param v the CSG_Vertex to test
+	 * @return distance from vertex to plane (true "zero" if within tollerance)
+	 */
+	public double distFromVertexToFacePlane(CSG_Vertex v){
+		double dotProd = v.getX()*normal.getX() + v.getY()*normal.getY() + v.getZ()*normal.getZ();
+		double dist = dotProd + normOffset;
+		if(dist > -TOL && dist < TOL){
+			return 0.0;
+		}
+		return dist;
+	}
+	
 	
 }

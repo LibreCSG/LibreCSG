@@ -40,18 +40,23 @@ import java.util.List;
  * 
  * The CSG_Vertex also stores status information about
  * being on the inside/outside/boundary of another solid. 
- * Initially this status is set to unknown.
+ * Initially this status is set to unknown.<br/><br/>
+ * 
+ * Algorithms and structures from:<br/>
+ * - Laidlaw, Trumbore, and Hughes <br/>
+ * - "Constructive Solid Geometry for Polyhedral Objects"<br/>
+ * - SIGGRAPH 1986, Volume 20, Number 4, pp.161-170
  */
 public class CSG_Vertex {
 
-	public final static int STATUS_INSIDE   = 5;
-	public final static int STATUS_OUTSIDE  = 6;
-	public final static int STATUS_BOUNDARY = 7;
-	public final static int STATUS_UNKNOWN  = 8;
+	public final static int VERT_INSIDE   = 5;
+	public final static int VERT_OUTSIDE  = 6;
+	public final static int VERT_BOUNDARY = 7;
+	public final static int VERT_UNKNOWN  = 8;
 	
 	private final double x,y,z;	
 	List<CSG_Vertex> adjacentVertices = new LinkedList<CSG_Vertex>();
-	int status = STATUS_UNKNOWN;
+	private int status = VERT_UNKNOWN;
 	
 	public CSG_Vertex(double x, double y, double z){
 		this.x = x;
