@@ -120,6 +120,10 @@ public class CSG_Vertex {
 		return new CSG_Vertex(cx,cy,cz);
 	}
 	
+	public double getDotProduct(CSG_Vertex vertB){
+		return x*vertB.x + y*vertB.y + z*vertB.z;
+	}
+	
 	public CSG_Vertex addToVertex(CSG_Vertex vertB){
 		return new CSG_Vertex(x+vertB.x, y+vertB.y, z+vertB.z);
 	}
@@ -136,4 +140,13 @@ public class CSG_Vertex {
 		return "CSG_Vert(" + x + "," + y + "," + z + ")";
 	}
 	
+	public CSG_Vertex getUnitLength(){
+		double dist = getDistFromOrigin();
+		if(dist > TOL){
+			return getScaledCopy(1.0/dist);
+		}else{
+			System.out.println("could not get unit Length Vertex from origin!");
+			return this;
+		}
+	}
 }
