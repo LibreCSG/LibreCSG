@@ -143,10 +143,17 @@ public class CSG_Face {
 	}
 	
 	/**
-	 * @return a copy of the normal defined by the Face.
+	 * @return a copy of the normal defined by the Face's plane.
 	 */
-	public CSG_Vertex getNormal(){
+	public CSG_Vertex getPlaneNormal(){
 		return normal.deepCopy();
+	}
+	
+	/**
+	 * @return the offset of the plane the contains this Face.
+	 */
+	public double getPlaneOffset(){
+		return normOffset;
 	}
 	
 	/**
@@ -187,5 +194,11 @@ public class CSG_Face {
 		return dist;
 	}
 	
+	/**
+	 * @return the number of vertices that define this face.
+	 */
+	public int getNumberVertices(){
+		return vertices.size();
+	}
 	
 }

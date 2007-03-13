@@ -1,6 +1,11 @@
 package backend.model.CSG;
 
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.media.opengl.GL;
+import javax.media.opengl.GLContext;
 
 
 //
@@ -49,6 +54,7 @@ public class CSG_BooleanOperator {
 	 */
 	public static CSG_Solid Intersection(CSG_Solid solidA, CSG_Solid solidB){
 		// TODO: CSG Intersection
+		splitSolidABySolidB(solidA, solidB);
 		return null;
 	}
 	
@@ -75,7 +81,7 @@ public class CSG_BooleanOperator {
 	}
 	
 	
-	private void splitSolidABySolidB(CSG_Solid sA, CSG_Solid sB){
+	private static void splitSolidABySolidB(CSG_Solid sA, CSG_Solid sB){
 		// 4.1 :: Line 1
 		if(sA.bounds.overlapsBounds(sB.bounds)){
 			// 4.1 :: Line 2
@@ -89,7 +95,7 @@ public class CSG_BooleanOperator {
 					while(bFaceIter.hasNext()){
 						CSG_Face bFace = bFaceIter.next();
 						// TODO: analyze aFace,bFace as in "5. Do Polygons Intersect?"
-						CSG_FACE_INFO fInfo = getFaceIntersectionInfo(aFace, bFace);
+						CSG_FACE_INFO fInfo = performFaceIntersection(aFace, bFace);
 						
 					}					
 				}				
@@ -98,14 +104,16 @@ public class CSG_BooleanOperator {
 	}
 	
 	
-	private CSG_FACE_INFO getFaceIntersectionInfo(CSG_Face faceA, CSG_Face faceB){
+	public static CSG_FACE_INFO performFaceIntersection(CSG_Face faceA, CSG_Face faceB){
 		// "5. Do Polygons Intersect?"
 		// Step 1: get dist from each vertex in faceA to plane of faceB
 		boolean gotPositive = false;
 		boolean gotNegative = false;
 		Iterator<CSG_Vertex> aVerts = faceA.getVertexIterator();
+		List<Double> distAsToBPlane = new LinkedList<Double>();
 		while(aVerts.hasNext()){
 			double dist = faceB.distFromVertexToFacePlane(aVerts.next());
+			distAsToBPlane.add(dist);
 			if(dist > 0.0){
 				gotPositive = true;
 			}
@@ -131,8 +139,10 @@ public class CSG_BooleanOperator {
 		gotPositive = false;
 		gotNegative = false;
 		Iterator<CSG_Vertex> bVerts = faceB.getVertexIterator();
+		List<Double> distBsToAPlane = new LinkedList<Double>();
 		while(bVerts.hasNext()){
 			double dist = faceA.distFromVertexToFacePlane(bVerts.next());
+			distBsToAPlane.add(dist);
 			if(dist > 0.0){
 				gotPositive = true;
 			}
@@ -153,8 +163,33 @@ public class CSG_BooleanOperator {
 		// now things get a bit more tricky.. need to do line intersection..
 		//
 		
+		CSG_Ray planeIntRay = new CSG_Ray(faceA, faceB);
+
+		// TODO
+
+		// find CSG_Segment in faceA
+		CSG_Segment segmentA = new CSG_Segment(faceA, distAsToBPlane, planeIntRay);
 		
-		return CSG_FACE_INFO.FACE_UNKNOWN;
+		// find CSG_Segment in faceB
+		CSG_Segment segmentB = new CSG_Segment(faceB, distBsToAPlane, planeIntRay);
+		
+		GLContext glc = GLContext.getCurrent();
+		GL gl = glc.getGL();
+		segmentA.drawSegmentForDebug(gl);
+		segmentB.drawSegmentForDebug(gl);
+		
+		// check to see if segments overlap at all...
+		double aMax = segmentA.getMaxRayDist();
+		double aMin = segmentA.getMinRayDist();
+		double bMax = segmentB.getMaxRayDist();
+		double bMin = segmentB.getMinRayDist();		
+		if((aMin >= bMin && aMin <= bMax) || (aMax >= bMin && aMax <= bMax)){
+			//return CSG_FACE_INFO.FACE_INTERSECT;
+			// perform Face Intersection!!  the segments overlap!
+			System.out.println("should perform face intersection!");
+			return CSG_FACE_INFO.FACE_INTERSECT;
+		}
+		return CSG_FACE_INFO.FACE_NOT_INTERSECT;
 	}
 	
 	enum CSG_FACE_INFO {

@@ -54,14 +54,24 @@ public class CSG_Vertex {
 	public final static int VERT_BOUNDARY = 7;
 	public final static int VERT_UNKNOWN  = 8;
 	
+	final double TOL = 1e-10;
+	
 	private final double x,y,z;	
 	List<CSG_Vertex> adjacentVertices = new LinkedList<CSG_Vertex>();
 	private int status = VERT_UNKNOWN;
 	
 	public CSG_Vertex(double x, double y, double z){
-		this.x = x;
-		this.y = y; 
-		this.z = z;
+		this.x = cleanDouble(x);
+		this.y = cleanDouble(y); 
+		this.z = cleanDouble(z);
+	}
+	
+	// just to clean up values around zero (seeing -0.0 is annoying)
+	private double cleanDouble(double input){
+		if(input < TOL && input > -TOL){
+			return 0.0;
+		}
+		return input;
 	}
 	
 	public double getX(){
@@ -83,6 +93,47 @@ public class CSG_Vertex {
 	public CSG_Vertex deepCopy(){
 		CSG_Vertex clone = new CSG_Vertex(x,y,z);
 		return clone;
+	}
+	
+	public CSG_Vertex getScaledCopy(double scale){
+		return new CSG_Vertex(scale*x, scale*y, scale*z);
+	}
+	
+	public double getDistFromOrigin(){
+		return Math.sqrt(x*x + y*y + z*z);
+	}
+	
+	public double getDistBetweenVertices(CSG_Vertex vertB){
+		return this.subFromVertex(vertB).getDistFromOrigin();
+	}
+	
+	/**
+	 * computes the cross-product of the two vertices.
+	 * @param vertB the given vector to compute (this)x(vertB)
+	 * @return the CSG_Vextor representing the cross-product
+	 *   of this and vertB. 
+	 */
+	public CSG_Vertex getVectCrossProduct(CSG_Vertex vertB){
+		double cx = y*vertB.z - z*vertB.y;
+		double cy = z*vertB.x - x*vertB.z;
+		double cz = x*vertB.y - y*vertB.x;
+		return new CSG_Vertex(cx,cy,cz);
+	}
+	
+	public CSG_Vertex addToVertex(CSG_Vertex vertB){
+		return new CSG_Vertex(x+vertB.x, y+vertB.y, z+vertB.z);
+	}
+	
+	/**
+	 * @param vertB CSG_Vertex to subtract from this
+	 * @return this - vertB
+	 */
+	public CSG_Vertex subFromVertex(CSG_Vertex vertB){
+		return new CSG_Vertex(x-vertB.x, y-vertB.y, z-vertB.z);
+	}
+	
+	public String toString(){
+		return "CSG_Vert(" + x + "," + y + "," + z + ")";
 	}
 	
 }
