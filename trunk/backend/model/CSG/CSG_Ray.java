@@ -58,7 +58,7 @@ public class CSG_Ray {
 	 * @param faceB the 2nd CSG_Face
 	 */
 	public CSG_Ray(CSG_Face faceA, CSG_Face faceB){
-		direction = faceA.getPlaneNormal().getVectCrossProduct(faceB.getPlaneNormal());
+		direction = faceA.getPlaneNormal().getVectCrossProduct(faceB.getPlaneNormal()).getUnitLength();
 		if(direction.getDistFromOrigin() < TOL){
 			System.out.println("planes are parallel!  They will not intersect at a line. ");
 			basePoint = new CSG_Vertex(0.0, 0.0, 0.0); // dummy base Point
@@ -128,6 +128,21 @@ public class CSG_Ray {
 		gl.glBegin(GL.GL_POINTS);
 			gl.glVertex3d(basePoint.getX(), basePoint.getY(), basePoint.getZ());
 		gl.glEnd();
+	}
+	
+	public CSG_Vertex getVertexAtDist(double dist){
+		return basePoint.addToVertex(direction.getScaledCopy(dist));
+	}
+	
+	public double getDistAlongRay(CSG_Vertex vert){
+		double dist = basePoint.getDistBetweenVertices(vert);
+		CSG_Vertex originRay = vert.subFromVertex(basePoint);
+		double dotProd = originRay.getDotProduct(direction);
+		if(dotProd >= 0.0){
+			return dist;
+		}else{
+			return -dist;
+		}
 	}
 	
 }

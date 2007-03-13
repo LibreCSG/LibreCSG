@@ -57,7 +57,7 @@ public class CSG_Segment {
 	private CSG_Ray ray;
 	private CSG_Vertex startVert;
 	private CSG_Vertex endVert;
-	private enum VERTEX_DESC { VERTEX, EDGE, FACE, UNKNOWN };
+	public enum VERTEX_DESC { VERTEX, EDGE, FACE, UNKNOWN };
 	private VERTEX_DESC descStart = VERTEX_DESC.UNKNOWN;
 	private VERTEX_DESC descMid   = VERTEX_DESC.UNKNOWN;
 	private VERTEX_DESC descEnd   = VERTEX_DESC.UNKNOWN;
@@ -172,8 +172,8 @@ public class CSG_Segment {
 			//System.out.println("got a good pair of verts! :)");
 		}
 		// startVert and endVert now contain the endpoints!
-		this.distStartFromP = this.ray.basePoint.getDistBetweenVertices(startVert);
-		this.distEndFromP   = this.ray.basePoint.getDistBetweenVertices(endVert);
+		this.distStartFromP = this.ray.getDistAlongRay(startVert);
+		this.distEndFromP   = this.ray.getDistAlongRay(endVert);
 		
 		// update the middle vertex desciption
 		if(vertNearStartPt == vertNearEndPt){
@@ -187,9 +187,31 @@ public class CSG_Segment {
 			}
 		}
 		
+		ensureEndpointOrder();
+		
 	}
 	
 
+	// make sure endpoints are ordered with
+	// start < end.
+	private void ensureEndpointOrder(){
+		if(distStartFromP > distEndFromP){
+			// make distStartFromP always smaller...
+			// swap start and end points.
+			VERTEX_DESC descTemp = descStart;
+			CSG_Vertex  vertTemp = startVert;
+			int vertNearTemp = vertNearStartPt;
+			double distTemp = distStartFromP;
+			descStart = descEnd;
+			startVert = endVert;
+			vertNearStartPt = vertNearEndPt;
+			distStartFromP = distEndFromP;
+			descEnd = descTemp;
+			endVert = vertTemp;
+			vertNearEndPt = vertNearTemp;
+			distEndFromP = distTemp;
+		}
+	}
 	
 	/**
 	 * if vertA == NULL, place vert in vertA; <br/>
@@ -217,6 +239,7 @@ public class CSG_Segment {
 		this.ray = new CSG_Ray(startVert,endVert.subFromVertex(startVert));
 		this.distStartFromP = 0.0;
 		this.distEndFromP = endVert.getDistBetweenVertices(startVert);
+		ensureEndpointOrder();
 	}
 	
 	
@@ -225,20 +248,48 @@ public class CSG_Segment {
 			gl.glVertex3d(startVert.getX(), startVert.getY(), startVert.getZ());
 			gl.glVertex3d(endVert.getX(), endVert.getY(), endVert.getZ());			
 		gl.glEnd();
+		gl.glBegin(GL.GL_POINTS);
+			gl.glVertex3d(startVert.getX(), startVert.getY(), startVert.getZ());
+			gl.glVertex3d(endVert.getX(), endVert.getY(), endVert.getZ());	
+		gl.glEnd();
 	}
 	
 	/**
-	 * @return minimum distance along ray that segment ends.
+	 * @return minimum distance along ray (the start) that segment ends.
 	 */
-	public double getMinRayDist(){
-		return Math.min(distStartFromP, distEndFromP);
+	public double getStartRayDist(){
+		if(distStartFromP > distEndFromP){
+			System.out.println("** CSG_Segment(getStartRayDist): start dist is not less than end dist!!");
+		}
+		return distStartFromP;
 	}
 	
 	/**
-	 * @return maximum distance along ray that segment ends.
+	 * @return maximum distance along ray (the end) that segment ends.
 	 */
-	public double getMaxRayDist(){
-		return Math.max(distStartFromP, distEndFromP);
+	public double getEndRayDist(){
+		if(distStartFromP > distEndFromP){
+			System.out.println("** CSG_Segment(getEndRayDist): start dist is not less than end dist!!");
+		}
+		return distEndFromP;
+	}
+	
+	public void setStart(double startDist, VERTEX_DESC startDesc){
+		distStartFromP = startDist;
+		startVert = ray.getVertexAtDist(startDist);
+		descStart = startDesc;
+		ensureEndpointOrder();
+	}
+	
+	public void setEnd(double endDist, VERTEX_DESC endDesc){
+		distStartFromP = endDist;
+		startVert = ray.getVertexAtDist(endDist);
+		descStart = endDesc;
+		ensureEndpointOrder();
+	}
+	
+	public VERTEX_DESC getMiddleDesc(){
+		return descMid;
 	}
 	
 }

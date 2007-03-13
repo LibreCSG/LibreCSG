@@ -656,7 +656,7 @@ public class GLView {
 		//
 		//  2 solids to play with now!
 		//
-		/*
+		
 		glDrawSolid(s1, 0.4f, 0.5f, 0.8f);
 		glDrawSolid(s2, 0.4f, 0.5f, 0.8f);
 		
@@ -676,8 +676,8 @@ public class GLView {
 			gl.glTranslated(2.0,0.0,0.0);
 			glDrawSolid(s3s, 0.4f, 0.8f, 0.4f);
 		}
-		*/
 		
+		/*
 		CSG_Vertex v1c = new CSG_Vertex(0.0, 0.0, 0.0);
 		CSG_Vertex v2c = new CSG_Vertex(1.0, 0.0, 0.0);
 		CSG_Vertex v3c = new CSG_Vertex(1.0, 1.0, 0.0);
@@ -687,10 +687,11 @@ public class GLView {
 		CSG_Face f1c = new CSG_Face(v1c, v2c, v3c);
 		CSG_Face f2c = new CSG_Face(v4c, v5c, v6c);
 		gl.glColor4f(0.4f, 0.8f, 0.4f, 0.90f);
-		glDrawFace(f1c);
-		glDrawFace(f2c);
+		glDrawFaceEdges(f1c);
+		glDrawFaceEdges(f2c);
 		gl.glColor4f(0.8f, 0.5f, 0.4f, 0.90f);
 		System.out.println(CSG_BooleanOperator.performFaceIntersection(f1c, f2c));
+		*/
 	}
 	
 	private void glDrawSolid(CSG_Solid s, float r, float g, float b){
@@ -705,7 +706,7 @@ public class GLView {
 			glDrawFaceEdges(f);
 			
 			gl.glColor4f(0.8f, 0.3f, 0.4f, 1.0f);
-			glDrawFaceNormal(f);
+			//glDrawFaceNormal(f);
 		}	
 	}
 	

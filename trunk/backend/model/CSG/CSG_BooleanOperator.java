@@ -46,6 +46,8 @@ import javax.media.opengl.GLContext;
  */
 public class CSG_BooleanOperator {
 
+	final static double TOL = 1e-10;
+	
 	/**
 	 * find the intersection of solidA and solidB and return it.
 	 * @param solidA the "A" 3D CSG_Solid
@@ -165,31 +167,51 @@ public class CSG_BooleanOperator {
 		
 		CSG_Ray planeIntRay = new CSG_Ray(faceA, faceB);
 
-		// TODO
-
 		// find CSG_Segment in faceA
 		CSG_Segment segmentA = new CSG_Segment(faceA, distAsToBPlane, planeIntRay);
 		
 		// find CSG_Segment in faceB
 		CSG_Segment segmentB = new CSG_Segment(faceB, distBsToAPlane, planeIntRay);
 		
-		GLContext glc = GLContext.getCurrent();
-		GL gl = glc.getGL();
-		segmentA.drawSegmentForDebug(gl);
-		segmentB.drawSegmentForDebug(gl);
+
 		
 		// check to see if segments overlap at all...
-		double aMax = segmentA.getMaxRayDist();
-		double aMin = segmentA.getMinRayDist();
-		double bMax = segmentB.getMaxRayDist();
-		double bMin = segmentB.getMinRayDist();		
+		double aMax = segmentA.getEndRayDist();
+		double aMin = segmentA.getStartRayDist();
+		double bMax = segmentB.getEndRayDist();
+		double bMin = segmentB.getStartRayDist();		
 		if((aMin >= bMin && aMin <= bMax) || (aMax >= bMin && aMax <= bMax)){
 			//return CSG_FACE_INFO.FACE_INTERSECT;
 			// perform Face Intersection!!  the segments overlap!
+			// TODO
 			System.out.println("should perform face intersection!");
+			subdivideFaceA(faceA, segmentA, segmentB);			
 			return CSG_FACE_INFO.FACE_INTERSECT;
 		}
 		return CSG_FACE_INFO.FACE_NOT_INTERSECT;
+	}
+	
+	private static void subdivideFaceA(CSG_Face faceA, CSG_Segment segmentA, CSG_Segment segmentB){
+		// section 6.  find section of segmentB that overlaps segmentA...
+		double startInA = Math.max(segmentA.getStartRayDist(), segmentB.getStartRayDist());
+		double endInA   = Math.min(segmentA.getEndRayDist(), segmentB.getEndRayDist());
+		// check to see if endpoints of segmentA changed...
+		if(startInA < segmentA.getStartRayDist()+TOL && startInA > segmentA.getStartRayDist()-TOL){
+			// startpoint was not changed.
+		}else{
+			segmentA.setStart(startInA, segmentA.getMiddleDesc());
+		}
+		if(endInA < segmentA.getEndRayDist()+TOL && endInA > segmentA.getEndRayDist()-TOL){
+			// endpoint was not changed.
+		}else{
+			segmentA.setEnd(endInA, segmentA.getMiddleDesc());
+		}
+		
+		GLContext glc = GLContext.getCurrent();
+		GL gl = glc.getGL();
+		segmentA.drawSegmentForDebug(gl);
+		//segmentB.drawSegmentForDebug(gl);
+		
 	}
 	
 	enum CSG_FACE_INFO {
