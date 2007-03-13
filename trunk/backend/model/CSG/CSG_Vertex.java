@@ -49,16 +49,15 @@ import java.util.List;
  */
 public class CSG_Vertex {
 
-	public final static int VERT_INSIDE   = 5;
-	public final static int VERT_OUTSIDE  = 6;
-	public final static int VERT_BOUNDARY = 7;
-	public final static int VERT_UNKNOWN  = 8;
-	
+	public enum VERT_TYPE {
+		VERT_INSIDE, VERT_OUTSIDE, VERT_BOUNDARY, VERT_UNKNOWN
+	}
+
 	final double TOL = 1e-10;
 	
 	private final double x,y,z;	
 	List<CSG_Vertex> adjacentVertices = new LinkedList<CSG_Vertex>();
-	private int status = VERT_UNKNOWN;
+	private VERT_TYPE status = VERT_TYPE.VERT_UNKNOWN;
 	
 	public CSG_Vertex(double x, double y, double z){
 		this.x = cleanDouble(x);
@@ -148,5 +147,9 @@ public class CSG_Vertex {
 			System.out.println("could not get unit Length Vertex from origin!");
 			return this;
 		}
+	}
+	
+	public void setVertType(VERT_TYPE type){
+		status = type;
 	}
 }

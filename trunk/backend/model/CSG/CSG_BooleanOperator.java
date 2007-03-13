@@ -84,34 +84,76 @@ public class CSG_BooleanOperator {
 	
 	
 	private static void splitSolidABySolidB(CSG_Solid sA, CSG_Solid sB){
-		// 4.1 :: Line 1
+		//
+		// Pseudo-code.. very similar to Fig. 4.1 in 1986 SIGGRAPH: CSG
+		//               but modified to handle faces (each of which is 
+		//               made of possibly multiple polygons)
+		//
+		// ___Spitting SolidA by SolidB___
+		//
+		//( 1) if(extent of solidA overlaps solidB)
+		//( 2)   for each faceA in solidA
+		//( 3)     if(extent of faceA overlaps solidB)
+		//( 4)       for each polygonA in faceA
+		//( 5)         if(extent of polygonA overlaps solidB)
+		//( 6)           for each faceB in solidB
+		//( 7)             if(extent of polygonA overlaps faceB)
+		//( 8)              for each polygonB in faceB
+		//( 9)                 if(extent of polygonA overlaps polygonB)
+		//(10)                   ** analize them as in "5. Do Two Polygons Intersect"
+		//(11)                   if(INTERSECT)
+		//(12)                     ** subdivide polygonA as in "6. Subdividing non-coplanar polygons"
+		//(13)                   else
+		//(14)                     ** do nothing with polygonA (it was COPLANAR or NOT_INTERSECT)
+		//
+		
+		
+		// ( 1) if(extent of solidA overlaps solidB)
 		if(sA.bounds.overlapsBounds(sB.bounds)){
-			// 4.1 :: Line 2
-			Iterator<CSG_Face> aFaceIter =  sA.getFacesIter();
-			while(aFaceIter.hasNext()){
-				CSG_Face aFace = aFaceIter.next();
-				// 4.1 :: Line 3
-				if(aFace.getBounds().overlapsBounds(sB.bounds)){
-					// 4.1 :: Line 4
-					Iterator<CSG_Face> bFaceIter = sB.getFacesIter();
-					while(bFaceIter.hasNext()){
-						CSG_Face bFace = bFaceIter.next();
-						// TODO: analyze aFace,bFace as in "5. Do Polygons Intersect?"
-						CSG_FACE_INFO fInfo = performFaceIntersection(aFace, bFace);
-						
-					}					
+			// ( 2) for each faceA in solidA
+			Iterator<CSG_Face> faceIterA =  sA.getFacesIter();
+			while(faceIterA.hasNext()){
+				CSG_Face faceA = faceIterA.next();
+				// ( 3) if(extent of faceA overlaps solidB)
+				if(faceA.getBounds().overlapsBounds(sB.bounds)){
+					// ( 4) for each polygonA in faceA
+					Iterator<CSG_Polygon> polyIterA = faceA.getPolygonIterator();
+					while(polyIterA.hasNext()){
+						CSG_Polygon polyA = polyIterA.next();
+						// ( 5) if(extent of polygonA overlaps solidB)
+						if(polyA.getBounds().overlapsBounds(sB.bounds)){
+							// ( 6) for each faceB in solidB
+							Iterator<CSG_Face> faceIterB = sB.getFacesIter();
+							while(faceIterB.hasNext()){
+								CSG_Face faceB = faceIterB.next();
+								// ( 7) if(extent of polygonA overlaps faceB)
+								if(polyA.getBounds().overlapsBounds(faceB.getBounds())){
+									// ( 8) for each polygonB in faceB
+									Iterator<CSG_Polygon> polyIterB = faceB.getPolygonIterator();
+									while(polyIterB.hasNext()){
+										CSG_Polygon polyB = polyIterB.next();
+										// ( 9) if(extent of polygonA overlaps polygonB)
+										if(polyA.getBounds().overlapsBounds(polyB.getBounds())){
+											// (10) ** analize them as in "5. Do Two Polygons Intersect"
+											CSG_FACE_INFO fInfo = performPolyIntersection(polyA, faceA, polyB, faceB);
+										}
+									}									
+								}								
+							}							
+						}						
+					}			
 				}				
 			}
 		}
 	}
 	
 	
-	public static CSG_FACE_INFO performFaceIntersection(CSG_Face faceA, CSG_Face faceB){
+	public static CSG_FACE_INFO performPolyIntersection(CSG_Polygon polyA, CSG_Face faceA, CSG_Polygon polyB, CSG_Face faceB){
 		// "5. Do Polygons Intersect?"
 		// Step 1: get dist from each vertex in faceA to plane of faceB
 		boolean gotPositive = false;
 		boolean gotNegative = false;
-		Iterator<CSG_Vertex> aVerts = faceA.getVertexIterator();
+		Iterator<CSG_Vertex> aVerts = polyA.getVertexIterator();
 		List<Double> distAsToBPlane = new LinkedList<Double>();
 		while(aVerts.hasNext()){
 			double dist = faceB.distFromVertexToFacePlane(aVerts.next());
@@ -140,7 +182,7 @@ public class CSG_BooleanOperator {
 		// get dist from each vertex in faceB to plane of faceA		
 		gotPositive = false;
 		gotNegative = false;
-		Iterator<CSG_Vertex> bVerts = faceB.getVertexIterator();
+		Iterator<CSG_Vertex> bVerts = polyB.getVertexIterator();
 		List<Double> distBsToAPlane = new LinkedList<Double>();
 		while(bVerts.hasNext()){
 			double dist = faceA.distFromVertexToFacePlane(bVerts.next());
@@ -168,10 +210,10 @@ public class CSG_BooleanOperator {
 		CSG_Ray planeIntRay = new CSG_Ray(faceA, faceB);
 
 		// find CSG_Segment in faceA
-		CSG_Segment segmentA = new CSG_Segment(faceA, distAsToBPlane, planeIntRay);
+		CSG_Segment segmentA = new CSG_Segment(polyA, distAsToBPlane, planeIntRay);
 		
 		// find CSG_Segment in faceB
-		CSG_Segment segmentB = new CSG_Segment(faceB, distBsToAPlane, planeIntRay);
+		CSG_Segment segmentB = new CSG_Segment(polyB, distBsToAPlane, planeIntRay);
 		
 
 		
@@ -184,18 +226,26 @@ public class CSG_BooleanOperator {
 			//return CSG_FACE_INFO.FACE_INTERSECT;
 			// perform Face Intersection!!  the segments overlap!
 			// TODO
-			System.out.println("should perform face intersection!");
-			subdivideFaceA(faceA, segmentA, segmentB);			
+			//System.out.println("should perform face intersection!");
+			subdivideFaceA(polyA, faceA, segmentA, segmentB);			
 			return CSG_FACE_INFO.FACE_INTERSECT;
 		}
 		return CSG_FACE_INFO.FACE_NOT_INTERSECT;
 	}
 	
-	private static void subdivideFaceA(CSG_Face faceA, CSG_Segment segmentA, CSG_Segment segmentB){
+	private static void subdivideFaceA(CSG_Polygon polyA, CSG_Face faceA, CSG_Segment segmentA, CSG_Segment segmentB){
 		// section 6.  find section of segmentB that overlaps segmentA...
+		
+		// save original values for segmentA to save work later.
+		double origStartA = segmentA.getStartRayDist();
+		double origEndA   = segmentA.getEndRayDist();
+		CSG_Segment.VERTEX_DESC origStartDescA = segmentA.getStartDesc();
+		CSG_Segment.VERTEX_DESC origEndDescA = segmentA.getEndDesc();
+		
 		double startInA = Math.max(segmentA.getStartRayDist(), segmentB.getStartRayDist());
 		double endInA   = Math.min(segmentA.getEndRayDist(), segmentB.getEndRayDist());
 		// check to see if endpoints of segmentA changed...
+		
 		if(startInA < segmentA.getStartRayDist()+TOL && startInA > segmentA.getStartRayDist()-TOL){
 			// startpoint was not changed.
 		}else{
@@ -207,6 +257,71 @@ public class CSG_BooleanOperator {
 			segmentA.setEnd(endInA, segmentA.getMiddleDesc());
 		}
 		
+		//
+		// Handle all VERTEX_DESC possibilities.. craziness! :)
+		//
+		if(segmentA.VERT_DESC_is_VVV()){
+			// subdividing -- none			
+			// marking
+			polyA.markVertexInPolyByIndex(segmentA.getVertIndexNearStart(),CSG_Vertex.VERT_TYPE.VERT_BOUNDARY);
+		}
+		if(segmentA.VERT_DESC_is_VEV()){
+			// subdividing -- none			
+			// marking
+			polyA.markVertexInPolyByIndex(segmentA.getVertIndexNearStart(),CSG_Vertex.VERT_TYPE.VERT_BOUNDARY);	
+			polyA.markVertexInPolyByIndex(segmentA.getVertIndexNearEnd(),CSG_Vertex.VERT_TYPE.VERT_BOUNDARY);			
+		}
+		if(segmentA.VERT_DESC_is_VEE()){
+			
+		}
+		if(segmentA.VERT_DESC_is_VFV()){
+			
+		}
+		if(segmentA.VERT_DESC_is_VFE()){
+			
+		}
+		if(segmentA.VERT_DESC_is_EEV()){ 
+			// Symmetric to VEE			
+			
+		}
+		if(segmentA.VERT_DESC_is_EEE()){
+			
+		}
+		if(segmentA.VERT_DESC_is_EFV()){
+			// Symmetric to VFE
+			
+		}
+		if(segmentA.VERT_DESC_is_EFE()){
+			
+		}
+		if(segmentA.VERT_DESC_is_EFF()){
+			// subdividing -- 	
+			// TODO: for now just adding new polygons, not removing the old...
+			if(segmentA.getStartDesc() == CSG_Segment.VERTEX_DESC.EDGE){
+				// start is on the edge
+			}else{
+				// end is on the edge
+			}
+			
+			// marking		
+		}
+		if(segmentA.VERT_DESC_is_FFV()){
+			// Symmetric to VFF
+			
+		}
+		if(segmentA.VERT_DESC_is_FFE()){
+			// Symmetric to EFF
+			
+		}
+		if(segmentA.VERT_DESC_is_FFF()){
+			
+		}
+		
+		
+		
+		System.out.println("subdividing: SegmentA is {" + segmentA.getStartDesc() + "-" + 
+				segmentA.getMiddleDesc() + "-" + segmentA.getEndDesc() + "}");
+				
 		GLContext glc = GLContext.getCurrent();
 		GL gl = glc.getGL();
 		segmentA.drawSegmentForDebug(gl);
