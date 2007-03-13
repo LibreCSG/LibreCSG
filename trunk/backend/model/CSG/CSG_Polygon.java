@@ -106,6 +106,14 @@ public class CSG_Polygon {
 		return bounds.deepCopy();
 	}
 	
+	public CSG_Vertex getVertAtIndex(int i){
+		if(i < 0 || i >= vertices.size()){
+			System.out.println("CSG_Polygon(getVertAtIndex): index was not valid!! i=" + i + " size=" + vertices.size());
+			return null;
+		}
+		return vertices.get(i);
+	}
+	
 	/**
 	 * @return the CSG_Vertex defining this polygon's 
 	 * barycenter (the average of all the vertices).

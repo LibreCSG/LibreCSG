@@ -48,7 +48,13 @@ public class CSG_Solid {
 
 	List<CSG_Vertex> vertices = new LinkedList<CSG_Vertex>();
 	List<CSG_Face>   faces    = new LinkedList<CSG_Face>();
-	CSG_Bounds bounds;
+	CSG_Bounds bounds = new CSG_Bounds();
+	
+	/**
+	 * Construct a new CSG_Solid with no Faces.  Faces should be added via addFace();
+	 */
+	public CSG_Solid(){
+	}
 	
 	/**
 	 * Construct a new CSG_Solid that includes the given Face.

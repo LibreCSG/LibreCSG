@@ -658,10 +658,10 @@ public class GLView {
 		//  2 solids to play with now!
 		//
 		
-		//glDrawSolid(s1, 0.4f, 0.5f, 0.8f);
-		//glDrawSolid(s2, 0.4f, 0.5f, 0.8f);
+		glDrawSolid(s1, 0.4f, 0.5f, 0.8f);
+		glDrawSolid(s2, 0.4f, 0.5f, 0.8f);
 		
-		/*
+		
 		CSG_Solid s3i = CSG_BooleanOperator.Intersection(s1, s2);
 		CSG_Solid s3u = CSG_BooleanOperator.Union(s1, s2);
 		CSG_Solid s3s = CSG_BooleanOperator.Subtraction(s1, s2);
@@ -678,9 +678,9 @@ public class GLView {
 			gl.glTranslated(2.0,0.0,0.0);
 			glDrawSolid(s3s, 0.4f, 0.8f, 0.4f);
 		}
-		*/
 		
 		
+		gl.glTranslated(0.0, 2.0, 0.0);
 		CSG_Vertex v1c = new CSG_Vertex(0.0, 0.0, 0.0);
 		CSG_Vertex v2c = new CSG_Vertex(1.0, 0.0, 0.0);
 		CSG_Vertex v3c = new CSG_Vertex(1.0, 1.0, 0.0);
@@ -694,8 +694,21 @@ public class GLView {
 		gl.glColor4f(0.4f, 0.8f, 0.4f, 0.90f);
 		glDrawFaceEdges(f1c);
 		glDrawFaceEdges(f2c);
-		gl.glColor4f(0.8f, 0.5f, 0.4f, 0.90f);
+		gl.glColor4f(0.8f, 0.4f, 0.4f, 0.90f);
+		glDrawPolyNormals(f1c);
+		glDrawPolyNormals(f2c);
+		
 		System.out.println(CSG_BooleanOperator.performPolyIntersection(polyA, f1c, polyB, f2c));
+		System.out.println(CSG_BooleanOperator.performPolyIntersection(polyB, f2c, polyA, f1c));
+		
+		gl.glTranslated(0.0, 2.0, 0.0);
+		gl.glColor4f(0.4f, 0.8f, 0.4f, 0.90f);
+		glDrawFaceEdges(f1c);
+		glDrawFaceEdges(f2c);
+		gl.glColor4f(0.8f, 0.4f, 0.4f, 0.90f);
+		glDrawPolyNormals(f1c);
+		glDrawPolyNormals(f2c);
+		
 		
 	}
 	
@@ -705,7 +718,7 @@ public class GLView {
 			CSG_Face f = iter.next();
 			
 			gl.glColor4f(r, g, b, 0.90f);
-			glDrawFace(f);
+			//glDrawFace(f);
 			
 			gl.glColor4f(0.3f, 0.3f, 0.3f, 1.0f);
 			glDrawFaceEdges(f);
@@ -738,6 +751,21 @@ public class GLView {
 				gl.glVertex3dv(iterV.next().getXYZ(), 0);
 			}
 			gl.glEnd();
+		}
+	}
+	
+	private void glDrawPolyNormals(CSG_Face f){
+		Iterator<CSG_Polygon> iter = f.getPolygonIterator();
+		while(iter.hasNext()){
+			CSG_Polygon poly = iter.next();
+			CSG_Vertex fCenter = poly.getBarycenterVertex();
+			CSG_Vertex norm = poly.getPlane().getNormal();
+			CSG_Vertex nShifted = new CSG_Vertex(fCenter.getX()+0.25*norm.getX(), fCenter.getY()+0.25*norm.getY(), fCenter.getZ()+0.25*norm.getZ());
+			gl.glBegin(GL.GL_LINES);
+				gl.glVertex3dv(fCenter.getXYZ(), 0);
+				gl.glVertex3dv(nShifted.getXYZ(), 0);
+			gl.glEnd();
+			
 		}
 	}
 	

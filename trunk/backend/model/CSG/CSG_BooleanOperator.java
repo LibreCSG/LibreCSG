@@ -107,7 +107,6 @@ public class CSG_BooleanOperator {
 		//(14)                     ** do nothing with polygonA (it was COPLANAR or NOT_INTERSECT)
 		//
 		
-		
 		// ( 1) if(extent of solidA overlaps solidB)
 		if(sA.bounds.overlapsBounds(sB.bounds)){
 			// ( 2) for each faceA in solidA
@@ -140,9 +139,9 @@ public class CSG_BooleanOperator {
 									}									
 								}								
 							}							
-						}						
+						}
 					}			
-				}				
+				}
 			}
 		}
 	}
@@ -297,12 +296,21 @@ public class CSG_BooleanOperator {
 		if(segmentA.VERT_DESC_is_EFF()){
 			// subdividing -- 	
 			// TODO: for now just adding new polygons, not removing the old...
-			if(segmentA.getStartDesc() == CSG_Segment.VERTEX_DESC.EDGE){
-				// start is on the edge
-			}else{
-				// end is on the edge
+			// start is on the edge
+			int numVerts = polyA.getNumberVertices();
+			CSG_Vertex v1 = polyA.getVertAtIndex(segmentA.getVertIndexNearEnd());
+			CSG_Vertex v2 = polyA.getVertAtIndex((segmentA.getVertIndexNearEnd()+numVerts-1)%numVerts);
+			CSG_Polygon newPoly1 = new CSG_Polygon(segmentA.getVertStart(), segmentA.getVertEnd(), v1);
+			CSG_Polygon newPoly2 = new CSG_Polygon(segmentA.getVertEnd(), v2, v1);
+			CSG_Polygon newPoly3 = new CSG_Polygon(v2, segmentA.getVertEnd(), segmentA.getVertStart());
+			for(int i=0; i<numVerts-2; i++){
+				newPoly3.addVertex(polyA.getVertAtIndex((segmentA.getVertIndexNearEnd()-2+numVerts)%numVerts));
 			}
-			
+			//faceA.addPolygon(newPoly1);
+			//faceA.addPolygon(newPoly2);
+			//polyA = newPoly3;
+			//faceA.addPolygon(newPoly3);
+			//faceA.removePolygon(polyA);
 			// marking		
 		}
 		if(segmentA.VERT_DESC_is_FFV()){

@@ -108,6 +108,14 @@ public class CSG_Face {
 		}
 	}
 	
+	public void removePolygon(CSG_Polygon poly){
+		if(polygons.contains(poly)){
+			polygons.remove(poly);
+		}else{
+			System.out.println("CSG_Face(removePolygon): Tried to remove a polygon that was not in the list of polygons!");
+		}
+	}
+	
 	/**
 	 * @return a copy of the normal defined by the Face's plane.
 	 */
