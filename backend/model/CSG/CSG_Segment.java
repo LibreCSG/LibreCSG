@@ -311,6 +311,14 @@ public class CSG_Segment {
 		return vertNearEndPt;
 	}
 	
+	public CSG_Vertex getVertStart(){
+		return startVert;
+	}
+	
+	public CSG_Vertex getVertEnd(){
+		return endVert;
+	}
+	
 	/** Segment type: Vertex, Vertex, Vertex */
 	public boolean VERT_DESC_is_VVV(){
 		return descStart == VERTEX_DESC.VERTEX && descMid == VERTEX_DESC.VERTEX && descEnd == VERTEX_DESC.VERTEX;

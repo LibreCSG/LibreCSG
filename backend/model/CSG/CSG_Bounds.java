@@ -40,6 +40,15 @@ public class CSG_Bounds{
 	private final double TOL = 1e-10; // double tollerance  
 	
 	
+	public CSG_Bounds(){
+		minX = Double.MAX_VALUE;
+		minY = Double.MAX_VALUE;
+		minZ = Double.MAX_VALUE;
+		maxX = Double.MIN_VALUE;
+		maxY = Double.MIN_VALUE;
+		maxZ = Double.MIN_VALUE;
+	}
+	
 	public CSG_Bounds(CSG_Vertex firstVertex){
 		minX = firstVertex.getX();
 		maxX = firstVertex.getX();
