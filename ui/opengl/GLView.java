@@ -34,6 +34,7 @@ import backend.model.Sketch;
 import backend.model.SubPart;
 import backend.model.CSG.CSG_BooleanOperator;
 import backend.model.CSG.CSG_Face;
+import backend.model.CSG.CSG_Polygon;
 import backend.model.CSG.CSG_Solid;
 import backend.model.CSG.CSG_Vertex;
 import backend.model.sketch.Prim2D;
@@ -615,12 +616,12 @@ public class GLView {
 		CSG_Vertex v7 = new CSG_Vertex(1.0, 1.0, 1.0);
 		CSG_Vertex v8 = new CSG_Vertex(0.0, 1.0, 1.0);
 		
-		CSG_Face f1 = new CSG_Face(v1, v2, v3, v4);
-		CSG_Face f2 = new CSG_Face(v1, v5, v6, v2);
-		CSG_Face f3 = new CSG_Face(v2, v6, v7, v3);
-		CSG_Face f4 = new CSG_Face(v3, v7, v8, v4);
-		CSG_Face f5 = new CSG_Face(v4, v8, v5, v1);
-		CSG_Face f6 = new CSG_Face(v8, v7, v6, v5);
+		CSG_Face f1 = new CSG_Face(new CSG_Polygon(v1, v2, v3, v4));
+		CSG_Face f2 = new CSG_Face(new CSG_Polygon(v1, v5, v6, v2));
+		CSG_Face f3 = new CSG_Face(new CSG_Polygon(v2, v6, v7, v3));
+		CSG_Face f4 = new CSG_Face(new CSG_Polygon(v3, v7, v8, v4));
+		CSG_Face f5 = new CSG_Face(new CSG_Polygon(v4, v8, v5, v1));
+		CSG_Face f6 = new CSG_Face(new CSG_Polygon(v8, v7, v6, v5));
 		
 		CSG_Solid s1 = new CSG_Solid(f1);
 		s1.addFace(f2);
@@ -639,12 +640,12 @@ public class GLView {
 		CSG_Vertex v7b = new CSG_Vertex(1.75, 1.75, 1.75);
 		CSG_Vertex v8b = new CSG_Vertex(0.75, 1.75, 1.75);
 		
-		CSG_Face f1b = new CSG_Face(v1b, v2b, v3b, v4b);
-		CSG_Face f2b = new CSG_Face(v1b, v5b, v6b, v2b);
-		CSG_Face f3b = new CSG_Face(v2b, v6b, v7b, v3b);
-		CSG_Face f4b = new CSG_Face(v3b, v7b, v8b, v4b);
-		CSG_Face f5b = new CSG_Face(v4b, v8b, v5b, v1b);
-		CSG_Face f6b = new CSG_Face(v8b, v7b, v6b, v5b);
+		CSG_Face f1b = new CSG_Face(new CSG_Polygon(v1b, v2b, v3b, v4b));
+		CSG_Face f2b = new CSG_Face(new CSG_Polygon(v1b, v5b, v6b, v2b));
+		CSG_Face f3b = new CSG_Face(new CSG_Polygon(v2b, v6b, v7b, v3b));
+		CSG_Face f4b = new CSG_Face(new CSG_Polygon(v3b, v7b, v8b, v4b));
+		CSG_Face f5b = new CSG_Face(new CSG_Polygon(v4b, v8b, v5b, v1b));
+		CSG_Face f6b = new CSG_Face(new CSG_Polygon(v8b, v7b, v6b, v5b));
 		
 		CSG_Solid s2 = new CSG_Solid(f1b);
 		s2.addFace(f2b);
@@ -657,9 +658,10 @@ public class GLView {
 		//  2 solids to play with now!
 		//
 		
-		glDrawSolid(s1, 0.4f, 0.5f, 0.8f);
-		glDrawSolid(s2, 0.4f, 0.5f, 0.8f);
+		//glDrawSolid(s1, 0.4f, 0.5f, 0.8f);
+		//glDrawSolid(s2, 0.4f, 0.5f, 0.8f);
 		
+		/*
 		CSG_Solid s3i = CSG_BooleanOperator.Intersection(s1, s2);
 		CSG_Solid s3u = CSG_BooleanOperator.Union(s1, s2);
 		CSG_Solid s3s = CSG_BooleanOperator.Subtraction(s1, s2);
@@ -676,22 +678,25 @@ public class GLView {
 			gl.glTranslated(2.0,0.0,0.0);
 			glDrawSolid(s3s, 0.4f, 0.8f, 0.4f);
 		}
+		*/
 		
-		/*
+		
 		CSG_Vertex v1c = new CSG_Vertex(0.0, 0.0, 0.0);
 		CSG_Vertex v2c = new CSG_Vertex(1.0, 0.0, 0.0);
 		CSG_Vertex v3c = new CSG_Vertex(1.0, 1.0, 0.0);
 		CSG_Vertex v4c = new CSG_Vertex(0.0, 0.5, 0.5);
 		CSG_Vertex v5c = new CSG_Vertex(0.0, 0.5,-0.5);
 		CSG_Vertex v6c = new CSG_Vertex(1.5, 0.5, 0.5);
-		CSG_Face f1c = new CSG_Face(v1c, v2c, v3c);
-		CSG_Face f2c = new CSG_Face(v4c, v5c, v6c);
+		CSG_Polygon polyA = new CSG_Polygon(v1c, v2c, v3c);
+		CSG_Polygon polyB = new CSG_Polygon(v4c, v5c, v6c);
+		CSG_Face f1c = new CSG_Face(polyA);
+		CSG_Face f2c = new CSG_Face(polyB);
 		gl.glColor4f(0.4f, 0.8f, 0.4f, 0.90f);
 		glDrawFaceEdges(f1c);
 		glDrawFaceEdges(f2c);
 		gl.glColor4f(0.8f, 0.5f, 0.4f, 0.90f);
-		System.out.println(CSG_BooleanOperator.performFaceIntersection(f1c, f2c));
-		*/
+		System.out.println(CSG_BooleanOperator.performPolyIntersection(polyA, f1c, polyB, f2c));
+		
 	}
 	
 	private void glDrawSolid(CSG_Solid s, float r, float g, float b){
@@ -700,37 +705,45 @@ public class GLView {
 			CSG_Face f = iter.next();
 			
 			gl.glColor4f(r, g, b, 0.90f);
-			//glDrawFace(f);
+			glDrawFace(f);
 			
 			gl.glColor4f(0.3f, 0.3f, 0.3f, 1.0f);
 			glDrawFaceEdges(f);
 			
 			gl.glColor4f(0.8f, 0.3f, 0.4f, 1.0f);
-			//glDrawFaceNormal(f);
+			glDrawFaceNormal(f);
 		}	
 	}
 	
-	private void glDrawFace(CSG_Face f){
-		gl.glBegin(GL.GL_POLYGON);
-			Iterator<CSG_Vertex> iter = f.getVertexIterator();
-			while(iter.hasNext()){
-				gl.glVertex3dv(iter.next().getXYZ(), 0);
+	private void glDrawFace(CSG_Face f){		
+		Iterator<CSG_Polygon> iterP = f.getPolygonIterator();
+		while(iterP.hasNext()){
+			CSG_Polygon poly = iterP.next();
+			Iterator<CSG_Vertex> iterV = poly.getVertexIterator();
+			gl.glBegin(GL.GL_POLYGON);
+			while(iterV.hasNext()){
+				gl.glVertex3dv(iterV.next().getXYZ(), 0);
 			}
-		gl.glEnd();
+			gl.glEnd();
+		}
 	}
 	
 	private void glDrawFaceEdges(CSG_Face f){
-		gl.glBegin(GL.GL_LINE_LOOP);
-			Iterator<CSG_Vertex> iter = f.getVertexIterator();
-			while(iter.hasNext()){
-				gl.glVertex3dv(iter.next().getXYZ(), 0);
+		Iterator<CSG_Polygon> iterP = f.getPolygonIterator();
+		while(iterP.hasNext()){
+			CSG_Polygon poly = iterP.next();
+			Iterator<CSG_Vertex> iterV = poly.getVertexIterator();
+			gl.glBegin(GL.GL_LINE_LOOP);
+			while(iterV.hasNext()){
+				gl.glVertex3dv(iterV.next().getXYZ(), 0);
 			}
-		gl.glEnd();
+			gl.glEnd();
+		}
 	}
 	
 	private void glDrawFaceNormal(CSG_Face f){
 		// draw the normal too for debug
-		CSG_Vertex fCenter = f.getAverageVertex();
+		CSG_Vertex fCenter = f.getFaceBarycenter();
 		CSG_Vertex norm = f.getPlaneNormal();
 		CSG_Vertex nShifted = new CSG_Vertex(fCenter.getX()+0.25*norm.getX(), fCenter.getY()+0.25*norm.getY(), fCenter.getZ()+0.25*norm.getZ());
 		gl.glBegin(GL.GL_LINES);

@@ -65,9 +65,9 @@ public class CSG_Segment {
 	private int vertNearEndPt   = 0;
 	
 	
-	public CSG_Segment(CSG_Face face, List<Double> zDists, CSG_Ray ray){
+	public CSG_Segment(CSG_Polygon poly, List<Double> zDists, CSG_Ray ray){
 		this.ray = ray;
-		if(face.getNumberVertices() != zDists.size()){
+		if(poly.getNumberVertices() != zDists.size()){
 			System.out.println("** CSG_Segment(constructor): OMG, d00d the number of zDists doesn't match your face.");
 			distStartFromP = 0.0;
 			distEndFromP = 1.0;
@@ -75,7 +75,7 @@ public class CSG_Segment {
 			endVert = startVert.addToVertex(ray.direction);
 			return;			
 		}
-		Iterator<CSG_Vertex> fIter = face.getVertexIterator();
+		Iterator<CSG_Vertex> fIter = poly.getVertexIterator();
 		Iterator<Double> dIter = zDists.iterator();
 		double dist = 0.0;
 		boolean lastDistWasPos = false;
@@ -124,9 +124,9 @@ public class CSG_Segment {
 		//
 		// check last (wrap-around) case (last to first vertices)
 		//
-		fIter = face.getVertexIterator();
+		fIter = poly.getVertexIterator();
 		dIter = zDists.iterator();
-		vertIndex--;
+		vertIndex = 0;
 		if(fIter.hasNext() && endVert == null){
 			dist = dIter.next();
 			CSG_Vertex vert = fIter.next();
@@ -245,11 +245,14 @@ public class CSG_Segment {
 	
 	public void drawSegmentForDebug(GL gl){
 		gl.glBegin(GL.GL_LINES);
+			gl.glColor3f(0.5f,0.5f,0.5f);
 			gl.glVertex3d(startVert.getX(), startVert.getY(), startVert.getZ());
 			gl.glVertex3d(endVert.getX(), endVert.getY(), endVert.getZ());			
 		gl.glEnd();
 		gl.glBegin(GL.GL_POINTS);
+			gl.glColor3f(0.0f,1.0f,0.0f);
 			gl.glVertex3d(startVert.getX(), startVert.getY(), startVert.getZ());
+			gl.glColor3f(1.0f,0.0f,0.0f);
 			gl.glVertex3d(endVert.getX(), endVert.getY(), endVert.getZ());	
 		gl.glEnd();
 	}
@@ -278,18 +281,104 @@ public class CSG_Segment {
 		distStartFromP = startDist;
 		startVert = ray.getVertexAtDist(startDist);
 		descStart = startDesc;
-		ensureEndpointOrder();
+		//ensureEndpointOrder();
 	}
 	
 	public void setEnd(double endDist, VERTEX_DESC endDesc){
-		distStartFromP = endDist;
-		startVert = ray.getVertexAtDist(endDist);
-		descStart = endDesc;
-		ensureEndpointOrder();
+		distEndFromP = endDist;
+		endVert = ray.getVertexAtDist(endDist);
+		descEnd = endDesc;
+		//ensureEndpointOrder();
+	}
+	
+	public VERTEX_DESC getStartDesc(){
+		return descStart;
 	}
 	
 	public VERTEX_DESC getMiddleDesc(){
 		return descMid;
+	}
+	
+	public VERTEX_DESC getEndDesc(){
+		return descEnd;
+	}
+	
+	public int getVertIndexNearStart(){
+		return vertNearStartPt;
+	}
+	
+	public int getVertIndexNearEnd(){
+		return vertNearEndPt;
+	}
+	
+	/** Segment type: Vertex, Vertex, Vertex */
+	public boolean VERT_DESC_is_VVV(){
+		return descStart == VERTEX_DESC.VERTEX && descMid == VERTEX_DESC.VERTEX && descEnd == VERTEX_DESC.VERTEX;
+	}
+	
+	/** Segment type: Vertex, Edge, Vertex */
+	public boolean VERT_DESC_is_VEV(){
+		return descStart == VERTEX_DESC.VERTEX && descMid == VERTEX_DESC.EDGE && descEnd == VERTEX_DESC.VERTEX;
+	}
+	
+	/** Segment type: Vertex, Edge, Edge */
+	public boolean VERT_DESC_is_VEE(){
+		return descStart == VERTEX_DESC.VERTEX && descMid == VERTEX_DESC.EDGE && descEnd == VERTEX_DESC.EDGE;
+	}
+	
+	/** Segment type: Vertex, Face, Vertex */
+	public boolean VERT_DESC_is_VFV(){
+		return descStart == VERTEX_DESC.VERTEX && descMid == VERTEX_DESC.FACE && descEnd == VERTEX_DESC.VERTEX;
+	}
+	
+	/** Segment type: Vertex, Face, Edge */
+	public boolean VERT_DESC_is_VFE(){
+		return descStart == VERTEX_DESC.VERTEX && descMid == VERTEX_DESC.FACE && descEnd == VERTEX_DESC.EDGE;
+	}
+	
+	/** Segment type: Vertex, Face, Face */
+	public boolean VERT_DESC_is_VFF(){
+		return descStart == VERTEX_DESC.VERTEX && descMid == VERTEX_DESC.FACE && descEnd == VERTEX_DESC.FACE;
+	}
+	
+	/** Segment type: Edge, Edge, Vertex */
+	public boolean VERT_DESC_is_EEV(){
+		return descStart == VERTEX_DESC.EDGE && descMid == VERTEX_DESC.EDGE && descEnd == VERTEX_DESC.VERTEX;
+	}
+	
+	/** Segment type: Edge, Edge, Edge */
+	public boolean VERT_DESC_is_EEE(){
+		return descStart == VERTEX_DESC.EDGE && descMid == VERTEX_DESC.EDGE && descEnd == VERTEX_DESC.EDGE;
+	}
+	
+	/** Segment type: Edge, Face, Vertex */
+	public boolean VERT_DESC_is_EFV(){
+		return descStart == VERTEX_DESC.EDGE && descMid == VERTEX_DESC.FACE && descEnd == VERTEX_DESC.VERTEX;
+	}
+	
+	/** Segment type: Edge, Face, Edge */
+	public boolean VERT_DESC_is_EFE(){
+		return descStart == VERTEX_DESC.EDGE && descMid == VERTEX_DESC.FACE && descEnd == VERTEX_DESC.EDGE;
+	}
+	
+	/** Segment type: Edge, Face, Face */
+	public boolean VERT_DESC_is_EFF(){
+		return descStart == VERTEX_DESC.EDGE && descMid == VERTEX_DESC.FACE && descEnd == VERTEX_DESC.FACE;
+	}
+	
+	/** Segment type: Face, Face, Vertex */
+	public boolean VERT_DESC_is_FFV(){
+		return descStart == VERTEX_DESC.FACE && descMid == VERTEX_DESC.FACE && descEnd == VERTEX_DESC.VERTEX;
+	}
+	
+	/** Segment type: Face, Face, Edge */
+	public boolean VERT_DESC_is_FFE(){
+		return descStart == VERTEX_DESC.FACE && descMid == VERTEX_DESC.FACE && descEnd == VERTEX_DESC.EDGE;
+	}
+	
+	/** Segment type: Face, Face, Face */
+	public boolean VERT_DESC_is_FFF(){
+		return descStart == VERTEX_DESC.FACE && descMid == VERTEX_DESC.FACE && descEnd == VERTEX_DESC.FACE;
 	}
 	
 }
