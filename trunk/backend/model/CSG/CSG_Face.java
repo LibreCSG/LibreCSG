@@ -117,6 +117,7 @@ public class CSG_Face {
 			polygons.remove(poly);
 		}else{
 			System.out.println("CSG_Face(removePolygon): Tried to remove a polygon that was not in the list of polygons!");
+			System.out.println(poly);
 		}
 	}
 	

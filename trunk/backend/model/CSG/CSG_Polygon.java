@@ -207,4 +207,12 @@ public class CSG_Polygon {
 		double normOffset = D/unitDivider;
 		return new CSG_Plane(normal, normOffset);
 	}
+	
+	public String toString(){
+		String vertString = "";
+		for(CSG_Vertex v : vertices){
+			vertString += v.toString();
+		}
+		return "CSG_Polygon:{" + vertString + "}";
+	}
 }
