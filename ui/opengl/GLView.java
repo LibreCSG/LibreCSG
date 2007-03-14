@@ -728,7 +728,7 @@ public class GLView {
 		while(iter.hasNext()){
 			CSG_Face f = iter.next();
 			
-			gl.glColor4f(r, g, b, 0.90f);
+			gl.glColor4f(r, g, b, 0.80f);
 			//glDrawFace(f);
 			
 			gl.glColor4f(0.3f, 0.3f, 0.3f, 1.0f);

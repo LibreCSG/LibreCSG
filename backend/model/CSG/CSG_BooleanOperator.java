@@ -57,6 +57,8 @@ public class CSG_BooleanOperator {
 	public static CSG_Solid Intersection(CSG_Solid solidA, CSG_Solid solidB){
 		// TODO: CSG Intersection
 		splitSolidABySolidB(solidA, solidB);
+		splitSolidABySolidB(solidB, solidA);
+		splitSolidABySolidB(solidA, solidB);
 		return null;
 	}
 	
@@ -107,6 +109,8 @@ public class CSG_BooleanOperator {
 		//(14)                     ** do nothing with polygonA (it was COPLANAR or NOT_INTERSECT)
 		//
 		
+		
+		System.out.println("Splitting Solids");
 		// ( 1) if(extent of solidA overlaps solidB)
 		if(sA.bounds.overlapsBounds(sB.bounds)){
 			// ( 2) for each faceA in solidA
@@ -124,11 +128,7 @@ public class CSG_BooleanOperator {
 					Object[] polyArrayA = faceA.getPolygonArray();
 					for(int iPolyA=polyArrayA.length-1; iPolyA >= 0; iPolyA--){
 						CSG_Polygon polyA = (CSG_Polygon)polyArrayA[iPolyA];
-						
-					//Iterator<CSG_Polygon> polyIterA = faceA.getPolygonIterator();
-					//while(polyIterA.hasNext()){
-					//	CSG_Polygon polyA = polyIterA.next();
-						
+				
 						// ( 5) if(extent of polygonA overlaps solidB)
 						if(polyA.getBounds().overlapsBounds(sB.bounds)){
 							// ( 6) for each faceB in solidB
@@ -239,7 +239,7 @@ public class CSG_BooleanOperator {
 			subdivideFaceA(polyA, faceA, segmentA, segmentB);			
 			return CSG_FACE_INFO.FACE_INTERSECT;
 		}
-		System.out.println("Faces were close, but no intersection.  here's the details.. :)  a(" + aMin + "," + aMax + " )  b(" + bMin + "," + bMax + ")");
+		//System.out.println("Faces were close, but no intersection.  here's the details.. :)  a(" + aMin + "," + aMax + " )  b(" + bMin + "," + bMax + ")");
 		return CSG_FACE_INFO.FACE_NOT_INTERSECT;
 	}
 	
@@ -277,6 +277,9 @@ public class CSG_BooleanOperator {
 		CSG_Vertex endVert = segmentA.getVertEnd();							// endVert
 		CSG_Vertex endPrevVert = polyA.getVertAtModIndex(endPrevI);			// vertex before endVert		
 		
+		//System.out.println("subdividing: SegmentA is {" + segmentA.getStartDesc() + "-" + 
+		//		segmentA.getMiddleDesc() + "-" + segmentA.getEndDesc() + "}");
+		
 		//
 		// Handle all VERTEX_DESC possibilities.. craziness! :)
 		//
@@ -294,9 +297,8 @@ public class CSG_BooleanOperator {
 			for(int i = startNextI+1; !polyA.indexIsSameModSize(i, endPrevI); i++){
 				newPoly2.addVertex(polyA.getVertAtModIndex(i));
 			}
-			faceA.addPolygon(newPoly1);
-			faceA.addPolygon(newPoly2);
-			faceA.removePolygon(polyA);		
+			polyA = newPoly1;  // replace original polygon
+			faceA.addPolygon(newPoly2);	
 			
 		}
 		if(segmentA.VERT_DESC_is_VFV()){
@@ -310,9 +312,8 @@ public class CSG_BooleanOperator {
 			for(int i = endNextI+1; !polyA.indexIsSameModSize(i, startPrevI); i++){
 				newPoly2.addVertex(polyA.getVertAtModIndex(i));
 			}
-			faceA.addPolygon(newPoly1);
+			polyA = newPoly1;  // replace original polygon
 			faceA.addPolygon(newPoly2);
-			faceA.removePolygon(polyA);
 			
 		}
 		if(segmentA.VERT_DESC_is_VFE()){
@@ -326,9 +327,8 @@ public class CSG_BooleanOperator {
 			for(int i = endNextI+1; !polyA.indexIsSameModSize(i, startNextI); i++){
 				newPoly2.addVertex(polyA.getVertAtModIndex(i));
 			}
-			faceA.addPolygon(newPoly1);
+			polyA = newPoly1;  // replace original polygon
 			faceA.addPolygon(newPoly2);
-			faceA.removePolygon(polyA);
 			
 		}
 		if(segmentA.VERT_DESC_is_VFF()){
@@ -344,11 +344,10 @@ public class CSG_BooleanOperator {
 			for(int i = startNextI+1; !polyA.indexIsSameModSize(i, endPrevI); i++){
 				newPoly4.addVertex(polyA.getVertAtModIndex(i));
 			}
-			faceA.addPolygon(newPoly1);
+			polyA = newPoly1;  // replace original polygon
 			faceA.addPolygon(newPoly2);
 			faceA.addPolygon(newPoly3);
-			faceA.addPolygon(newPoly4);
-			faceA.removePolygon(polyA);			
+			faceA.addPolygon(newPoly4);			
 			
 		}		
 		if(segmentA.VERT_DESC_is_EEV()){ 
@@ -360,9 +359,8 @@ public class CSG_BooleanOperator {
 			for(int i = endNextI+1; !polyA.indexIsSameModSize(i, startPrevI); i++){
 				newPoly2.addVertex(polyA.getVertAtModIndex(i));
 			}
-			faceA.addPolygon(newPoly1);
-			faceA.addPolygon(newPoly2);
-			faceA.removePolygon(polyA);	
+			polyA = newPoly1;  // replace original polygon
+			faceA.addPolygon(newPoly2);	
 			
 		}
 		if(segmentA.VERT_DESC_is_EEE()){
@@ -376,10 +374,9 @@ public class CSG_BooleanOperator {
 			for(int i = startNextNextI+1; !polyA.indexIsSameModSize(i, endPrevI); i++){
 				newPoly3.addVertex(polyA.getVertAtModIndex(i));
 			}
-			faceA.addPolygon(newPoly1);
+			polyA = newPoly1;  // replace original polygon
 			faceA.addPolygon(newPoly2);
-			faceA.addPolygon(newPoly3);
-			faceA.removePolygon(polyA);			
+			faceA.addPolygon(newPoly3);		
 			
 		}
 		if(segmentA.VERT_DESC_is_EFV()){
@@ -394,9 +391,8 @@ public class CSG_BooleanOperator {
 			for(int i = startNextI+1; !polyA.indexIsSameModSize(i, endNextI); i++){
 				newPoly2.addVertex(polyA.getVertAtModIndex(i));
 			}
-			faceA.addPolygon(newPoly1);
+			polyA = newPoly1;  // replace original polygon
 			faceA.addPolygon(newPoly2);
-			faceA.removePolygon(polyA);
 			
 		}
 		if(segmentA.VERT_DESC_is_EFE()){
@@ -410,9 +406,8 @@ public class CSG_BooleanOperator {
 			for(int i = endNextI; !polyA.indexIsSameModSize(i, startPrevI); i++){
 				newPoly2.addVertex(polyA.getVertAtModIndex(i));
 			}
-			faceA.addPolygon(newPoly1);
+			polyA = newPoly1;  // replace original polygon
 			faceA.addPolygon(newPoly2);
-			faceA.removePolygon(polyA);
 			
 		}
 		if(segmentA.VERT_DESC_is_EFF()){			
@@ -428,11 +423,10 @@ public class CSG_BooleanOperator {
 			for(int i = startNextI; !polyA.indexIsSameModSize(i, endPrevI); i++){
 				newPoly4.addVertex(polyA.getVertAtModIndex(i));
 			}			
-			faceA.addPolygon(newPoly1);
+			polyA = newPoly1;  // replace original polygon
 			faceA.addPolygon(newPoly2);
 			faceA.addPolygon(newPoly3);
 			faceA.addPolygon(newPoly4);
-			faceA.removePolygon(polyA);
 			
 		}
 		if(segmentA.VERT_DESC_is_FFV()){
@@ -449,11 +443,10 @@ public class CSG_BooleanOperator {
 			for(int i = endNextI+1; !polyA.indexIsSameModSize(i, startPrevI); i++){
 				newPoly4.addVertex(polyA.getVertAtModIndex(i));
 			}
-			faceA.addPolygon(newPoly1);
+			polyA = newPoly1;  // replace original polygon
 			faceA.addPolygon(newPoly2);
 			faceA.addPolygon(newPoly3);
-			faceA.addPolygon(newPoly4);
-			faceA.removePolygon(polyA);				
+			faceA.addPolygon(newPoly4);				
 			
 		}
 		if(segmentA.VERT_DESC_is_FFE()){ // WORKING
@@ -470,11 +463,10 @@ public class CSG_BooleanOperator {
 			for(int i = endNextI; !polyA.indexIsSameModSize(i, startPrevI); i++){
 				newPoly4.addVertex(polyA.getVertAtModIndex(i));
 			}			
-			faceA.addPolygon(newPoly1);
+			polyA = newPoly1;  // replace original polygon
 			faceA.addPolygon(newPoly2);
 			faceA.addPolygon(newPoly3);
 			faceA.addPolygon(newPoly4);
-			faceA.removePolygon(polyA);
 			
 			// marking	
 			
@@ -494,19 +486,17 @@ public class CSG_BooleanOperator {
 			for(int i = endNextI+1; !polyA.indexIsSameModSize(i, startPrevI); i++){
 				newPoly6.addVertex(polyA.getVertAtModIndex(i));
 			}			
-			faceA.addPolygon(newPoly1);
+			polyA = newPoly1;  // replace original polygon
 			faceA.addPolygon(newPoly2);
 			faceA.addPolygon(newPoly3);
 			faceA.addPolygon(newPoly4);
 			faceA.addPolygon(newPoly5);
 			faceA.addPolygon(newPoly6);
-			faceA.removePolygon(polyA);
 		}
 		
 		
 		
-		System.out.println("subdividing: SegmentA is {" + segmentA.getStartDesc() + "-" + 
-				segmentA.getMiddleDesc() + "-" + segmentA.getEndDesc() + "}");
+		
 				
 		GLContext glc = GLContext.getCurrent();
 		GL gl = glc.getGL();
