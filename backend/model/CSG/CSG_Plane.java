@@ -81,8 +81,8 @@ public class CSG_Plane {
 	 * @return the CSG_Vertex of the intersection, or NULL if ray is parallel.
 	 */
 	public CSG_Vertex getRayIntersection(CSG_Ray ray){
-		double numer = normal.getDotProduct(ray.basePoint) + offset;
-		double denom = normal.getDotProduct(ray.direction);
+		double numer = normal.getDotProduct(ray.getBasePoint()) + offset;
+		double denom = normal.getDotProduct(ray.getDirection());
 		if(denom < TOL && denom > -TOL){
 			// denom was zero, ray is parallel to plane
 			if(numer < TOL && numer > -TOL){
