@@ -46,8 +46,10 @@ public class CSG_Polygon {
 
 	private List<CSG_Vertex> vertices = new LinkedList<CSG_Vertex>();
 	private CSG_Bounds bounds;
-	
+	public enum POLY_TYPE {POLY_INSIDE, POLY_OUTSIDE, POLY_SAME, POLY_OPPOSITE, POLY_UNKNOWN};
+	public POLY_TYPE type = POLY_TYPE.POLY_UNKNOWN;
 	private final double TOL = 1e-10; // double tollerance 
+	private final CSG_Plane polygonPlane;
 
 	/**
 	 * create a new Polygon (convex, planar, noncollinear)<br/><br/>
@@ -69,6 +71,7 @@ public class CSG_Polygon {
 		bounds.includeVertex(v2);
 		bounds.includeVertex(v3);
 		bounds.includeVertex(v4);
+		polygonPlane = computePlane();
 	}
 	
 	/**
@@ -88,6 +91,7 @@ public class CSG_Polygon {
 		bounds = new CSG_Bounds(v1);
 		bounds.includeVertex(v2);
 		bounds.includeVertex(v3);
+		polygonPlane = computePlane();
 	}
 	
 	/**
@@ -95,6 +99,7 @@ public class CSG_Polygon {
 	 * @param newVertex the CSG_Vertex to be added.
 	 */
 	public void addVertex(CSG_Vertex newVertex){
+		// TODO: check to make sure added point is coplanar and noncollinear
 		vertices.add(newVertex);
 		bounds.includeVertex(newVertex);
 	}
@@ -172,6 +177,10 @@ public class CSG_Polygon {
 	 * @return the CSG_Plane, or NULL if polygon was malformed.
 	 */
 	public CSG_Plane getPlane(){
+		return polygonPlane;
+	}
+	
+	private CSG_Plane computePlane(){
 		if(!(vertices.size() >= 3)){
 			System.out.println("CSG_Polygon(getPlane): not enough vertices in polygon to constuct a plane!");
 			return null;
@@ -215,4 +224,34 @@ public class CSG_Polygon {
 		}
 		return "CSG_Polygon:{" + vertString + "}";
 	}
+	
+	/**
+	 * get the ray intersection vertex with this polygon's plane.
+	 * @return the CSG_Vertex where the ray intersects the plane, 
+	 *   or NULL if ray is parallel to the plane
+	 */
+	public CSG_Vertex getRayIntersectionWithPlane(CSG_Ray ray){
+		return polygonPlane.getRayIntersection(ray);
+	}
+	
+	public boolean vertexIsInsidePolygon(CSG_Vertex testVert){
+		CSG_Vertex lastVert = vertices.get(vertices.size()-1);
+		for(CSG_Vertex vert : vertices){
+			CSG_Vertex vertDiff = vert.subFromVertex(lastVert);
+			CSG_Vertex normalInsidePoly = vertDiff.getVectCrossProduct(getPlane().getNormal());			
+			// -- to visualize calculated normals for determining "inside" the polygon
+			//	GL gl = GLContext.getCurrent().getGL();
+			//	gl.glColor3f(0.0f, 0.0f, 1.0f);
+			//	vert.drawPointForDebug(gl);
+			//	gl.glColor3f(0.0f, 0.7f, 0.7f);
+			//	normalInsidePoly.getScaledCopy(0.125).addToVertex(vert).drawPointForDebug(gl);			
+			CSG_Plane testPlane = new CSG_Plane(normalInsidePoly, -normalInsidePoly.getDotProduct(vert));
+			if(testPlane.distFromVertex(testVert) < TOL){
+				return false;  // point is outside and edge!
+			}
+			lastVert = vert;
+		}
+		return true; 
+	}
+	
 }

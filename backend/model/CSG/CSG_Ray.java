@@ -105,7 +105,21 @@ public class CSG_Ray {
 	 */
 	public CSG_Ray(CSG_Vertex basePoint, CSG_Vertex direction){
 		this.basePoint = basePoint;
-		this.direction = direction;
+		this.direction = direction.getUnitLength();
+	}
+	
+	/**
+	 * @return a copy of the ray's direction.
+	 */
+	public CSG_Vertex getDirection(){
+		return direction.deepCopy();
+	}
+	
+	/**
+	 * @return a copy of the ray's basePoint.
+	 */
+	public CSG_Vertex getBasePoint(){
+		return basePoint.deepCopy();
 	}
 	
 	public String toString(){
@@ -130,6 +144,11 @@ public class CSG_Ray {
 		gl.glEnd();
 	}
 	
+	/**
+	 * Get the vertex that is found at a distance along the ray.
+	 * @param dist the distance along the ray to travel
+	 * @return the CSG_Vertex of the point on the ray
+	 */
 	public CSG_Vertex getVertexAtDist(double dist){
 		return basePoint.addToVertex(direction.getScaledCopy(dist));
 	}
@@ -143,6 +162,15 @@ public class CSG_Ray {
 		}else{
 			return -dist;
 		}
+	}
+	
+	public CSG_Ray getPerturbedRay(){
+		double pert = 1e-7;
+		double pertX = pert*Math.random() - pert/2.0;
+		double pertY = pert*Math.random() - pert/2.0;
+		double pertZ = pert*Math.random() - pert/2.0;
+		CSG_Vertex newDir = direction.addToVertex(new CSG_Vertex(pertX, pertY, pertZ));
+		return new CSG_Ray(basePoint, newDir);
 	}
 	
 }

@@ -135,6 +135,10 @@ public class CSG_Face {
 		return facePlane.getOffset();
 	}
 	
+	public CSG_Plane getPlane(){
+		return facePlane;
+	}
+	
 	/**
 	 * get the distance from a CSG_Vertex to the plane
 	 * defined by this Face.
@@ -142,12 +146,7 @@ public class CSG_Face {
 	 * @return distance from vertex to plane (true "zero" if within tollerance)
 	 */
 	public double distFromVertexToFacePlane(CSG_Vertex v){
-		double dotProd = v.getX()*facePlane.getNormal().getX() + v.getY()*facePlane.getNormal().getY() + v.getZ()*facePlane.getNormal().getZ();
-		double dist = dotProd + facePlane.getOffset();
-		if(dist > -TOL && dist < TOL){
-			return 0.0;
-		}
-		return dist;
+		return facePlane.distFromVertex(v);
 	}
 	
 }
