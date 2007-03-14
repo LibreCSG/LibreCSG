@@ -59,6 +59,7 @@ public class CSG_BooleanOperator {
 		splitSolidABySolidB(solidA, solidB);
 		splitSolidABySolidB(solidB, solidA);
 		splitSolidABySolidB(solidA, solidB);
+		classifySolidAPolysInSolidB(solidA, solidB);
 		return null;
 	}
 	
@@ -511,46 +512,117 @@ public class CSG_BooleanOperator {
 	}
 	
 	
-	private void classifyPolygonAInSolidB(CSG_Polygon polyA, CSG_Solid solidB){
+	private static void classifySolidAPolysInSolidB(CSG_Solid sA, CSG_Solid sB){
+		Iterator<CSG_Face> faceIterA = sA.getFacesIter();
+		while(faceIterA.hasNext()){
+			CSG_Face faceA = faceIterA.next();
+			Iterator<CSG_Polygon> polyIterA = faceA.getPolygonIterator();
+			while(polyIterA.hasNext()){
+				CSG_Polygon polyA = polyIterA.next();
+				classifyPolygonAInSolidB(polyA, sB);
+			}
+		}
+	}
+	
+	private static void classifyPolygonAInSolidB(CSG_Polygon polyA, CSG_Solid solidB){
 		// See Fig 7.2, Polygon Classification Routine
 		CSG_Vertex barycenterA = polyA.getBarycenterVertex();
 		CSG_Vertex normalA = polyA.getPlane().getNormal();
 		// start with perturbed ray to reduce liklihood of unsuccessful cast
-		CSG_Ray ray = new CSG_Ray(barycenterA, normalA).getPerturbedRay(); 
+		CSG_Ray ray = new CSG_Ray(barycenterA, normalA).getPerturbedRay();
+		
 		boolean castWasSuccessful = false;
 		CSG_Polygon closestPolyB = null;
 		double closestDist = Double.MAX_VALUE;
+		
 		while(!castWasSuccessful){
+			castWasSuccessful = true; // assumed true unless found to be faulty			
+			
 			Iterator<CSG_Face> faceIterB = solidB.getFacesIter();
-			while(faceIterB.hasNext()){
+			while(faceIterB.hasNext() && castWasSuccessful){
 				CSG_Face faceB = faceIterB.next();
-				double dotProduct = faceB.getPlaneNormal().getDotProduct(ray.getDirection());
-				double distance = faceB.distFromVertexToFacePlane(barycenterA);
-				boolean dotProductIsZero = (dotProduct < TOL && dotProduct > -TOL);
-				boolean distanceIsZero = (distance < TOL && distance > -TOL);
-				if(dotProductIsZero && distanceIsZero){
-					// dotProduct = 0.0 && distance = 0.0
-					// cast was unsuccessful, try again with a perturbed ray
-					ray = ray.getPerturbedRay();
-					break;
-				}else{
-					if(dotProductIsZero && distance > TOL){
-						// dotProduct = 0.0 && distance > 0.0
-						// no intersection
+				Iterator<CSG_Polygon> polyIterB = faceB.getPolygonIterator();
+				while(polyIterB.hasNext() && castWasSuccessful){
+					CSG_Polygon polyB = polyIterB.next();
+					double dotProduct = polyB.getPlane().getNormal().getDotProduct(ray.getDirection());
+					CSG_Vertex intersectPolyBVert = polyB.getRayIntersectionWithPlane(ray);
+					if(intersectPolyBVert == null){
+						// no intersection, do nothing... just continue checking
+						continue; // use continue to bypass things that may reference this NULL CSG_Vertex
+					}
+					double distance = ray.getBasePoint().getDistBetweenVertices(intersectPolyBVert);
+					boolean dotProductIsZero = (dotProduct < TOL && dotProduct > -TOL);
+					boolean distanceIsZero = (distance < TOL && distance > -TOL);					
+				
+					if(dotProductIsZero && distanceIsZero){
+						// dotProduct = 0.0 && distance = 0.0
+						// cast was unsuccessful, try again with a perturbed ray
+						ray = ray.getPerturbedRay();
+						castWasSuccessful = false;
 					}else{
-						if(!dotProductIsZero && distanceIsZero){
-							// dotProduct != 0.0, distance = 0.0
-							Iterator<CSG_Polygon> polyIterB = faceB.getPolygonIterator();
-							while(polyIterB.hasNext()){
-								CSG_Polygon polyB = polyIterB.next();
-								
+						if(dotProductIsZero && distance > TOL){
+							// dotProduct = 0.0 && distance > 0.0
+							// no intersection, do nothing... just continue checking
+						}else{
+							if(!dotProductIsZero && distanceIsZero){
+								// dotProduct != 0.0, distance = 0.0
+								if(polyB.vertexIsInsidePolygon(intersectPolyBVert)){
+									// ray passes through polygon (closest possible!)
+									closestPolyB = polyB;
+									closestDist  = 0.0;
+								}else{
+									// no intersection, do nothing... just continue checking
+								}
+							}else{
+								if(!dotProductIsZero && distance > TOL){
+									// dotProduct != 0.0 && distance > 0.0
+									if(distance < closestDist){
+										// this is closer than the polyB currently held.. check it further
+										if(polyB.vertexIsInsidePolygon(intersectPolyBVert)){
+											// ray passes through polygon, and it's closer that what we have..
+											// keep this polyB.
+											// TODO: handle ray intersect polygon edge...
+											closestPolyB = polyB;
+											closestDist = distance;
+										}
+									}else{
+										// no intersection, do nothing... just continue checking
+									}
+								}else{
+									// no intersection, do nothing... just continue checking
+								}
 							}
 						}
 					}
 				}				
+			}			
+		} // end the main while(!castWasSuccessful) loop
+		
+		if(closestPolyB == null){
+			// no intersection.... polygon is outside
+			polyA.type = CSG_Polygon.POLY_TYPE.POLY_OUTSIDE;
+		}else{
+			double dotProduct = closestPolyB.getPlane().getNormal().getDotProduct(ray.getDirection());
+			boolean closestDistIsZero = (closestDist < TOL && closestDist > -TOL);
+			if(closestDistIsZero){
+				if(dotProduct > TOL){
+					polyA.type = CSG_Polygon.POLY_TYPE.POLY_SAME;
+				}else{
+					if(dotProduct < -TOL){
+						polyA.type = CSG_Polygon.POLY_TYPE.POLY_OPPOSITE;
+					}
+				}
+			}else{
+				if(dotProduct > TOL){
+					polyA.type = CSG_Polygon.POLY_TYPE.POLY_INSIDE;
+				}else{
+					if(dotProduct < -TOL){
+						polyA.type = CSG_Polygon.POLY_TYPE.POLY_OUTSIDE;
+					}
+				}
 			}
-			
 		}
+		
 	}
 	
 	enum CSG_FACE_INFO {

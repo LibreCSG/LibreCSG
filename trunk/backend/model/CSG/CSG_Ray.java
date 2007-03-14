@@ -43,8 +43,8 @@ import javax.media.opengl.GL;
 */
 public class CSG_Ray {
 
-	CSG_Vertex basePoint;
-	CSG_Vertex direction;
+	private CSG_Vertex basePoint;
+	private CSG_Vertex direction;
 	
 	final double TOL = 1e-10;
 	

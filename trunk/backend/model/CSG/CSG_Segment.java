@@ -71,8 +71,8 @@ public class CSG_Segment {
 			System.out.println("** CSG_Segment(constructor): OMG, d00d the number of zDists doesn't match your face.");
 			distStartFromP = 0.0;
 			distEndFromP = 1.0;
-			startVert = ray.basePoint;
-			endVert = startVert.addToVertex(ray.direction);
+			startVert = ray.getBasePoint();
+			endVert = startVert.addToVertex(ray.getDirection());
 			return;			
 		}
 		Iterator<CSG_Vertex> fIter = poly.getVertexIterator();
