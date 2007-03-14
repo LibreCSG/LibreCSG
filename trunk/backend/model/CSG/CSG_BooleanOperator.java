@@ -292,6 +292,7 @@ public class CSG_BooleanOperator {
 		if(segmentA.VERT_DESC_is_VEE()){
 			// subdividing -- 	
 			// Fig 6.3, (c) case of split to 2 polygons	
+			// TODO handle subdivide special cases seperately
 			CSG_Polygon newPoly1 = new CSG_Polygon(endVert, startVert, startNextVert);
 			CSG_Polygon newPoly2 = new CSG_Polygon(endPrevVert, endVert, startNextVert);
 			for(int i = startNextI+1; !polyA.indexIsSameModSize(i, endPrevI); i++){
@@ -334,6 +335,7 @@ public class CSG_BooleanOperator {
 		if(segmentA.VERT_DESC_is_VFF()){
 			// subdividing -- 	
 			// Fig 6.3, (g) case of split to 4 polygons	(assume all 4 needed)
+			// TODO handle subdivide special cases seperately
 			CSG_Polygon newPoly1 = new CSG_Polygon(endVert, origEndVert, endNextVert);
 			CSG_Polygon newPoly2 = new CSG_Polygon(endVert, endPrevVert, origEndVert);
 			CSG_Polygon newPoly3 = new CSG_Polygon(startVert, endVert, endNextVert);
@@ -366,6 +368,7 @@ public class CSG_BooleanOperator {
 		if(segmentA.VERT_DESC_is_EEE()){
 			// subdividing --
 			// Fig 6.3, (i) case of split to 3 polygons
+			// TODO handle subdivide special cases seperately
 			int startNextNextI = startNextI + 1;
 			CSG_Vertex startNextNextVert = polyA.getVertAtModIndex(startNextNextI);
 			CSG_Polygon newPoly1 = new CSG_Polygon(startVert, startNextVert, startNextNextVert);
@@ -413,6 +416,7 @@ public class CSG_BooleanOperator {
 		if(segmentA.VERT_DESC_is_EFF()){			
 			// subdividing -- 	
 			// for simplicity, always do the Fig 6.3, (l) case of split to 4 polygons
+			// TODO handle subdivide special cases seperately			
 			CSG_Polygon newPoly1 = new CSG_Polygon(endVert, origEndVert, endNextVert);
 			CSG_Polygon newPoly2 = new CSG_Polygon(endVert, endPrevVert, origEndVert);
 			CSG_Polygon newPoly3 = new CSG_Polygon(startVert, endVert, endNextVert);
@@ -474,6 +478,7 @@ public class CSG_BooleanOperator {
 		if(segmentA.VERT_DESC_is_FFF()){
 			// subdividing -- 	
 			// for simplicity, always do the Fig 6.3, (n) case of split to 6 polygons
+			// TODO handle subdivide special cases seperately			
 			CSG_Polygon newPoly1 = new CSG_Polygon(startVert, origStartVert, startNextVert);
 			CSG_Polygon newPoly2 = new CSG_Polygon(startVert, startPrevVert, origStartVert);
 			CSG_Polygon newPoly3 = new CSG_Polygon(endVert, endPrevVert, origEndVert);
@@ -503,6 +508,49 @@ public class CSG_BooleanOperator {
 		segmentA.drawSegmentForDebug(gl);
 		//segmentB.drawSegmentForDebug(gl);
 		
+	}
+	
+	
+	private void classifyPolygonAInSolidB(CSG_Polygon polyA, CSG_Solid solidB){
+		// See Fig 7.2, Polygon Classification Routine
+		CSG_Vertex barycenterA = polyA.getBarycenterVertex();
+		CSG_Vertex normalA = polyA.getPlane().getNormal();
+		// start with perturbed ray to reduce liklihood of unsuccessful cast
+		CSG_Ray ray = new CSG_Ray(barycenterA, normalA).getPerturbedRay(); 
+		boolean castWasSuccessful = false;
+		CSG_Polygon closestPolyB = null;
+		double closestDist = Double.MAX_VALUE;
+		while(!castWasSuccessful){
+			Iterator<CSG_Face> faceIterB = solidB.getFacesIter();
+			while(faceIterB.hasNext()){
+				CSG_Face faceB = faceIterB.next();
+				double dotProduct = faceB.getPlaneNormal().getDotProduct(ray.getDirection());
+				double distance = faceB.distFromVertexToFacePlane(barycenterA);
+				boolean dotProductIsZero = (dotProduct < TOL && dotProduct > -TOL);
+				boolean distanceIsZero = (distance < TOL && distance > -TOL);
+				if(dotProductIsZero && distanceIsZero){
+					// dotProduct = 0.0 && distance = 0.0
+					// cast was unsuccessful, try again with a perturbed ray
+					ray = ray.getPerturbedRay();
+					break;
+				}else{
+					if(dotProductIsZero && distance > TOL){
+						// dotProduct = 0.0 && distance > 0.0
+						// no intersection
+					}else{
+						if(!dotProductIsZero && distanceIsZero){
+							// dotProduct != 0.0, distance = 0.0
+							Iterator<CSG_Polygon> polyIterB = faceB.getPolygonIterator();
+							while(polyIterB.hasNext()){
+								CSG_Polygon polyB = polyIterB.next();
+								
+							}
+						}
+					}
+				}				
+			}
+			
+		}
 	}
 	
 	enum CSG_FACE_INFO {

@@ -3,6 +3,8 @@ package backend.model.CSG;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.media.opengl.GL;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -152,4 +154,11 @@ public class CSG_Vertex {
 	public void setVertType(VERT_TYPE type){
 		status = type;
 	}
+	
+	public void drawPointForDebug(GL gl){
+		gl.glBegin(GL.GL_POINTS);
+			gl.glVertex3d(x, y, z);
+		gl.glEnd();
+	}
+	
 }

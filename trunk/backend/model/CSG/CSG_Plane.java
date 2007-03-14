@@ -75,4 +75,42 @@ public class CSG_Plane {
 		return offset;
 	}
 	
+	/**
+	 * get ray intersection vertex with plane, if not ray is not parallel.
+	 * @param ray CSG_Ray to use for intersection
+	 * @return the CSG_Vertex of the intersection, or NULL if ray is parallel.
+	 */
+	public CSG_Vertex getRayIntersection(CSG_Ray ray){
+		double numer = normal.getDotProduct(ray.basePoint) + offset;
+		double denom = normal.getDotProduct(ray.direction);
+		if(denom < TOL && denom > -TOL){
+			// denom was zero, ray is parallel to plane
+			if(numer < TOL && numer > -TOL){
+				// ray is in the plane
+				return ray.getBasePoint();
+			}else{
+				// ray is not in the plane
+				return null;
+			}
+		}else{
+			// ray intersects the plane at a point
+			double rayDist = -numer/denom;
+			return ray.getVertexAtDist(rayDist);
+		}
+	}
+	
+	/**
+	 * get the distance from a CSG_Vertex to the plane
+	 * @param v the CSG_Vertex to test
+	 * @return distance from vertex to plane (true "zero" if within tollerance)
+	 */
+	public double distFromVertex(CSG_Vertex v){
+		double dotProd = v.getDotProduct(normal);
+		double dist = dotProd + offset;
+		if(dist > -TOL && dist < TOL){
+			return 0.0;
+		}
+		return dist;
+	}
+	
 }

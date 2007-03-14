@@ -35,6 +35,7 @@ import backend.model.SubPart;
 import backend.model.CSG.CSG_BooleanOperator;
 import backend.model.CSG.CSG_Face;
 import backend.model.CSG.CSG_Polygon;
+import backend.model.CSG.CSG_Ray;
 import backend.model.CSG.CSG_Solid;
 import backend.model.CSG.CSG_Vertex;
 import backend.model.sketch.Prim2D;
@@ -658,7 +659,7 @@ public class GLView {
 		//  2 solids to play with now!
 		//
 		
-		
+		/*
 		glDrawSolid(s1, 0.4f, 0.5f, 0.8f);
 		glDrawSolid(s2, 0.4f, 0.5f, 0.8f);
 		
@@ -683,9 +684,9 @@ public class GLView {
 		gl.glTranslated(-2.0, 0.0, 0.0);
 		glDrawSolid(s1, 0.4f, 0.5f, 0.8f);
 		glDrawSolid(s2, 0.4f, 0.5f, 0.8f);
+		*/
 		
-		/*
-		gl.glTranslated(0.0, 2.0, 0.0);
+		//gl.glTranslated(0.0, 2.0, 0.0);
 		CSG_Vertex v1c = new CSG_Vertex(0.0, 0.0, 0.0);
 		CSG_Vertex v2c = new CSG_Vertex(0.5, 0.0, 0.0);
 		CSG_Vertex v3c = new CSG_Vertex(0.5, 1.0, 0.0);
@@ -712,6 +713,7 @@ public class GLView {
 		System.out.println(CSG_BooleanOperator.performPolyIntersection(polyA, f1c, polyB, f2c));
 		System.out.println(CSG_BooleanOperator.performPolyIntersection(polyB, f2c, polyA, f1c));
 		
+		/*
 		gl.glTranslated(0.0, 2.0, 0.0);
 		gl.glColor4f(0.4f, 0.8f, 0.4f, 0.90f);
 		glDrawFaceEdges(f1c);
@@ -721,6 +723,18 @@ public class GLView {
 		glDrawPolyNormals(f2c);
 		*/
 		
+		/*
+		CSG_Ray deathRay = new CSG_Ray(new CSG_Vertex(0,0,0), new CSG_Vertex(.125, 0.5, 0.0));
+		deathRay.drawLineForDebug(gl, 0.5);
+		deathRay.getPerturbedRay().drawLineForDebug(gl, 0.5);
+		deathRay.getPerturbedRay().drawLineForDebug(gl, 0.5);
+		deathRay.getPerturbedRay().drawLineForDebug(gl, 0.5);
+		deathRay.getPerturbedRay().drawLineForDebug(gl, 0.5);
+		deathRay.getPerturbedRay().drawLineForDebug(gl, 0.5);
+		CSG_Vertex deathPoint = polyB.getRayIntersectionWithPlane(deathRay);
+		deathPoint.drawPointForDebug(gl);
+		System.out.println("Point is inside poly? " + polyB.vertexIsInsidePolygon(deathPoint));
+		*/
 	}
 	
 	private void glDrawSolid(CSG_Solid s, float r, float g, float b){
@@ -790,5 +804,4 @@ public class GLView {
 			gl.glVertex3dv(nShifted.getXYZ(), 0);
 		gl.glEnd();
 	}
-	
 }
