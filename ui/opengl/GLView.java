@@ -658,6 +658,7 @@ public class GLView {
 		//  2 solids to play with now!
 		//
 		
+		
 		glDrawSolid(s1, 0.4f, 0.5f, 0.8f);
 		glDrawSolid(s2, 0.4f, 0.5f, 0.8f);
 		
@@ -679,16 +680,26 @@ public class GLView {
 			glDrawSolid(s3s, 0.4f, 0.8f, 0.4f);
 		}
 		
+		gl.glTranslated(-2.0, 0.0, 0.0);
+		glDrawSolid(s1, 0.4f, 0.5f, 0.8f);
+		glDrawSolid(s2, 0.4f, 0.5f, 0.8f);
 		
+		/*
 		gl.glTranslated(0.0, 2.0, 0.0);
 		CSG_Vertex v1c = new CSG_Vertex(0.0, 0.0, 0.0);
-		CSG_Vertex v2c = new CSG_Vertex(1.0, 0.0, 0.0);
-		CSG_Vertex v3c = new CSG_Vertex(1.0, 1.0, 0.0);
-		CSG_Vertex v4c = new CSG_Vertex(0.0, 0.5, 0.5);
-		CSG_Vertex v5c = new CSG_Vertex(0.0, 0.5,-0.5);
-		CSG_Vertex v6c = new CSG_Vertex(1.5, 0.5, 0.5);
+		CSG_Vertex v2c = new CSG_Vertex(0.5, 0.0, 0.0);
+		CSG_Vertex v3c = new CSG_Vertex(0.5, 1.0, 0.0);
+		CSG_Vertex v4c = new CSG_Vertex(0.0, 0.5,-0.25);
+		CSG_Vertex v5c = new CSG_Vertex(0.0, 0.5, 0.25);
+		CSG_Vertex v6c = new CSG_Vertex(0.5, 0.5, 0.50);
+		CSG_Vertex v7c = new CSG_Vertex(0.9, 0.5, 0.25);
+		CSG_Vertex v8c = new CSG_Vertex(0.9, 0.5,-0.25);
+		CSG_Vertex v9c = new CSG_Vertex(0.5, 0.5,-0.50);		
 		CSG_Polygon polyA = new CSG_Polygon(v1c, v2c, v3c);
 		CSG_Polygon polyB = new CSG_Polygon(v4c, v5c, v6c);
+		polyB.addVertex(v7c);
+		polyB.addVertex(v8c);
+		polyB.addVertex(v9c);
 		CSG_Face f1c = new CSG_Face(polyA);
 		CSG_Face f2c = new CSG_Face(polyB);
 		gl.glColor4f(0.4f, 0.8f, 0.4f, 0.90f);
@@ -708,7 +719,7 @@ public class GLView {
 		gl.glColor4f(0.8f, 0.4f, 0.4f, 0.90f);
 		glDrawPolyNormals(f1c);
 		glDrawPolyNormals(f2c);
-		
+		*/
 		
 	}
 	
@@ -724,7 +735,7 @@ public class GLView {
 			glDrawFaceEdges(f);
 			
 			gl.glColor4f(0.8f, 0.3f, 0.4f, 1.0f);
-			glDrawFaceNormal(f);
+			glDrawPolyNormals(f);
 		}	
 	}
 	

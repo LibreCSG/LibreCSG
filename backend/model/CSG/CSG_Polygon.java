@@ -106,12 +106,25 @@ public class CSG_Polygon {
 		return bounds.deepCopy();
 	}
 	
-	public CSG_Vertex getVertAtIndex(int i){
-		if(i < 0 || i >= vertices.size()){
-			System.out.println("CSG_Polygon(getVertAtIndex): index was not valid!! i=" + i + " size=" + vertices.size());
+	/**
+	 * get the vertex at the index mod the list size.
+	 * @param i the index (can be negative up to the size of the list)
+	 * @return CSG_Vertex at that index
+	 */
+	public CSG_Vertex getVertAtModIndex(int i){
+		if(vertices.size() <= 0){
+			System.out.println("CSG_Polygon(getVertAtIndex): vertices list has size Zero!");
 			return null;
 		}
-		return vertices.get(i);
+		return vertices.get((i+vertices.size())%vertices.size());
+	}
+	
+	public boolean indexIsSameModSize(int i, int j){
+		if(vertices.size() <= 0){
+			System.out.println("CSG_Polygon(indexIsSameModSize): vertices list has size Zero!");
+			return false;
+		}
+		return ((i+vertices.size())%vertices.size()) == ((j+vertices.size())%vertices.size());
 	}
 	
 	/**

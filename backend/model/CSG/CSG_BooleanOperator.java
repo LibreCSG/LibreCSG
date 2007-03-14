@@ -116,9 +116,19 @@ public class CSG_BooleanOperator {
 				// ( 3) if(extent of faceA overlaps solidB)
 				if(faceA.getBounds().overlapsBounds(sB.bounds)){
 					// ( 4) for each polygonA in faceA
-					Iterator<CSG_Polygon> polyIterA = faceA.getPolygonIterator();
-					while(polyIterA.hasNext()){
-						CSG_Polygon polyA = polyIterA.next();
+					
+					// kind of a hack, use an array so items can be modified in place
+					// traverse array from end to beginning.. if new polygons are added,
+					//   they will not be considered since their index will be greater than
+					//   the initial last index of the array.
+					Object[] polyArrayA = faceA.getPolygonArray();
+					for(int iPolyA=polyArrayA.length-1; iPolyA >= 0; iPolyA--){
+						CSG_Polygon polyA = (CSG_Polygon)polyArrayA[iPolyA];
+						
+					//Iterator<CSG_Polygon> polyIterA = faceA.getPolygonIterator();
+					//while(polyIterA.hasNext()){
+					//	CSG_Polygon polyA = polyIterA.next();
+						
 						// ( 5) if(extent of polygonA overlaps solidB)
 						if(polyA.getBounds().overlapsBounds(sB.bounds)){
 							// ( 6) for each faceB in solidB
@@ -220,8 +230,8 @@ public class CSG_BooleanOperator {
 		double aMax = segmentA.getEndRayDist();
 		double aMin = segmentA.getStartRayDist();
 		double bMax = segmentB.getEndRayDist();
-		double bMin = segmentB.getStartRayDist();		
-		if((aMin >= bMin && aMin <= bMax) || (aMax >= bMin && aMax <= bMax)){
+		double bMin = segmentB.getStartRayDist();
+		if(!(aMin > bMax-TOL || aMax < bMin+TOL)){
 			//return CSG_FACE_INFO.FACE_INTERSECT;
 			// perform Face Intersection!!  the segments overlap!
 			// TODO
@@ -229,6 +239,7 @@ public class CSG_BooleanOperator {
 			subdivideFaceA(polyA, faceA, segmentA, segmentB);			
 			return CSG_FACE_INFO.FACE_INTERSECT;
 		}
+		System.out.println("Faces were close, but no intersection.  here's the details.. :)  a(" + aMin + "," + aMax + " )  b(" + bMin + "," + bMax + ")");
 		return CSG_FACE_INFO.FACE_NOT_INTERSECT;
 	}
 	
@@ -236,15 +247,14 @@ public class CSG_BooleanOperator {
 		// section 6.  find section of segmentB that overlaps segmentA...
 		
 		// save original values for segmentA to save work later.
-		double origStartA = segmentA.getStartRayDist();
-		double origEndA   = segmentA.getEndRayDist();
-		CSG_Segment.VERTEX_DESC origStartDescA = segmentA.getStartDesc();
-		CSG_Segment.VERTEX_DESC origEndDescA = segmentA.getEndDesc();
-		
+		CSG_Vertex origStartVert = segmentA.getVertStart();					// start before segment trim
+		CSG_Vertex origEndVert   = segmentA.getVertEnd();					// end before segment trim
+		CSG_Segment.VERTEX_DESC origStartDescA = segmentA.getStartDesc();	// startDesc before segment trim
+		CSG_Segment.VERTEX_DESC origEndDescA = segmentA.getEndDesc();		// endDesc before segment trim
+
 		double startInA = Math.max(segmentA.getStartRayDist(), segmentB.getStartRayDist());
 		double endInA   = Math.min(segmentA.getEndRayDist(), segmentB.getEndRayDist());
-		// check to see if endpoints of segmentA changed...
-		
+		// check to see if endpoints of segmentA changed...		
 		if(startInA < segmentA.getStartRayDist()+TOL && startInA > segmentA.getStartRayDist()-TOL){
 			// startpoint was not changed.
 		}else{
@@ -256,73 +266,241 @@ public class CSG_BooleanOperator {
 			segmentA.setEnd(endInA, segmentA.getMiddleDesc());
 		}
 		
+		int startNextI = segmentA.getVertIndexNearStart();					// index of vertex after startVert
+		int startPrevI = segmentA.getVertIndexNearStart()-1;				// index of vertex before startVert
+		CSG_Vertex startNextVert = polyA.getVertAtModIndex(startNextI);		// vertex after startVert
+		CSG_Vertex startVert = segmentA.getVertStart();						// startVert
+		CSG_Vertex startPrevVert = polyA.getVertAtModIndex(startPrevI);		// vertex before startVert
+		int endNextI = segmentA.getVertIndexNearEnd();						// index of vertex after endVert
+		int endPrevI = segmentA.getVertIndexNearEnd()-1;					// index of vertex before endVert
+		CSG_Vertex endNextVert = polyA.getVertAtModIndex(endNextI);			// vertex after endVert
+		CSG_Vertex endVert = segmentA.getVertEnd();							// endVert
+		CSG_Vertex endPrevVert = polyA.getVertAtModIndex(endPrevI);			// vertex before endVert		
+		
 		//
 		// Handle all VERTEX_DESC possibilities.. craziness! :)
 		//
 		if(segmentA.VERT_DESC_is_VVV()){
 			// subdividing -- none			
-			// marking
-			polyA.markVertexInPolyByIndex(segmentA.getVertIndexNearStart(),CSG_Vertex.VERT_TYPE.VERT_BOUNDARY);
 		}
 		if(segmentA.VERT_DESC_is_VEV()){
-			// subdividing -- none			
-			// marking
-			polyA.markVertexInPolyByIndex(segmentA.getVertIndexNearStart(),CSG_Vertex.VERT_TYPE.VERT_BOUNDARY);	
-			polyA.markVertexInPolyByIndex(segmentA.getVertIndexNearEnd(),CSG_Vertex.VERT_TYPE.VERT_BOUNDARY);			
+			// subdividing -- none						
 		}
 		if(segmentA.VERT_DESC_is_VEE()){
+			// subdividing -- 	
+			// Fig 6.3, (c) case of split to 2 polygons	
+			CSG_Polygon newPoly1 = new CSG_Polygon(endVert, startVert, startNextVert);
+			CSG_Polygon newPoly2 = new CSG_Polygon(endPrevVert, endVert, startNextVert);
+			for(int i = startNextI+1; !polyA.indexIsSameModSize(i, endPrevI); i++){
+				newPoly2.addVertex(polyA.getVertAtModIndex(i));
+			}
+			faceA.addPolygon(newPoly1);
+			faceA.addPolygon(newPoly2);
+			faceA.removePolygon(polyA);		
 			
 		}
 		if(segmentA.VERT_DESC_is_VFV()){
+			// subdividing -- 	
+			// Fig 6.3, (e) case of split to 2 polygons	
+			CSG_Polygon newPoly1 = new CSG_Polygon(endPrevVert, endVert, startNextVert);
+			for(int i = startNextI+1; !polyA.indexIsSameModSize(i, endPrevI); i++){
+				newPoly1.addVertex(polyA.getVertAtModIndex(i));
+			}
+			CSG_Polygon newPoly2 = new CSG_Polygon(startPrevVert, startVert, endNextVert);
+			for(int i = endNextI+1; !polyA.indexIsSameModSize(i, startPrevI); i++){
+				newPoly2.addVertex(polyA.getVertAtModIndex(i));
+			}
+			faceA.addPolygon(newPoly1);
+			faceA.addPolygon(newPoly2);
+			faceA.removePolygon(polyA);
 			
 		}
 		if(segmentA.VERT_DESC_is_VFE()){
+			// subdividing -- 	
+			// Fig 6.3, (f) case of split to 2 polygons	
+			CSG_Polygon newPoly1 = new CSG_Polygon(endPrevVert, endVert, startNextVert);
+			for(int i = startNextI+1; !polyA.indexIsSameModSize(i, endPrevI); i++){
+				newPoly1.addVertex(polyA.getVertAtModIndex(i));
+			}
+			CSG_Polygon newPoly2 = new CSG_Polygon(startNextVert, endVert, endNextVert);
+			for(int i = endNextI+1; !polyA.indexIsSameModSize(i, startNextI); i++){
+				newPoly2.addVertex(polyA.getVertAtModIndex(i));
+			}
+			faceA.addPolygon(newPoly1);
+			faceA.addPolygon(newPoly2);
+			faceA.removePolygon(polyA);
 			
 		}
+		if(segmentA.VERT_DESC_is_VFF()){
+			// subdividing -- 	
+			// Fig 6.3, (g) case of split to 4 polygons	(assume all 4 needed)
+			CSG_Polygon newPoly1 = new CSG_Polygon(endVert, origEndVert, endNextVert);
+			CSG_Polygon newPoly2 = new CSG_Polygon(endVert, endPrevVert, origEndVert);
+			CSG_Polygon newPoly3 = new CSG_Polygon(startVert, endVert, endNextVert);
+			for(int i = endNextI+1; !polyA.indexIsSameModSize(i, startNextI); i++){
+				newPoly3.addVertex(polyA.getVertAtModIndex(i));
+			}
+			CSG_Polygon newPoly4 = new CSG_Polygon(endPrevVert, endVert, startNextVert);
+			for(int i = startNextI+1; !polyA.indexIsSameModSize(i, endPrevI); i++){
+				newPoly4.addVertex(polyA.getVertAtModIndex(i));
+			}
+			faceA.addPolygon(newPoly1);
+			faceA.addPolygon(newPoly2);
+			faceA.addPolygon(newPoly3);
+			faceA.addPolygon(newPoly4);
+			faceA.removePolygon(polyA);			
+			
+		}		
 		if(segmentA.VERT_DESC_is_EEV()){ 
 			// Symmetric to VEE			
+			// subdividing -- 	
+			// Fig 6.3, (c) case of split to 2 polygons	
+			CSG_Polygon newPoly1 = new CSG_Polygon(startVert, endVert, endNextVert);
+			CSG_Polygon newPoly2 = new CSG_Polygon(startPrevVert, startVert, endNextVert);
+			for(int i = endNextI+1; !polyA.indexIsSameModSize(i, startPrevI); i++){
+				newPoly2.addVertex(polyA.getVertAtModIndex(i));
+			}
+			faceA.addPolygon(newPoly1);
+			faceA.addPolygon(newPoly2);
+			faceA.removePolygon(polyA);	
 			
 		}
 		if(segmentA.VERT_DESC_is_EEE()){
+			// subdividing --
+			// Fig 6.3, (i) case of split to 3 polygons
+			int startNextNextI = startNextI + 1;
+			CSG_Vertex startNextNextVert = polyA.getVertAtModIndex(startNextNextI);
+			CSG_Polygon newPoly1 = new CSG_Polygon(startVert, startNextVert, startNextNextVert);
+			CSG_Polygon newPoly2 = new CSG_Polygon(endVert, startVert, startNextNextVert);
+			CSG_Polygon newPoly3 = new CSG_Polygon(endPrevVert, endVert, startNextNextVert);
+			for(int i = startNextNextI+1; !polyA.indexIsSameModSize(i, endPrevI); i++){
+				newPoly3.addVertex(polyA.getVertAtModIndex(i));
+			}
+			faceA.addPolygon(newPoly1);
+			faceA.addPolygon(newPoly2);
+			faceA.addPolygon(newPoly3);
+			faceA.removePolygon(polyA);			
 			
 		}
 		if(segmentA.VERT_DESC_is_EFV()){
 			// Symmetric to VFE
+			// subdividing -- 	
+			// Fig 6.3, (f) case of split to 2 polygons	
+			CSG_Polygon newPoly1 = new CSG_Polygon(startPrevVert, startVert, endNextVert);
+			for(int i = endNextI+1; !polyA.indexIsSameModSize(i, startPrevI); i++){
+				newPoly1.addVertex(polyA.getVertAtModIndex(i));
+			}
+			CSG_Polygon newPoly2 = new CSG_Polygon(endNextVert, startVert, startNextVert);
+			for(int i = startNextI+1; !polyA.indexIsSameModSize(i, endNextI); i++){
+				newPoly2.addVertex(polyA.getVertAtModIndex(i));
+			}
+			faceA.addPolygon(newPoly1);
+			faceA.addPolygon(newPoly2);
+			faceA.removePolygon(polyA);
 			
 		}
 		if(segmentA.VERT_DESC_is_EFE()){
+			// subdividing -- 	
+			// Fig 6.3, (k) case of split to 2 polygons	
+			CSG_Polygon newPoly1 = new CSG_Polygon(endPrevVert, endVert, startVert);
+			for(int i = startNextI; !polyA.indexIsSameModSize(i, endPrevI); i++){
+				newPoly1.addVertex(polyA.getVertAtModIndex(i));
+			}
+			CSG_Polygon newPoly2 = new CSG_Polygon(startPrevVert, startVert, endVert);
+			for(int i = endNextI; !polyA.indexIsSameModSize(i, startPrevI); i++){
+				newPoly2.addVertex(polyA.getVertAtModIndex(i));
+			}
+			faceA.addPolygon(newPoly1);
+			faceA.addPolygon(newPoly2);
+			faceA.removePolygon(polyA);
 			
 		}
-		if(segmentA.VERT_DESC_is_EFF()){
+		if(segmentA.VERT_DESC_is_EFF()){			
 			// subdividing -- 	
-			// TODO: for now just adding new polygons, not removing the old...
-			// start is on the edge
-			int numVerts = polyA.getNumberVertices();
-			CSG_Vertex v1 = polyA.getVertAtIndex(segmentA.getVertIndexNearEnd());
-			CSG_Vertex v2 = polyA.getVertAtIndex((segmentA.getVertIndexNearEnd()+numVerts-1)%numVerts);
-			CSG_Polygon newPoly1 = new CSG_Polygon(segmentA.getVertStart(), segmentA.getVertEnd(), v1);
-			CSG_Polygon newPoly2 = new CSG_Polygon(segmentA.getVertEnd(), v2, v1);
-			CSG_Polygon newPoly3 = new CSG_Polygon(v2, segmentA.getVertEnd(), segmentA.getVertStart());
-			for(int i=0; i<numVerts-2; i++){
-				newPoly3.addVertex(polyA.getVertAtIndex((segmentA.getVertIndexNearEnd()-2+numVerts)%numVerts));
+			// for simplicity, always do the Fig 6.3, (l) case of split to 4 polygons
+			CSG_Polygon newPoly1 = new CSG_Polygon(endVert, origEndVert, endNextVert);
+			CSG_Polygon newPoly2 = new CSG_Polygon(endVert, endPrevVert, origEndVert);
+			CSG_Polygon newPoly3 = new CSG_Polygon(startVert, endVert, endNextVert);
+			for(int i = endNextI+1; !polyA.indexIsSameModSize(i, startNextI); i++){
+				newPoly3.addVertex(polyA.getVertAtModIndex(i));
 			}
-			//faceA.addPolygon(newPoly1);
-			//faceA.addPolygon(newPoly2);
-			//polyA = newPoly3;
-			//faceA.addPolygon(newPoly3);
-			//faceA.removePolygon(polyA);
-			// marking		
+			CSG_Polygon newPoly4 = new CSG_Polygon(endPrevVert, endVert, startVert);
+			for(int i = startNextI; !polyA.indexIsSameModSize(i, endPrevI); i++){
+				newPoly4.addVertex(polyA.getVertAtModIndex(i));
+			}			
+			faceA.addPolygon(newPoly1);
+			faceA.addPolygon(newPoly2);
+			faceA.addPolygon(newPoly3);
+			faceA.addPolygon(newPoly4);
+			faceA.removePolygon(polyA);
+			
 		}
 		if(segmentA.VERT_DESC_is_FFV()){
 			// Symmetric to VFF
+			// subdividing -- 	
+			// Fig 6.3, (g) case of split to 4 polygons	(assume all 4 needed)
+			CSG_Polygon newPoly1 = new CSG_Polygon(startVert, origStartVert, startNextVert);
+			CSG_Polygon newPoly2 = new CSG_Polygon(startVert, startPrevVert, origStartVert);
+			CSG_Polygon newPoly3 = new CSG_Polygon(endVert, startVert, startNextVert);
+			for(int i = startNextI+1; !polyA.indexIsSameModSize(i, endNextI); i++){
+				newPoly3.addVertex(polyA.getVertAtModIndex(i));
+			}
+			CSG_Polygon newPoly4 = new CSG_Polygon(startPrevVert, startVert, endNextVert);
+			for(int i = endNextI+1; !polyA.indexIsSameModSize(i, startPrevI); i++){
+				newPoly4.addVertex(polyA.getVertAtModIndex(i));
+			}
+			faceA.addPolygon(newPoly1);
+			faceA.addPolygon(newPoly2);
+			faceA.addPolygon(newPoly3);
+			faceA.addPolygon(newPoly4);
+			faceA.removePolygon(polyA);				
 			
 		}
-		if(segmentA.VERT_DESC_is_FFE()){
-			// Symmetric to EFF
+		if(segmentA.VERT_DESC_is_FFE()){ // WORKING
+			// Symmetric to EFF			
+			// subdividing -- 	
+			// for simplicity, always do the Fig 6.3, (l) case of split to 4 polygons
+			CSG_Polygon newPoly1 = new CSG_Polygon(startVert, origStartVert, startNextVert);
+			CSG_Polygon newPoly2 = new CSG_Polygon(startVert, startPrevVert, origStartVert);
+			CSG_Polygon newPoly3 = new CSG_Polygon(endVert, startVert, startNextVert);
+			for(int i = startNextI+1; !polyA.indexIsSameModSize(i, endNextI); i++){
+				newPoly3.addVertex(polyA.getVertAtModIndex(i));
+			}
+			CSG_Polygon newPoly4 = new CSG_Polygon(startPrevVert, startVert, endVert);
+			for(int i = endNextI; !polyA.indexIsSameModSize(i, startPrevI); i++){
+				newPoly4.addVertex(polyA.getVertAtModIndex(i));
+			}			
+			faceA.addPolygon(newPoly1);
+			faceA.addPolygon(newPoly2);
+			faceA.addPolygon(newPoly3);
+			faceA.addPolygon(newPoly4);
+			faceA.removePolygon(polyA);
+			
+			// marking	
 			
 		}
 		if(segmentA.VERT_DESC_is_FFF()){
-			
+			// subdividing -- 	
+			// for simplicity, always do the Fig 6.3, (n) case of split to 6 polygons
+			CSG_Polygon newPoly1 = new CSG_Polygon(startVert, origStartVert, startNextVert);
+			CSG_Polygon newPoly2 = new CSG_Polygon(startVert, startPrevVert, origStartVert);
+			CSG_Polygon newPoly3 = new CSG_Polygon(endVert, endPrevVert, origEndVert);
+			CSG_Polygon newPoly4 = new CSG_Polygon(endVert, origEndVert, endNextVert);				
+			CSG_Polygon newPoly5 = new CSG_Polygon(endPrevVert, endVert, startVert, startNextVert);
+			for(int i = startNextI+1; !polyA.indexIsSameModSize(i, endPrevI); i++){
+				newPoly5.addVertex(polyA.getVertAtModIndex(i));
+			}		
+			CSG_Polygon newPoly6 = new CSG_Polygon(startPrevVert, startVert, endVert, endNextVert);
+			for(int i = endNextI+1; !polyA.indexIsSameModSize(i, startPrevI); i++){
+				newPoly6.addVertex(polyA.getVertAtModIndex(i));
+			}			
+			faceA.addPolygon(newPoly1);
+			faceA.addPolygon(newPoly2);
+			faceA.addPolygon(newPoly3);
+			faceA.addPolygon(newPoly4);
+			faceA.addPolygon(newPoly5);
+			faceA.addPolygon(newPoly6);
+			faceA.removePolygon(polyA);
 		}
 		
 		
