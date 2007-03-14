@@ -66,6 +66,10 @@ public class CSG_Face {
 		bounds = polygon.getBounds();
 	}
 	
+	public Object[] getPolygonArray(){
+		return polygons.toArray();
+	}
+	
 	public void addPolygon(CSG_Polygon polygon){
 		polygons.add(polygon);
 		bounds.includeBounds(polygon.getBounds());
