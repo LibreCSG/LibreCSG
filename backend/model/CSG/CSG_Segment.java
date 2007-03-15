@@ -64,6 +64,7 @@ public class CSG_Segment {
 	private int vertNearStartPt = 0;
 	private int vertNearEndPt   = 0;
 	
+	private final double TOL = 1e-10;
 	
 	public CSG_Segment(CSG_Polygon poly, List<Double> zDists, CSG_Ray ray){
 		this.ray = ray;
@@ -90,11 +91,13 @@ public class CSG_Segment {
 			dist = dIter.next();
 			CSG_Vertex vert = fIter.next();
 			
-			if(dist == 0.0){
+			if(dist < TOL && dist > -TOL){
 				// vertex intersects, add it
 				includeVertex(vert, VERTEX_DESC.VERTEX, vertIndex);
+				lastDistWasNeg = false;
+				lastDistWasPos = false;
 			}else{
-				if(dist > 0.0){
+				if(dist > TOL){
 					if(lastDistWasNeg && lastVert != null){
 						// do line intersection (ratio of zDists)
 						double alpha = Math.abs(lastDist)/(Math.abs(lastDist)+Math.abs(dist));
@@ -130,11 +133,11 @@ public class CSG_Segment {
 		if(fIter.hasNext() && endVert == null){
 			dist = dIter.next();
 			CSG_Vertex vert = fIter.next();
-			if(dist == 0.0){
+			if(dist < TOL && dist > -TOL){
 				// vertex intersects, add it
 				includeVertex(vert, VERTEX_DESC.VERTEX, vertIndex);
 			}else{
-				if(dist > 0.0){
+				if(dist > TOL){
 					if(lastDistWasNeg && lastVert != null){
 						// do line intersection (ratio of zDists)
 						double alpha = Math.abs(lastDist)/(Math.abs(lastDist)+Math.abs(dist));
@@ -179,7 +182,7 @@ public class CSG_Segment {
 		if(vertNearStartPt == vertNearEndPt){
 			descMid = VERTEX_DESC.VERTEX;
 		}else{
-			if(descStart == VERTEX_DESC.VERTEX && descStart == VERTEX_DESC.VERTEX && 
+			if(descStart == VERTEX_DESC.VERTEX && descEnd == VERTEX_DESC.VERTEX && 
 					(vertNearStartPt-vertNearEndPt == 1 ||	vertNearStartPt-vertNearEndPt == -1)){
 				descMid = VERTEX_DESC.EDGE;
 			}else{
@@ -387,6 +390,10 @@ public class CSG_Segment {
 	/** Segment type: Face, Face, Face */
 	public boolean VERT_DESC_is_FFF(){
 		return descStart == VERTEX_DESC.FACE && descMid == VERTEX_DESC.FACE && descEnd == VERTEX_DESC.FACE;
+	}
+	
+	public String toString(){
+		return "CSG_Segment{" + startVert + "(" + descStart + ")," + endVert + "(" + descEnd + ")}";
 	}
 	
 }

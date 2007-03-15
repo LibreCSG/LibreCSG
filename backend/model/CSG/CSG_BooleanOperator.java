@@ -57,9 +57,10 @@ public class CSG_BooleanOperator {
 	public static CSG_Solid Intersection(CSG_Solid solidA, CSG_Solid solidB){
 		// TODO: CSG Intersection
 		splitSolidABySolidB(solidA, solidB);
-		splitSolidABySolidB(solidB, solidA);
-		splitSolidABySolidB(solidA, solidB);
+		//splitSolidABySolidB(solidB, solidA);
+		//splitSolidABySolidB(solidA, solidB);
 		classifySolidAPolysInSolidB(solidA, solidB);
+		//classifySolidAPolysInSolidB(solidB, solidA);
 		return null;
 	}
 	
@@ -91,73 +92,75 @@ public class CSG_BooleanOperator {
 		// Pseudo-code.. very similar to Fig. 4.1 in 1986 SIGGRAPH: CSG
 		//               but modified to handle faces (each of which is 
 		//               made of possibly multiple polygons)
+		//               also: swapped order of solidA, solidB to allow
+		//                     for newly split polygons (from A) to be 
+		//                     considered by subsequent B polygons. 
 		//
 		// ___Spitting SolidA by SolidB___
 		//
-		//( 1) if(extent of solidA overlaps solidB)
-		//( 2)   for each faceA in solidA
-		//( 3)     if(extent of faceA overlaps solidB)
-		//( 4)       for each polygonA in faceA
-		//( 5)         if(extent of polygonA overlaps solidB)
-		//( 6)           for each faceB in solidB
-		//( 7)             if(extent of polygonA overlaps faceB)
-		//( 8)              for each polygonB in faceB
+		//( 1) if(extent of solidB overlaps solidA)
+		//( 2)   for each faceB in solidB
+		//( 3)     if(extent of faceB overlaps solidA)
+		//( 4)       for each polygonB in faceB
+		//( 5)         if(extent of polygonB overlaps solidA)
+		//( 6)           for each faceA in solidA
+		//( 7)             if(extent of polygonB overlaps faceA)
+		//( 8)              for each polygonA in faceA (array access to allow for adding of polygons)
 		//( 9)                 if(extent of polygonA overlaps polygonB)
 		//(10)                   ** analize them as in "5. Do Two Polygons Intersect"
 		//(11)                   if(INTERSECT)
 		//(12)                     ** subdivide polygonA as in "6. Subdividing non-coplanar polygons"
 		//(13)                   else
 		//(14)                     ** do nothing with polygonA (it was COPLANAR or NOT_INTERSECT)
-		//
+		//(15)             clean up markedForDeletion Polygons in faceA
 		
 		
 		System.out.println("Splitting Solids");
-		// ( 1) if(extent of solidA overlaps solidB)
-		if(sA.bounds.overlapsBounds(sB.bounds)){
-			// ( 2) for each faceA in solidA
-			Iterator<CSG_Face> faceIterA =  sA.getFacesIter();
-			while(faceIterA.hasNext()){
-				CSG_Face faceA = faceIterA.next();
-				// ( 3) if(extent of faceA overlaps solidB)
-				if(faceA.getBounds().overlapsBounds(sB.bounds)){
-					// ( 4) for each polygonA in faceA
-					
-					// kind of a hack, use an array so items can be modified in place
-					// traverse array from end to beginning.. if new polygons are added,
-					//   they will not be considered since their index will be greater than
-					//   the initial last index of the array.
-					Object[] polyArrayA = faceA.getPolygonArray();
-					for(int iPolyA=polyArrayA.length-1; iPolyA >= 0; iPolyA--){
-						CSG_Polygon polyA = (CSG_Polygon)polyArrayA[iPolyA];
-				
-						// ( 5) if(extent of polygonA overlaps solidB)
-						if(polyA.getBounds().overlapsBounds(sB.bounds)){
-							// ( 6) for each faceB in solidB
-							Iterator<CSG_Face> faceIterB = sB.getFacesIter();
-							while(faceIterB.hasNext()){
-								CSG_Face faceB = faceIterB.next();
-								// ( 7) if(extent of polygonA overlaps faceB)
-								if(polyA.getBounds().overlapsBounds(faceB.getBounds())){
-									// ( 8) for each polygonB in faceB
-									Iterator<CSG_Polygon> polyIterB = faceB.getPolygonIterator();
-									while(polyIterB.hasNext()){
-										CSG_Polygon polyB = polyIterB.next();
+		// ( 1) if(extent of solidB overlaps solidA)
+		if(sB.bounds.overlapsBounds(sA.bounds)){
+			// ( 2) for each faceB in solidB
+			Iterator<CSG_Face> faceIterB =  sB.getFacesIter();
+			while(faceIterB.hasNext()){
+				CSG_Face faceB = faceIterB.next();
+				// ( 3) if(extent of faceB overlaps solidA)
+				if(faceB.getBounds().overlapsBounds(sA.bounds)){
+					// ( 4) for each polygonB in faceB
+					Iterator<CSG_Polygon> polyIterB = faceB.getPolygonIterator();
+					while(polyIterB.hasNext()){
+						CSG_Polygon polyB = polyIterB.next();
+						// ( 5) if(extent of polygonB overlaps solidA)
+						if(polyB.getBounds().overlapsBounds(sA.bounds)){
+							// ( 6) for each faceA in solidA
+							Iterator<CSG_Face> faceIterA = sA.getFacesIter();
+							while(faceIterA.hasNext()){
+								CSG_Face faceA = faceIterA.next();
+								// ( 7) if(extent of polygonB overlaps faceA)
+								if(polyB.getBounds().overlapsBounds(faceA.getBounds())){
+									// ( 8) for each polygonA in faceA (array access to allow for adding of polygons)
+									for(int iPolyA=0; iPolyA < faceA.getPolygonListSize(); iPolyA++){
+										//System.out.println("iPolyA:" + iPolyA + ", totalListSize:" + faceA.getPolygonListSize());
+										CSG_Polygon polyA = faceA.getPolygonAtIndex(iPolyA);
 										// ( 9) if(extent of polygonA overlaps polygonB)
 										if(polyA.getBounds().overlapsBounds(polyB.getBounds())){
 											// (10) ** analize them as in "5. Do Two Polygons Intersect"
-											CSG_FACE_INFO fInfo = performPolyIntersection(polyA, faceA, polyB, faceB);
+											//System.out.println("considering polyA: " + polyA);
+											// performPolyIntersection handles lines (11-14)
+											CSG_FACE_INFO info = performPolyIntersection(polyA, faceA, polyB, faceB);
 										}
-									}									
-								}								
+									}
+								}
+								// (15) clean up markedForDeletion Polygons in faceA
+								faceA.cleanupMarkedForDeletionPolygons();
 							}							
-						}
-					}			
-				}
+						}						
+					}
+				}					
 			}
 		}
 	}
 	
 	
+	// returns the new version of polyA
 	public static CSG_FACE_INFO performPolyIntersection(CSG_Polygon polyA, CSG_Face faceA, CSG_Polygon polyB, CSG_Face faceB){
 		// "5. Do Polygons Intersect?"
 		// Step 1: get dist from each vertex in faceA to plane of faceB
@@ -218,14 +221,12 @@ public class CSG_BooleanOperator {
 		//
 		
 		CSG_Ray planeIntRay = new CSG_Ray(faceA, faceB);
-
+		
 		// find CSG_Segment in faceA
 		CSG_Segment segmentA = new CSG_Segment(polyA, distAsToBPlane, planeIntRay);
 		
 		// find CSG_Segment in faceB
 		CSG_Segment segmentB = new CSG_Segment(polyB, distBsToAPlane, planeIntRay);
-		
-
 		
 		// check to see if segments overlap at all...
 		double aMax = segmentA.getEndRayDist();
@@ -235,15 +236,15 @@ public class CSG_BooleanOperator {
 		if(!(aMin > bMax-TOL || aMax < bMin+TOL)){
 			//return CSG_FACE_INFO.FACE_INTERSECT;
 			// perform Face Intersection!!  the segments overlap!
-			// TODO
-			//System.out.println("should perform face intersection!");
-			subdivideFaceA(polyA, faceA, segmentA, segmentB);			
+			//System.out.println("should perform face intersection!");			
+			subdivideFaceA(polyA, faceA, segmentA, segmentB);	
 			return CSG_FACE_INFO.FACE_INTERSECT;
 		}
 		//System.out.println("Faces were close, but no intersection.  here's the details.. :)  a(" + aMin + "," + aMax + " )  b(" + bMin + "," + bMax + ")");
 		return CSG_FACE_INFO.FACE_NOT_INTERSECT;
 	}
 	
+	// return new version of polyA
 	private static void subdivideFaceA(CSG_Polygon polyA, CSG_Face faceA, CSG_Segment segmentA, CSG_Segment segmentB){
 		// section 6.  find section of segmentB that overlaps segmentA...
 		
@@ -267,19 +268,21 @@ public class CSG_BooleanOperator {
 			segmentA.setEnd(endInA, segmentA.getMiddleDesc());
 		}
 		
-		int startNextI = segmentA.getVertIndexNearStart();					// index of vertex after startVert
+		int startNextI = segmentA.getVertIndexNearStart();					// index of vertex after startVert or the
+																			//   start vertex if origStartDescA = VERTEX
 		int startPrevI = segmentA.getVertIndexNearStart()-1;				// index of vertex before startVert
 		CSG_Vertex startNextVert = polyA.getVertAtModIndex(startNextI);		// vertex after startVert
 		CSG_Vertex startVert = segmentA.getVertStart();						// startVert
 		CSG_Vertex startPrevVert = polyA.getVertAtModIndex(startPrevI);		// vertex before startVert
-		int endNextI = segmentA.getVertIndexNearEnd();						// index of vertex after endVert
+		int endNextI = segmentA.getVertIndexNearEnd();						// index of vertex after endVert or the
+																			//   end vertex if origEndDescA = VERTEX
 		int endPrevI = segmentA.getVertIndexNearEnd()-1;					// index of vertex before endVert
 		CSG_Vertex endNextVert = polyA.getVertAtModIndex(endNextI);			// vertex after endVert
 		CSG_Vertex endVert = segmentA.getVertEnd();							// endVert
 		CSG_Vertex endPrevVert = polyA.getVertAtModIndex(endPrevI);			// vertex before endVert		
 		
-		//System.out.println("subdividing: SegmentA is {" + segmentA.getStartDesc() + "-" + 
-		//		segmentA.getMiddleDesc() + "-" + segmentA.getEndDesc() + "}");
+		System.out.println("subdividing: SegmentA is {" + segmentA.getStartDesc() + "-" + 
+				segmentA.getMiddleDesc() + "-" + segmentA.getEndDesc() + "}");
 		
 		//
 		// Handle all VERTEX_DESC possibilities.. craziness! :)
@@ -293,14 +296,30 @@ public class CSG_BooleanOperator {
 		if(segmentA.VERT_DESC_is_VEE()){
 			// subdividing -- 	
 			// Fig 6.3, (c) case of split to 2 polygons	
-			// TODO handle subdivide special cases seperately
-			CSG_Polygon newPoly1 = new CSG_Polygon(endVert, startVert, startNextVert);
-			CSG_Polygon newPoly2 = new CSG_Polygon(endPrevVert, endVert, startNextVert);
-			for(int i = startNextI+1; !polyA.indexIsSameModSize(i, endPrevI); i++){
-				newPoly2.addVertex(polyA.getVertAtModIndex(i));
-			}
-			polyA = newPoly1;  // replace original polygon
-			faceA.addPolygon(newPoly2);	
+			int numVerts = polyA.getNumberVertices();
+			if(startNextI%numVerts == (endNextI+1)%numVerts){
+				// end is before start, going clockwise
+				int startNextNextI = startNextI + 1;
+				CSG_Vertex startNextNextVert = polyA.getVertAtModIndex(startNextNextI);
+				CSG_Polygon newPoly1 = new CSG_Polygon(endVert, startVert, startNextNextVert);
+				CSG_Polygon newPoly2 = new CSG_Polygon(endNextVert, endVert, startNextNextVert);
+				for(int i = startNextNextI+1; !polyA.indexIsSameModSize(i, endNextI); i++){
+					newPoly2.addVertex(polyA.getVertAtModIndex(i));
+				}
+				faceA.addPolygon(newPoly1);
+				faceA.addPolygon(newPoly2);	
+				polyA.markForDeletion();
+			}else{
+				// end is after start, going clockwise
+				CSG_Polygon newPoly1 = new CSG_Polygon(startPrevVert, startVert, endVert);
+				CSG_Polygon newPoly2 = new CSG_Polygon(startPrevVert, endVert, endNextVert);
+				for(int i = endNextI+1; !polyA.indexIsSameModSize(i, startPrevI); i++){
+					newPoly2.addVertex(polyA.getVertAtModIndex(i));
+				}
+				faceA.addPolygon(newPoly1);
+				faceA.addPolygon(newPoly2);	
+				polyA.markForDeletion();
+			}		
 			
 		}
 		if(segmentA.VERT_DESC_is_VFV()){
@@ -314,8 +333,9 @@ public class CSG_BooleanOperator {
 			for(int i = endNextI+1; !polyA.indexIsSameModSize(i, startPrevI); i++){
 				newPoly2.addVertex(polyA.getVertAtModIndex(i));
 			}
-			polyA = newPoly1;  // replace original polygon
+			faceA.addPolygon(newPoly1);
 			faceA.addPolygon(newPoly2);
+			polyA.markForDeletion();
 			
 		}
 		if(segmentA.VERT_DESC_is_VFE()){
@@ -329,8 +349,9 @@ public class CSG_BooleanOperator {
 			for(int i = endNextI+1; !polyA.indexIsSameModSize(i, startNextI); i++){
 				newPoly2.addVertex(polyA.getVertAtModIndex(i));
 			}
-			polyA = newPoly1;  // replace original polygon
+			faceA.addPolygon(newPoly1);
 			faceA.addPolygon(newPoly2);
+			polyA.markForDeletion();
 			
 		}
 		if(segmentA.VERT_DESC_is_VFF()){
@@ -347,10 +368,11 @@ public class CSG_BooleanOperator {
 			for(int i = startNextI+1; !polyA.indexIsSameModSize(i, endPrevI); i++){
 				newPoly4.addVertex(polyA.getVertAtModIndex(i));
 			}
-			polyA = newPoly1;  // replace original polygon
+			faceA.addPolygon(newPoly1);
 			faceA.addPolygon(newPoly2);
 			faceA.addPolygon(newPoly3);
-			faceA.addPolygon(newPoly4);			
+			faceA.addPolygon(newPoly4);		
+			polyA.markForDeletion();
 			
 		}		
 		if(segmentA.VERT_DESC_is_EEV()){ 
@@ -362,8 +384,9 @@ public class CSG_BooleanOperator {
 			for(int i = endNextI+1; !polyA.indexIsSameModSize(i, startPrevI); i++){
 				newPoly2.addVertex(polyA.getVertAtModIndex(i));
 			}
-			polyA = newPoly1;  // replace original polygon
+			faceA.addPolygon(newPoly1);
 			faceA.addPolygon(newPoly2);	
+			polyA.markForDeletion();
 			
 		}
 		if(segmentA.VERT_DESC_is_EEE()){
@@ -378,9 +401,10 @@ public class CSG_BooleanOperator {
 			for(int i = startNextNextI+1; !polyA.indexIsSameModSize(i, endPrevI); i++){
 				newPoly3.addVertex(polyA.getVertAtModIndex(i));
 			}
-			polyA = newPoly1;  // replace original polygon
+			faceA.addPolygon(newPoly1);
 			faceA.addPolygon(newPoly2);
-			faceA.addPolygon(newPoly3);		
+			faceA.addPolygon(newPoly3);	
+			polyA.markForDeletion();
 			
 		}
 		if(segmentA.VERT_DESC_is_EFV()){
@@ -395,8 +419,9 @@ public class CSG_BooleanOperator {
 			for(int i = startNextI+1; !polyA.indexIsSameModSize(i, endNextI); i++){
 				newPoly2.addVertex(polyA.getVertAtModIndex(i));
 			}
-			polyA = newPoly1;  // replace original polygon
+			faceA.addPolygon(newPoly1);
 			faceA.addPolygon(newPoly2);
+			polyA.markForDeletion();
 			
 		}
 		if(segmentA.VERT_DESC_is_EFE()){
@@ -410,8 +435,9 @@ public class CSG_BooleanOperator {
 			for(int i = endNextI; !polyA.indexIsSameModSize(i, startPrevI); i++){
 				newPoly2.addVertex(polyA.getVertAtModIndex(i));
 			}
-			polyA = newPoly1;  // replace original polygon
+			faceA.addPolygon(newPoly1);
 			faceA.addPolygon(newPoly2);
+			polyA.markForDeletion();
 			
 		}
 		if(segmentA.VERT_DESC_is_EFF()){			
@@ -428,10 +454,11 @@ public class CSG_BooleanOperator {
 			for(int i = startNextI; !polyA.indexIsSameModSize(i, endPrevI); i++){
 				newPoly4.addVertex(polyA.getVertAtModIndex(i));
 			}			
-			polyA = newPoly1;  // replace original polygon
+			faceA.addPolygon(newPoly1);
 			faceA.addPolygon(newPoly2);
 			faceA.addPolygon(newPoly3);
 			faceA.addPolygon(newPoly4);
+			polyA.markForDeletion();
 			
 		}
 		if(segmentA.VERT_DESC_is_FFV()){
@@ -448,13 +475,14 @@ public class CSG_BooleanOperator {
 			for(int i = endNextI+1; !polyA.indexIsSameModSize(i, startPrevI); i++){
 				newPoly4.addVertex(polyA.getVertAtModIndex(i));
 			}
-			polyA = newPoly1;  // replace original polygon
+			faceA.addPolygon(newPoly1);
 			faceA.addPolygon(newPoly2);
 			faceA.addPolygon(newPoly3);
-			faceA.addPolygon(newPoly4);				
+			faceA.addPolygon(newPoly4);		
+			polyA.markForDeletion();
 			
 		}
-		if(segmentA.VERT_DESC_is_FFE()){ // WORKING
+		if(segmentA.VERT_DESC_is_FFE()){
 			// Symmetric to EFF			
 			// subdividing -- 	
 			// for simplicity, always do the Fig 6.3, (l) case of split to 4 polygons
@@ -468,10 +496,11 @@ public class CSG_BooleanOperator {
 			for(int i = endNextI; !polyA.indexIsSameModSize(i, startPrevI); i++){
 				newPoly4.addVertex(polyA.getVertAtModIndex(i));
 			}			
-			polyA = newPoly1;  // replace original polygon
+			faceA.addPolygon(newPoly1);
 			faceA.addPolygon(newPoly2);
 			faceA.addPolygon(newPoly3);
 			faceA.addPolygon(newPoly4);
+			polyA.markForDeletion();
 			
 			// marking	
 			
@@ -492,12 +521,13 @@ public class CSG_BooleanOperator {
 			for(int i = endNextI+1; !polyA.indexIsSameModSize(i, startPrevI); i++){
 				newPoly6.addVertex(polyA.getVertAtModIndex(i));
 			}			
-			polyA = newPoly1;  // replace original polygon
+			faceA.addPolygon(newPoly1);
 			faceA.addPolygon(newPoly2);
 			faceA.addPolygon(newPoly3);
 			faceA.addPolygon(newPoly4);
 			faceA.addPolygon(newPoly5);
 			faceA.addPolygon(newPoly6);
+			polyA.markForDeletion();
 		}
 		
 		
@@ -508,7 +538,7 @@ public class CSG_BooleanOperator {
 		GL gl = glc.getGL();
 		segmentA.drawSegmentForDebug(gl);
 		//segmentB.drawSegmentForDebug(gl);
-		
+	
 	}
 	
 	
@@ -530,14 +560,14 @@ public class CSG_BooleanOperator {
 		CSG_Vertex normalA = polyA.getPlane().getNormal();
 		// start with perturbed ray to reduce liklihood of unsuccessful cast
 		CSG_Ray ray = new CSG_Ray(barycenterA, normalA).getPerturbedRay();
-		
+		//System.out.println(polyA);
+		//System.out.println("poly-- Barycenter: " + barycenterA + ", rayBase: " + ray.getBasePoint());
 		boolean castWasSuccessful = false;
 		CSG_Polygon closestPolyB = null;
 		double closestDist = Double.MAX_VALUE;
-		
+
 		while(!castWasSuccessful){
 			castWasSuccessful = true; // assumed true unless found to be faulty			
-			
 			Iterator<CSG_Face> faceIterB = solidB.getFacesIter();
 			while(faceIterB.hasNext() && castWasSuccessful){
 				CSG_Face faceB = faceIterB.next();
@@ -554,6 +584,8 @@ public class CSG_BooleanOperator {
 					boolean dotProductIsZero = (dotProduct < TOL && dotProduct > -TOL);
 					boolean distanceIsZero = (distance < TOL && distance > -TOL);					
 				
+					//System.out.println("dot:" + dotProduct + ", dist:" + distance + ", intPt" + intersectPolyBVert);
+					
 					if(dotProductIsZero && distanceIsZero){
 						// dotProduct = 0.0 && distance = 0.0
 						// cast was unsuccessful, try again with a perturbed ray
@@ -595,7 +627,10 @@ public class CSG_BooleanOperator {
 						}
 					}
 				}				
-			}			
+			}
+			if(!castWasSuccessful){
+				System.out.println("unsuccessful cast.. trying again.");
+			}
 		} // end the main while(!castWasSuccessful) loop
 		
 		if(closestPolyB == null){
@@ -614,6 +649,7 @@ public class CSG_BooleanOperator {
 				}
 			}else{
 				if(dotProduct > TOL){
+					System.out.println("marking poly as INSIDE!");
 					polyA.type = CSG_Polygon.POLY_TYPE.POLY_INSIDE;
 				}else{
 					if(dotProduct < -TOL){

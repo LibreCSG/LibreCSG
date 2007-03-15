@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.media.opengl.GL;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -51,6 +53,8 @@ public class CSG_Polygon {
 	private final double TOL = 1e-10; // double tollerance 
 	private final CSG_Plane polygonPlane;
 
+	private boolean markedForDeletion = false;
+	
 	/**
 	 * create a new Polygon (convex, planar, noncollinear)<br/><br/>
 	 * <b>Vertices should be added in Clockwise order looking from outside of polygon</b><br/>
@@ -157,19 +161,27 @@ public class CSG_Polygon {
 		return vertices.size();
 	}
 	
-	public void markVertexInPolyByIndex(int i, CSG_Vertex.VERT_TYPE type){
-		if(i < 0 || i >= vertices.size()){
-			System.out.println("CSG_Polygon(markVertexInPolygonByIndex): Invalid index! i=" + i + " vertices=" + vertices.size());
-			return;
-		}
-		vertices.get(i).setVertType(type);
-	}
+//	public void markVertexInPolyByIndex(int i, CSG_Vertex.VERT_TYPE type){
+//		if(i < 0 || i >= vertices.size()){
+//			System.out.println("CSG_Polygon(markVertexInPolygonByIndex): Invalid index! i=" + i + " vertices=" + vertices.size());
+//			return;
+//		}
+//		vertices.get(i).setVertType(type);
+//	}
 	
 	/**
 	 * @return the iterator over all of the Polygon's vertices
 	 */
 	public Iterator<CSG_Vertex> getVertexIterator(){
 		return vertices.iterator();
+	}
+	
+	public void markForDeletion(){
+		markedForDeletion = true;
+	}
+	
+	public boolean isMarkedForDeletion(){
+		return markedForDeletion;
 	}
 	
 	/**
@@ -252,6 +264,15 @@ public class CSG_Polygon {
 			lastVert = vert;
 		}
 		return true; 
+	}
+	
+	public void drawPolygonForDebug(GL gl){
+		gl.glColor3f(0.5f, 0.7f, 0.7f);
+		gl.glBegin(GL.GL_POLYGON);
+		for(CSG_Vertex v : vertices){
+			gl.glVertex3dv(v.getXYZ(), 0);
+		}
+		gl.glEnd();
 	}
 	
 }
