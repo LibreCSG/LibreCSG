@@ -51,15 +51,15 @@ import javax.media.opengl.GL;
  */
 public class CSG_Vertex {
 
-	public enum VERT_TYPE {
-		VERT_INSIDE, VERT_OUTSIDE, VERT_BOUNDARY, VERT_UNKNOWN
-	}
+	//public enum VERT_TYPE {
+	//	VERT_INSIDE, VERT_OUTSIDE, VERT_BOUNDARY, VERT_UNKNOWN
+	//}
 
 	final double TOL = 1e-10;
 	
 	private final double x,y,z;	
 	List<CSG_Vertex> adjacentVertices = new LinkedList<CSG_Vertex>();
-	private VERT_TYPE status = VERT_TYPE.VERT_UNKNOWN;
+	//private VERT_TYPE status = VERT_TYPE.VERT_UNKNOWN;
 	
 	public CSG_Vertex(double x, double y, double z){
 		this.x = cleanDouble(x);
@@ -151,9 +151,9 @@ public class CSG_Vertex {
 		}
 	}
 	
-	public void setVertType(VERT_TYPE type){
-		status = type;
-	}
+	//public void setVertType(VERT_TYPE type){
+	//	status = type;
+	//}
 	
 	public void drawPointForDebug(GL gl){
 		gl.glBegin(GL.GL_POINTS);

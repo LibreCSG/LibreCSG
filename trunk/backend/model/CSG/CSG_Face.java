@@ -112,12 +112,12 @@ public class CSG_Face {
 		}
 	}
 	
-	public void removePolygon(CSG_Polygon poly){
-		if(polygons.contains(poly)){
-			polygons.remove(poly);
-		}else{
-			System.out.println("CSG_Face(removePolygon): Tried to remove a polygon that was not in the list of polygons!");
-			System.out.println(poly);
+	public void cleanupMarkedForDeletionPolygons(){
+		for(int i=polygons.size()-1; i>= 0; i--){
+			CSG_Polygon poly = polygons.get(i);
+			if(poly.isMarkedForDeletion()){
+				polygons.remove(i);
+			}
 		}
 	}
 	
@@ -147,6 +147,19 @@ public class CSG_Face {
 	 */
 	public double distFromVertexToFacePlane(CSG_Vertex v){
 		return facePlane.distFromVertex(v);
+	}
+	
+	public CSG_Polygon getPolygonAtIndex(int i){
+		if(i < 0 || i >= polygons.size()){
+			System.out.println("CSG_Face(getPolygonAtIndex): index was invalid! i=" + i + ", size()=" + polygons.size());
+			return null;
+		}else{
+			return polygons.get(i);
+		}
+	}
+	
+	public int getPolygonListSize(){
+		return polygons.size();
 	}
 	
 }

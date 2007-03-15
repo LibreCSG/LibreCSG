@@ -603,6 +603,9 @@ public class GLView {
 	}
 	
 	private void testCSG(){
+		
+		System.out.println(" ------  Constructive Solid Geometry Test -------- ");
+		
 		gl.glLoadIdentity();
 		gl.glLineWidth(2.0f);
 		gl.glPointSize(5.0f);
@@ -659,7 +662,7 @@ public class GLView {
 		//  2 solids to play with now!
 		//
 		
-		/*
+		///*
 		glDrawSolid(s1, 0.4f, 0.5f, 0.8f);
 		glDrawSolid(s2, 0.4f, 0.5f, 0.8f);
 		
@@ -682,10 +685,12 @@ public class GLView {
 		}
 		
 		gl.glTranslated(-2.0, 0.0, 0.0);
-		glDrawSolid(s1, 0.4f, 0.5f, 0.8f);
 		glDrawSolid(s2, 0.4f, 0.5f, 0.8f);
-		*/
+		gl.glTranslated(-2.0, 0.0, 0.0);
+		glDrawSolid(s1, 0.4f, 0.5f, 0.8f);
 		
+		//*/
+		/*
 		//gl.glTranslated(0.0, 2.0, 0.0);
 		CSG_Vertex v1c = new CSG_Vertex(0.0, 0.0, 0.0);
 		CSG_Vertex v2c = new CSG_Vertex(0.5, 0.0, 0.0);
@@ -712,7 +717,7 @@ public class GLView {
 		
 		System.out.println(CSG_BooleanOperator.performPolyIntersection(polyA, f1c, polyB, f2c));
 		System.out.println(CSG_BooleanOperator.performPolyIntersection(polyB, f2c, polyA, f1c));
-		
+		*/
 		/*
 		gl.glTranslated(0.0, 2.0, 0.0);
 		gl.glColor4f(0.4f, 0.8f, 0.4f, 0.90f);
@@ -735,6 +740,24 @@ public class GLView {
 		deathPoint.drawPointForDebug(gl);
 		System.out.println("Point is inside poly? " + polyB.vertexIsInsidePolygon(deathPoint));
 		*/
+		
+		
+		/*
+		CSG_Solid sTestA = new CSG_Solid();
+		sTestA.addFace(f6);
+		CSG_Solid sTestB = new CSG_Solid();
+		sTestB.addFace(f2b);
+		sTestB.addFace(f5b);
+		glDrawSolid(sTestA, 0.4f, 0.5f, 0.8f); // blue
+		glDrawSolid(sTestB, 0.4f, 0.8f, 0.4f); // green		
+		
+		CSG_Solid s3i = CSG_BooleanOperator.Intersection(sTestA, sTestB);
+		
+		gl.glTranslated(2.5, 0.0, 0.0);
+		glDrawSolid(sTestA, 0.4f, 0.5f, 0.8f); // blue
+		glDrawSolid(sTestB, 0.4f, 0.8f, 0.4f); // green	
+		//*/
+		
 	}
 	
 	private void glDrawSolid(CSG_Solid s, float r, float g, float b){
@@ -743,7 +766,7 @@ public class GLView {
 			CSG_Face f = iter.next();
 			
 			gl.glColor4f(r, g, b, 0.80f);
-			//glDrawFace(f);
+			glDrawInsideFace(f);
 			
 			gl.glColor4f(0.3f, 0.3f, 0.3f, 1.0f);
 			glDrawFaceEdges(f);
@@ -763,6 +786,36 @@ public class GLView {
 				gl.glVertex3dv(iterV.next().getXYZ(), 0);
 			}
 			gl.glEnd();
+		}
+	}
+	
+	private void glDrawInsideFace(CSG_Face f){		
+		Iterator<CSG_Polygon> iterP = f.getPolygonIterator();
+		while(iterP.hasNext()){
+			CSG_Polygon poly = iterP.next();
+			if(poly.type == CSG_Polygon.POLY_TYPE.POLY_INSIDE){
+				Iterator<CSG_Vertex> iterV = poly.getVertexIterator();
+				gl.glBegin(GL.GL_POLYGON);
+				while(iterV.hasNext()){
+					gl.glVertex3dv(iterV.next().getXYZ(), 0);
+				}
+				gl.glEnd();
+			}
+		}
+	}
+	
+	private void glDrawOutsideFace(CSG_Face f){		
+		Iterator<CSG_Polygon> iterP = f.getPolygonIterator();
+		while(iterP.hasNext()){
+			CSG_Polygon poly = iterP.next();
+			if(poly.type == CSG_Polygon.POLY_TYPE.POLY_OUTSIDE){
+				Iterator<CSG_Vertex> iterV = poly.getVertexIterator();
+				gl.glBegin(GL.GL_POLYGON);
+				while(iterV.hasNext()){
+					gl.glVertex3dv(iterV.next().getXYZ(), 0);
+				}
+				gl.glEnd();
+			}
 		}
 	}
 	
