@@ -162,4 +162,17 @@ public class CSG_Face {
 		return polygons.size();
 	}
 	
+	public CSG_Face deepCopy(){
+		CSG_Face clone = null;
+		for(CSG_Polygon poly : polygons){
+			if(clone == null){
+				clone = new CSG_Face(poly.deepCopy());
+			}else{
+				clone.addPolygon(poly.deepCopy());
+			}
+		}
+		clone.bounds = bounds.deepCopy();
+		return clone;
+	}
+	
 }

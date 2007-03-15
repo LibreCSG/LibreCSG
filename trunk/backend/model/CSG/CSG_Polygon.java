@@ -275,4 +275,13 @@ public class CSG_Polygon {
 		gl.glEnd();
 	}
 	
+	public CSG_Polygon deepCopy(){
+		CSG_Polygon clone = new CSG_Polygon(vertices.get(0).deepCopy(), vertices.get(1).deepCopy(), vertices.get(2).deepCopy());
+		for(int i=3; i<vertices.size(); i++){
+			clone.vertices.add(vertices.get(i).deepCopy());
+		}
+		clone.type = type;
+		return clone;
+	}
+	
 }

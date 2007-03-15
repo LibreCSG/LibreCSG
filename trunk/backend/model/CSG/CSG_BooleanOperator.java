@@ -56,11 +56,13 @@ public class CSG_BooleanOperator {
 	 */
 	public static CSG_Solid Intersection(CSG_Solid solidA, CSG_Solid solidB){
 		// TODO: CSG Intersection
+		CSG_Solid solidAClone = solidA.deepCopy();
 		splitSolidABySolidB(solidA, solidB);
-		//splitSolidABySolidB(solidB, solidA);
-		//splitSolidABySolidB(solidA, solidB);
+		splitSolidABySolidB(solidB, solidAClone);
+		splitSolidABySolidB(solidA, solidB);
 		classifySolidAPolysInSolidB(solidA, solidB);
-		//classifySolidAPolysInSolidB(solidB, solidA);
+		classifySolidAPolysInSolidB(solidB, solidA);
+		
 		return null;
 	}
 	
@@ -114,22 +116,22 @@ public class CSG_BooleanOperator {
 		//(14)                     ** do nothing with polygonA (it was COPLANAR or NOT_INTERSECT)
 		//(15)             clean up markedForDeletion Polygons in faceA
 		
-		
+
 		System.out.println("Splitting Solids");
 		// ( 1) if(extent of solidB overlaps solidA)
-		if(sB.bounds.overlapsBounds(sA.bounds)){
+		if(sB.getBounds().overlapsBounds(sA.getBounds())){
 			// ( 2) for each faceB in solidB
 			Iterator<CSG_Face> faceIterB =  sB.getFacesIter();
 			while(faceIterB.hasNext()){
 				CSG_Face faceB = faceIterB.next();
 				// ( 3) if(extent of faceB overlaps solidA)
-				if(faceB.getBounds().overlapsBounds(sA.bounds)){
+				if(faceB.getBounds().overlapsBounds(sA.getBounds())){
 					// ( 4) for each polygonB in faceB
 					Iterator<CSG_Polygon> polyIterB = faceB.getPolygonIterator();
 					while(polyIterB.hasNext()){
 						CSG_Polygon polyB = polyIterB.next();
 						// ( 5) if(extent of polygonB overlaps solidA)
-						if(polyB.getBounds().overlapsBounds(sA.bounds)){
+						if(polyB.getBounds().overlapsBounds(sA.getBounds())){
 							// ( 6) for each faceA in solidA
 							Iterator<CSG_Face> faceIterA = sA.getFacesIter();
 							while(faceIterA.hasNext()){
@@ -580,7 +582,7 @@ public class CSG_BooleanOperator {
 						// no intersection, do nothing... just continue checking
 						continue; // use continue to bypass things that may reference this NULL CSG_Vertex
 					}
-					double distance = ray.getBasePoint().getDistBetweenVertices(intersectPolyBVert);
+					double distance = ray.getDistAlongRay(intersectPolyBVert);
 					boolean dotProductIsZero = (dotProduct < TOL && dotProduct > -TOL);
 					boolean distanceIsZero = (distance < TOL && distance > -TOL);					
 				
@@ -649,7 +651,6 @@ public class CSG_BooleanOperator {
 				}
 			}else{
 				if(dotProduct > TOL){
-					System.out.println("marking poly as INSIDE!");
 					polyA.type = CSG_Polygon.POLY_TYPE.POLY_INSIDE;
 				}else{
 					if(dotProduct < -TOL){

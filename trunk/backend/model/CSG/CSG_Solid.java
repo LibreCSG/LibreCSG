@@ -46,9 +46,8 @@ import java.util.List;
  */
 public class CSG_Solid {
 
-	List<CSG_Vertex> vertices = new LinkedList<CSG_Vertex>();
-	List<CSG_Face>   faces    = new LinkedList<CSG_Face>();
-	CSG_Bounds bounds = new CSG_Bounds();
+	private List<CSG_Face>   faces    = new LinkedList<CSG_Face>();
+	private CSG_Bounds bounds = new CSG_Bounds();
 	
 	/**
 	 * Construct a new CSG_Solid with no Faces.  Faces should be added via addFace();
@@ -79,6 +78,19 @@ public class CSG_Solid {
 	 */
 	public Iterator<CSG_Face> getFacesIter(){
 		return faces.iterator();
+	}
+	
+	public CSG_Bounds getBounds(){
+		return bounds.deepCopy();
+	}
+	
+	public CSG_Solid deepCopy(){
+		CSG_Solid clone = new CSG_Solid();
+		clone.bounds = bounds.deepCopy();
+		for(CSG_Face f : faces){
+			clone.faces.add(f.deepCopy());
+		}
+		return clone;
 	}
 	
 }
