@@ -51,7 +51,7 @@ public class CSG_Polygon {
 	public enum POLY_TYPE {POLY_INSIDE, POLY_OUTSIDE, POLY_SAME, POLY_OPPOSITE, POLY_UNKNOWN};
 	public POLY_TYPE type = POLY_TYPE.POLY_UNKNOWN;
 	private final double TOL = 1e-10; // double tollerance 
-	private final CSG_Plane polygonPlane;
+	private CSG_Plane polygonPlane;
 
 	private boolean markedForDeletion = false;
 	
@@ -279,7 +279,9 @@ public class CSG_Polygon {
 		gl.glColor3d(1.0, 0.0, 0.0);
 		CSG_Vertex fCenter = getBarycenterVertex();
 		CSG_Vertex norm = getPlane().getNormal();
-		CSG_Vertex nShifted = new CSG_Vertex(fCenter.getX()+0.25*norm.getX(), fCenter.getY()+0.25*norm.getY(), fCenter.getZ()+0.25*norm.getZ());
+		double scale = 0.10;
+		fCenter.addToVertex(norm.getScaledCopy(scale));
+		CSG_Vertex nShifted = fCenter.addToVertex(norm.getScaledCopy(scale));
 		gl.glBegin(GL.GL_LINES);
 			gl.glVertex3dv(fCenter.getXYZ(), 0);
 			gl.glVertex3dv(nShifted.getXYZ(), 0);
@@ -293,6 +295,24 @@ public class CSG_Polygon {
 		}
 		clone.type = type;
 		return clone;
+	}
+	
+	public void reverseVertexOrder(){
+		List<CSG_Vertex> newList = new LinkedList<CSG_Vertex>();
+		for(int i=vertices.size()-1; i>=0; i--){
+			newList.add(vertices.get(i));
+		}
+		vertices = newList;
+		polygonPlane = computePlane();
+	}
+	
+	/**
+	 * check to make sure polygon is valid: (coplanar, convex, noncollinear)
+	 * @return true if polygon is valid
+	 */
+	public boolean isValidPolygon(){
+		// TODO: check to make sure vertices are coplanar, convex, and non-collinear
+		return true;
 	}
 	
 }

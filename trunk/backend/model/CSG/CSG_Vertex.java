@@ -147,9 +147,14 @@ public class CSG_Vertex {
 	}
 	
 	public void drawPointForDebug(GL gl){
+		gl.glColor3d(0.0, 1.0, 0.0);
 		gl.glBegin(GL.GL_POINTS);
 			gl.glVertex3d(x, y, z);
 		gl.glEnd();
+	}
+	
+	public CSG_Vertex getFlippedVertex(){
+		return new CSG_Vertex(-x, -y, -z);
 	}
 	
 }
