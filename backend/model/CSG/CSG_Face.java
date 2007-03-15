@@ -53,8 +53,7 @@ public class CSG_Face {
 	private CSG_Bounds bounds;
 	private CSG_Plane facePlane;	
 	private List<CSG_Polygon> polygons = new LinkedList<CSG_Polygon>();
-	
-	private final double TOL = 1e-10; // double tollerance  
+
 	
 	/**
 	 * create a new Face (convex, planar, noncollinear polygons)<br/><br/>
@@ -234,4 +233,15 @@ public class CSG_Face {
 			poly.drawPolygonNormalsForDebug(gl);
 		}
 	}
+	
+	/**
+	 * check to make sure face is valid (all polygons valid and in same plane)
+	 * @return true is face is valid
+	 */
+	public boolean isValidFace(){
+		// TODO: check to see if this is a valid face! 
+		// (all polygons same plane and all polygons valid)
+		return true;
+	}
+	
 }

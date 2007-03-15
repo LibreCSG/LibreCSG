@@ -37,7 +37,7 @@ import java.util.List;
  * 
  * A CSG_Solid is a water-tight volume in 3D space:<br/>
  * 1. Composed of CSG_Faces<br/>
- * 2. No Dangling Faces (all connect to others exactly once at an edge<br/>
+ * 2. No Dangling Faces (all connect to others exactly once at an edge (water-tight)<br/>
  * 
  * Algorithms and structures from:<br/>
  * - Laidlaw, Trumbore, and Hughes <br/>
@@ -100,5 +100,14 @@ public class CSG_Solid {
 				polyIter.next().type = CSG_Polygon.POLY_TYPE.POLY_UNKNOWN;
 			}
 		}
+	}
+	
+	/**
+	 * check to make sure solid is valid. (all faces vaild and solid is water-tight)
+	 * @return true if solid is valid
+	 */
+	public boolean isValidSolid(){
+		// TODO: check to make sure the solid is water-tight and that each face is valid! 
+		return true;
 	}
 }

@@ -635,14 +635,14 @@ public class GLView {
 		s1.addFace(f6);
 
 		// solid 2
-		CSG_Vertex v1b = new CSG_Vertex(0.75, 0.75, 0.75);
-		CSG_Vertex v2b = new CSG_Vertex(1.75, 0.75, 0.75);
-		CSG_Vertex v3b = new CSG_Vertex(1.75, 1.75, 0.75);
-		CSG_Vertex v4b = new CSG_Vertex(0.75, 1.75, 0.75);
-		CSG_Vertex v5b = new CSG_Vertex(0.75, 0.75, 1.75);
-		CSG_Vertex v6b = new CSG_Vertex(1.75, 0.75, 1.75);
-		CSG_Vertex v7b = new CSG_Vertex(1.75, 1.75, 1.75);
-		CSG_Vertex v8b = new CSG_Vertex(0.75, 1.75, 1.75);
+		CSG_Vertex v1b = new CSG_Vertex(0.75, 0.75, 0.75).addToVertex(new CSG_Vertex(0,0,-0.5));
+		CSG_Vertex v2b = new CSG_Vertex(1.75, 0.75, 0.75).addToVertex(new CSG_Vertex(0,0,-0.5));
+		CSG_Vertex v3b = new CSG_Vertex(1.75, 1.75, 0.75).addToVertex(new CSG_Vertex(0,0,-0.5));
+		CSG_Vertex v4b = new CSG_Vertex(0.75, 1.75, 0.75).addToVertex(new CSG_Vertex(0,0,-0.5));
+		CSG_Vertex v5b = new CSG_Vertex(0.75, 0.75, 1.75).addToVertex(new CSG_Vertex(0,0,-0.5));
+		CSG_Vertex v6b = new CSG_Vertex(1.75, 0.75, 1.75).addToVertex(new CSG_Vertex(0,0,-0.5));
+		CSG_Vertex v7b = new CSG_Vertex(1.75, 1.75, 1.75).addToVertex(new CSG_Vertex(0,0,-0.5));
+		CSG_Vertex v8b = new CSG_Vertex(0.75, 1.75, 1.75).addToVertex(new CSG_Vertex(0,0,-0.5));
 		
 		CSG_Face f1b = new CSG_Face(new CSG_Polygon(v1b, v2b, v3b, v4b));
 		CSG_Face f2b = new CSG_Face(new CSG_Polygon(v1b, v5b, v6b, v2b));
@@ -684,6 +684,8 @@ public class GLView {
 			glDrawSolid(s3s, 0.4f, 0.8f, 0.4f);
 		}
 				
+		gl.glLoadIdentity();
+
 	}
 	
 	private void glDrawSolid(CSG_Solid s, float r, float g, float b){

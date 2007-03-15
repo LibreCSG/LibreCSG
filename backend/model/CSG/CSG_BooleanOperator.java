@@ -53,6 +53,7 @@ public class CSG_BooleanOperator {
 	 */
 	public static CSG_Solid Intersection(CSG_Solid solidA, CSG_Solid solidB){
 		// CSG Intersection
+		System.out.println("CSG: Intersecting solids");
 		CSG_Solid solidAClone = solidA.deepCopy();
 		CSG_Solid solidBClone = solidB.deepCopy();
 		splitSolidABySolidB(solidAClone, solidB);
@@ -61,9 +62,9 @@ public class CSG_BooleanOperator {
 		classifySolidAPolysInSolidB(solidAClone, solidBClone);
 		classifySolidAPolysInSolidB(solidBClone, solidAClone);
 		CSG_Solid newSolid = new CSG_Solid();
-		addPolygonsFromSolidToSolid(solidAClone, CSG_Polygon.POLY_TYPE.POLY_INSIDE, newSolid);
-		addPolygonsFromSolidToSolid(solidAClone, CSG_Polygon.POLY_TYPE.POLY_SAME, newSolid);
-		addPolygonsFromSolidToSolid(solidBClone, CSG_Polygon.POLY_TYPE.POLY_INSIDE, newSolid);
+		addPolygonsFromSolidToSolid(solidAClone, CSG_Polygon.POLY_TYPE.POLY_INSIDE, newSolid, false);
+		addPolygonsFromSolidToSolid(solidAClone, CSG_Polygon.POLY_TYPE.POLY_SAME, newSolid, false);
+		addPolygonsFromSolidToSolid(solidBClone, CSG_Polygon.POLY_TYPE.POLY_INSIDE, newSolid, false);
 		return newSolid;
 	}
 	
@@ -75,6 +76,7 @@ public class CSG_BooleanOperator {
 	 */
 	public static CSG_Solid Union(CSG_Solid solidA, CSG_Solid solidB){
 		// CSG Union
+		System.out.println("CSG: Finding Union of solids");
 		CSG_Solid solidAClone = solidA.deepCopy();
 		CSG_Solid solidBClone = solidB.deepCopy();
 		splitSolidABySolidB(solidAClone, solidB);
@@ -83,9 +85,9 @@ public class CSG_BooleanOperator {
 		classifySolidAPolysInSolidB(solidAClone, solidBClone);
 		classifySolidAPolysInSolidB(solidBClone, solidAClone);
 		CSG_Solid newSolid = new CSG_Solid();
-		addPolygonsFromSolidToSolid(solidAClone, CSG_Polygon.POLY_TYPE.POLY_OUTSIDE, newSolid);
-		addPolygonsFromSolidToSolid(solidAClone, CSG_Polygon.POLY_TYPE.POLY_SAME, newSolid);
-		addPolygonsFromSolidToSolid(solidBClone, CSG_Polygon.POLY_TYPE.POLY_OUTSIDE, newSolid);
+		addPolygonsFromSolidToSolid(solidAClone, CSG_Polygon.POLY_TYPE.POLY_OUTSIDE, newSolid, false);
+		addPolygonsFromSolidToSolid(solidAClone, CSG_Polygon.POLY_TYPE.POLY_SAME, newSolid, false);
+		addPolygonsFromSolidToSolid(solidBClone, CSG_Polygon.POLY_TYPE.POLY_OUTSIDE, newSolid, false);
 		return newSolid;
 	}
 	
@@ -97,6 +99,7 @@ public class CSG_BooleanOperator {
 	 */
 	public static CSG_Solid Subtraction(CSG_Solid solidA, CSG_Solid solidB){
 		// CSG Subtraction
+		System.out.println("CSG: Subtracting solids");
 		CSG_Solid solidAClone = solidA.deepCopy();
 		CSG_Solid solidBClone = solidB.deepCopy();
 		splitSolidABySolidB(solidAClone, solidB);
@@ -105,9 +108,9 @@ public class CSG_BooleanOperator {
 		classifySolidAPolysInSolidB(solidAClone, solidBClone);
 		classifySolidAPolysInSolidB(solidBClone, solidAClone);
 		CSG_Solid newSolid = new CSG_Solid();
-		addPolygonsFromSolidToSolid(solidAClone, CSG_Polygon.POLY_TYPE.POLY_OUTSIDE, newSolid);
-		addPolygonsFromSolidToSolid(solidAClone, CSG_Polygon.POLY_TYPE.POLY_OPPOSITE, newSolid);
-		addPolygonsFromSolidToSolid(solidBClone, CSG_Polygon.POLY_TYPE.POLY_INSIDE, newSolid);
+		addPolygonsFromSolidToSolid(solidAClone, CSG_Polygon.POLY_TYPE.POLY_OUTSIDE, newSolid, false);
+		addPolygonsFromSolidToSolid(solidAClone, CSG_Polygon.POLY_TYPE.POLY_OPPOSITE, newSolid, false);
+		addPolygonsFromSolidToSolid(solidBClone, CSG_Polygon.POLY_TYPE.POLY_INSIDE, newSolid, true);
 		return newSolid;
 	}
 	
@@ -140,7 +143,7 @@ public class CSG_BooleanOperator {
 		//(15)             clean up markedForDeletion Polygons in faceA
 		
 
-		System.out.println("Splitting Solids");
+		//System.out.println("Splitting Solids");
 		// ( 1) if(extent of solidB overlaps solidA)
 		if(sB.getBounds().overlapsBounds(sA.getBounds())){
 			// ( 2) for each faceB in solidB
@@ -306,8 +309,8 @@ public class CSG_BooleanOperator {
 		CSG_Vertex endVert = segmentA.getVertEnd();							// endVert
 		CSG_Vertex endPrevVert = polyA.getVertAtModIndex(endPrevI);			// vertex before endVert		
 		
-		System.out.println("subdividing: SegmentA is {" + segmentA.getStartDesc() + "-" + 
-				segmentA.getMiddleDesc() + "-" + segmentA.getEndDesc() + "}");
+		//System.out.println("subdividing: SegmentA is {" + segmentA.getStartDesc() + "-" + 
+		//		segmentA.getMiddleDesc() + "-" + segmentA.getEndDesc() + "}");
 		
 		//
 		// Handle all VERTEX_DESC possibilities.. craziness! :)
@@ -691,7 +694,7 @@ public class CSG_BooleanOperator {
 	 * @param type
 	 * @param solidToModify
 	 */
-	private static void addPolygonsFromSolidToSolid(CSG_Solid inputSolid, CSG_Polygon.POLY_TYPE type, CSG_Solid solidToModify){
+	private static void addPolygonsFromSolidToSolid(CSG_Solid inputSolid, CSG_Polygon.POLY_TYPE type, CSG_Solid solidToModify, boolean reverseOrder){
 		Iterator<CSG_Face> faceIter = inputSolid.getFacesIter();
 		while(faceIter.hasNext()){
 			CSG_Face face = faceIter.next();
@@ -701,10 +704,14 @@ public class CSG_BooleanOperator {
 				CSG_Polygon poly = polyIter.next();
 				if(poly.type == type){
 					// add the polygon
+					CSG_Polygon newPoly = poly.deepCopy();
+					if(reverseOrder){
+						newPoly.reverseVertexOrder();
+					}
 					if(newFace == null){
-						newFace = new CSG_Face(poly.deepCopy());
+						newFace = new CSG_Face(newPoly);
 					}else{
-						newFace.addPolygon(poly.deepCopy());
+						newFace.addPolygon(newPoly);
 					}
 				}
 			}
