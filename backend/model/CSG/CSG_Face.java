@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.media.opengl.GL;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -175,4 +177,61 @@ public class CSG_Face {
 		return clone;
 	}
 	
+	public void drawFaceForDebug(GL gl){		
+		for(CSG_Polygon poly : polygons){
+			if(poly.type == CSG_Polygon.POLY_TYPE.POLY_INSIDE){ 	// red
+				gl.glColor3d(0.9, 0.4, 0.4);
+			}
+			if(poly.type == CSG_Polygon.POLY_TYPE.POLY_OUTSIDE){ 	// green
+				gl.glColor3d(0.4, 0.9, 0.4);
+			}
+			if(poly.type == CSG_Polygon.POLY_TYPE.POLY_OPPOSITE){	// blue
+				gl.glColor3d(0.4, 0.4, 0.9);
+			}
+			if(poly.type == CSG_Polygon.POLY_TYPE.POLY_SAME){		// purple
+				gl.glColor3d(0.8, 0.4, 0.8);
+			}
+			if(poly.type == CSG_Polygon.POLY_TYPE.POLY_UNKNOWN){	// gray
+				gl.glColor3d(0.5, 0.5, 0.5);
+			}
+			Iterator<CSG_Vertex> iterV = poly.getVertexIterator();
+			gl.glBegin(GL.GL_POLYGON);
+			while(iterV.hasNext()){
+				gl.glVertex3dv(iterV.next().getXYZ(), 0);
+			}
+			gl.glEnd();
+		}
+	}
+	
+	public void drawFaceLinesForDebug(GL gl){
+		for(CSG_Polygon poly : polygons){			
+			if(poly.type == CSG_Polygon.POLY_TYPE.POLY_INSIDE){ 	// red
+				gl.glColor3d(0.5, 0.2, 0.2);
+			}
+			if(poly.type == CSG_Polygon.POLY_TYPE.POLY_OUTSIDE){ 	// green
+				gl.glColor3d(0.2, 0.5, 0.2);
+			}
+			if(poly.type == CSG_Polygon.POLY_TYPE.POLY_OPPOSITE){	// blue
+				gl.glColor3d(0.2, 0.2, 0.5);
+			}
+			if(poly.type == CSG_Polygon.POLY_TYPE.POLY_SAME){		// purple
+				gl.glColor3d(0.5, 0.2, 0.5);
+			}
+			if(poly.type == CSG_Polygon.POLY_TYPE.POLY_UNKNOWN){	// gray
+				gl.glColor3d(0.25, 0.25, 0.25);
+			}
+			Iterator<CSG_Vertex> iterV = poly.getVertexIterator();
+			gl.glBegin(GL.GL_LINE_LOOP);
+			while(iterV.hasNext()){
+				gl.glVertex3dv(iterV.next().getXYZ(), 0);
+			}
+			gl.glEnd();
+		}
+	}
+	
+	public void drawFaceNormalsForDebug(GL gl){
+		for(CSG_Polygon poly : polygons){			
+			poly.drawPolygonNormalsForDebug(gl);
+		}
+	}
 }

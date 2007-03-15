@@ -683,164 +683,16 @@ public class GLView {
 			gl.glTranslated(2.0,0.0,0.0);
 			glDrawSolid(s3s, 0.4f, 0.8f, 0.4f);
 		}
-		
-		gl.glTranslated(-2.0, 0.0, 0.0);
-		glDrawSolid(s2, 0.4f, 0.5f, 0.8f);
-		gl.glTranslated(-2.0, 0.0, 0.0);
-		glDrawSolid(s1, 0.4f, 0.5f, 0.8f);
-		
-		//*/
-		/*
-		//gl.glTranslated(0.0, 2.0, 0.0);
-		CSG_Vertex v1c = new CSG_Vertex(0.0, 0.0, 0.0);
-		CSG_Vertex v2c = new CSG_Vertex(0.5, 0.0, 0.0);
-		CSG_Vertex v3c = new CSG_Vertex(0.5, 1.0, 0.0);
-		CSG_Vertex v4c = new CSG_Vertex(0.0, 0.5,-0.25);
-		CSG_Vertex v5c = new CSG_Vertex(0.0, 0.5, 0.25);
-		CSG_Vertex v6c = new CSG_Vertex(0.5, 0.5, 0.50);
-		CSG_Vertex v7c = new CSG_Vertex(0.9, 0.5, 0.25);
-		CSG_Vertex v8c = new CSG_Vertex(0.9, 0.5,-0.25);
-		CSG_Vertex v9c = new CSG_Vertex(0.5, 0.5,-0.50);		
-		CSG_Polygon polyA = new CSG_Polygon(v1c, v2c, v3c);
-		CSG_Polygon polyB = new CSG_Polygon(v4c, v5c, v6c);
-		polyB.addVertex(v7c);
-		polyB.addVertex(v8c);
-		polyB.addVertex(v9c);
-		CSG_Face f1c = new CSG_Face(polyA);
-		CSG_Face f2c = new CSG_Face(polyB);
-		gl.glColor4f(0.4f, 0.8f, 0.4f, 0.90f);
-		glDrawFaceEdges(f1c);
-		glDrawFaceEdges(f2c);
-		gl.glColor4f(0.8f, 0.4f, 0.4f, 0.90f);
-		glDrawPolyNormals(f1c);
-		glDrawPolyNormals(f2c);
-		
-		System.out.println(CSG_BooleanOperator.performPolyIntersection(polyA, f1c, polyB, f2c));
-		System.out.println(CSG_BooleanOperator.performPolyIntersection(polyB, f2c, polyA, f1c));
-		*/
-		/*
-		gl.glTranslated(0.0, 2.0, 0.0);
-		gl.glColor4f(0.4f, 0.8f, 0.4f, 0.90f);
-		glDrawFaceEdges(f1c);
-		glDrawFaceEdges(f2c);
-		gl.glColor4f(0.8f, 0.4f, 0.4f, 0.90f);
-		glDrawPolyNormals(f1c);
-		glDrawPolyNormals(f2c);
-		*/
-		
-		/*
-		CSG_Ray deathRay = new CSG_Ray(new CSG_Vertex(0,0,0), new CSG_Vertex(.125, 0.5, 0.0));
-		deathRay.drawLineForDebug(gl, 0.5);
-		deathRay.getPerturbedRay().drawLineForDebug(gl, 0.5);
-		deathRay.getPerturbedRay().drawLineForDebug(gl, 0.5);
-		deathRay.getPerturbedRay().drawLineForDebug(gl, 0.5);
-		deathRay.getPerturbedRay().drawLineForDebug(gl, 0.5);
-		deathRay.getPerturbedRay().drawLineForDebug(gl, 0.5);
-		CSG_Vertex deathPoint = polyB.getRayIntersectionWithPlane(deathRay);
-		deathPoint.drawPointForDebug(gl);
-		System.out.println("Point is inside poly? " + polyB.vertexIsInsidePolygon(deathPoint));
-		*/
-		
-		
-		/*
-		CSG_Solid sTestA = new CSG_Solid();
-		sTestA.addFace(f6);
-		CSG_Solid sTestB = new CSG_Solid();
-		sTestB.addFace(f2b);
-		sTestB.addFace(f5b);
-		glDrawSolid(sTestA, 0.4f, 0.5f, 0.8f); // blue
-		glDrawSolid(sTestB, 0.4f, 0.8f, 0.4f); // green		
-		
-		CSG_Solid s3i = CSG_BooleanOperator.Intersection(sTestA, sTestB);
-		
-		gl.glTranslated(2.5, 0.0, 0.0);
-		glDrawSolid(sTestA, 0.4f, 0.5f, 0.8f); // blue
-		glDrawSolid(sTestB, 0.4f, 0.8f, 0.4f); // green	
-		//*/
-		
+				
 	}
 	
 	private void glDrawSolid(CSG_Solid s, float r, float g, float b){
 		Iterator<CSG_Face> iter = s.getFacesIter();
 		while(iter.hasNext()){
 			CSG_Face f = iter.next();
-			
-			gl.glColor4f(r, g, b, 0.80f);
-			glDrawFace(f);
-			
-			gl.glColor4f(0.3f, 0.3f, 0.3f, 1.0f);
-			glDrawFaceEdges(f);
-			
-			gl.glColor4f(0.8f, 0.3f, 0.4f, 1.0f);
-			glDrawPolyNormals(f);
+			f.drawFaceForDebug(gl);
+			f.drawFaceLinesForDebug(gl);
+			f.drawFaceNormalsForDebug(gl);
 		}	
-	}
-	
-	private void glDrawFace(CSG_Face f){		
-		Iterator<CSG_Polygon> iterP = f.getPolygonIterator();
-		while(iterP.hasNext()){
-			CSG_Polygon poly = iterP.next();
-			if(poly.type == CSG_Polygon.POLY_TYPE.POLY_INSIDE){ 	// red
-				gl.glColor3d(0.9, 0.4, 0.4);
-			}
-			if(poly.type == CSG_Polygon.POLY_TYPE.POLY_OUTSIDE){ 	// green
-				gl.glColor3d(0.4, 0.9, 0.4);
-			}
-			if(poly.type == CSG_Polygon.POLY_TYPE.POLY_OPPOSITE){	// blue
-				gl.glColor3d(0.4, 0.4, 0.9);
-			}
-			if(poly.type == CSG_Polygon.POLY_TYPE.POLY_SAME){		// purple
-				gl.glColor3d(0.8, 0.4, 0.8);
-			}
-			if(poly.type == CSG_Polygon.POLY_TYPE.POLY_UNKNOWN){	// gray
-				gl.glColor3d(0.5, 0.5, 0.5);
-			}
-			Iterator<CSG_Vertex> iterV = poly.getVertexIterator();
-			gl.glBegin(GL.GL_POLYGON);
-			while(iterV.hasNext()){
-				gl.glVertex3dv(iterV.next().getXYZ(), 0);
-			}
-			gl.glEnd();
-		}
-	}
-	
-	
-	private void glDrawFaceEdges(CSG_Face f){
-		Iterator<CSG_Polygon> iterP = f.getPolygonIterator();
-		while(iterP.hasNext()){
-			CSG_Polygon poly = iterP.next();
-			Iterator<CSG_Vertex> iterV = poly.getVertexIterator();
-			gl.glBegin(GL.GL_LINE_LOOP);
-			while(iterV.hasNext()){
-				gl.glVertex3dv(iterV.next().getXYZ(), 0);
-			}
-			gl.glEnd();
-		}
-	}
-	
-	private void glDrawPolyNormals(CSG_Face f){
-		Iterator<CSG_Polygon> iter = f.getPolygonIterator();
-		while(iter.hasNext()){
-			CSG_Polygon poly = iter.next();
-			CSG_Vertex fCenter = poly.getBarycenterVertex();
-			CSG_Vertex norm = poly.getPlane().getNormal();
-			CSG_Vertex nShifted = new CSG_Vertex(fCenter.getX()+0.25*norm.getX(), fCenter.getY()+0.25*norm.getY(), fCenter.getZ()+0.25*norm.getZ());
-			gl.glBegin(GL.GL_LINES);
-				gl.glVertex3dv(fCenter.getXYZ(), 0);
-				gl.glVertex3dv(nShifted.getXYZ(), 0);
-			gl.glEnd();
-			
-		}
-	}
-	
-	private void glDrawFaceNormal(CSG_Face f){
-		// draw the normal too for debug
-		CSG_Vertex fCenter = f.getFaceBarycenter();
-		CSG_Vertex norm = f.getPlaneNormal();
-		CSG_Vertex nShifted = new CSG_Vertex(fCenter.getX()+0.25*norm.getX(), fCenter.getY()+0.25*norm.getY(), fCenter.getZ()+0.25*norm.getZ());
-		gl.glBegin(GL.GL_LINES);
-			gl.glVertex3dv(fCenter.getXYZ(), 0);
-			gl.glVertex3dv(nShifted.getXYZ(), 0);
-		gl.glEnd();
 	}
 }
