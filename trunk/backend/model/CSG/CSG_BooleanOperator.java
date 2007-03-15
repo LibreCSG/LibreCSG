@@ -4,9 +4,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.media.opengl.GL;
-import javax.media.opengl.GLContext;
-
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -55,15 +52,19 @@ public class CSG_BooleanOperator {
 	 * @return the new CSG_Solid representing (A intersect B) or NULL if no intersection.
 	 */
 	public static CSG_Solid Intersection(CSG_Solid solidA, CSG_Solid solidB){
-		// TODO: CSG Intersection
+		// CSG Intersection
 		CSG_Solid solidAClone = solidA.deepCopy();
-		splitSolidABySolidB(solidA, solidB);
-		splitSolidABySolidB(solidB, solidAClone);
-		splitSolidABySolidB(solidA, solidB);
-		classifySolidAPolysInSolidB(solidA, solidB);
-		classifySolidAPolysInSolidB(solidB, solidA);
-		
-		return null;
+		CSG_Solid solidBClone = solidB.deepCopy();
+		splitSolidABySolidB(solidAClone, solidB);
+		splitSolidABySolidB(solidBClone, solidA);
+		splitSolidABySolidB(solidAClone, solidBClone);
+		classifySolidAPolysInSolidB(solidAClone, solidBClone);
+		classifySolidAPolysInSolidB(solidBClone, solidAClone);
+		CSG_Solid newSolid = new CSG_Solid();
+		addPolygonsFromSolidToSolid(solidAClone, CSG_Polygon.POLY_TYPE.POLY_INSIDE, newSolid);
+		addPolygonsFromSolidToSolid(solidAClone, CSG_Polygon.POLY_TYPE.POLY_SAME, newSolid);
+		addPolygonsFromSolidToSolid(solidBClone, CSG_Polygon.POLY_TYPE.POLY_INSIDE, newSolid);
+		return newSolid;
 	}
 	
 	/**
@@ -73,8 +74,19 @@ public class CSG_BooleanOperator {
 	 * @return the new CSG_Solid representing (A union B) or NULL if no union.
 	 */
 	public static CSG_Solid Union(CSG_Solid solidA, CSG_Solid solidB){
-		// TODO: CSG Union
-		return null;
+		// CSG Union
+		CSG_Solid solidAClone = solidA.deepCopy();
+		CSG_Solid solidBClone = solidB.deepCopy();
+		splitSolidABySolidB(solidAClone, solidB);
+		splitSolidABySolidB(solidBClone, solidA);
+		splitSolidABySolidB(solidAClone, solidBClone);
+		classifySolidAPolysInSolidB(solidAClone, solidBClone);
+		classifySolidAPolysInSolidB(solidBClone, solidAClone);
+		CSG_Solid newSolid = new CSG_Solid();
+		addPolygonsFromSolidToSolid(solidAClone, CSG_Polygon.POLY_TYPE.POLY_OUTSIDE, newSolid);
+		addPolygonsFromSolidToSolid(solidAClone, CSG_Polygon.POLY_TYPE.POLY_SAME, newSolid);
+		addPolygonsFromSolidToSolid(solidBClone, CSG_Polygon.POLY_TYPE.POLY_OUTSIDE, newSolid);
+		return newSolid;
 	}
 	
 	/**
@@ -84,8 +96,19 @@ public class CSG_BooleanOperator {
 	 * @return the new CSG_Solid representing (A - B) or NULL if result is no solid.
 	 */
 	public static CSG_Solid Subtraction(CSG_Solid solidA, CSG_Solid solidB){
-		// TODO: CSG Subtraction
-		return null;
+		// CSG Subtraction
+		CSG_Solid solidAClone = solidA.deepCopy();
+		CSG_Solid solidBClone = solidB.deepCopy();
+		splitSolidABySolidB(solidAClone, solidB);
+		splitSolidABySolidB(solidBClone, solidA);
+		splitSolidABySolidB(solidAClone, solidBClone);
+		classifySolidAPolysInSolidB(solidAClone, solidBClone);
+		classifySolidAPolysInSolidB(solidBClone, solidAClone);
+		CSG_Solid newSolid = new CSG_Solid();
+		addPolygonsFromSolidToSolid(solidAClone, CSG_Polygon.POLY_TYPE.POLY_OUTSIDE, newSolid);
+		addPolygonsFromSolidToSolid(solidAClone, CSG_Polygon.POLY_TYPE.POLY_OPPOSITE, newSolid);
+		addPolygonsFromSolidToSolid(solidBClone, CSG_Polygon.POLY_TYPE.POLY_INSIDE, newSolid);
+		return newSolid;
 	}
 	
 	
@@ -536,9 +559,9 @@ public class CSG_BooleanOperator {
 		
 		
 				
-		GLContext glc = GLContext.getCurrent();
-		GL gl = glc.getGL();
-		segmentA.drawSegmentForDebug(gl);
+		//GLContext glc = GLContext.getCurrent();
+		//GL gl = glc.getGL();
+		//segmentA.drawSegmentForDebug(gl);
 		//segmentB.drawSegmentForDebug(gl);
 	
 	}
@@ -660,6 +683,35 @@ public class CSG_BooleanOperator {
 			}
 		}
 		
+	}
+	
+	/**
+	 * add polygons of the specified type to a CSG_Solid.
+	 * @param inputSolid
+	 * @param type
+	 * @param solidToModify
+	 */
+	private static void addPolygonsFromSolidToSolid(CSG_Solid inputSolid, CSG_Polygon.POLY_TYPE type, CSG_Solid solidToModify){
+		Iterator<CSG_Face> faceIter = inputSolid.getFacesIter();
+		while(faceIter.hasNext()){
+			CSG_Face face = faceIter.next();
+			CSG_Face newFace = null;
+			Iterator<CSG_Polygon> polyIter = face.getPolygonIterator();
+			while(polyIter.hasNext()){
+				CSG_Polygon poly = polyIter.next();
+				if(poly.type == type){
+					// add the polygon
+					if(newFace == null){
+						newFace = new CSG_Face(poly.deepCopy());
+					}else{
+						newFace.addPolygon(poly.deepCopy());
+					}
+				}
+			}
+			if(newFace != null){
+				solidToModify.addFace(newFace);
+			}
+		}
 	}
 	
 	enum CSG_FACE_INFO {

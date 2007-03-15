@@ -93,4 +93,12 @@ public class CSG_Solid {
 		return clone;
 	}
 	
+	public void setAllPolygonsToUnknownType(){
+		for(CSG_Face face : faces){
+			Iterator<CSG_Polygon> polyIter = face.getPolygonIterator();
+			while(polyIter.hasNext()){
+				polyIter.next().type = CSG_Polygon.POLY_TYPE.POLY_UNKNOWN;
+			}
+		}
+	}
 }

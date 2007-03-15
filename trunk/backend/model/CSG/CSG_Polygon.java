@@ -275,6 +275,17 @@ public class CSG_Polygon {
 		gl.glEnd();
 	}
 	
+	public void drawPolygonNormalsForDebug(GL gl){
+		gl.glColor3d(1.0, 0.0, 0.0);
+		CSG_Vertex fCenter = getBarycenterVertex();
+		CSG_Vertex norm = getPlane().getNormal();
+		CSG_Vertex nShifted = new CSG_Vertex(fCenter.getX()+0.25*norm.getX(), fCenter.getY()+0.25*norm.getY(), fCenter.getZ()+0.25*norm.getZ());
+		gl.glBegin(GL.GL_LINES);
+			gl.glVertex3dv(fCenter.getXYZ(), 0);
+			gl.glVertex3dv(nShifted.getXYZ(), 0);
+		gl.glEnd();
+	}
+	
 	public CSG_Polygon deepCopy(){
 		CSG_Polygon clone = new CSG_Polygon(vertices.get(0).deepCopy(), vertices.get(1).deepCopy(), vertices.get(2).deepCopy());
 		for(int i=3; i<vertices.size(); i++){
