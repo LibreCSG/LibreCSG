@@ -5,6 +5,7 @@ import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
 import ui.tools.ToolViewMain;
 import backend.data.utilities.ImageUtils;
+import backend.global.AvoColors;
 
 
 //
@@ -41,6 +42,8 @@ public class ToolMain2DView extends ToolViewMain{
 		mElement = new MEButton(menuet, this.getToolMode(), this, false);
 		mElement.mePreferredHeight = 100;
 		mElement.meLabel = "2D";
+		mElement.meColorUnselected = AvoColors.COLOR_MENUET_2D;
+		mElement.meColorMouseOver  = AvoColors.COLOR_MENUET_2D_LIGHT;
 		mElement.meIcon = ImageUtils.getIcon("menuet/MAIN_2D.png", 24, 24);
 		mElement.setToolTipText("2D Sketch Mode");
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;

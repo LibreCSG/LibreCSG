@@ -8,6 +8,7 @@ import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
 import ui.tools.ToolViewMain;
 import backend.data.utilities.ImageUtils;
+import backend.global.AvoColors;
 import backend.global.AvoGlobal;
 import backend.model.Sketch;
 
@@ -46,6 +47,8 @@ public class ToolMain2D3DView extends ToolViewMain{
 		mElement = new MEButton(menuet, this.getToolMode(), this, false);
 		mElement.mePreferredHeight = 100;
 		mElement.meLabel = "2Dto3D";
+		mElement.meColorUnselected = AvoColors.COLOR_MENUET_2Dto3D;
+		mElement.meColorMouseOver  = AvoColors.COLOR_MENUET_2Dto3D_LIGHT;
 		mElement.meIcon = ImageUtils.getIcon("menuet/MAIN_2Dto3D.png", 24, 24);
 		mElement.setToolTipText("Transform 2D sketches\ninto various 3D shapes.");
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;

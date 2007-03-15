@@ -39,20 +39,24 @@ public class AvoColors {
 	/**
 	 * Background color of Menuet in various modes.
 	 */
-	public static final Color COLOR_MENUET_MAIN   = new Color(Display.getCurrent(),  230,  230,  230);
-	public static final Color COLOR_MENUET_2D     = new Color(Display.getCurrent(),  180,  240,  180);
-	public static final Color COLOR_MENUET_2Dto3D = new Color(Display.getCurrent(),  180,  180,  240);
-	public static final Color COLOR_MENUET_3D     = new Color(Display.getCurrent(),  220,  220,  180);
+	public static final Color COLOR_MENUET_MAIN         = new Color(Display.getCurrent(),  230,  230,  230);
+	public static final Color COLOR_MENUET_MAIN_LIGHT   = new Color(Display.getCurrent(),  230,  230,  230);
+	public static final Color COLOR_MENUET_2D           = new Color(Display.getCurrent(),  180,  240,  180);
+	public static final Color COLOR_MENUET_2D_LIGHT     = new Color(Display.getCurrent(),  210,  250,  210);
+	public static final Color COLOR_MENUET_2Dto3D       = new Color(Display.getCurrent(),  180,  180,  240);
+	public static final Color COLOR_MENUET_2Dto3D_LIGHT = new Color(Display.getCurrent(),  210,  210,  250);
+	public static final Color COLOR_MENUET_3D           = new Color(Display.getCurrent(),  220,  220,  180);
+	public static final Color COLOR_MENUET_3D_LIGHT     = new Color(Display.getCurrent(),  220,  220,  180);
 	
 	/**
 	 * colors for special menuet buttons
 	 */
-	public static final Color COLOR_MENUET_DONE_MO = new Color(Display.getCurrent(),  200,  255,  200);
-	public static final Color COLOR_MENUET_DONE_US = new Color(Display.getCurrent(),  230,  255,  230);
-	public static final Color COLOR_MENUET_CNCL_MO = new Color(Display.getCurrent(),  255,  200,  200);
-	public static final Color COLOR_MENUET_CNCL_US = new Color(Display.getCurrent(),  255,  230,  230);	
-	public static final Color COLOR_MENUET_TLBX_MO = new Color(Display.getCurrent(),  180,  180,  255);
-	public static final Color COLOR_MENUET_TLBX_US = new Color(Display.getCurrent(),  200,  200,  255);
+	public static final Color COLOR_MENUET_DONE_US = new Color(Display.getCurrent(),  200,  255,  200);
+	public static final Color COLOR_MENUET_DONE_MO = new Color(Display.getCurrent(),  230,  255,  230);
+	public static final Color COLOR_MENUET_CNCL_US = new Color(Display.getCurrent(),  255,  200,  200);
+	public static final Color COLOR_MENUET_CNCL_MO = new Color(Display.getCurrent(),  255,  230,  230);	
+	public static final Color COLOR_MENUET_TLBX_US = new Color(Display.getCurrent(),  180,  180,  255);
+	public static final Color COLOR_MENUET_TLBX_MO = new Color(Display.getCurrent(),  200,  200,  255);
 	
 	/**
 	 * colors for parameter dialog
