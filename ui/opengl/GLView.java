@@ -766,7 +766,7 @@ public class GLView {
 			CSG_Face f = iter.next();
 			
 			gl.glColor4f(r, g, b, 0.80f);
-			glDrawInsideFace(f);
+			glDrawFace(f);
 			
 			gl.glColor4f(0.3f, 0.3f, 0.3f, 1.0f);
 			glDrawFaceEdges(f);
@@ -780,6 +780,21 @@ public class GLView {
 		Iterator<CSG_Polygon> iterP = f.getPolygonIterator();
 		while(iterP.hasNext()){
 			CSG_Polygon poly = iterP.next();
+			if(poly.type == CSG_Polygon.POLY_TYPE.POLY_INSIDE){ 	// red
+				gl.glColor3d(0.9, 0.4, 0.4);
+			}
+			if(poly.type == CSG_Polygon.POLY_TYPE.POLY_OUTSIDE){ 	// green
+				gl.glColor3d(0.4, 0.9, 0.4);
+			}
+			if(poly.type == CSG_Polygon.POLY_TYPE.POLY_OPPOSITE){	// blue
+				gl.glColor3d(0.4, 0.4, 0.9);
+			}
+			if(poly.type == CSG_Polygon.POLY_TYPE.POLY_SAME){		// purple
+				gl.glColor3d(0.8, 0.4, 0.8);
+			}
+			if(poly.type == CSG_Polygon.POLY_TYPE.POLY_UNKNOWN){	// gray
+				gl.glColor3d(0.5, 0.5, 0.5);
+			}
 			Iterator<CSG_Vertex> iterV = poly.getVertexIterator();
 			gl.glBegin(GL.GL_POLYGON);
 			while(iterV.hasNext()){
@@ -789,35 +804,6 @@ public class GLView {
 		}
 	}
 	
-	private void glDrawInsideFace(CSG_Face f){		
-		Iterator<CSG_Polygon> iterP = f.getPolygonIterator();
-		while(iterP.hasNext()){
-			CSG_Polygon poly = iterP.next();
-			if(poly.type == CSG_Polygon.POLY_TYPE.POLY_INSIDE){
-				Iterator<CSG_Vertex> iterV = poly.getVertexIterator();
-				gl.glBegin(GL.GL_POLYGON);
-				while(iterV.hasNext()){
-					gl.glVertex3dv(iterV.next().getXYZ(), 0);
-				}
-				gl.glEnd();
-			}
-		}
-	}
-	
-	private void glDrawOutsideFace(CSG_Face f){		
-		Iterator<CSG_Polygon> iterP = f.getPolygonIterator();
-		while(iterP.hasNext()){
-			CSG_Polygon poly = iterP.next();
-			if(poly.type == CSG_Polygon.POLY_TYPE.POLY_OUTSIDE){
-				Iterator<CSG_Vertex> iterV = poly.getVertexIterator();
-				gl.glBegin(GL.GL_POLYGON);
-				while(iterV.hasNext()){
-					gl.glVertex3dv(iterV.next().getXYZ(), 0);
-				}
-				gl.glEnd();
-			}
-		}
-	}
 	
 	private void glDrawFaceEdges(CSG_Face f){
 		Iterator<CSG_Polygon> iterP = f.getPolygonIterator();
