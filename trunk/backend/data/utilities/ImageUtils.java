@@ -1,6 +1,7 @@
 package backend.data.utilities;
 
 import java.io.File;
+import java.net.URL;
 
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
@@ -36,11 +37,12 @@ import org.eclipse.swt.widgets.Display;
 public class ImageUtils {
 
 	
-	public static final String ICON_DIR = "./icons/";
+	public static final String ICON_DIR = "icons/";
 	
 	public static Image getIcon(String filename, int width, int height){
 		int ICON_WIDTH  = width;
 		int ICON_HEIGHT = height;
+				
 		File test = new File(ICON_DIR + filename);
 		if(test.isFile() != true){
 			filename = "no-image.png";
