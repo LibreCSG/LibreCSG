@@ -44,7 +44,7 @@ public class AvoMenuBar {
 	
 	/**
 	 * add items to the shell's top menubar.
-	 * @param menu
+	 * @param menu 
 	 */
 	public static void populateMenuBar(Menu menu){
 		// TODO: fully populate menubar

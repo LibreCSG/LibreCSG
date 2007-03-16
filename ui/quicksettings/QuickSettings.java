@@ -44,7 +44,7 @@ public class QuickSettings extends Composite{
 	static Combo cSnap;
 	
 	public QuickSettings(Composite parent, int style){
-		super(parent, style);
+		super(parent, style); 
 		
 		this.setLayout(new RowLayout(SWT.HORIZONTAL));
 		
