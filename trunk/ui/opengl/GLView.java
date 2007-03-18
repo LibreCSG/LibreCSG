@@ -26,6 +26,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
 import ui.menuet.Menuet;
+import backend.adt.Point2D;
 import backend.global.AvoColors;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D;
@@ -35,10 +36,12 @@ import backend.model.SubPart;
 import backend.model.CSG.CSG_BooleanOperator;
 import backend.model.CSG.CSG_Face;
 import backend.model.CSG.CSG_Polygon;
-import backend.model.CSG.CSG_Ray;
 import backend.model.CSG.CSG_Solid;
 import backend.model.CSG.CSG_Vertex;
 import backend.model.sketch.Prim2D;
+import backend.model.sketch.Prim2DCycle;
+import backend.model.sketch.Prim2DLine;
+import backend.model.sketch.Region2D;
 
 
 //
@@ -386,7 +389,10 @@ public class GLView {
 						//  TEST Constructive Solid Geometry!
 						//
 						testCSG();
-						
+						//
+						//  TEST Convexize! (make arbitrary face into convex polygons)
+						//
+						testConvexize();
 						
 						glCanvas.swapBuffers(); // double buffering excitement!
 						glContext.release();	// go ahead, you can have it back.
@@ -601,6 +607,62 @@ public class GLView {
 		translation_y = 0.0f;
 		updateGLView = true;
 	}
+	
+	
+	private void testConvexize(){
+		gl.glLoadIdentity();
+		gl.glTranslated(-3.0, 0.0, 0.0);
+		Point2D ptA = new Point2D(0.0, 0.0);
+		Point2D ptB = new Point2D(2.0, 0.0);
+		Point2D ptC = new Point2D(2.0, 2.0);
+		Point2D ptD = new Point2D(1.0, 1.0);
+		Point2D ptE = new Point2D(2.0, 3.0);
+		Point2D ptF = new Point2D(3.0, 2.0);
+		Point2D ptG = new Point2D(2.5, 1.0);
+		Point2D ptH = new Point2D(2.5, 0.0);
+		Point2D ptI = new Point2D(4.0, 1.0);
+		Point2D ptJ = new Point2D(3.0, 3.0);
+		Point2D ptK = new Point2D(2.0, 4.0);
+		Point2D ptL = new Point2D(0.0, 2.0);
+		Point2D ptM = new Point2D(-1.0, 0.0);
+		
+		
+		Prim2DLine l1  = new Prim2DLine(ptA, ptB);
+		Prim2DLine l2  = new Prim2DLine(ptB, ptC);
+		Prim2DLine l3  = new Prim2DLine(ptC, ptD);
+		Prim2DLine l4  = new Prim2DLine(ptD, ptE);
+		Prim2DLine l5  = new Prim2DLine(ptE, ptF);
+		Prim2DLine l6  = new Prim2DLine(ptF, ptG);
+		Prim2DLine l7  = new Prim2DLine(ptG, ptH);
+		Prim2DLine l8  = new Prim2DLine(ptH, ptI);
+		Prim2DLine l9  = new Prim2DLine(ptI, ptJ);
+		Prim2DLine l10 = new Prim2DLine(ptJ, ptK);
+		Prim2DLine l11 = new Prim2DLine(ptK, ptL);
+		Prim2DLine l12 = new Prim2DLine(ptL, ptM);
+		Prim2DLine l13 = new Prim2DLine(ptM, ptA);
+		Prim2DCycle cycle = new Prim2DCycle();
+		cycle.add(l1);
+		cycle.add(l2);
+		cycle.add(l3);
+		cycle.add(l4);
+		cycle.add(l5);
+		cycle.add(l6);
+		cycle.add(l7);
+		cycle.add(l8);
+		cycle.add(l9);
+		cycle.add(l10);
+		cycle.add(l11);
+		cycle.add(l12);
+		cycle.add(l13);
+		
+		Region2D region = new Region2D(cycle);
+		CSG_Face face = region.getCSG_Face();
+		
+		face.drawFaceForDebug(gl);
+		face.drawFaceLinesForDebug(gl);
+		
+	}
+	
 	
 	private void testCSG(){
 		
