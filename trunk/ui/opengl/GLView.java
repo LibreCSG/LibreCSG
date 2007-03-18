@@ -611,11 +611,11 @@ public class GLView {
 	
 	private void testConvexize(){
 		gl.glLoadIdentity();
-		gl.glTranslated(-3.0, 0.0, 0.0);
+		gl.glTranslated(-4.0, 0.0, 0.0);
 		Point2D ptA = new Point2D(0.0, 0.0);
 		Point2D ptB = new Point2D(2.0, 0.0);
 		Point2D ptC = new Point2D(2.0, 2.0);
-		Point2D ptD = new Point2D(1.0, 1.0);
+		Point2D ptD = new Point2D(1.1, 1.0);
 		Point2D ptE = new Point2D(2.0, 3.0);
 		Point2D ptF = new Point2D(3.0, 2.0);
 		Point2D ptG = new Point2D(2.5, 1.0);
@@ -624,7 +624,7 @@ public class GLView {
 		Point2D ptJ = new Point2D(3.0, 3.0);
 		Point2D ptK = new Point2D(2.0, 4.0);
 		Point2D ptL = new Point2D(0.0, 2.0);
-		Point2D ptM = new Point2D(-1.0, 0.0);
+		Point2D ptM = new Point2D(-1.0, 1.0);
 		
 		
 		Prim2DLine l1  = new Prim2DLine(ptA, ptB);
@@ -660,7 +660,7 @@ public class GLView {
 		
 		face.drawFaceForDebug(gl);
 		face.drawFaceLinesForDebug(gl);
-		
+		//System.out.println("face area: " + face.getArea());
 	}
 	
 	

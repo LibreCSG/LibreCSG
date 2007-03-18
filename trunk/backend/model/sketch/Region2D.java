@@ -1,5 +1,6 @@
 package backend.model.sketch;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import backend.adt.Point2D;
@@ -38,26 +39,23 @@ import backend.model.CSG.CSG_Vertex;
 public class Region2D implements Comparable{
 
 	private Prim2DCycle prim2DCycle = new Prim2DCycle();
+	private CSG_Face csgFace = null;
 	
 	public Region2D(Prim2DCycle cycle){
-		this.prim2DCycle = cycle;
+		if(cycle != null && cycle.isValidCycle()){
+			this.prim2DCycle = cycle;
+			this.csgFace = createCSG_Face();
+		}else{
+			System.out.println("Region2D(Constructor): Tried to construct a Region2D with an invalid cycle!");
+			
+		}		
 	}
 	
 	public double getRegionArea(){
-		// TODO: Big HACK.. only considering 3-sided regions.
-		if(prim2DCycle.size() == 3){
-			// area of triangle = 0.5*base*height
-			// base = prim2DCycle.get(0);
-			Prim2D base = prim2DCycle.get(0);
-			Point2D otherVert = prim2DCycle.get(1).hasPtGetOther(base.ptB);
-			if(otherVert == null){
-				System.out.println("error getting triangle area.. ??");
-				return 0.0;
-			}
-			double height = Geometry2D.distFromLineSeg(base.ptA, base.ptB, otherVert);
-			return 0.5*base.ptA.computeDist(base.ptB)*height;
+		if(csgFace == null){
+			return Double.MAX_VALUE;
 		}
-		return 0.0;
+		return csgFace.getArea();
 	}
 	
 	public boolean regionContainsPoint2D(Point2D pt){
@@ -177,8 +175,13 @@ public class Region2D implements Comparable{
 	}
 	
 	public CSG_Face getCSG_Face(){
+		return csgFace;
+	}
+	
+	private CSG_Face createCSG_Face(){
 		CSG_Face face = null;
 		
+		// create a list of 2D points.
 		LinkedList<Point2D> pointList = new LinkedList<Point2D>();
 		for(Prim2D prim : prim2DCycle){
 			if(pointList.size() <= 0){
@@ -188,12 +191,7 @@ public class Region2D implements Comparable{
 				pointList.add(prim.hasPtGetOther(pointList.getLast()));
 			}			
 		}
-		if(pointList.getFirst().getX() != pointList.getFirst().getX() || 
-				pointList.getFirst().getY() != pointList.getFirst().getY()){
-			// Start and end were not the same!
-			System.out.println("Region2D(getCSG_Face): Invalid cycle.. start and end were not the same point!");
-			return null;
-		}
+		
 		if(pointList.size() <= 3){
 			System.out.println("Region2D(getCSG_Face): Invalid cycle.. Not enough points in list!");
 			return null;
@@ -233,7 +231,6 @@ public class Region2D implements Comparable{
 		LinkedList<Point2D> polyPoints = new LinkedList<Point2D>();
 		int index = 0;
 		while(pointList.size() >= 3 && index < pointList.size()){
-			//System.out.println("starting; Index: " + index + ", pointList.size():" + pointList.size());
 			polyPoints.clear();
 			
 			int listSize = pointList.size();
@@ -269,11 +266,11 @@ public class Region2D implements Comparable{
 								break;
 							}							
 						}else{
-							// Angle was negative (non-convex)
+							// an angle was negative (non-convex)
 							break;
 						}
 					}
-					System.out.println("adding polygon: " + poly);
+					//System.out.println("adding polygon: " + poly);
 					if(face == null){
 						face = new CSG_Face(poly);
 					}else{
@@ -291,11 +288,9 @@ public class Region2D implements Comparable{
 				}
 			}else{
 				index++;
-			}
-			
-			//System.out.println("ending; Index: " + index + ", pointList.size():" + pointList.size());
+			}			
 		} // end while loop
-
+		
 		return face;
 	}
 	

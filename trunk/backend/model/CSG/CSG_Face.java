@@ -81,6 +81,19 @@ public class CSG_Face {
 	}
 	
 	/**
+	 * get the total area of all of the polygons 
+	 * that make up this CSG_Face
+	 * @return the area.
+	 */
+	public double getArea(){
+		double area = 0.0;
+		for(CSG_Polygon poly : polygons){
+			area += poly.getArea();
+		}
+		return area;
+	}
+	
+	/**
 	 * @return the iterator over all of the Face's polygons.
 	 */
 	public Iterator<CSG_Polygon> getPolygonIterator(){
