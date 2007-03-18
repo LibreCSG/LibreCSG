@@ -1,7 +1,12 @@
 package backend.model.sketch;
 
+import java.util.LinkedList;
+
 import backend.adt.Point2D;
 import backend.geometry.Geometry2D;
+import backend.model.CSG.CSG_Face;
+import backend.model.CSG.CSG_Polygon;
+import backend.model.CSG.CSG_Vertex;
 
 
 //
@@ -32,7 +37,11 @@ import backend.geometry.Geometry2D;
 */
 public class Region2D implements Comparable{
 
-	protected Prim2DCycle prim2DCycle = new Prim2DCycle();
+	private Prim2DCycle prim2DCycle = new Prim2DCycle();
+	
+	public Region2D(Prim2DCycle cycle){
+		this.prim2DCycle = cycle;
+	}
 	
 	public double getRegionArea(){
 		// TODO: Big HACK.. only considering 3-sided regions.
@@ -166,5 +175,139 @@ public class Region2D implements Comparable{
 		}		
 		return p2DList;
 	}
+	
+	public CSG_Face getCSG_Face(){
+		CSG_Face face = null;
+		
+		LinkedList<Point2D> pointList = new LinkedList<Point2D>();
+		for(Prim2D prim : prim2DCycle){
+			if(pointList.size() <= 0){
+				pointList.add(prim.ptA);
+				pointList.add(prim.ptB);
+			}else{
+				pointList.add(prim.hasPtGetOther(pointList.getLast()));
+			}			
+		}
+		if(pointList.getFirst().getX() != pointList.getFirst().getX() || 
+				pointList.getFirst().getY() != pointList.getFirst().getY()){
+			// Start and end were not the same!
+			System.out.println("Region2D(getCSG_Face): Invalid cycle.. start and end were not the same point!");
+			return null;
+		}
+		if(pointList.size() <= 3){
+			System.out.println("Region2D(getCSG_Face): Invalid cycle.. Not enough points in list!");
+			return null;
+		}
+		
+		pointList.removeLast(); // last point is a repeat of the first.
+		
+		//
+		// pseudo-code for "convexize polygon" method
+		// 
+		// while(at least 3 points to consider and index < numberOfPoints)
+		//   ptA,ptB,ptC starting at index%numberOfPoints
+		//   if(angle{ABC} > 0)
+		//     construct potential polygon(A,B,C)
+		//     if(poly doesn't overlap/contain any other point)
+		//       for(every remaining pointD)
+		//         if(angle{poly.LastLastPt, poly.LastPt, pointD} > 0 && 
+		//            angle{poly.LastPt, pointD, poly.firstPoint} > 0 &&
+		//            angle{pointD, poly.firstPoint, poly.secPoint} > 0)
+		//           if(poly doesn't contains any other point)
+		//             poly.add(ptD);
+		//           else
+		//             break;
+		//         else
+		//           break;
+		//       face.addPoly(poly);
+		//       remove all of poly's middle points from pointList
+		//       index = 0;
+		//     else
+		//       index++
+		//   else
+		//     index++;
+		//   
+		
+		
+		double TOL = 1e-10;
+		LinkedList<Point2D> polyPoints = new LinkedList<Point2D>();
+		int index = 0;
+		while(pointList.size() >= 3 && index < pointList.size()){
+			//System.out.println("starting; Index: " + index + ", pointList.size():" + pointList.size());
+			polyPoints.clear();
+			
+			int listSize = pointList.size();
+			Point2D ptA = pointList.get(index%listSize);
+			Point2D ptB = pointList.get((index+1)%listSize);
+			Point2D ptC = pointList.get((index+2)%listSize);
+			polyPoints.add(ptA);
+			polyPoints.add(ptB);
+			polyPoints.add(ptC);
+			
+			double angle = Geometry2D.threePtAngle(ptA, ptB, ptC);
+			if(angle > TOL){ // points going clockwise
+				CSG_Polygon poly = new CSG_Polygon(new CSG_Vertex(ptA, 0.0), new CSG_Vertex(ptB, 0.0), new CSG_Vertex(ptC, 0.0));
+				if(!polygonContainPoints(poly, pointList, polyPoints)){
+					int indexStart = index;
+					for(int i=index; i-indexStart < (listSize-3); i++){
+						Point2D ptD = pointList.get((i+3)%listSize);
+						CSG_Vertex vertLastLast = poly.getVertAtModIndex(poly.getNumberVertices()-2);
+						CSG_Vertex vertLast = poly.getVertAtModIndex(poly.getNumberVertices()-1);
+						Point2D ptLastLast = new Point2D(vertLastLast.getX(), vertLastLast.getY());
+						Point2D ptLast = new Point2D(vertLast.getX(), vertLast.getY());
+						double angleA = Geometry2D.threePtAngle(ptLastLast, ptLast, ptD);
+						double angleB = Geometry2D.threePtAngle(ptLast, ptD, ptA);
+						double angleC = Geometry2D.threePtAngle(ptD, ptA, ptB);
+						if(angleA > TOL && angleB > TOL && angleC > TOL){			
+							CSG_Polygon polyCopy = poly.deepCopy();
+							polyCopy.addVertex(new CSG_Vertex(ptD, 0.0));
+							if(!polygonContainPoints(polyCopy, pointList, polyPoints)){
+								poly.addVertex(new CSG_Vertex(ptD, 0.0));
+								polyPoints.add(ptD);
+							}else{
+								// Polygon contained another vertex in the list!
+								break;
+							}							
+						}else{
+							// Angle was negative (non-convex)
+							break;
+						}
+					}
+					System.out.println("adding polygon: " + poly);
+					if(face == null){
+						face = new CSG_Face(poly);
+					}else{
+						face.addPolygon(poly);
+					}
+					//  remove all polygon's midpoints from the pointList
+					polyPoints.removeLast();
+					polyPoints.removeFirst();
+					for(Point2D p : polyPoints){
+						pointList.remove(p);
+					}
+					index = 0;
+				}else{
+					index++;
+				}
+			}else{
+				index++;
+			}
+			
+			//System.out.println("ending; Index: " + index + ", pointList.size():" + pointList.size());
+		} // end while loop
+
+		return face;
+	}
+	
+	private boolean polygonContainPoints(CSG_Polygon poly, LinkedList<Point2D> pointList, LinkedList<Point2D> invalidPoints){
+		boolean polyOverlapsOtherPoints = false;
+		for(Point2D point : pointList){
+			if(!invalidPoints.contains(point) && poly.vertexIsInsidePolygon(new CSG_Vertex(point, 0.0))){
+				polyOverlapsOtherPoints = true;
+			}
+		}
+		return polyOverlapsOtherPoints;
+	}
+
 	
 }

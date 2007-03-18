@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.media.opengl.GL;
 
+import backend.adt.Point2D;
+import backend.adt.Point3D;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -60,6 +63,18 @@ public class CSG_Vertex {
 		this.x = cleanDouble(x);
 		this.y = cleanDouble(y); 
 		this.z = cleanDouble(z);
+	}
+	
+	public CSG_Vertex(Point2D p2D, double z){
+		this.x = p2D.getX();
+		this.y = p2D.getY();
+		this.z = z;
+	}
+	
+	public CSG_Vertex(Point3D p3D){
+		this.x = p3D.getX();
+		this.y = p3D.getY();
+		this.z = p3D.getZ();
 	}
 	
 	// just to clean up values around zero (seeing -0.0 is annoying)
