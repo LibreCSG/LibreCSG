@@ -46,7 +46,7 @@ import javax.media.opengl.GL;
 */
 public class CSG_Polygon {
 
-	private List<CSG_Vertex> vertices = new LinkedList<CSG_Vertex>();
+	private LinkedList<CSG_Vertex> vertices = new LinkedList<CSG_Vertex>();
 	private CSG_Bounds bounds;
 	public enum POLY_TYPE {POLY_INSIDE, POLY_OUTSIDE, POLY_SAME, POLY_OPPOSITE, POLY_UNKNOWN};
 	public POLY_TYPE type = POLY_TYPE.POLY_UNKNOWN;
@@ -153,6 +153,32 @@ public class CSG_Polygon {
 		return new CSG_Vertex(xSum/(double)verts, ySum/(double)verts, zSum/(double)verts);
 	}
 	
+	/**
+	 * get the area defined by this convex polygon
+	 * @return the area
+	 */
+	public double getArea(){
+		if(vertices.size() < 3){
+			// must be at least 3 vertices. this shouldn't happen.
+			System.out.println("CSG_Polygon(getArea): Less than 3 vertices in polygon.. whaah?");
+			return 0.0;
+		}
+		CSG_Vertex barycenter = getBarycenterVertex();
+		// calculate area of each triangle (from barycenter to each edge)
+		double area = 0.0;
+		CSG_Vertex lastVert = vertices.getLast();
+		for(CSG_Vertex vert : vertices){
+			// using Heron's formula to calculate the area of each triangle
+			double a = barycenter.getDistBetweenVertices(lastVert);
+			double b = barycenter.getDistBetweenVertices(vert);
+			double c = vert.getDistBetweenVertices(lastVert);
+			double s = 0.5*(a+b+c); // the semiperimeter
+			//System.out.println("abc: (" + a + "," + b + "," + c + ")");
+			area += Math.sqrt(s*(s-a)*(s-b)*(s-c));
+			lastVert = vert;
+		}
+		return area;
+	}
 	
 	/**
 	 * @return the number of vertices that define this CSG_Polygon.
@@ -160,14 +186,6 @@ public class CSG_Polygon {
 	public int getNumberVertices(){
 		return vertices.size();
 	}
-	
-//	public void markVertexInPolyByIndex(int i, CSG_Vertex.VERT_TYPE type){
-//		if(i < 0 || i >= vertices.size()){
-//			System.out.println("CSG_Polygon(markVertexInPolygonByIndex): Invalid index! i=" + i + " vertices=" + vertices.size());
-//			return;
-//		}
-//		vertices.get(i).setVertType(type);
-//	}
 	
 	/**
 	 * @return the iterator over all of the Polygon's vertices
@@ -298,7 +316,7 @@ public class CSG_Polygon {
 	}
 	
 	public void reverseVertexOrder(){
-		List<CSG_Vertex> newList = new LinkedList<CSG_Vertex>();
+		LinkedList<CSG_Vertex> newList = new LinkedList<CSG_Vertex>();
 		for(int i=vertices.size()-1; i>=0; i--){
 			newList.add(vertices.get(i));
 		}
