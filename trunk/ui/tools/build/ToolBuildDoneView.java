@@ -5,6 +5,7 @@ import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
 import ui.tools.ToolViewBuild;
 import backend.data.utilities.ImageUtils;
+import backend.global.AvoColors;
 
 
 //
@@ -33,24 +34,27 @@ import backend.data.utilities.ImageUtils;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2D3DExtrudeView extends ToolViewBuild{
+public class ToolBuildDoneView extends ToolViewBuild{
 
-
-	public Tool2D3DExtrudeView(Menuet menuet){	
+	public ToolBuildDoneView(Menuet menuet){	
 		
 		// initialize GUI elements
 		mElement = new MEButton(menuet, this.getToolMode(), this, false);
-		mElement.mePreferredHeight = 50;
-		mElement.meLabel = "Extrude";
-		mElement.meIcon = ImageUtils.getIcon("menuet/2D3D_Extrude.png", 24, 24);
-		mElement.setToolTipText("Extrude a 2D region.");
-		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
+		mElement.mePreferredHeight = 100;
+		mElement.meColorMouseOver  = AvoColors.COLOR_MENUET_DONE_MO;
+		mElement.meColorUnselected = AvoColors.COLOR_MENUET_DONE_US; 
+		mElement.meLabel = "Done";
+		mElement.meIcon = ImageUtils.getIcon("menuet/Done.png", 24, 24);
+		mElement.setToolTipText("Finish working in the 2Dto3D mode,\nkeeping any changes that have been made.");
+		mElement.meDispOptions = MenuetElement.ME_TRY_ICON;
 		
 		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
 	}
 
+	@Override
 	public void toolSelected() {
-		changeMenuetTool(mElement, new Tool2D3DExtrudeCtrl());
+		changeMenuetToolMode(Menuet.MENUET_MODE_PART, new ToolBuildDoneCtrl());
+		// TODO: if the feat2D3D isn't complete, then (1) let the user know, and then (2) delete it if user desires.
 	}
 	
 }

@@ -1,10 +1,10 @@
 package ui.tools.build;
 
-import javax.media.opengl.GL;
-
-import backend.adt.ParamSet;
-import backend.model.Feature2D3D;
-import ui.tools.ToolModelBuild;
+import ui.menuet.MEButton;
+import ui.menuet.Menuet;
+import ui.menuet.MenuetElement;
+import ui.tools.ToolViewBuild;
+import backend.data.utilities.ImageUtils;
 
 
 //
@@ -33,23 +33,24 @@ import ui.tools.ToolModelBuild;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2D3DDoneModel implements ToolModelBuild{
+public class ToolBuildExtrudeView extends ToolViewBuild{
 
-	public void draw3DFeature(GL gl, Feature2D3D feat2D3D) {
+
+	public ToolBuildExtrudeView(Menuet menuet){	
+		
+		// initialize GUI elements
+		mElement = new MEButton(menuet, this.getToolMode(), this, false);
+		mElement.mePreferredHeight = 50;
+		mElement.meLabel = "Extrude";
+		mElement.meIcon = ImageUtils.getIcon("menuet/2D3D_Extrude.png", 24, 24);
+		mElement.setToolTipText("Extrude a 2D region.");
+		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
+		
+		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
 	}
 
-	public void finalize(ParamSet paramSet) {
+	public void toolSelected() {
+		changeMenuetTool(mElement, new ToolBuildExtrudeCtrl());
 	}
-
-	public boolean paramSetIsValid(ParamSet paramSet) {
-		return false;
-	}
-
-	public void updateDerivedParams(ParamSet paramSet) {
-	}
-
-	public ParamSet constructNewParamSet() {
-		return null;
-	}
-
+	
 }

@@ -42,7 +42,7 @@ import backend.model.sketch.Region2D;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2D3DRevolveCtrl implements ToolCtrlBuild{
+public class ToolBuildRevolveCtrl implements ToolCtrlBuild{
 
 	public void glMouseDown(double x, double y, double z, MouseEvent e) {
 		Feature2D3D feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
@@ -50,9 +50,9 @@ public class Tool2D3DRevolveCtrl implements ToolCtrlBuild{
 			Sketch sketch = feat2D3D.getPrimarySketch();
 			if(sketch != null){
 				ParamSet paramSet = feat2D3D.paramSet;
-				if(!(new Tool2D3DRevolveModel()).paramSetIsValid(paramSet)){
+				if(!(new ToolBuildRevolveModel()).paramSetIsValid(paramSet)){
 					// paramSet is not valid for this feature, create a new one.
-					paramSet = (new Tool2D3DRevolveModel()).constructNewParamSet();
+					paramSet = (new ToolBuildRevolveModel()).constructNewParamSet();
 					feat2D3D.paramSet = paramSet;
 				}
 				

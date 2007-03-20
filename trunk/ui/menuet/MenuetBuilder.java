@@ -1,8 +1,8 @@
 package ui.menuet;
 
-import ui.tools.build.Tool2D3DDoneView;
-import ui.tools.build.Tool2D3DExtrudeView;
-import ui.tools.build.Tool2D3DRevolveView;
+import ui.tools.build.ToolBuildDoneView;
+import ui.tools.build.ToolBuildExtrudeView;
+import ui.tools.build.ToolBuildRevolveView;
 import ui.tools.part.ToolMain2D3DView;
 import ui.tools.part.ToolMain2DView;
 import ui.tools.sketch.Tool2DCancelView;
@@ -77,15 +77,15 @@ public class MenuetBuilder {
 		//
 		//  TOOL MODE:  2Dto3D
 		//
-		new Tool2D3DDoneView(menuet);
+		new ToolBuildDoneView(menuet);
 		
 		MELabel label2D3D = new MELabel(menuet,Menuet.MENUET_MODE_BUILD, null);
 		label2D3D.meColorBackground = AvoColors.COLOR_MENUET_BUILD;
 		label2D3D.meLabel = "2Dto3D";
 		label2D3D.textIsBold = true;
 		
-		new Tool2D3DExtrudeView(menuet);
-		new Tool2D3DRevolveView(menuet);
+		new ToolBuildExtrudeView(menuet);
+		new ToolBuildRevolveView(menuet);
 		
 		new METoolbox(menuet,Menuet.MENUET_MODE_BUILD);
 		
