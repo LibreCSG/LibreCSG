@@ -3,7 +3,7 @@ package ui.tools.tool2Dto3D;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 
-import ui.tools.ToolCtrl2D3D;
+import ui.tools.ToolCtrlBuild;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
 import backend.adt.SelectionList;
@@ -42,7 +42,7 @@ import backend.model.sketch.Region2D;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2D3DRevolveCtrl implements ToolCtrl2D3D{
+public class Tool2D3DRevolveCtrl implements ToolCtrlBuild{
 
 	public void glMouseDown(double x, double y, double z, MouseEvent e) {
 		Feature2D3D feat2D3D = AvoGlobal.project.getActiveFeat2D3D();

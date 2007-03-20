@@ -58,8 +58,8 @@ public class MenuetBuilder {
 		new Tool2DDoneView(menuet);
 		new Tool2DCancelView(menuet);
 		
-		MELabel label2D = new MELabel(menuet,Menuet.MENUET_MODE_2D, null);
-		label2D.meColorBackground = AvoColors.COLOR_MENUET_2D;
+		MELabel label2D = new MELabel(menuet,Menuet.MENUET_MODE_SKETCH, null);
+		label2D.meColorBackground = AvoColors.COLOR_MENUET_SKETCH;
 		label2D.meLabel = "2D";
 		label2D.textIsBold = true;
 		
@@ -69,7 +69,7 @@ public class MenuetBuilder {
 		new Tool2DExampleView(menuet);
 		
 		
-		new METoolbox(menuet,Menuet.MENUET_MODE_2D);
+		new METoolbox(menuet,Menuet.MENUET_MODE_SKETCH);
 		
 		new Tool2DSelectView(menuet);
 		
@@ -79,27 +79,27 @@ public class MenuetBuilder {
 		//
 		new Tool2D3DDoneView(menuet);
 		
-		MELabel label2D3D = new MELabel(menuet,Menuet.MENUET_MODE_2Dto3D, null);
-		label2D3D.meColorBackground = AvoColors.COLOR_MENUET_2Dto3D;
+		MELabel label2D3D = new MELabel(menuet,Menuet.MENUET_MODE_BUILD, null);
+		label2D3D.meColorBackground = AvoColors.COLOR_MENUET_BUILD;
 		label2D3D.meLabel = "2Dto3D";
 		label2D3D.textIsBold = true;
 		
 		new Tool2D3DExtrudeView(menuet);
 		new Tool2D3DRevolveView(menuet);
 		
-		new METoolbox(menuet,Menuet.MENUET_MODE_2Dto3D);
+		new METoolbox(menuet,Menuet.MENUET_MODE_BUILD);
 		
 		//
 		//  TOOL MODE:  Main
 		//
-		MELabel labelMAIN = new MELabel(menuet,Menuet.MENUET_MODE_MAIN, null);
-		labelMAIN.meColorBackground = AvoColors.COLOR_MENUET_MAIN;
+		MELabel labelMAIN = new MELabel(menuet,Menuet.MENUET_MODE_PART, null);
+		labelMAIN.meColorBackground = AvoColors.COLOR_MENUET_PART;
 		labelMAIN.meLabel = "Tools";
 		labelMAIN.textIsBold = true;
 		
 		new ToolMain2DView(menuet);
 		new ToolMain2D3DView(menuet);
-		AvoGlobal.menuet.currentToolMode = Menuet.MENUET_MODE_MAIN;		
+		AvoGlobal.menuet.currentToolMode = Menuet.MENUET_MODE_PART;		
 		
 	}
 	

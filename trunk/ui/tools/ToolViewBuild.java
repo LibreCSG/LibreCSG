@@ -1,8 +1,10 @@
 package ui.tools;
 
-import javax.media.opengl.GL;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 
-import backend.model.Feature2D3D;
+import ui.menuet.Menuet;
+import backend.global.AvoColors;
 
 
 //
@@ -31,9 +33,27 @@ import backend.model.Feature2D3D;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public interface ToolModel2D3D extends ToolModel{
+public abstract class ToolViewBuild extends ToolView{
 
-	// TODO: should not actually do drawing! (I think?!?)
-	abstract public void draw3DFeature(GL gl, Feature2D3D feat2D3D);
+	// tool2D specific settings
+	public void applyToolGroupSettings(){
+		if(mElement != null){
+			mElement.meColorBackground = AvoColors.COLOR_MENUET_BUILD;
+			mElement.addMouseListener(new MouseListener(){
+				public void mouseDoubleClick(MouseEvent e) {
+				}
+				public void mouseDown(MouseEvent e) {
+					toolSelected();
+				}
+				public void mouseUp(MouseEvent e) {
+				}				
+			});			
+		}		
+	}
+
+	// tool2D mode
+	public int getToolMode() {
+		return Menuet.MENUET_MODE_BUILD;
+	}
 	
 }

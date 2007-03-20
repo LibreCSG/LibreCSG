@@ -94,6 +94,22 @@ public class CSG_Face {
 	}
 	
 	/**
+	 * check to see if the given vertex is inside this CSG_Face.
+	 * This is done by checking if the vertex is contained in
+	 * any of the face's convex polygons.
+	 * @param vert the CSG_Vertex to check
+	 * @return true iff vertex is inside the face.
+	 */
+	public boolean vertexIsInsideFace(CSG_Vertex vert){
+		for(CSG_Polygon poly : polygons){
+			if(poly.vertexIsInsidePolygon(vert)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * @return the iterator over all of the Face's polygons.
 	 */
 	public Iterator<CSG_Polygon> getPolygonIterator(){

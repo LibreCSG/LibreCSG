@@ -5,9 +5,9 @@ import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
 import ui.tools.ToolModel;
-import ui.tools.ToolModel2D;
-import ui.tools.ToolModel2D3D;
-import ui.tools.ToolModel3D3D;
+import ui.tools.ToolModelSketch;
+import ui.tools.ToolModelBuild;
+import ui.tools.ToolModelModify;
 
 
 //
@@ -68,10 +68,10 @@ public class ParamSet {
 	 * otherwise, return NULL. 
 	 * @return the ToolModel2D, or NULL
 	 */
-	public ToolModel2D getToolModel2D(){
+	public ToolModelSketch getToolModel2D(){
 		// TODO: get rid of cast?!
-		if(toolModel != null && toolModel instanceof ToolModel2D){
-			return (ToolModel2D)toolModel;
+		if(toolModel != null && toolModel instanceof ToolModelSketch){
+			return (ToolModelSketch)toolModel;
 		}
 		return null;
 	}
@@ -92,10 +92,10 @@ public class ParamSet {
 	 * otherwise, return NULL. 
 	 * @return the ToolModel2D3D, or NULL
 	 */
-	public ToolModel2D3D getToolModel2D3D(){
+	public ToolModelBuild getToolModel2D3D(){
 		// TODO: get rid of cast?!
-		if(toolModel != null && toolModel instanceof ToolModel2D3D){
-			return (ToolModel2D3D)toolModel;
+		if(toolModel != null && toolModel instanceof ToolModelBuild){
+			return (ToolModelBuild)toolModel;
 		}
 		return null;
 	}
@@ -106,10 +106,10 @@ public class ParamSet {
 	 * otherwise, return NULL. 
 	 * @return the ToolModel3D3D, or NULL
 	 */
-	public ToolModel3D3D getToolModel3D3D(){
+	public ToolModelModify getToolModel3D3D(){
 		// TODO: get rid of cast?!
-		if(toolModel != null && toolModel instanceof ToolModel3D3D){
-			return (ToolModel3D3D)toolModel;
+		if(toolModel != null && toolModel instanceof ToolModelModify){
+			return (ToolModelModify)toolModel;
 		}
 		return null;
 	}

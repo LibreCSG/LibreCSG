@@ -2,7 +2,7 @@ package ui.tools.tool2D;
 
 import org.eclipse.swt.events.MouseEvent;
 
-import ui.tools.ToolCtrl2D;
+import ui.tools.ToolCtrlSketch;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
 import backend.global.AvoGlobal;
@@ -36,7 +36,7 @@ import backend.model.Sketch;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DCircleCtrl implements ToolCtrl2D  {
+public class Tool2DCircleCtrl implements ToolCtrlSketch  {
 
 	/**
 	 * All of the tool's main functionality

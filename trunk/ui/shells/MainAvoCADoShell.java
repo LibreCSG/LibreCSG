@@ -113,7 +113,7 @@ public class MainAvoCADoShell{
 		AvoGlobal.menuet = new Menuet(shell, SWT.NONE);
 		// put all of the elements onto the menuet!	
 		MenuetBuilder.buildMenuet(AvoGlobal.menuet); 
-		AvoGlobal.menuet.setBackground(AvoColors.COLOR_MENUET_MAIN);
+		AvoGlobal.menuet.setBackground(AvoColors.COLOR_MENUET_PROJECT);
 		GridData gd0 = new GridData(GridData.FILL_VERTICAL);
 		gd0.grabExcessVerticalSpace = true;
 		gd0.widthHint = Menuet.MENUET_WIDTH;

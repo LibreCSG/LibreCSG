@@ -264,6 +264,13 @@ public class CSG_Polygon {
 		return polygonPlane.getRayIntersection(ray);
 	}
 	
+	/**
+	 * test to see if the given vertex is within this polygon.
+	 * vertices that fall exactly on the edge are <em>not</em>
+	 * considered to be <em>inside</em> the polygon.
+	 * @param testVert the CSG_Vertex to test
+	 * @return true if vertex is <em>inside</em> the polygon.
+	 */
 	public boolean vertexIsInsidePolygon(CSG_Vertex testVert){
 		CSG_Vertex lastVert = vertices.get(vertices.size()-1);
 		for(CSG_Vertex vert : vertices){
@@ -277,7 +284,7 @@ public class CSG_Polygon {
 			//	normalInsidePoly.getScaledCopy(0.125).addToVertex(vert).drawPointForDebug(gl);			
 			CSG_Plane testPlane = new CSG_Plane(normalInsidePoly, -normalInsidePoly.getDotProduct(vert));
 			if(testPlane.distFromVertex(testVert) < TOL){
-				return false;  // point is outside and edge!
+				return false;  // point is outside (or on top of) an edge!
 			}
 			lastVert = vert;
 		}

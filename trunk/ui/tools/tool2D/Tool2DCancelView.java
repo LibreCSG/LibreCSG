@@ -6,7 +6,7 @@ import org.eclipse.swt.widgets.MessageBox;
 import ui.menuet.MEButton;
 import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
-import ui.tools.ToolView2D;
+import ui.tools.ToolViewSketch;
 import backend.global.AvoColors;
 import backend.global.AvoGlobal;
 
@@ -37,7 +37,7 @@ import backend.global.AvoGlobal;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DCancelView extends ToolView2D{
+public class Tool2DCancelView extends ToolViewSketch{
 
 	public Tool2DCancelView(Menuet menuet){	
 		

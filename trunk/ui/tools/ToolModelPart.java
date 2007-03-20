@@ -27,8 +27,6 @@ package ui.tools;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public interface ToolCtrlMain extends ToolCtrl {
-	
-	// nothing here for now.. but keeps ToolInterface structure consistent for all Tools.
-	
+public interface ToolModelPart extends ToolModel{
+
 }

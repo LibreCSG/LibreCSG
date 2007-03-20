@@ -12,6 +12,8 @@ import javax.media.opengl.glu.GLU;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.MouseMoveListener;
@@ -139,6 +141,74 @@ public class GLView {
 		glCanvas.addPaintListener(new PaintListener(){
 			public void paintControl(PaintEvent e) {
 				updateGLView = true;
+			}			
+		});
+		
+		//
+		//  TODO: do rotation better! (Quaternions?)
+		//
+		glCanvas.addKeyListener(new KeyListener(){
+			public void keyPressed(KeyEvent e) {
+				boolean ctrlIsDown  = (e.stateMask & SWT.CTRL) != 0;
+				boolean shiftIsDown = (e.stateMask & SWT.SHIFT) != 0;
+				if(ctrlIsDown){
+					float zoom_smoothness = 1.50f; // closer to 1.0 is smoother
+					if(e.keyCode == SWT.ARROW_RIGHT){
+						rotation_z += 5.0;
+						updateGLView = true;
+					}
+					if(e.keyCode == SWT.ARROW_LEFT){
+						rotation_z -= 5.0;
+						updateGLView = true;					
+					}
+					if(e.keyCode == SWT.ARROW_DOWN){
+						viewing_angle = Math.min(135.0f, viewing_angle * zoom_smoothness);
+						updateGLView = true;
+					}
+					if(e.keyCode == SWT.ARROW_UP){
+						viewing_angle = Math.max(0.025f, viewing_angle / zoom_smoothness);
+						updateGLView = true;					
+					}
+				}else{
+					if(shiftIsDown){
+						if(e.keyCode == SWT.ARROW_RIGHT){
+							translation_x += 1.0;
+							updateGLView = true;
+						}
+						if(e.keyCode == SWT.ARROW_LEFT){
+							translation_x -= 1.0;
+							updateGLView = true;					
+						}
+						if(e.keyCode == SWT.ARROW_DOWN){
+							translation_y -= 1.0;
+							updateGLView = true;
+						}
+						if(e.keyCode == SWT.ARROW_UP){
+							translation_y += 1.0;
+							updateGLView = true;					
+						}
+					}else{
+						if(e.keyCode == SWT.ARROW_RIGHT){
+							rotation_y += 5.0;
+							updateGLView = true;
+						}
+						if(e.keyCode == SWT.ARROW_LEFT){
+							rotation_y -= 5.0;
+							updateGLView = true;					
+						}
+						if(e.keyCode == SWT.ARROW_DOWN){
+							rotation_x += 5.0;
+							updateGLView = true;
+						}
+						if(e.keyCode == SWT.ARROW_UP){
+							rotation_x -= 5.0;
+							updateGLView = true;					
+						}
+					}
+				}
+				
+			}
+			public void keyReleased(KeyEvent e) {			
 			}			
 		});
 		
@@ -357,6 +427,7 @@ public class GLView {
 									// TODO: getActiveSketch is old skoool :(
 									//   - reference to sketch should be simply handled via the paramSet! (selection list?)
 									feat2D3D.paramSet.getToolModel2D3D().draw3DFeature(gl, feat2D3D);
+									feat2D3D.paramSet.getToolModel2D3D().draw3DFeature(gl, feat2D3D);
 								}
 							}
 						}
@@ -373,8 +444,8 @@ public class GLView {
 						// this should be the last thing drawn in the 2D mode
 						// TODO: HACK, this should be sized according to the grid, which should also be dynamic!
 						//
-						if(AvoGlobal.menuet.getCurrentToolMode() == Menuet.MENUET_MODE_2D ||
-								AvoGlobal.menuet.getCurrentToolMode() == Menuet.MENUET_MODE_2Dto3D){
+						if(AvoGlobal.menuet.getCurrentToolMode() == Menuet.MENUET_MODE_SKETCH ||
+								AvoGlobal.menuet.getCurrentToolMode() == Menuet.MENUET_MODE_BUILD){
 							gl.glColor4f(1.0f,0.0f,0.0f, 0.0f);
 							gl.glBegin(GL.GL_QUADS);
 								gl.glVertex3f(-100.0f, 100.0f, 0.0f);
@@ -574,13 +645,13 @@ public class GLView {
 		//
 		// Map coord's to snap if snap is enabled
 		//
-		if(AvoGlobal.snapEnabled && AvoGlobal.menuet.getCurrentToolMode() == Menuet.MENUET_MODE_2D){
+		if(AvoGlobal.snapEnabled && AvoGlobal.menuet.getCurrentToolMode() == Menuet.MENUET_MODE_SKETCH){
 			wcoord[0] = Math.floor((wcoord[0]+AvoGlobal.snapSize/2.0)/AvoGlobal.snapSize)*AvoGlobal.snapSize;
 			wcoord[1] = Math.floor((wcoord[1]+AvoGlobal.snapSize/2.0)/AvoGlobal.snapSize)*AvoGlobal.snapSize;
 			wcoord[2] = Math.floor((wcoord[2]+AvoGlobal.snapSize/2.0)/AvoGlobal.snapSize)*AvoGlobal.snapSize;
 		}
 		
-		if(AvoGlobal.menuet.getCurrentToolMode() == Menuet.MENUET_MODE_2D && wcoord[2] < 0.25 && wcoord[2] > -0.25){
+		if(AvoGlobal.menuet.getCurrentToolMode() == Menuet.MENUET_MODE_SKETCH && wcoord[2] < 0.25 && wcoord[2] > -0.25){
 			wcoord[2] = 0.0; // tie z-value to zero if close enough to located on the drawing plane.
 		}
 		
@@ -611,7 +682,7 @@ public class GLView {
 	
 	private void testConvexize(){
 		gl.glLoadIdentity();
-		gl.glTranslated(-4.0, 0.0, 0.0);
+		gl.glTranslated(-5.0, 0.0, 0.0);
 		Point2D ptA = new Point2D(0.0, 0.0);
 		Point2D ptB = new Point2D(2.0, 0.0);
 		Point2D ptC = new Point2D(2.0, 2.0);
@@ -661,6 +732,7 @@ public class GLView {
 		face.drawFaceForDebug(gl);
 		face.drawFaceLinesForDebug(gl);
 		//System.out.println("face area: " + face.getArea());
+		gl.glLoadIdentity();
 	}
 	
 	

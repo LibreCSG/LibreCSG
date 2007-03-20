@@ -2,7 +2,7 @@ package ui.tools.tool2Dto3D;
 
 import javax.media.opengl.GL;
 
-import ui.tools.ToolModel2D3D;
+import ui.tools.ToolModelBuild;
 import backend.adt.ParamType;
 import backend.adt.Param;
 import backend.adt.ParamSet;
@@ -38,7 +38,7 @@ import backend.model.Sketch;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2D3DRevolveModel implements ToolModel2D3D{
+public class Tool2D3DRevolveModel implements ToolModelBuild{
 
 	public void draw3DFeature(GL gl, Feature2D3D feat2D3D) {
 		// TODO Auto-generated method stub

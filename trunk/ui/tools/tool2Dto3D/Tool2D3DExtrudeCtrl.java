@@ -3,7 +3,7 @@ package ui.tools.tool2Dto3D;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 
-import ui.tools.ToolCtrl2D3D;
+import ui.tools.ToolCtrlBuild;
 import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
@@ -40,7 +40,7 @@ import backend.model.sketch.Region2D;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2D3DExtrudeCtrl implements ToolCtrl2D3D{
+public class Tool2D3DExtrudeCtrl implements ToolCtrlBuild{
 
 	boolean shiftIsDown = false;
 	

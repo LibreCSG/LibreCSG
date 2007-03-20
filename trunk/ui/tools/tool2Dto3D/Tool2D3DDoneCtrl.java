@@ -2,7 +2,7 @@ package ui.tools.tool2Dto3D;
 
 import org.eclipse.swt.events.MouseEvent;
 
-import ui.tools.ToolCtrl2D3D;
+import ui.tools.ToolCtrlBuild;
 
 
 //
@@ -31,7 +31,7 @@ import ui.tools.ToolCtrl2D3D;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2D3DDoneCtrl implements ToolCtrl2D3D{
+public class Tool2D3DDoneCtrl implements ToolCtrlBuild{
 
 	public void glMouseDown(double x, double y, double z, MouseEvent e) {
 	}

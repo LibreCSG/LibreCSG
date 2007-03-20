@@ -1,6 +1,6 @@
 package ui.tools.toolMain;
 
-import ui.tools.ToolModelMain;
+import ui.tools.ToolModelPart;
 import backend.adt.ParamSet;
 
 
@@ -30,7 +30,7 @@ import backend.adt.ParamSet;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class ToolMain2D3DModel implements ToolModelMain{
+public class ToolMain2D3DModel implements ToolModelPart{
 
 	public void finalize(ParamSet paramSet) {		
 	}

@@ -3,7 +3,7 @@ package ui.tools.tool2D;
 import ui.menuet.MEButton;
 import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
-import ui.tools.ToolView2D;
+import ui.tools.ToolViewSketch;
 import backend.data.utilities.ImageUtils;
 
 
@@ -33,7 +33,7 @@ import backend.data.utilities.ImageUtils;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DRectView extends ToolView2D{
+public class Tool2DRectView extends ToolViewSketch{
 	
 	public Tool2DRectView(Menuet menuet){	
 		

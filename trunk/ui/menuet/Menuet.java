@@ -44,17 +44,20 @@ public class Menuet extends Composite{
 	 * Tool mode identifiers 
 	 * (used as index in Menuet's LinkedList, so keep them sequential)
 	 */
-	public static final int MENUET_MODE_MAIN   = 0;
-	public static final int MENUET_MODE_2D     = 1;
-	public static final int MENUET_MODE_2Dto3D = 2;
-	public static final int MENUET_MODE_3D     = 3;	
-	public static final int MENUET_TOTAL_MODES = 4; // always the highest mode number + 1
+	public static final int MENUET_MODE_PROJECT  = 0;
+	public static final int MENUET_MODE_GROUP    = 1;
+	public static final int MENUET_MODE_SHARE    = 2;
+	public static final int MENUET_MODE_PART     = 3;
+	public static final int MENUET_MODE_SKETCH   = 4;
+	public static final int MENUET_MODE_BUILD    = 5;
+	public static final int MENUET_MODE_MODIFY   = 6;
+	public static final int MENUET_TOTAL_MODES   = 7; // always the highest mode number + 1
 	
 	/**
 	 * Current tool mode being used (2D, 2Dto3D, 3D, etc.) 
 	 * This determines which mode the menuet displays.
 	 */
-	protected int  currentToolMode = MENUET_MODE_MAIN;	
+	protected int  currentToolMode = MENUET_MODE_PROJECT;	
 	
 	/**
 	 * Array of LinkedLists, each containing all of 

@@ -4,7 +4,7 @@ import javax.media.opengl.GL;
 
 import backend.adt.ParamSet;
 import backend.model.Feature2D3D;
-import ui.tools.ToolModel2D3D;
+import ui.tools.ToolModelBuild;
 
 
 //
@@ -33,7 +33,7 @@ import ui.tools.ToolModel2D3D;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2D3DDoneModel implements ToolModel2D3D{
+public class Tool2D3DDoneModel implements ToolModelBuild{
 
 	public void draw3DFeature(GL gl, Feature2D3D feat2D3D) {
 	}

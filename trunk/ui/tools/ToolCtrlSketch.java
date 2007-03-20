@@ -1,6 +1,7 @@
 package ui.tools;
 
 
+
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
 //This code is distributed under the terms of the 
@@ -27,6 +28,6 @@ package ui.tools;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public interface ToolModel3D3D extends ToolModel{
+public interface ToolCtrlSketch extends ToolCtrl{
 
 }
