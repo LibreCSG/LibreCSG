@@ -34,7 +34,7 @@ import ui.tools.ToolCtrlPart;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class ToolMain2DCtrl implements ToolCtrlPart{
+public class ToolPartSketchCtrl implements ToolCtrlPart{
 	
 	public void glMouseDown(double x, double y, double z, MouseEvent e) {
 	}

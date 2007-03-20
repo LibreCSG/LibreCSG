@@ -39,16 +39,16 @@ import backend.model.Sketch;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class ToolMain2D3DView extends ToolViewPart{
+public class ToolPartBuildView extends ToolViewPart{
 
-	public ToolMain2D3DView(Menuet menuet){	
+	public ToolPartBuildView(Menuet menuet){	
 		
 		// initialize GUI elements
 		mElement = new MEButton(menuet, this.getToolMode(), this, false);
 		mElement.mePreferredHeight = 100;
 		mElement.meLabel = "2Dto3D";
-		mElement.meColorUnselected = AvoColors.COLOR_MENUET_2Dto3D;
-		mElement.meColorMouseOver  = AvoColors.COLOR_MENUET_2Dto3D_LIGHT;
+		mElement.meColorUnselected = AvoColors.COLOR_MENUET_BUILD;
+		mElement.meColorMouseOver  = AvoColors.COLOR_MENUET_BUILD_LIGHT;
 		mElement.meIcon = ImageUtils.getIcon("menuet/MAIN_2Dto3D.png", 24, 24);
 		mElement.setToolTipText("Transform 2D sketches\ninto various 3D shapes.");
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
@@ -71,7 +71,7 @@ public class ToolMain2D3DView extends ToolViewPart{
 		}else{			
 			// there is a sketch active!
 			
-			changeMenuetToolMode(Menuet.MENUET_MODE_2Dto3D, new ToolMain2D3DCtrl());
+			changeMenuetToolMode(Menuet.MENUET_MODE_BUILD, new ToolPartBuildCtrl());
 			
 			// TODO: Building should not be done in the view!!
 			sketch.buildRegions();

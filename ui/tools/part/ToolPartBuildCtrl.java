@@ -1,8 +1,8 @@
 package ui.tools.part;
 
-import backend.adt.ParamType;
-import backend.adt.ParamSet;
-import ui.tools.ToolModelPart;
+import org.eclipse.swt.events.MouseEvent;
+
+import ui.tools.ToolCtrlPart;
 
 
 //
@@ -31,30 +31,24 @@ import ui.tools.ToolModelPart;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class ToolMain2DModel implements ToolModelPart{
+public class ToolPartBuildCtrl implements ToolCtrlPart{
 
-	public void finalize(ParamSet paramSet) {
+	public void glMouseDown(double x, double y, double z, MouseEvent e) {
 	}
 
-	public boolean paramSetIsValid(ParamSet paramSet) {
-		//		 ParamSet:  "Sketch"
-		// --------------------------------
-		// # "o"  ->  "Offset"     <Point3D>
-		// # "r"  ->  "Rotation"   <Rotation3D>
-		// --------------------------------		
-		boolean isValid = (	paramSet != null &&
-							paramSet.label == "Sketch" &&
-							paramSet.hasParam("o", ParamType.Point3D) &&
-							paramSet.hasParam("r", ParamType.Rotation3D));
-		return isValid;
+	public void glMouseDrag(double x, double y, double z, MouseEvent e) {
 	}
 
-	public void updateDerivedParams(ParamSet paramSet) {
+	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
 	}
 
-	public ParamSet constructNewParamSet() {
-		// TODO SKETCH PARAM SET?!?! (here?!)
-		return null;
+	public void glMouseUp(double x, double y, double z, MouseEvent e) {
+	}
+
+	public void menuetElementDeselected() {
+	}
+
+	public void menuetElementSelected() {
 	}
 
 }
