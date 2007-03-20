@@ -36,7 +36,7 @@ import backend.model.Sketch;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DRectCtrl implements ToolCtrlSketch {
+public class ToolSketchRectCtrl implements ToolCtrlSketch {
 
 	/**
 	 * All of the tool's main functionality
@@ -44,7 +44,7 @@ public class Tool2DRectCtrl implements ToolCtrlSketch {
 	 * parameter storage, etc.
 	 *
 	 */
-	public Tool2DRectCtrl(){		
+	public ToolSketchRectCtrl(){		
 	}
 	
 	public void glMouseDown(double x, double y, double z,  MouseEvent e) {
@@ -58,7 +58,7 @@ public class Tool2DRectCtrl implements ToolCtrlSketch {
 			//
 			// Build parameter set for this feature
 			//
-			ParamSet pSet = (new Tool2DRectModel()).constructNewParamSet();
+			ParamSet pSet = (new ToolSketchRectModel()).constructNewParamSet();
 			try{
 				pSet.changeParam("a", new Point2D(x,y));
 				pSet.changeParam("b", new Point2D(x,y));
@@ -94,7 +94,7 @@ public class Tool2DRectCtrl implements ToolCtrlSketch {
 			//
 			try{
 				paramSet.changeParam("b", new Point2D(x,y));
-				(new Tool2DRectModel()).updateDerivedParams(paramSet);
+				(new ToolSketchRectModel()).updateDerivedParams(paramSet);
 			}catch(Exception ex){
 				System.out.println(ex.getClass());
 			}		
@@ -114,7 +114,7 @@ public class Tool2DRectCtrl implements ToolCtrlSketch {
 			//
 			try{
 				paramSet.changeParam("b", new Point2D(x,y));
-				(new Tool2DRectModel()).updateDerivedParams(paramSet);
+				(new ToolSketchRectModel()).updateDerivedParams(paramSet);
 				
 				Point2D ptA = paramSet.getParam("a").getDataPoint2D();
 				Point2D ptB = paramSet.getParam("b").getDataPoint2D();

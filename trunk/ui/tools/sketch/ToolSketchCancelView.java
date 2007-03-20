@@ -1,11 +1,14 @@
 package ui.tools.sketch;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.MessageBox;
+
 import ui.menuet.MEButton;
 import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
 import ui.tools.ToolViewSketch;
-import backend.data.utilities.ImageUtils;
 import backend.global.AvoColors;
+import backend.global.AvoGlobal;
 
 
 //
@@ -34,28 +37,30 @@ import backend.global.AvoColors;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DDoneView extends ToolViewSketch{
-	
-	public Tool2DDoneView(Menuet menuet){	
+public class ToolSketchCancelView extends ToolViewSketch{
+
+	public ToolSketchCancelView(Menuet menuet){	
 		
 		// initialize GUI elements
 		mElement = new MEButton(menuet, this.getToolMode(), this, false);
-		mElement.mePreferredHeight = 100;
-		mElement.meColorMouseOver  = AvoColors.COLOR_MENUET_DONE_MO;
-		mElement.meColorUnselected = AvoColors.COLOR_MENUET_DONE_US; 
-		mElement.meLabel = "Done";
-		mElement.meIcon = ImageUtils.getIcon("./menuet/Done.png", 24, 24);
-		mElement.setToolTipText("Finish working in the 2D mode.");
-		mElement.meDispOptions = MenuetElement.ME_TRY_ICON;
+		mElement.mePreferredHeight = 25;
+		mElement.meColorMouseOver  = AvoColors.COLOR_MENUET_CNCL_MO;
+		mElement.meColorUnselected = AvoColors.COLOR_MENUET_CNCL_US; 
+		mElement.meLabel = "Cancel";
+		mElement.setToolTipText("Cancel ALL changes made \nin the 2D drawing mode.");
+		mElement.meDispOptions = MenuetElement.ME_TEXT_ONLY;
 		
 		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
 	}
 
 	@Override
-	public void toolSelected() {
-		changeMenuetToolMode(Menuet.MENUET_MODE_MAIN, new Tool2DDoneCtrl());
-	}
-	
+	public void toolSelected() {		
+		MessageBox m = new MessageBox(AvoGlobal.menuet.getShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+		m.setMessage("Are you sure you want to discard ALL changes\nand exit the 2D drawing mode?");
+		m.setText("Discard ALL Changes?");
+		if(m.open() == SWT.YES){
+			this.changeMenuetToolMode(Menuet.MENUET_MODE_PART, new ToolSketchCancelCtrl());
+		}
 
-	
+	}
 }

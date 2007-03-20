@@ -7,7 +7,7 @@ import backend.adt.ParamSet;
 import backend.adt.Point2D;
 import backend.global.AvoGlobal;
 import backend.model.Sketch;
-import backend.model.sketch.Prim2DLine;
+import backend.model.sketch.Prim2DArc;
 import backend.model.sketch.Prim2DList;
 
 
@@ -37,14 +37,14 @@ import backend.model.sketch.Prim2DList;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DLineModel implements ToolModelSketch{
+public class ToolSketchCircleModel implements ToolModelSketch {
 
 	public Prim2DList buildPrim2DList(ParamSet paramSet) {
 		try{
-			Point2D ptA = paramSet.getParam("a").getDataPoint2D();
-			Point2D ptB = paramSet.getParam("b").getDataPoint2D();
+			Point2D ptCenter = paramSet.getParam("c").getDataPoint2D();
+			double  radius   = paramSet.getParam("r").getDataDouble();
 			Prim2DList primList = new Prim2DList();
-			primList.add(new Prim2DLine(ptA,ptB));
+			primList.add(new Prim2DArc(ptCenter,radius,0.0,360.0));
 			return primList;
 		}catch(Exception ex){
 			System.out.println(ex.getClass());
@@ -53,33 +53,23 @@ public class Tool2DLineModel implements ToolModelSketch{
 	}
 
 	public boolean paramSetIsValid(ParamSet paramSet) {
-		//		 ParamSet:  "Line"
+		//		 ParamSet:  "Circle"
 		// --------------------------------
-		// # "a"  ->  "Pt.A"     <Point2D>
-		// # "b"  ->  "Pt.B"     <Point2D>
-		// # "l"  ->  "Length"   <Double> @derived
+		// # "c"  ->  "Center"    <Point2D>
+		// # "r"  ->  "Radius"    <Double>
 		// --------------------------------		
 		boolean isValid = (	paramSet != null &&
-							paramSet.label == "Line" &&
-							paramSet.hasParam("a", ParamType.Point2D) &&
-							paramSet.hasParam("b", ParamType.Point2D) &&
-							paramSet.hasParam("l", ParamType.Double));
+							paramSet.label == "Circle" &&
+							paramSet.hasParam("c", ParamType.Point2D) &&
+							paramSet.hasParam("r", ParamType.Double));
 		return isValid;
 	}
 
-	public void updateDerivedParams(ParamSet paramSet) {
-		//
-		// Build all derived parameters
-		//
-		try{
-			Point2D ptA = paramSet.getParam("a").getDataPoint2D();
-			Point2D ptB = paramSet.getParam("b").getDataPoint2D();
-			paramSet.changeParam("l", ptA.computeDist(ptB));
-		}catch(Exception ex){
-			System.out.println(ex.getClass());
-		}
-		
+
+	public void updateDerivedParams(ParamSet paramSet) {	
+		// no derived params for this feature.
 	}
+
 
 	public void finalize(ParamSet paramSet) {
 		Sketch sketch = AvoGlobal.project.getActiveSketch();
@@ -89,12 +79,9 @@ public class Tool2DLineModel implements ToolModelSketch{
 	}
 
 	public ParamSet constructNewParamSet() {
-		ParamSet pSet = new ParamSet("Line", new Tool2DLineModel());
-		pSet.addParam("a", new Param("Pt.A", new Point2D(0.0,0.0)));
-		pSet.addParam("b", new Param("Pt.B", new Point2D(0.0,0.0)));
-		Param dist = new Param("Length", 0.0);
-		dist.setParamIsDerived(true);
-		pSet.addParam("l", dist);
+		ParamSet pSet = new ParamSet("Circle", this);
+		pSet.addParam("c", new Param("Center", new Point2D(0.0,0.0)));
+		pSet.addParam("r", new Param("Radius", 0.0));
 		return pSet;
 	}
 

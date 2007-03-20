@@ -32,12 +32,12 @@ import ui.tools.ToolCtrlSketch;
  * @author  Adam Kumpf
  * @created Feb. 2007
  */
-public class Tool2DCancelCtrl implements ToolCtrlSketch {
+public class ToolSketchCancelCtrl implements ToolCtrlSketch {
 	/**
 	 * All of the tool's main controller functionality:
 	 * (mouse handling, button clicking, etc.) 
 	 */
-	public Tool2DCancelCtrl() {
+	public ToolSketchCancelCtrl() {
 	}
 
 	public void glMouseDown(double x, double y, double z, MouseEvent e) {

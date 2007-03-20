@@ -1,11 +1,11 @@
 package ui.tools.sketch;
 
-import backend.adt.ParamSet;
+import org.eclipse.swt.events.MouseEvent;
+
 import backend.global.AvoGlobal;
 import backend.model.Sketch;
-import backend.model.sketch.Prim2DList;
-import ui.tools.ToolModelSketch;
 
+import ui.tools.ToolCtrlSketch;
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -30,32 +30,47 @@ import ui.tools.ToolModelSketch;
 //
 
 /*
-* @author  Adam Kumpf
-* @created Feb. 2007
-*/
-public class Tool2DSelectModel implements ToolModelSketch{
-
-	public Prim2DList buildPrim2DList(ParamSet paramSet) {
-		return null;
+ * @author  Adam Kumpf
+ * @created Feb. 2007
+ */
+public class ToolSketchDoneCtrl implements ToolCtrlSketch {
+	/**
+	 * All of the tool's main functionality mouse handling, glView drawing,
+	 * parameter storage, etc.
+	 * 
+	 */
+	public ToolSketchDoneCtrl() {
 	}
 
-	public boolean paramSetIsValid(ParamSet paramSet) {
-		return false;
+	public void glMouseDown(double x, double y, double z, MouseEvent e) {
 	}
 
-	public void updateDerivedParams(ParamSet paramSet) {
-		// no derived params for this feature.
+	public void glMouseDrag(double x, double y, double z, MouseEvent e) {
 	}
 
-	public void finalize(ParamSet paramSet) {
+	public void glMouseUp(double x, double y, double z, MouseEvent e) {
+	}
+
+	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
+	}
+
+	public void menuetElementDeselected() {
+	}
+
+	public void menuetElementSelected() {
 		Sketch sketch = AvoGlobal.project.getActiveSketch();
+
 		if(sketch != null){
-			sketch.deselectAllFeat2D();
+			if(sketch.getFeat2DListSize() == 0){
+				// if sketch has no Feature2D, then discard it.
+				AvoGlobal.project.getActivePart().removeActiveSubPart();
+			}else{
+				// deselect Feat2D and keep the sketch.
+				sketch.deselectAllFeat2D();			
+			}
 		}
 	}
 
-	public ParamSet constructNewParamSet() {
-		return null;
-	}
+
 
 }

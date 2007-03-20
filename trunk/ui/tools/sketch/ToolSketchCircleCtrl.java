@@ -36,7 +36,7 @@ import backend.model.Sketch;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DCircleCtrl implements ToolCtrlSketch  {
+public class ToolSketchCircleCtrl implements ToolCtrlSketch  {
 
 	/**
 	 * All of the tool's main functionality
@@ -44,7 +44,7 @@ public class Tool2DCircleCtrl implements ToolCtrlSketch  {
 	 * parameter storage, etc.
 	 *
 	 */
-	public Tool2DCircleCtrl(){
+	public ToolSketchCircleCtrl(){
 	}
 	
 	
@@ -59,7 +59,7 @@ public class Tool2DCircleCtrl implements ToolCtrlSketch  {
 			//
 			// Build parameter set for this feature
 			//
-			ParamSet pSet = (new Tool2DCircleModel()).constructNewParamSet();
+			ParamSet pSet = (new ToolSketchCircleModel()).constructNewParamSet();
 			try{
 				pSet.changeParam("c", new Point2D(x,y));
 			}catch(Exception ex){

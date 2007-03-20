@@ -37,7 +37,7 @@ import backend.model.sketch.Prim2D;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DSelectCtrl implements ToolCtrlSketch {
+public class ToolSketchSelectCtrl implements ToolCtrlSketch {
 	
 	boolean shiftIsDown = false;
 	
@@ -47,7 +47,7 @@ public class Tool2DSelectCtrl implements ToolCtrlSketch {
 	 * parameter storage, etc.
 	 *
 	 */
-	public Tool2DSelectCtrl(){		
+	public ToolSketchSelectCtrl(){		
 	}
 	
 	public void glMouseDown(double x, double y, double z,  MouseEvent e) {
