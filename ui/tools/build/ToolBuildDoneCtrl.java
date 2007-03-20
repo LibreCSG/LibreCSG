@@ -1,11 +1,8 @@
 package ui.tools.build;
 
-import ui.menuet.MEButton;
-import ui.menuet.Menuet;
-import ui.menuet.MenuetElement;
-import ui.tools.ToolViewBuild;
-import backend.data.utilities.ImageUtils;
+import org.eclipse.swt.events.MouseEvent;
 
+import ui.tools.ToolCtrlBuild;
 
 
 //
@@ -34,23 +31,24 @@ import backend.data.utilities.ImageUtils;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2D3DRevolveView extends ToolViewBuild{
+public class ToolBuildDoneCtrl implements ToolCtrlBuild{
 
-	public Tool2D3DRevolveView(Menuet menuet){	
-		
-		// initialize GUI elements
-		mElement = new MEButton(menuet, this.getToolMode(), this, false);
-		mElement.mePreferredHeight = 50;
-		mElement.meLabel = "Revolve";
-		mElement.meIcon = ImageUtils.getIcon("menuet/2D3D_Revolve.png", 24, 24);
-		mElement.setToolTipText("Revolvle (spin) a region around a line.");
-		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
-		
-		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
+	public void glMouseDown(double x, double y, double z, MouseEvent e) {
 	}
 
-	public void toolSelected() {
-		changeMenuetTool(mElement, new Tool2D3DRevolveCtrl());
+	public void glMouseDrag(double x, double y, double z, MouseEvent e) {
 	}
-	
+
+	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
+	}
+
+	public void glMouseUp(double x, double y, double z, MouseEvent e) {
+	}
+
+	public void menuetElementDeselected() {
+	}
+
+	public void menuetElementSelected() {
+	}
+
 }

@@ -41,7 +41,7 @@ import backend.model.sketch.Region2D;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2D3DExtrudeModel implements ToolModelBuild{
+public class ToolBuildExtrudeModel implements ToolModelBuild{
 
 	public void draw3DFeature(GL gl, Feature2D3D feat2D3D) {
 		// if sketch is not consumed... just draw face to be extruded
@@ -146,7 +146,7 @@ public class Tool2D3DExtrudeModel implements ToolModelBuild{
 	}
 
 	public ParamSet constructNewParamSet() {
-		ParamSet pSet = new ParamSet("Extrude", new Tool2D3DExtrudeModel());
+		ParamSet pSet = new ParamSet("Extrude", new ToolBuildExtrudeModel());
 		pSet.addParam("regions", new Param("Regions", new SelectionList()));
 		pSet.addParam("h", new Param("Height", 2*AvoGlobal.gridSize));
 		return pSet;

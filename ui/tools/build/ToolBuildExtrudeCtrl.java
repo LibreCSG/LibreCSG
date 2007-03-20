@@ -40,7 +40,7 @@ import backend.model.sketch.Region2D;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2D3DExtrudeCtrl implements ToolCtrlBuild{
+public class ToolBuildExtrudeCtrl implements ToolCtrlBuild{
 
 	boolean shiftIsDown = false;
 	
@@ -54,10 +54,10 @@ public class Tool2D3DExtrudeCtrl implements ToolCtrlBuild{
 			Sketch sketch = feat2D3D.getPrimarySketch();
 			if(sketch != null){
 				ParamSet paramSet = feat2D3D.paramSet;
-				if(!(new Tool2D3DExtrudeModel()).paramSetIsValid(paramSet)){
+				if(!(new ToolBuildExtrudeModel()).paramSetIsValid(paramSet)){
 					//System.out.println("%% making new extrude paramSet");
 					// paramSet is not valid for this feature, create a new one.
-					paramSet = (new Tool2D3DExtrudeModel()).constructNewParamSet();
+					paramSet = (new ToolBuildExtrudeModel()).constructNewParamSet();
 					feat2D3D.paramSet = paramSet;
 				}
 				

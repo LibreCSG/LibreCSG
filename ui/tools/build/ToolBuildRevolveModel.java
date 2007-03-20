@@ -38,7 +38,7 @@ import backend.model.Sketch;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2D3DRevolveModel implements ToolModelBuild{
+public class ToolBuildRevolveModel implements ToolModelBuild{
 
 	public void draw3DFeature(GL gl, Feature2D3D feat2D3D) {
 		// TODO Auto-generated method stub
@@ -86,7 +86,7 @@ public class Tool2D3DRevolveModel implements ToolModelBuild{
 	}
 
 	public ParamSet constructNewParamSet() {
-		ParamSet pSet = new ParamSet("Revolve", new Tool2D3DRevolveModel());
+		ParamSet pSet = new ParamSet("Revolve", new ToolBuildRevolveModel());
 		pSet.addParam("angle", new Param("Angle", 360.0));
 		pSet.addParam("offset", new Param("OffsetAngle", 0.0));
 		pSet.addParam("regions", new Param("Regions", new SelectionList()));
