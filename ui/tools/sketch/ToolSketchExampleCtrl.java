@@ -36,7 +36,7 @@ import backend.model.Sketch;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DExampleCtrl implements ToolCtrlSketch{
+public class ToolSketchExampleCtrl implements ToolCtrlSketch{
 
 	/**
 	 * All of the tool's main functionality
@@ -44,7 +44,7 @@ public class Tool2DExampleCtrl implements ToolCtrlSketch{
 	 * parameter storage, etc.
 	 *
 	 */
-	public Tool2DExampleCtrl(){		
+	public ToolSketchExampleCtrl(){		
 	}
 	
 	public void glMouseDown(double x, double y, double z,  MouseEvent e) {
@@ -58,7 +58,7 @@ public class Tool2DExampleCtrl implements ToolCtrlSketch{
 			//
 			// Build parameter set for this feature
 			//
-			ParamSet pSet = (new Tool2DExampleModel()).constructNewParamSet();
+			ParamSet pSet = (new ToolSketchExampleModel()).constructNewParamSet();
 			try{
 				pSet.changeParam("c", new Point2D(x,y));
 			}catch(Exception ex){

@@ -1,10 +1,10 @@
 package ui.tools.sketch;
 
-import ui.menuet.MEButton;
-import ui.menuet.Menuet;
-import ui.menuet.MenuetElement;
-import ui.tools.ToolViewSketch;
-import backend.data.utilities.ImageUtils;
+import backend.adt.ParamSet;
+import backend.global.AvoGlobal;
+import backend.model.Sketch;
+import backend.model.sketch.Prim2DList;
+import ui.tools.ToolModelSketch;
 
 
 //
@@ -33,24 +33,29 @@ import backend.data.utilities.ImageUtils;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DCircleView extends ToolViewSketch{
+public class ToolSketchSelectModel implements ToolModelSketch{
 
-	public Tool2DCircleView(Menuet menuet){	
-		
-		// initialize GUI elements
-		mElement = new MEButton(menuet, this.getToolMode(), this, false);
-		mElement.mePreferredHeight = 50;
-		mElement.meLabel = "Circle";
-		mElement.meIcon = ImageUtils.getIcon("menuet/2D_Circle.png", 24, 24);
-		mElement.setToolTipText("Circle");
-		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
-		
-		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
+	public Prim2DList buildPrim2DList(ParamSet paramSet) {
+		return null;
 	}
-	
-	@Override
-	public void toolSelected() {
-		changeMenuetTool(mElement, new Tool2DCircleCtrl());
+
+	public boolean paramSetIsValid(ParamSet paramSet) {
+		return false;
 	}
-	
+
+	public void updateDerivedParams(ParamSet paramSet) {
+		// no derived params for this feature.
+	}
+
+	public void finalize(ParamSet paramSet) {
+		Sketch sketch = AvoGlobal.project.getActiveSketch();
+		if(sketch != null){
+			sketch.deselectAllFeat2D();
+		}
+	}
+
+	public ParamSet constructNewParamSet() {
+		return null;
+	}
+
 }

@@ -37,7 +37,7 @@ import backend.model.sketch.Prim2DList;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DRectModel implements ToolModelSketch{
+public class ToolSketchRectModel implements ToolModelSketch{
 
 	public Prim2DList buildPrim2DList(ParamSet paramSet) {
 		try{
@@ -93,7 +93,7 @@ public class Tool2DRectModel implements ToolModelSketch{
 	}
 
 	public ParamSet constructNewParamSet() {
-		ParamSet pSet = new ParamSet("Rectangle", new Tool2DRectModel());
+		ParamSet pSet = new ParamSet("Rectangle", new ToolSketchRectModel());
 		pSet.addParam("a", new Param("Pt.A", new Point2D(0.0,0.0)));
 		pSet.addParam("b", new Param("Pt.B", new Point2D(0.0,0.0)));
 		Param width = new Param("Width", 0.0);

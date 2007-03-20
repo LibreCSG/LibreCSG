@@ -33,25 +33,25 @@ import backend.data.utilities.ImageUtils;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DRectView extends ToolViewSketch{
-	
-	public Tool2DRectView(Menuet menuet){	
+public class ToolSketchSelectView extends ToolViewSketch{
+
+	public ToolSketchSelectView(Menuet menuet){	
 		
 		// initialize GUI elements
 		mElement = new MEButton(menuet, this.getToolMode(), this, false);
 		mElement.mePreferredHeight = 50;
-		mElement.meLabel = "Rect";
-		mElement.meIcon = ImageUtils.getIcon("menuet/2D_Rect.png", 24, 24);
-		mElement.setToolTipText("Rectangle");
+		mElement.meLabel = "Select";
+		mElement.meIcon = ImageUtils.getIcon("menuet/Select.png", 24, 24);
+		mElement.setToolTipText("Select objects to \nmodify their properties.");
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
+		mElement.meAlignToBottom();
 		
 		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
 	}
 
 	@Override
 	public void toolSelected() {
-		changeMenuetTool(mElement, new Tool2DRectCtrl());
+		changeMenuetTool(mElement, new ToolSketchSelectCtrl());
 	}
-
-
+	
 }

@@ -1,10 +1,10 @@
 package ui.tools.sketch;
 
-import ui.menuet.MEButton;
-import ui.menuet.Menuet;
-import ui.menuet.MenuetElement;
-import ui.tools.ToolViewSketch;
-import backend.data.utilities.ImageUtils;
+import backend.adt.ParamSet;
+import backend.global.AvoGlobal;
+import backend.model.Sketch;
+import backend.model.sketch.Prim2DList;
+import ui.tools.ToolModelSketch;
 
 
 //
@@ -33,25 +33,29 @@ import backend.data.utilities.ImageUtils;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DSelectView extends ToolViewSketch{
+public class ToolSketchDoneModel implements ToolModelSketch{
 
-	public Tool2DSelectView(Menuet menuet){	
-		
-		// initialize GUI elements
-		mElement = new MEButton(menuet, this.getToolMode(), this, false);
-		mElement.mePreferredHeight = 50;
-		mElement.meLabel = "Select";
-		mElement.meIcon = ImageUtils.getIcon("menuet/Select.png", 24, 24);
-		mElement.setToolTipText("Select objects to \nmodify their properties.");
-		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
-		mElement.meAlignToBottom();
-		
-		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
+	public Prim2DList buildPrim2DList(ParamSet paramSet) {
+		return null;
 	}
 
-	@Override
-	public void toolSelected() {
-		changeMenuetTool(mElement, new Tool2DSelectCtrl());
+	public boolean paramSetIsValid(ParamSet paramSet) {
+		return false;
 	}
-	
+
+	public void updateDerivedParams(ParamSet paramSet) {
+		// no derived params for this feature.
+	}
+
+	public void finalize(ParamSet paramSet) {
+		Sketch sketch = AvoGlobal.project.getActiveSketch();
+		if(sketch != null){
+			sketch.deselectAllFeat2D();
+		}
+	}
+
+	public ParamSet constructNewParamSet() {
+		return null;
+	}
+
 }

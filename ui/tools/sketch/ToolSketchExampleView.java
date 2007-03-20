@@ -1,10 +1,10 @@
 package ui.tools.sketch;
 
-import backend.adt.ParamSet;
-import backend.global.AvoGlobal;
-import backend.model.Sketch;
-import backend.model.sketch.Prim2DList;
-import ui.tools.ToolModelSketch;
+import ui.menuet.MEButton;
+import ui.menuet.Menuet;
+import ui.menuet.MenuetElement;
+import ui.tools.ToolViewSketch;
+import backend.data.utilities.ImageUtils;
 
 
 //
@@ -33,28 +33,25 @@ import ui.tools.ToolModelSketch;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DCancelModel implements ToolModelSketch{
+public class ToolSketchExampleView extends ToolViewSketch{
 
-	public boolean paramSetIsValid(ParamSet paramSet) {
-		return false;
+	public ToolSketchExampleView(Menuet menuet){	
+		
+		// initialize GUI elements
+		mElement = new MEButton(menuet, this.getToolMode(), this, true);
+		mElement.mePreferredHeight = 50;
+		mElement.meLabel = "Example";
+		mElement.meIcon = ImageUtils.getIcon("menuet/2D_Example.png", 24, 24);
+		mElement.setToolTipText("This is an example tool\nmeant to show how something a\nbit more complex than just\na line or a circle can be formed.");
+		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
+		
+		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
 	}
 
-	public void updateDerivedParams(ParamSet paramSet) {
-		// no derived params for this feature.
+	@Override
+	public void toolSelected() {
+		changeMenuetTool(mElement, new ToolSketchExampleCtrl());
 	}
 
-	public void finalize(ParamSet paramSet) {
-		Sketch sketch = AvoGlobal.project.getActiveSketch();
-		if(sketch != null){
-			sketch.deselectAllFeat2D();
-		}
-	}
 	
-	public Prim2DList buildPrim2DList(ParamSet p) {
-		return null;
-	}
-
-	public ParamSet constructNewParamSet() {
-		return null;
-	}
 }

@@ -33,28 +33,24 @@ import backend.data.utilities.ImageUtils;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DLineView extends ToolViewSketch{
+public class ToolSketchCircleView extends ToolViewSketch{
 
-	public Tool2DLineView(Menuet menuet){	
+	public ToolSketchCircleView(Menuet menuet){	
 		
 		// initialize GUI elements
 		mElement = new MEButton(menuet, this.getToolMode(), this, false);
 		mElement.mePreferredHeight = 50;
-		mElement.meLabel = "Line";
-		mElement.meIcon = ImageUtils.getIcon("menuet/2D_Line.png", 24, 24);
-		mElement.setToolTipText("Line");
+		mElement.meLabel = "Circle";
+		mElement.meIcon = ImageUtils.getIcon("menuet/2D_Circle.png", 24, 24);
+		mElement.setToolTipText("Circle");
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
 		
 		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
 	}
-
+	
 	@Override
 	public void toolSelected() {
-		changeMenuetTool(mElement, new Tool2DLineCtrl());
+		changeMenuetTool(mElement, new ToolSketchCircleCtrl());
 	}
-
-	
-
 	
 }
-

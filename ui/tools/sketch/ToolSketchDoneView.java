@@ -5,6 +5,7 @@ import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
 import ui.tools.ToolViewSketch;
 import backend.data.utilities.ImageUtils;
+import backend.global.AvoColors;
 
 
 //
@@ -33,25 +34,28 @@ import backend.data.utilities.ImageUtils;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DExampleView extends ToolViewSketch{
-
-	public Tool2DExampleView(Menuet menuet){	
+public class ToolSketchDoneView extends ToolViewSketch{
+	
+	public ToolSketchDoneView(Menuet menuet){	
 		
 		// initialize GUI elements
-		mElement = new MEButton(menuet, this.getToolMode(), this, true);
-		mElement.mePreferredHeight = 50;
-		mElement.meLabel = "Example";
-		mElement.meIcon = ImageUtils.getIcon("menuet/2D_Example.png", 24, 24);
-		mElement.setToolTipText("This is an example tool\nmeant to show how something a\nbit more complex than just\na line or a circle can be formed.");
-		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
+		mElement = new MEButton(menuet, this.getToolMode(), this, false);
+		mElement.mePreferredHeight = 100;
+		mElement.meColorMouseOver  = AvoColors.COLOR_MENUET_DONE_MO;
+		mElement.meColorUnselected = AvoColors.COLOR_MENUET_DONE_US; 
+		mElement.meLabel = "Done";
+		mElement.meIcon = ImageUtils.getIcon("./menuet/Done.png", 24, 24);
+		mElement.setToolTipText("Finish working in the 2D mode.");
+		mElement.meDispOptions = MenuetElement.ME_TRY_ICON;
 		
 		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
 	}
 
 	@Override
 	public void toolSelected() {
-		changeMenuetTool(mElement, new Tool2DExampleCtrl());
+		changeMenuetToolMode(Menuet.MENUET_MODE_PART, new ToolSketchDoneCtrl());
 	}
+	
 
 	
 }
