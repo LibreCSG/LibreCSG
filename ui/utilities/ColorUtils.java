@@ -61,8 +61,20 @@ public class ColorUtils {
 				clr = AvoColors.COLOR_MENUET_MODIFY;
 				break;
 			}
+			case(Menuet.MENUET_MODE_GROUP):{
+				clr = AvoColors.COLOR_MENUET_GROUP;
+				break;
+			}
+			case(Menuet.MENUET_MODE_PROJECT):{
+				clr = AvoColors.COLOR_MENUET_PROJECT;
+				break;
+			}
+			case(Menuet.MENUET_MODE_SHARE):{
+				clr = AvoColors.COLOR_MENUET_SHARE;
+				break;
+			}
 			default:{
-				clr = new Color(Display.getCurrent(),0,0,0);
+				clr = new Color(Display.getCurrent(),200,0,0);
 				System.out.println("ColorUtils(getModeBGColorByMode): *** Unrecognized menuet color mode!");
 				break;
 			}

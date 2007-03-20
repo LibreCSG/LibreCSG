@@ -3,8 +3,10 @@ package ui.menuet;
 import ui.tools.build.ToolBuildDoneView;
 import ui.tools.build.ToolBuildExtrudeView;
 import ui.tools.build.ToolBuildRevolveView;
+import ui.tools.group.ToolGroupPartView;
 import ui.tools.part.ToolPartBuildView;
 import ui.tools.part.ToolPartSketchView;
+import ui.tools.project.ToolProjectGroupView;
 import ui.tools.sketch.ToolSketchCancelView;
 import ui.tools.sketch.ToolSketchCircleView;
 import ui.tools.sketch.ToolSketchDoneView;
@@ -12,7 +14,6 @@ import ui.tools.sketch.ToolSketchExampleView;
 import ui.tools.sketch.ToolSketchLineView;
 import ui.tools.sketch.ToolSketchRectView;
 import ui.tools.sketch.ToolSketchSelectView;
-import backend.global.AvoColors;
 import backend.global.AvoGlobal;
 
 
@@ -58,9 +59,9 @@ public class MenuetBuilder {
 		new ToolSketchDoneView(menuet);
 		new ToolSketchCancelView(menuet);
 		
-		MELabel label2D = new MELabel(menuet,Menuet.MENUET_MODE_SKETCH, null);
-		label2D.meLabel = "Sketch";
-		label2D.textIsBold = true;
+		MELabel labelSketch = new MELabel(menuet,Menuet.MENUET_MODE_SKETCH, null);
+		labelSketch.meLabel = "Sketch";
+		labelSketch.textIsBold = true;
 		
 		new ToolSketchLineView(menuet);
 		new ToolSketchCircleView(menuet);
@@ -78,28 +79,63 @@ public class MenuetBuilder {
 		//
 		new ToolBuildDoneView(menuet);
 		
-		MELabel label2D3D = new MELabel(menuet,Menuet.MENUET_MODE_BUILD, null);
-		label2D3D.meLabel = "Build";
-		label2D3D.textIsBold = true;
+		MELabel labelBuild = new MELabel(menuet,Menuet.MENUET_MODE_BUILD, null);
+		labelBuild.meLabel = "Build";
+		labelBuild.textIsBold = true;
 		
 		new ToolBuildExtrudeView(menuet);
 		new ToolBuildRevolveView(menuet);
 		
 		new METoolbox(menuet,Menuet.MENUET_MODE_BUILD);
 		
+		
 		//
 		//  TOOL MODE:  Part
 		//
 		MESpacer spacerPartDone = new MESpacer(menuet, Menuet.MENUET_MODE_PART, null);
-		spacerPartDone.mePreferredHeight = 100;
-		MELabel labelMAIN = new MELabel(menuet,Menuet.MENUET_MODE_PART, null);
-		labelMAIN.meLabel = "Part";
-		labelMAIN.textIsBold = true;
+		spacerPartDone.mePreferredHeight = MEButtonDone.preferredHeight;
+		MESpacer spacerPartCancel = new MESpacer(menuet, Menuet.MENUET_MODE_PART, null);
+		spacerPartCancel.mePreferredHeight = MEButtonCancel.preferredHeight;
+		MELabel labelPart = new MELabel(menuet,Menuet.MENUET_MODE_PART, null);
+		labelPart.meLabel = "Part";
+		labelPart.textIsBold = true;
 		
 		new ToolPartSketchView(menuet);
 		new ToolPartBuildView(menuet);
-		AvoGlobal.menuet.currentToolMode = Menuet.MENUET_MODE_PART;		
+				
 		
+		//
+		//  TOOL MODE: Project
+		//
+		MESpacer spacerProjectDone = new MESpacer(menuet, Menuet.MENUET_MODE_PROJECT, null);
+		spacerProjectDone.mePreferredHeight = MEButtonDone.preferredHeight;
+		MESpacer spacerProjectCancel = new MESpacer(menuet, Menuet.MENUET_MODE_PROJECT, null);
+		spacerProjectCancel.mePreferredHeight = MEButtonCancel.preferredHeight;
+		MELabel labelProject = new MELabel(menuet,Menuet.MENUET_MODE_PROJECT, null);
+		labelProject.meLabel = "Project";
+		labelProject.textIsBold = true;
+		
+		new ToolProjectGroupView(menuet);
+		
+		
+		//
+		//  TOOL MODE: Group
+		//
+		MESpacer spacerGroupDone = new MESpacer(menuet, Menuet.MENUET_MODE_GROUP, null);
+		spacerGroupDone.mePreferredHeight = MEButtonDone.preferredHeight;
+		MESpacer spacerGroupCancel = new MESpacer(menuet, Menuet.MENUET_MODE_GROUP, null);
+		spacerGroupCancel.mePreferredHeight = MEButtonCancel.preferredHeight;
+		MELabel labelGroup = new MELabel(menuet,Menuet.MENUET_MODE_GROUP, null);
+		labelGroup.meLabel = "Group";
+		labelGroup.textIsBold = true;
+		
+		new ToolGroupPartView(menuet);
+		
+		
+		//
+		// Setup Menuet for initial viewing...
+		//
+		AvoGlobal.menuet.currentToolMode = Menuet.MENUET_MODE_PROJECT;
 	}
 	
 }

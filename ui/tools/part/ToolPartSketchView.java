@@ -41,7 +41,7 @@ public class ToolPartSketchView extends ToolViewPart{
 		// initialize GUI elements
 		mElement = new MEButton(menuet, this.getToolMode(), this, false);
 		mElement.mePreferredHeight = 100;
-		mElement.meLabel = "2D";
+		mElement.meLabel = "Sketch";
 		mElement.meColorUnselected = AvoColors.COLOR_MENUET_SKETCH;
 		mElement.meColorMouseOver  = AvoColors.COLOR_MENUET_SKETCH_LIGHT;
 		mElement.meIcon = ImageUtils.getIcon("menuet/MAIN_2D.png", 24, 24);

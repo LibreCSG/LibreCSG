@@ -46,7 +46,7 @@ public class ToolPartBuildView extends ToolViewPart{
 		// initialize GUI elements
 		mElement = new MEButton(menuet, this.getToolMode(), this, false);
 		mElement.mePreferredHeight = 100;
-		mElement.meLabel = "2Dto3D";
+		mElement.meLabel = "Build";
 		mElement.meColorUnselected = AvoColors.COLOR_MENUET_BUILD;
 		mElement.meColorMouseOver  = AvoColors.COLOR_MENUET_BUILD_LIGHT;
 		mElement.meIcon = ImageUtils.getIcon("menuet/MAIN_2Dto3D.png", 24, 24);

@@ -41,12 +41,13 @@ import backend.data.utilities.ImageUtils;
 */
 public abstract class MenuetElement extends Canvas{
 
+	// TODO: make this an enum.. haha 
 	public final static int ME_ICON_ONLY  = 43071;
 	public final static int ME_TRY_TEXT   = 43072;
 	public final static int ME_TRY_ICON   = 43073;
 	public final static int ME_TEXT_ONLY  = 43074;	
 	
-	protected final static int defaultMinDisplayHeight = 28; 
+	protected final static int defaultMinDisplayHeight = 25; 
 	
 	final int ALIGN_TOP    = 0;
 	//final int ALIGN_MIDDLE = 1; // no align middle, maybe later
@@ -60,7 +61,6 @@ public abstract class MenuetElement extends Canvas{
 	public int    meDispOptions = ME_TRY_TEXT;
 	
 	public Color meColorForeground = new Color(this.getDisplay(),   0,   0,   0);
-	private Color meColorBackground = new Color(this.getDisplay(), 255, 255, 255);
 	public Color meColorSelected   = new Color(this.getDisplay(), 210, 210, 210);
 	public Color meColorUnselected = new Color(this.getDisplay(), 235, 235, 235);
 	public Color meColorMouseOver  = new Color(this.getDisplay(), 240, 240, 240);	
