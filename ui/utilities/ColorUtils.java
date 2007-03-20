@@ -45,25 +45,25 @@ public class ColorUtils {
 	public static Color getModeBGColorByMode(int mode){
 		Color clr;
 		switch(mode){
-			case(Menuet.MENUET_MODE_MAIN):{
-				clr = AvoColors.COLOR_MENUET_MAIN;
+			case(Menuet.MENUET_MODE_PART):{
+				clr = AvoColors.COLOR_MENUET_PART;
 				break;
 			}			
-			case(Menuet.MENUET_MODE_2D):{
-				clr = AvoColors.COLOR_MENUET_2D;
+			case(Menuet.MENUET_MODE_SKETCH):{
+				clr = AvoColors.COLOR_MENUET_SKETCH;
 				break;
 			}
-			case(Menuet.MENUET_MODE_2Dto3D):{
-				clr = AvoColors.COLOR_MENUET_2Dto3D;
+			case(Menuet.MENUET_MODE_BUILD):{
+				clr = AvoColors.COLOR_MENUET_BUILD;
 				break;
 			}
-			case(Menuet.MENUET_MODE_3D):{
-				clr = AvoColors.COLOR_MENUET_3D;
+			case(Menuet.MENUET_MODE_MODIFY):{
+				clr = AvoColors.COLOR_MENUET_MODIFY;
 				break;
 			}
 			default:{
 				clr = new Color(Display.getCurrent(),0,0,0);
-				System.out.println(" *** Unrecognized menuet color mode in ColorUtils");
+				System.out.println("ColorUtils(getModeBGColorByMode): *** Unrecognized menuet color mode!");
 				break;
 			}
 		}
