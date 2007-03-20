@@ -38,7 +38,6 @@ public abstract class ToolViewBuild extends ToolView{
 	// tool2D specific settings
 	public void applyToolGroupSettings(){
 		if(mElement != null){
-			mElement.meColorBackground = AvoColors.COLOR_MENUET_BUILD;
 			mElement.addMouseListener(new MouseListener(){
 				public void mouseDoubleClick(MouseEvent e) {
 				}

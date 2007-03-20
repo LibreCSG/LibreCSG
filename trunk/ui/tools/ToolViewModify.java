@@ -42,7 +42,6 @@ public abstract class ToolViewModify extends ToolView{
 	 */
 	public void applyToolGroupSettings() {
 		if(mElement != null){
-			mElement.meColorBackground = AvoColors.COLOR_MENUET_MODIFY;
 			mElement.addMouseListener(new MouseListener(){
 				public void mouseDoubleClick(MouseEvent e) {
 				}

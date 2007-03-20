@@ -66,7 +66,7 @@ public class MEButton extends MenuetElement{
 
 	void paintElement(PaintEvent e) {
 		GC g = e.gc;
-		g.setBackground(this.meColorBackground);
+		g.setBackground(this.getBackground());
 		int width  = this.getBounds().width;
 		int height = this.getBounds().height;
 		
@@ -145,8 +145,8 @@ public class MEButton extends MenuetElement{
 	}
 
 	@Override
-	public int getMinDisplayHeight(int width) {
-		return 28;
+	public int getMinDisplayHeight(int width) {		
+		return defaultMinDisplayHeight;
 	}
 	
 	

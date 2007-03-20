@@ -53,13 +53,12 @@ public class MenuetBuilder {
 	public static void buildMenuet(Menuet menuet){
 		
 		//
-		//  TOOL MODE:  2D
+		//  TOOL MODE:  Sketch
 		//
 		new ToolSketchDoneView(menuet);
 		new ToolSketchCancelView(menuet);
 		
 		MELabel label2D = new MELabel(menuet,Menuet.MENUET_MODE_SKETCH, null);
-		label2D.meColorBackground = AvoColors.COLOR_MENUET_SKETCH;
 		label2D.meLabel = "Sketch";
 		label2D.textIsBold = true;
 		
@@ -75,12 +74,11 @@ public class MenuetBuilder {
 		
 		
 		//
-		//  TOOL MODE:  2Dto3D
+		//  TOOL MODE:  Build
 		//
 		new ToolBuildDoneView(menuet);
 		
 		MELabel label2D3D = new MELabel(menuet,Menuet.MENUET_MODE_BUILD, null);
-		label2D3D.meColorBackground = AvoColors.COLOR_MENUET_BUILD;
 		label2D3D.meLabel = "Build";
 		label2D3D.textIsBold = true;
 		
@@ -90,10 +88,11 @@ public class MenuetBuilder {
 		new METoolbox(menuet,Menuet.MENUET_MODE_BUILD);
 		
 		//
-		//  TOOL MODE:  Main
+		//  TOOL MODE:  Part
 		//
+		MESpacer spacerPartDone = new MESpacer(menuet, Menuet.MENUET_MODE_PART, null);
+		spacerPartDone.mePreferredHeight = 100;
 		MELabel labelMAIN = new MELabel(menuet,Menuet.MENUET_MODE_PART, null);
-		labelMAIN.meColorBackground = AvoColors.COLOR_MENUET_PART;
 		labelMAIN.meLabel = "Part";
 		labelMAIN.textIsBold = true;
 		

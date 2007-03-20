@@ -51,7 +51,7 @@ public class MELabel extends MenuetElement{
 	@Override
 	void paintElement(PaintEvent e) {
 		GC g = e.gc;
-		g.setBackground(this.meColorBackground);
+		g.setBackground(this.getBackground());
 		int width  = this.getBounds().width;
 		int height = this.getBounds().height;
 		

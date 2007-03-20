@@ -1,6 +1,6 @@
 package ui.tools.sketch;
 
-import ui.menuet.MEButton;
+import ui.menuet.MEButtonDone;
 import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
 import ui.tools.ToolViewSketch;
@@ -36,19 +36,12 @@ import backend.global.AvoColors;
 */
 public class ToolSketchDoneView extends ToolViewSketch{
 	
-	public ToolSketchDoneView(Menuet menuet){	
-		
+	public ToolSketchDoneView(Menuet menuet){		
 		// initialize GUI elements
-		mElement = new MEButton(menuet, this.getToolMode(), this, false);
-		mElement.mePreferredHeight = 100;
-		mElement.meColorMouseOver  = AvoColors.COLOR_MENUET_DONE_MO;
-		mElement.meColorUnselected = AvoColors.COLOR_MENUET_DONE_US; 
-		mElement.meLabel = "Done";
-		mElement.meIcon = ImageUtils.getIcon("./menuet/Done.png", 24, 24);
+		mElement = new MEButtonDone(menuet, this.getToolMode(), this);
 		mElement.setToolTipText("Finish working in the Sketch mode.");
-		mElement.meDispOptions = MenuetElement.ME_TRY_ICON;
 		
-		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
+		this.applyToolGroupSettings();	// APPLY SKETCH GROUP SETTINGS
 	}
 
 	@Override
