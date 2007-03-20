@@ -1,17 +1,17 @@
 package ui.menuet;
 
-import ui.tools.tool2D.Tool2DCancelView;
-import ui.tools.tool2D.Tool2DCircleView;
-import ui.tools.tool2D.Tool2DDoneView;
-import ui.tools.tool2D.Tool2DExampleView;
-import ui.tools.tool2D.Tool2DLineView;
-import ui.tools.tool2D.Tool2DRectView;
-import ui.tools.tool2D.Tool2DSelectView;
-import ui.tools.tool2Dto3D.Tool2D3DDoneView;
-import ui.tools.tool2Dto3D.Tool2D3DExtrudeView;
-import ui.tools.tool2Dto3D.Tool2D3DRevolveView;
-import ui.tools.toolMain.ToolMain2D3DView;
-import ui.tools.toolMain.ToolMain2DView;
+import ui.tools.build.Tool2D3DDoneView;
+import ui.tools.build.Tool2D3DExtrudeView;
+import ui.tools.build.Tool2D3DRevolveView;
+import ui.tools.part.ToolMain2D3DView;
+import ui.tools.part.ToolMain2DView;
+import ui.tools.sketch.Tool2DCancelView;
+import ui.tools.sketch.Tool2DCircleView;
+import ui.tools.sketch.Tool2DDoneView;
+import ui.tools.sketch.Tool2DExampleView;
+import ui.tools.sketch.Tool2DLineView;
+import ui.tools.sketch.Tool2DRectView;
+import ui.tools.sketch.Tool2DSelectView;
 import backend.global.AvoColors;
 import backend.global.AvoGlobal;
 

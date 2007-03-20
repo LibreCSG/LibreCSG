@@ -3,7 +3,7 @@ package backend.model;
 import java.util.LinkedList;
 import java.util.List;
 
-import ui.tools.toolMain.ToolMain2DModel;
+import ui.tools.part.ToolMain2DModel;
 import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point3D;
