@@ -3,7 +3,7 @@ package backend.model;
 import java.util.LinkedList;
 import java.util.List;
 
-import ui.tools.part.ToolMain2DModel;
+import ui.tools.part.ToolPartSketchModel;
 import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.Point3D;
@@ -66,7 +66,7 @@ public class Sketch implements SubPart{
 		this.part = part;
 		this.ID = ID;
 		// TODO: need sketch tool interface -- stange way to do this? (sketch tool)? !!
-		paramSet = new ParamSet("Sketch", new ToolMain2DModel());
+		paramSet = new ParamSet("Sketch", new ToolPartSketchModel());
 		paramSet.addParam("o", new Param("Offset", new Point3D(0.0, 0.0, 0.0)));
 		paramSet.addParam("r", new Param("Rotation", new Rotation3D(0.0, 0.0, 0.0)));
 		paramSet.label = "Sketch";

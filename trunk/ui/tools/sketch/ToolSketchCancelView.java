@@ -47,7 +47,7 @@ public class ToolSketchCancelView extends ToolViewSketch{
 		mElement.meColorMouseOver  = AvoColors.COLOR_MENUET_CNCL_MO;
 		mElement.meColorUnselected = AvoColors.COLOR_MENUET_CNCL_US; 
 		mElement.meLabel = "Cancel";
-		mElement.setToolTipText("Cancel ALL changes made \nin the 2D drawing mode.");
+		mElement.setToolTipText("Cancel ALL changes made \nin the Sketch drawing mode.");
 		mElement.meDispOptions = MenuetElement.ME_TEXT_ONLY;
 		
 		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
@@ -56,7 +56,7 @@ public class ToolSketchCancelView extends ToolViewSketch{
 	@Override
 	public void toolSelected() {		
 		MessageBox m = new MessageBox(AvoGlobal.menuet.getShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO);
-		m.setMessage("Are you sure you want to discard ALL changes\nand exit the 2D drawing mode?");
+		m.setMessage("Are you sure you want to discard ALL changes\nand exit the Sketch drawing mode?");
 		m.setText("Discard ALL Changes?");
 		if(m.open() == SWT.YES){
 			this.changeMenuetToolMode(Menuet.MENUET_MODE_PART, new ToolSketchCancelCtrl());
