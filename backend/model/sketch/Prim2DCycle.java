@@ -172,6 +172,16 @@ public class Prim2DCycle extends Prim2DList implements Comparable{
 	}
 	
 	/**
+	 * reverse the order of primitaves in the cycle, 
+	 * thus changing a CCW ordered cycle to a CW cycle.
+	 * (or vice versa).
+	 */
+	public void reverseCycleOrder(){
+		// TODO: reverse cycle order!
+		System.out.println("Prim2DCycle(reverseCycleOrder): cycle reversal not yet implemented...");
+	}
+	
+	/**
 	 * check to see if the cycle is valid.
 	 * That is, it must be connected and
 	 * start and end at the same point.

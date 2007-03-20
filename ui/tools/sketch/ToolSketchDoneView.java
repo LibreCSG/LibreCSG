@@ -45,7 +45,7 @@ public class ToolSketchDoneView extends ToolViewSketch{
 		mElement.meColorUnselected = AvoColors.COLOR_MENUET_DONE_US; 
 		mElement.meLabel = "Done";
 		mElement.meIcon = ImageUtils.getIcon("./menuet/Done.png", 24, 24);
-		mElement.setToolTipText("Finish working in the 2D mode.");
+		mElement.setToolTipText("Finish working in the Sketch mode.");
 		mElement.meDispOptions = MenuetElement.ME_TRY_ICON;
 		
 		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS

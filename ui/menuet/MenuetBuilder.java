@@ -3,15 +3,15 @@ package ui.menuet;
 import ui.tools.build.ToolBuildDoneView;
 import ui.tools.build.ToolBuildExtrudeView;
 import ui.tools.build.ToolBuildRevolveView;
-import ui.tools.part.ToolMain2D3DView;
-import ui.tools.part.ToolMain2DView;
-import ui.tools.sketch.Tool2DCancelView;
-import ui.tools.sketch.Tool2DCircleView;
-import ui.tools.sketch.Tool2DDoneView;
-import ui.tools.sketch.Tool2DExampleView;
-import ui.tools.sketch.Tool2DLineView;
-import ui.tools.sketch.Tool2DRectView;
-import ui.tools.sketch.Tool2DSelectView;
+import ui.tools.part.ToolPartBuildView;
+import ui.tools.part.ToolPartSketchView;
+import ui.tools.sketch.ToolSketchCancelView;
+import ui.tools.sketch.ToolSketchCircleView;
+import ui.tools.sketch.ToolSketchDoneView;
+import ui.tools.sketch.ToolSketchExampleView;
+import ui.tools.sketch.ToolSketchLineView;
+import ui.tools.sketch.ToolSketchRectView;
+import ui.tools.sketch.ToolSketchSelectView;
 import backend.global.AvoColors;
 import backend.global.AvoGlobal;
 
@@ -55,23 +55,23 @@ public class MenuetBuilder {
 		//
 		//  TOOL MODE:  2D
 		//
-		new Tool2DDoneView(menuet);
-		new Tool2DCancelView(menuet);
+		new ToolSketchDoneView(menuet);
+		new ToolSketchCancelView(menuet);
 		
 		MELabel label2D = new MELabel(menuet,Menuet.MENUET_MODE_SKETCH, null);
 		label2D.meColorBackground = AvoColors.COLOR_MENUET_SKETCH;
-		label2D.meLabel = "2D";
+		label2D.meLabel = "Sketch";
 		label2D.textIsBold = true;
 		
-		new Tool2DLineView(menuet);
-		new Tool2DCircleView(menuet);
-		new Tool2DRectView(menuet);
-		new Tool2DExampleView(menuet);
+		new ToolSketchLineView(menuet);
+		new ToolSketchCircleView(menuet);
+		new ToolSketchRectView(menuet);
+		new ToolSketchExampleView(menuet);
 		
 		
 		new METoolbox(menuet,Menuet.MENUET_MODE_SKETCH);
 		
-		new Tool2DSelectView(menuet);
+		new ToolSketchSelectView(menuet);
 		
 		
 		//
@@ -81,7 +81,7 @@ public class MenuetBuilder {
 		
 		MELabel label2D3D = new MELabel(menuet,Menuet.MENUET_MODE_BUILD, null);
 		label2D3D.meColorBackground = AvoColors.COLOR_MENUET_BUILD;
-		label2D3D.meLabel = "2Dto3D";
+		label2D3D.meLabel = "Build";
 		label2D3D.textIsBold = true;
 		
 		new ToolBuildExtrudeView(menuet);
@@ -94,11 +94,11 @@ public class MenuetBuilder {
 		//
 		MELabel labelMAIN = new MELabel(menuet,Menuet.MENUET_MODE_PART, null);
 		labelMAIN.meColorBackground = AvoColors.COLOR_MENUET_PART;
-		labelMAIN.meLabel = "Tools";
+		labelMAIN.meLabel = "Part";
 		labelMAIN.textIsBold = true;
 		
-		new ToolMain2DView(menuet);
-		new ToolMain2D3DView(menuet);
+		new ToolPartSketchView(menuet);
+		new ToolPartBuildView(menuet);
 		AvoGlobal.menuet.currentToolMode = Menuet.MENUET_MODE_PART;		
 		
 	}

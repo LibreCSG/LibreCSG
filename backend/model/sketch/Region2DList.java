@@ -179,6 +179,9 @@ public class Region2DList extends LinkedList<Region2D>{
 		// put final cycles into the regionList! :)
 		//
 		for(Prim2DCycle cycle : finalCycles){
+			if(cycle.isCCW()){
+				cycle.reverseCycleOrder();
+			}
 			Region2D r = new Region2D(cycle);
 			this.add(r);
 		}		
