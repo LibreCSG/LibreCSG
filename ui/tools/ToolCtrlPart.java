@@ -27,6 +27,8 @@ package ui.tools;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public interface ToolCtrl3D3D extends ToolCtrl{
-
+public interface ToolCtrlPart extends ToolCtrl {
+	
+	// nothing here for now.. but keeps ToolInterface structure consistent for all Tools.
+	
 }

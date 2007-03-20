@@ -4,7 +4,7 @@ import backend.adt.ParamSet;
 import backend.global.AvoGlobal;
 import backend.model.Sketch;
 import backend.model.sketch.Prim2DList;
-import ui.tools.ToolModel2D;
+import ui.tools.ToolModelSketch;
 
 
 //
@@ -33,7 +33,7 @@ import ui.tools.ToolModel2D;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DCancelModel implements ToolModel2D{
+public class Tool2DCancelModel implements ToolModelSketch{
 
 	public boolean paramSetIsValid(ParamSet paramSet) {
 		return false;

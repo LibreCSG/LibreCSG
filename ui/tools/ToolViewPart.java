@@ -33,7 +33,7 @@ import backend.global.AvoColors;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public abstract class ToolViewMain extends ToolView {
+public abstract class ToolViewPart extends ToolView {
 
 	/**
 	 * This is applied only after the MenuetElement
@@ -42,7 +42,7 @@ public abstract class ToolViewMain extends ToolView {
 	 */
 	public void applyToolGroupSettings() {
 		if(mElement != null){
-			mElement.meColorBackground = AvoColors.COLOR_MENUET_MAIN;
+			mElement.meColorBackground = AvoColors.COLOR_MENUET_PART;
 			mElement.addMouseListener(new MouseListener(){
 				public void mouseDoubleClick(MouseEvent e) {
 				}
@@ -56,7 +56,7 @@ public abstract class ToolViewMain extends ToolView {
 	}
 
 	public int getToolMode() {
-		return Menuet.MENUET_MODE_MAIN;
+		return Menuet.MENUET_MODE_PART;
 	}
 
 	

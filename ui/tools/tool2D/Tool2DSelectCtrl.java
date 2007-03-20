@@ -3,7 +3,7 @@ package ui.tools.tool2D;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 
-import ui.tools.ToolCtrl2D;
+import ui.tools.ToolCtrlSketch;
 import backend.adt.Point2D;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D;
@@ -37,7 +37,7 @@ import backend.model.sketch.Prim2D;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DSelectCtrl implements ToolCtrl2D {
+public class Tool2DSelectCtrl implements ToolCtrlSketch {
 	
 	boolean shiftIsDown = false;
 	

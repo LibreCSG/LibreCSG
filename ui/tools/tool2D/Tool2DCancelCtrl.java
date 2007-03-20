@@ -4,7 +4,7 @@ import org.eclipse.swt.events.MouseEvent;
 
 import backend.global.AvoGlobal;
 
-import ui.tools.ToolCtrl2D;
+import ui.tools.ToolCtrlSketch;
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -32,7 +32,7 @@ import ui.tools.ToolCtrl2D;
  * @author  Adam Kumpf
  * @created Feb. 2007
  */
-public class Tool2DCancelCtrl implements ToolCtrl2D {
+public class Tool2DCancelCtrl implements ToolCtrlSketch {
 	/**
 	 * All of the tool's main controller functionality:
 	 * (mouse handling, button clicking, etc.) 

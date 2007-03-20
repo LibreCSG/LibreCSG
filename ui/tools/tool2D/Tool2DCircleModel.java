@@ -1,6 +1,6 @@
 package ui.tools.tool2D;
 
-import ui.tools.ToolModel2D;
+import ui.tools.ToolModelSketch;
 import backend.adt.ParamType;
 import backend.adt.Param;
 import backend.adt.ParamSet;
@@ -37,7 +37,7 @@ import backend.model.sketch.Prim2DList;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DCircleModel implements ToolModel2D {
+public class Tool2DCircleModel implements ToolModelSketch {
 
 	public Prim2DList buildPrim2DList(ParamSet paramSet) {
 		try{

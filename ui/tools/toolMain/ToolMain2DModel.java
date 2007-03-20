@@ -2,7 +2,7 @@ package ui.tools.toolMain;
 
 import backend.adt.ParamType;
 import backend.adt.ParamSet;
-import ui.tools.ToolModelMain;
+import ui.tools.ToolModelPart;
 
 
 //
@@ -31,7 +31,7 @@ import ui.tools.ToolModelMain;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class ToolMain2DModel implements ToolModelMain{
+public class ToolMain2DModel implements ToolModelPart{
 
 	public void finalize(ParamSet paramSet) {
 	}

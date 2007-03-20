@@ -3,7 +3,7 @@ package ui.tools.tool2D;
 import ui.menuet.MEButton;
 import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
-import ui.tools.ToolView2D;
+import ui.tools.ToolViewSketch;
 import backend.data.utilities.ImageUtils;
 import backend.global.AvoColors;
 
@@ -34,7 +34,7 @@ import backend.global.AvoColors;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class Tool2DDoneView extends ToolView2D{
+public class Tool2DDoneView extends ToolViewSketch{
 	
 	public Tool2DDoneView(Menuet menuet){	
 		

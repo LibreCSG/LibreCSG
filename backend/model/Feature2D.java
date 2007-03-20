@@ -1,6 +1,6 @@
 package backend.model;
 
-import ui.tools.ToolModel2D;
+import ui.tools.ToolModelSketch;
 import backend.adt.ParamSet;
 import backend.model.sketch.Prim2DList;
 
@@ -56,14 +56,14 @@ public class Feature2D {
 	
 	public void buildPrim2DList(){
 		if(paramSet != null){
-			ToolModel2D toolModel2D = paramSet.getToolModel2D();
+			ToolModelSketch toolModel2D = paramSet.getToolModel2D();
 			if(toolModel2D != null){
 				prim2DList = toolModel2D.buildPrim2DList(paramSet);
 			}
 		}
 	}
 	
-	public ToolModel2D getToolInterface2D(){
+	public ToolModelSketch getToolInterface2D(){
 		if(paramSet != null){
 			return paramSet.getToolModel2D();
 		}		

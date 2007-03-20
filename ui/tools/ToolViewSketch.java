@@ -1,5 +1,12 @@
 package ui.tools;
 
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
+
+import ui.menuet.Menuet;
+import backend.global.AvoColors;
+
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -27,6 +34,28 @@ package ui.tools;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public interface ToolModelMain extends ToolModel{
+public abstract class ToolViewSketch extends ToolView {
 
+	// tool2D specific settings
+	public void applyToolGroupSettings(){
+		if(mElement != null){
+			mElement.meColorBackground = AvoColors.COLOR_MENUET_SKETCH;
+			mElement.addMouseListener(new MouseListener(){
+				public void mouseDoubleClick(MouseEvent e) {
+				}
+				public void mouseDown(MouseEvent e) {
+					toolSelected();
+				}
+				public void mouseUp(MouseEvent e) {
+				}				
+			});			
+		}		
+	}
+
+	// tool2D mode
+	public int getToolMode() {
+		return Menuet.MENUET_MODE_SKETCH;
+	}
+
+	
 }

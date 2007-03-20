@@ -5,7 +5,7 @@ import org.eclipse.swt.events.MouseEvent;
 import backend.global.AvoGlobal;
 import backend.model.Sketch;
 
-import ui.tools.ToolCtrlMain;
+import ui.tools.ToolCtrlPart;
 
 
 //
@@ -34,7 +34,7 @@ import ui.tools.ToolCtrlMain;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class ToolMain2DCtrl implements ToolCtrlMain{
+public class ToolMain2DCtrl implements ToolCtrlPart{
 	
 	public void glMouseDown(double x, double y, double z, MouseEvent e) {
 	}
