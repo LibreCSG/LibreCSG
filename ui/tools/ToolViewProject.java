@@ -42,7 +42,6 @@ public abstract class ToolViewProject extends ToolView{
 	 */
 	public void applyToolGroupSettings() {
 		if(mElement != null){
-			mElement.meColorBackground = AvoColors.COLOR_MENUET_PROJECT;
 			mElement.addMouseListener(new MouseListener(){
 				public void mouseDoubleClick(MouseEvent e) {
 				}

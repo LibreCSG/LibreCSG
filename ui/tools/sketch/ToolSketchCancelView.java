@@ -3,7 +3,7 @@ package ui.tools.sketch;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
 
-import ui.menuet.MEButton;
+import ui.menuet.MEButtonCancel;
 import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
 import ui.tools.ToolViewSketch;
@@ -42,13 +42,8 @@ public class ToolSketchCancelView extends ToolViewSketch{
 	public ToolSketchCancelView(Menuet menuet){	
 		
 		// initialize GUI elements
-		mElement = new MEButton(menuet, this.getToolMode(), this, false);
-		mElement.mePreferredHeight = 25;
-		mElement.meColorMouseOver  = AvoColors.COLOR_MENUET_CNCL_MO;
-		mElement.meColorUnselected = AvoColors.COLOR_MENUET_CNCL_US; 
-		mElement.meLabel = "Cancel";
+		mElement = new MEButtonCancel(menuet, this.getToolMode(), this);
 		mElement.setToolTipText("Cancel ALL changes made \nin the Sketch drawing mode.");
-		mElement.meDispOptions = MenuetElement.ME_TEXT_ONLY;
 		
 		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
 	}

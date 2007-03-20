@@ -1,11 +1,8 @@
 package ui.tools.build;
 
-import ui.menuet.MEButton;
+import ui.menuet.MEButtonDone;
 import ui.menuet.Menuet;
-import ui.menuet.MenuetElement;
 import ui.tools.ToolViewBuild;
-import backend.data.utilities.ImageUtils;
-import backend.global.AvoColors;
 
 
 //
@@ -39,14 +36,8 @@ public class ToolBuildDoneView extends ToolViewBuild{
 	public ToolBuildDoneView(Menuet menuet){	
 		
 		// initialize GUI elements
-		mElement = new MEButton(menuet, this.getToolMode(), this, false);
-		mElement.mePreferredHeight = 100;
-		mElement.meColorMouseOver  = AvoColors.COLOR_MENUET_DONE_MO;
-		mElement.meColorUnselected = AvoColors.COLOR_MENUET_DONE_US; 
-		mElement.meLabel = "Done";
-		mElement.meIcon = ImageUtils.getIcon("menuet/Done.png", 24, 24);
+		mElement = new MEButtonDone(menuet, this.getToolMode(), this);
 		mElement.setToolTipText("Finish working in the 2Dto3D mode,\nkeeping any changes that have been made.");
-		mElement.meDispOptions = MenuetElement.ME_TRY_ICON;
 		
 		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
 	}

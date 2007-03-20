@@ -39,7 +39,6 @@ public abstract class ToolViewSketch extends ToolView {
 	// tool2D specific settings
 	public void applyToolGroupSettings(){
 		if(mElement != null){
-			mElement.meColorBackground = AvoColors.COLOR_MENUET_SKETCH;
 			mElement.addMouseListener(new MouseListener(){
 				public void mouseDoubleClick(MouseEvent e) {
 				}

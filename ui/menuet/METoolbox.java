@@ -34,7 +34,7 @@ import backend.global.AvoGlobal;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class METoolbox{
+public class METoolbox {
 
 	MEButton toolboxButton;
 	final public static String meToolboxLabel = "Toolbox";
@@ -48,8 +48,7 @@ public class METoolbox{
 		toolboxButton.setToolTipText("Toolbox of all possible tools that \n" +
 				       				 "can be used in the current mode.");
 		toolboxButton.meColorMouseOver  = AvoColors.COLOR_MENUET_TLBX_MO;
-		toolboxButton.meColorUnselected = AvoColors.COLOR_MENUET_TLBX_US;
-		toolboxButton.meColorBackground = ColorUtils.getModeBGColorByMode(mode);		
+		toolboxButton.meColorUnselected = AvoColors.COLOR_MENUET_TLBX_US;		
 		toolboxButton.addMouseListener(new MouseListener(){
 			public void mouseDoubleClick(MouseEvent e) {		
 			}
@@ -65,7 +64,6 @@ public class METoolbox{
 			lastToolButton.meLabel = "??";
 			lastToolButton.mePreferredHeight = 50;
 			lastToolButton.meDispOptions = MenuetElement.ME_TEXT_ONLY;
-			lastToolButton.meColorBackground = ColorUtils.getModeBGColorByMode(mode);
 			lastToolButton.meSetShown(false);
 		}		
 	}

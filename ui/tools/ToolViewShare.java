@@ -42,7 +42,6 @@ public abstract class ToolViewShare extends ToolView{
 	 */
 	public void applyToolGroupSettings() {
 		if(mElement != null){
-			mElement.meColorBackground = AvoColors.COLOR_MENUET_SHARE;
 			mElement.addMouseListener(new MouseListener(){
 				public void mouseDoubleClick(MouseEvent e) {
 				}
