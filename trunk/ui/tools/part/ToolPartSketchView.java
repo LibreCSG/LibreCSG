@@ -1,7 +1,11 @@
 package ui.tools.part;
 
-import ui.tools.ToolModelPart;
-import backend.adt.ParamSet;
+import ui.menuet.MEButton;
+import ui.menuet.Menuet;
+import ui.menuet.MenuetElement;
+import ui.tools.ToolViewPart;
+import backend.data.utilities.ImageUtils;
+import backend.global.AvoColors;
 
 
 //
@@ -30,20 +34,26 @@ import backend.adt.ParamSet;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class ToolMain2D3DModel implements ToolModelPart{
+public class ToolPartSketchView extends ToolViewPart{
 
-	public void finalize(ParamSet paramSet) {		
+	public ToolPartSketchView(Menuet menuet){	
+		
+		// initialize GUI elements
+		mElement = new MEButton(menuet, this.getToolMode(), this, false);
+		mElement.mePreferredHeight = 100;
+		mElement.meLabel = "2D";
+		mElement.meColorUnselected = AvoColors.COLOR_MENUET_SKETCH;
+		mElement.meColorMouseOver  = AvoColors.COLOR_MENUET_SKETCH_LIGHT;
+		mElement.meIcon = ImageUtils.getIcon("menuet/MAIN_2D.png", 24, 24);
+		mElement.setToolTipText("2D Sketch Mode");
+		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
+		
+		this.applyToolGroupSettings();	// APPLY MAIN GROUP SETTINGS
 	}
 
-	public boolean paramSetIsValid(ParamSet paramSet) {
-		return false;
-	}
-
-	public void updateDerivedParams(ParamSet paramSet) {
-	}
-
-	public ParamSet constructNewParamSet() {
-		return null;
+	@Override
+	public void toolSelected() {
+		changeMenuetToolMode(Menuet.MENUET_MODE_SKETCH, new ToolPartSketchCtrl());
 	}
 
 }

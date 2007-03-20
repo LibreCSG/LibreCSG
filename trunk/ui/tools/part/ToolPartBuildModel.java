@@ -1,8 +1,7 @@
 package ui.tools.part;
 
-import org.eclipse.swt.events.MouseEvent;
-
-import ui.tools.ToolCtrlPart;
+import ui.tools.ToolModelPart;
+import backend.adt.ParamSet;
 
 
 //
@@ -23,7 +22,7 @@ import ui.tools.ToolCtrlPart;
 //GNU General Public License for more details.
 //
 //You should have received a copy of the GNU General Public License
-//along with AvoCADo; if not, write to the Free Software
+//along with AvoCADo; if not, write to the Free Softwares
 //Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
@@ -31,24 +30,20 @@ import ui.tools.ToolCtrlPart;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class ToolMain2D3DCtrl implements ToolCtrlPart{
+public class ToolPartBuildModel implements ToolModelPart{
 
-	public void glMouseDown(double x, double y, double z, MouseEvent e) {
+	public void finalize(ParamSet paramSet) {		
 	}
 
-	public void glMouseDrag(double x, double y, double z, MouseEvent e) {
+	public boolean paramSetIsValid(ParamSet paramSet) {
+		return false;
 	}
 
-	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
+	public void updateDerivedParams(ParamSet paramSet) {
 	}
 
-	public void glMouseUp(double x, double y, double z, MouseEvent e) {
-	}
-
-	public void menuetElementDeselected() {
-	}
-
-	public void menuetElementSelected() {
+	public ParamSet constructNewParamSet() {
+		return null;
 	}
 
 }
