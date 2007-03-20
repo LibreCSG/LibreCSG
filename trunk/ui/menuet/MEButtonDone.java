@@ -11,12 +11,14 @@ import ui.tools.ToolView;
  */
 public class MEButtonDone extends MEButton{
 
+	public final static int preferredHeight = 100;
+	
 	/**
 	 * standardized Menuet Button for "DONE"
 	 */
 	public MEButtonDone(Menuet menuet, int mode, ToolView toolView) {
 		super(menuet, mode, toolView, false);
-		this.mePreferredHeight = 100;
+		this.mePreferredHeight = preferredHeight;
 		this.meColorMouseOver  = AvoColors.COLOR_MENUET_DONE_MO;
 		this.meColorUnselected = AvoColors.COLOR_MENUET_DONE_US; 
 		this.meLabel = "Done";
