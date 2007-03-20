@@ -59,7 +59,11 @@ public class Region2D implements Comparable{
 	}
 	
 	public boolean regionContainsPoint2D(Point2D pt){
-		return csgFace.vertexIsInsideFace(new CSG_Vertex(pt, 0.0));
+		if(csgFace != null){
+			return csgFace.vertexIsInsideFace(new CSG_Vertex(pt, 0.0));
+		}else{
+			return false;
+		}
 	}
 
 	
