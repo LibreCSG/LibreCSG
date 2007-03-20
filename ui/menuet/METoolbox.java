@@ -3,7 +3,6 @@ package ui.menuet;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 
-import ui.utilities.ColorUtils;
 import backend.data.utilities.ImageUtils;
 import backend.global.AvoColors;
 import backend.global.AvoGlobal;
