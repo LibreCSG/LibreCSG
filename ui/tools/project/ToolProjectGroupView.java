@@ -5,7 +5,6 @@ import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
 import ui.tools.ToolViewProject;
 import backend.data.utilities.ImageUtils;
-import backend.global.AvoColors;
 
 public class ToolProjectGroupView extends ToolViewProject{
 
@@ -15,8 +14,6 @@ public class ToolProjectGroupView extends ToolViewProject{
 		mElement = new MEButton(menuet, this.getToolMode(), this, false);
 		mElement.mePreferredHeight = 100;
 		mElement.meLabel = "Group";
-		mElement.meColorUnselected = AvoColors.COLOR_MENUET_GROUP;
-		mElement.meColorMouseOver  = AvoColors.COLOR_MENUET_GROUP_LIGHT;
 		mElement.meIcon = ImageUtils.getIcon("menuet/MAIN_2Dto3D.png", 24, 24);
 		mElement.setToolTipText("Add a new Group to the project.");
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
