@@ -59,7 +59,9 @@ public class Part {
 	public int addNewSketch(){
 		subPartList.add(new Sketch(this, subPartCounter++));
 		AvoGlobal.modelEventHandler.notifyElementAdded();
-		return subPartList.size()-1;
+		int newIndex = subPartList.size()-1;
+		activeSubPart = newIndex;
+		return newIndex;
 	}
 	
 	public int addNewFeat2D3D(int sketchID){

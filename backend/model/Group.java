@@ -67,7 +67,9 @@ public class Group {
 	public int addNewPart(){
 		partList.add(new Part(this, partCounter++));
 		AvoGlobal.modelEventHandler.notifyElementAdded();
-		return partList.size()-1;
+		int newIndex = partList.size()-1;
+		activePart = newIndex;
+		return newIndex;
 	}
 	
 	/**

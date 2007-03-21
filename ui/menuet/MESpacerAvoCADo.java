@@ -1,6 +1,8 @@
 package ui.menuet;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.MouseTrackListener;
 import org.eclipse.swt.graphics.Image;
 
@@ -51,8 +53,8 @@ public class MESpacerAvoCADo {
 				{"Salsa tastes better."},
 				{"potty break... brb."},
 				{"Knock Knock", "Who's there?", "Guess!", "Guess Who?", "That's what I was trying to do!"},
-				{"Guess a number between 1 and 10.", "  I picked the number " + Integer.toString((int)Math.floor(Math.random()*10.99)),
-					"Why don't you try again. :)", "  I picked the number " + Integer.toString((int)Math.floor(Math.random()*10.99))},
+				{"Guess a number between 1 and 10.", "  I picked the number " + Integer.toString(1+(int)Math.floor(Math.random()*10)),
+					"Why don't you try again. :)", "  I picked the number " + Integer.toString(1+(int)Math.floor(Math.random()*10))},
 				{"I'm green with envy!"},
 				{"Don't mind me.  I'll be here all day."},
 				{"You look fantabulous!", "just kidding :P"},
