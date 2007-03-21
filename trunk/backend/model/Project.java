@@ -55,6 +55,7 @@ public class Project {
 		groupList.add(new Group(this, groupCounter++));
 		AvoGlobal.modelEventHandler.notifyElementAdded();
 		int newIndex = groupList.size()-1;
+		activeGroup = newIndex;
 		return newIndex;
 	}
 	

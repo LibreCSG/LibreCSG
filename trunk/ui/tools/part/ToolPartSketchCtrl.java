@@ -2,10 +2,10 @@ package ui.tools.part;
 
 import org.eclipse.swt.events.MouseEvent;
 
-import backend.global.AvoGlobal;
-import backend.model.Sketch;
-
 import ui.tools.ToolCtrlPart;
+import backend.global.AvoGlobal;
+import backend.model.Part;
+import backend.model.Sketch;
 
 
 //
@@ -52,25 +52,21 @@ public class ToolPartSketchCtrl implements ToolCtrlPart{
 	}
 
 	public void menuetElementSelected() {
-		//
-		// create new Feature3D to use for subsequent 2D sketches
-		//
-		if(AvoGlobal.project.getActiveGroup() == null){
-			int i = AvoGlobal.project.addNewGroup();
-			AvoGlobal.project.setActiveGroup(i);
+		// Add a new sketch to the active part
+		Part part = AvoGlobal.project.getActivePart();
+		if(part != null){
+			part.addNewSketch();
+			Sketch sketch = AvoGlobal.project.getActiveSketch();
+			if(sketch != null){
+				AvoGlobal.paramDialog.setParamSet(sketch.paramSet);
+			}else{
+				System.out.println("ToolPartSketchCtrl(menuetElementSelected): whah? couldn't get active sketch.");
+			}
+			// TODO, force update this way?
+			AvoGlobal.glView.updateGLView = true; // force update since grid should now be displayed...
+		}else{
+			System.out.println("ToolPartSketchCtrl(menuetElementSelected): Active Part was Null! Cannot add a new sketch!");
 		}
-		if(AvoGlobal.project.getActivePart() == null){
-			int i = AvoGlobal.project.getActiveGroup().addNewPart();
-			AvoGlobal.project.getActiveGroup().setActivePart(i);
-		}
-		
-		int i = AvoGlobal.project.getActivePart().addNewSketch();
-		AvoGlobal.project.getActivePart().setActiveSubPart(i);
-		Sketch sketch = AvoGlobal.project.getActiveSketch();
-		if(sketch != null){
-			AvoGlobal.paramDialog.setParamSet(sketch.paramSet);
-		}
-		AvoGlobal.glView.updateGLView = true; // force update since grid should now be displayed...
 	}
 
 }

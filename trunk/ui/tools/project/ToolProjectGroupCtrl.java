@@ -3,6 +3,7 @@ package ui.tools.project;
 import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolCtrlProject;
+import backend.global.AvoGlobal;
 
 public class ToolProjectGroupCtrl implements ToolCtrlProject{
 
@@ -22,8 +23,8 @@ public class ToolProjectGroupCtrl implements ToolCtrlProject{
 	}
 
 	public void menuetElementSelected() {
-		// TODO Add a new Group to the project!
-		
+		// Add a new Group to the project!
+		AvoGlobal.project.addNewGroup();
 	}
 
 }
