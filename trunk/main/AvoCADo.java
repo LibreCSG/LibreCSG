@@ -3,6 +3,7 @@ package main;
 import org.eclipse.swt.widgets.Display;
 
 import ui.shells.MainAvoCADoShell;
+import ui.shells.StartupSplashShell;
 
 //
 // Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -46,6 +47,8 @@ public class AvoCADo {
 	
 	public AvoCADo(){
 		display = new Display();
+		
+		new StartupSplashShell(display);
 		
 		// create the main shell and display it
 		new MainAvoCADoShell(display);

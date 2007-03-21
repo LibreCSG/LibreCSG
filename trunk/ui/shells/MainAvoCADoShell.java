@@ -5,6 +5,7 @@ import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -69,8 +70,14 @@ public class MainAvoCADoShell{
 		shell.setText("avoCADo");
 		shell.setSize(800, 600);	//TODO: set intial size to last known size
 		shell.setMinimumSize(640, 480);
+		Rectangle b = display.getBounds();
+		int xPos = Math.max(0, (b.width-800)/2);
+		int yPos = Math.max(0, (b.height-600)/2);
+		shell.setLocation(xPos, yPos);
 		shell.setImage(ImageUtils.getIcon("./avoCADo.png", 32, 32));
 		shell.open();
+		
+		StartupSplashShell.closeSplash();
 		
 		// handle events while the shell is not disposed
 		while (!shell.isDisposed()) {
