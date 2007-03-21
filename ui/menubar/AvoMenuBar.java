@@ -134,6 +134,15 @@ public class AvoMenuBar {
 					AvoGlobal.glView.setViewIso();
 				}				
 			});
+			MenuItem vsSketch = new MenuItem(viewSub, SWT.PUSH);
+			vsSketch.setText("&Sketch");
+			vsSketch.addSelectionListener(new SelectionListener(){
+				public void widgetDefaultSelected(SelectionEvent e) {
+				}
+				public void widgetSelected(SelectionEvent e) {
+					AvoGlobal.glView.setViewSketch();
+				}				
+			});
 		}
 		
 		MenuItem miHelp = new MenuItem(menu, SWT.CASCADE);
