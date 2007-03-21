@@ -8,7 +8,6 @@ import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
 import ui.tools.ToolViewPart;
 import backend.data.utilities.ImageUtils;
-import backend.global.AvoColors;
 import backend.global.AvoGlobal;
 import backend.model.Sketch;
 
@@ -47,8 +46,6 @@ public class ToolPartBuildView extends ToolViewPart{
 		mElement = new MEButton(menuet, this.getToolMode(), this, false);
 		mElement.mePreferredHeight = 100;
 		mElement.meLabel = "Build";
-		mElement.meColorUnselected = AvoColors.COLOR_MENUET_BUILD;
-		mElement.meColorMouseOver  = AvoColors.COLOR_MENUET_BUILD_LIGHT;
 		mElement.meIcon = ImageUtils.getIcon("menuet/MAIN_2Dto3D.png", 24, 24);
 		mElement.setToolTipText("Transform 2D sketches\ninto various 3D shapes.");
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;

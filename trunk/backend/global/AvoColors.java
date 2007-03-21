@@ -39,20 +39,13 @@ public class AvoColors {
 	/**
 	 * Background color of Menuet in various modes.
 	 */
-	public static final Color COLOR_MENUET_PROJECT       = new Color(Display.getCurrent(),  220,  220,  180);
-	public static final Color COLOR_MENUET_PROJECT_LIGHT = new Color(Display.getCurrent(),  220,  220,  180);
-	public static final Color COLOR_MENUET_GROUP         = new Color(Display.getCurrent(),  220,  220,  180);
-	public static final Color COLOR_MENUET_GROUP_LIGHT   = new Color(Display.getCurrent(),  220,  220,  180);
-	public static final Color COLOR_MENUET_SHARE         = new Color(Display.getCurrent(),  220,  220,  180);
-	public static final Color COLOR_MENUET_SHARE_LIGHT   = new Color(Display.getCurrent(),  220,  220,  180);
-	public static final Color COLOR_MENUET_PART          = new Color(Display.getCurrent(),  230,  230,  230);
-	public static final Color COLOR_MENUET_PART_LIGHT    = new Color(Display.getCurrent(),  230,  230,  230);
-	public static final Color COLOR_MENUET_SKETCH        = new Color(Display.getCurrent(),  180,  240,  180);
-	public static final Color COLOR_MENUET_SKETCH_LIGHT  = new Color(Display.getCurrent(),  210,  250,  210);
-	public static final Color COLOR_MENUET_BUILD         = new Color(Display.getCurrent(),  180,  180,  240);
-	public static final Color COLOR_MENUET_BUILD_LIGHT   = new Color(Display.getCurrent(),  210,  210,  250);
-	public static final Color COLOR_MENUET_MODIFY        = new Color(Display.getCurrent(),  220,  220,  180);
-	public static final Color COLOR_MENUET_MODIFY_LIGHT  = new Color(Display.getCurrent(),  220,  220,  180);
+	public static final Color COLOR_MENUET_PROJECT = new Color(Display.getCurrent(),  220,  220,  220); // 
+	public static final Color COLOR_MENUET_GROUP   = new Color(Display.getCurrent(),  239,  220,  232); // pink/purple
+	public static final Color COLOR_MENUET_SHARE   = new Color(Display.getCurrent(),  244,  242,  205); // yellow
+	public static final Color COLOR_MENUET_PART    = new Color(Display.getCurrent(),  220,  210,  240); // blue
+	public static final Color COLOR_MENUET_SKETCH  = new Color(Display.getCurrent(),  215,  245,  210); // green
+	public static final Color COLOR_MENUET_BUILD   = new Color(Display.getCurrent(),  210,  220,  242); // purple/blue 
+	public static final Color COLOR_MENUET_MODIFY  = new Color(Display.getCurrent(),  245,  225,  210); // orange
 	
 	/**
 	 * colors for special menuet buttons

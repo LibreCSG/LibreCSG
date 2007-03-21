@@ -1,5 +1,8 @@
 package ui.menuet;
 
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseTrackListener;
+
 import ui.tools.build.ToolBuildDoneView;
 import ui.tools.build.ToolBuildExtrudeView;
 import ui.tools.build.ToolBuildRevolveView;
@@ -65,7 +68,7 @@ public class MenuetBuilder {
 		new ToolSketchDoneView(menuet);
 		new ToolSketchCancelView(menuet);
 		
-		MELabel labelSketch = new MELabel(menuet,Menuet.MENUET_MODE_SKETCH, null);
+		MELabel labelSketch = new MELabel(menuet,Menuet.MENUET_MODE_SKETCH);
 		labelSketch.meLabel = "Sketch";
 		labelSketch.textIsBold = true;
 		
@@ -73,7 +76,6 @@ public class MenuetBuilder {
 		new ToolSketchCircleView(menuet);
 		new ToolSketchRectView(menuet);
 		new ToolSketchExampleView(menuet);
-		
 		
 		new METoolbox(menuet,Menuet.MENUET_MODE_SKETCH);
 		
@@ -85,9 +87,9 @@ public class MenuetBuilder {
 		//
 		new ToolBuildDoneView(menuet);
 		
-		MESpacer spacerBuildCancel = new MESpacer(menuet, Menuet.MENUET_MODE_BUILD, null);
+		MESpacer spacerBuildCancel = new MESpacer(menuet, Menuet.MENUET_MODE_BUILD);
 		spacerBuildCancel.mePreferredHeight = MEButtonCancel.preferredHeight;
-		MELabel labelBuild = new MELabel(menuet,Menuet.MENUET_MODE_BUILD, null);
+		MELabel labelBuild = new MELabel(menuet,Menuet.MENUET_MODE_BUILD);
 		labelBuild.meLabel = "Build";
 		labelBuild.textIsBold = true;
 		
@@ -101,21 +103,22 @@ public class MenuetBuilder {
 		// TOOL MODE: Modify
 		//
 		new ToolModifyDoneView(menuet);
-		MESpacer spacerModifyCancel = new MESpacer(menuet, Menuet.MENUET_MODE_MODIFY, null);
+		MESpacer spacerModifyCancel = new MESpacer(menuet, Menuet.MENUET_MODE_MODIFY);
 		spacerModifyCancel.mePreferredHeight = MEButtonCancel.preferredHeight;
-		MELabel labelModify = new MELabel(menuet,Menuet.MENUET_MODE_MODIFY, null);
+		MELabel labelModify = new MELabel(menuet,Menuet.MENUET_MODE_MODIFY);
 		labelModify.meLabel = "Modify";
 		labelModify.textIsBold = true;
 		
+		new METoolbox(menuet,Menuet.MENUET_MODE_MODIFY);
 		
 		//
 		//  TOOL MODE:  Part
 		//
 		new ToolPartDoneView(menuet);
 		
-		MESpacer spacerPartCancel = new MESpacer(menuet, Menuet.MENUET_MODE_PART, null);
+		MESpacer spacerPartCancel = new MESpacer(menuet, Menuet.MENUET_MODE_PART);
 		spacerPartCancel.mePreferredHeight = MEButtonCancel.preferredHeight;
-		MELabel labelPart = new MELabel(menuet,Menuet.MENUET_MODE_PART, null);
+		MELabel labelPart = new MELabel(menuet,Menuet.MENUET_MODE_PART);
 		labelPart.meLabel = "Part";
 		labelPart.textIsBold = true;
 		
@@ -126,11 +129,12 @@ public class MenuetBuilder {
 		//
 		//  TOOL MODE: Project
 		//
-		MESpacer spacerProjectDone = new MESpacer(menuet, Menuet.MENUET_MODE_PROJECT, null);
-		spacerProjectDone.mePreferredHeight = MEButtonDone.preferredHeight;
-		MESpacer spacerProjectCancel = new MESpacer(menuet, Menuet.MENUET_MODE_PROJECT, null);
+		
+		MESpacerAvoCADo spacerAvoCADo = new MESpacerAvoCADo(menuet, Menuet.MENUET_MODE_PROJECT); 
+		spacerAvoCADo.spacer.mePreferredHeight = MEButtonDone.preferredHeight;
+		MESpacer spacerProjectCancel = new MESpacer(menuet, Menuet.MENUET_MODE_PROJECT);
 		spacerProjectCancel.mePreferredHeight = MEButtonCancel.preferredHeight;
-		MELabel labelProject = new MELabel(menuet,Menuet.MENUET_MODE_PROJECT, null);
+		MELabel labelProject = new MELabel(menuet,Menuet.MENUET_MODE_PROJECT);
 		labelProject.meLabel = "Project";
 		labelProject.textIsBold = true;
 		
@@ -142,9 +146,9 @@ public class MenuetBuilder {
 		//
 		new ToolGroupDoneView(menuet);
 
-		MESpacer spacerGroupCancel = new MESpacer(menuet, Menuet.MENUET_MODE_GROUP, null);
+		MESpacer spacerGroupCancel = new MESpacer(menuet, Menuet.MENUET_MODE_GROUP);
 		spacerGroupCancel.mePreferredHeight = MEButtonCancel.preferredHeight;
-		MELabel labelGroup = new MELabel(menuet,Menuet.MENUET_MODE_GROUP, null);
+		MELabel labelGroup = new MELabel(menuet,Menuet.MENUET_MODE_GROUP);
 		labelGroup.meLabel = "Group";
 		labelGroup.textIsBold = true;
 		
@@ -156,9 +160,9 @@ public class MenuetBuilder {
 		//
 		new ToolShareDoneView(menuet);
 		
-		MESpacer spacerShareCancel = new MESpacer(menuet, Menuet.MENUET_MODE_SHARE, null);
+		MESpacer spacerShareCancel = new MESpacer(menuet, Menuet.MENUET_MODE_SHARE);
 		spacerShareCancel.mePreferredHeight = MEButtonCancel.preferredHeight;
-		MELabel labelShare = new MELabel(menuet,Menuet.MENUET_MODE_SHARE, null);
+		MELabel labelShare = new MELabel(menuet,Menuet.MENUET_MODE_SHARE);
 		labelShare.meLabel = "Share";
 		labelShare.textIsBold = true;
 				
