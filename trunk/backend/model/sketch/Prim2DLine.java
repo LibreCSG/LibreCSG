@@ -102,7 +102,7 @@ public class Prim2DLine extends Prim2D{
 				double iX = ptC.getX()+uB*(ptD.getX()-ptC.getX());
 				double iY = ptC.getY()+uB*(ptD.getY()-ptC.getY());
 				Point2D iPoint = new Point2D(iX, iY);
-				System.out.println("INTERSECT: Lines segments intersect!! -- " + iPoint + " uA,uB:" + uA + "," + uB);
+				//System.out.println("INTERSECT: Lines segments intersect!! -- " + iPoint + " uA,uB:" + uA + "," + uB);
 				//  return point of intersection...
 				return iPoint;
 			}else{

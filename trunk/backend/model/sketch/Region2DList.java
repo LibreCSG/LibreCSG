@@ -55,6 +55,7 @@ public class Region2DList extends LinkedList<Region2D>{
 		// of Prim2D that intersect only at endpoints.
 		//
 		//  TODO: This step is rediculous! (generates TONS of cycles)
+		System.out.println("Region2DList(buildRegionsFromPrim2D): Generating all possible region cycles...");
 		boolean foundIntersection = true;
 		int maxPrimSize = 1000; // TODO: HACK just for debug
 		while(foundIntersection){
@@ -90,6 +91,7 @@ public class Region2DList extends LinkedList<Region2D>{
 		// improve it by cutting out a large number of iterations in
 		// some cases.
 		//
+		System.out.println("Region2DList(buildRegionsFromPrim2D): Pruning list of cycles...");
 		Prim2DList prunedPrims = new Prim2DList();
 		for(Prim2D prim : allPrims){
 			boolean conA = false;
@@ -116,6 +118,8 @@ public class Region2DList extends LinkedList<Region2D>{
 		//
 		// find cycles... Recursion-free depth first search
 		//
+		System.out.println("Region2DList(buildRegionsFromPrim2D): Recursion Free Depth-first search...");
+		System.out.println("Region2DList(buildRegionsFromPrim2D): ** This may take a long time with lots of regions! **");
 		Prim2DList prunedPrimsCopy = new Prim2DList();
 		for(Prim2D prim : prunedPrims){
 			prunedPrimsCopy.add(prim);
