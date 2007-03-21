@@ -9,7 +9,9 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 
+import ui.menuet.Menuet;
 import backend.global.AvoGlobal;
+import backend.model.Project;
 
 
 //
@@ -40,8 +42,6 @@ import backend.global.AvoGlobal;
 */
 public class AvoMenuBar {
 
-	static Shell browserShell;
-	
 	/**
 	 * add items to the shell's top menubar.
 	 * @param menu 
@@ -63,6 +63,16 @@ public class AvoMenuBar {
 					// TODO Create new project, after checking to make sure
 					//      current project is either empty or no new changes 
 					//      have been made since the last save.
+					// TODO: for now, just blindly tossing the old project and starting a new one.
+					AvoGlobal.project = new Project();
+					AvoGlobal.modelEventHandler.notifyElementRemoved();
+					AvoGlobal.modelEventHandler.notifyElementAdded();
+					AvoGlobal.modelEventHandler.notifyActiveElementChanged();
+					if(AvoGlobal.activeToolController != null){
+						AvoGlobal.activeToolController.menuetElementDeselected();
+					}
+					AvoGlobal.menuet.setCurrentToolMode(Menuet.MENUET_MODE_PROJECT);
+					AvoGlobal.paramDialog.setParamSet(null);
 				}				
 			});
 			MenuItem fsQuit = new MenuItem(fileSub, SWT.PUSH);
@@ -95,6 +105,24 @@ public class AvoMenuBar {
 				}
 				public void widgetSelected(SelectionEvent e) {
 					AvoGlobal.glView.setViewTop();
+				}				
+			});
+			MenuItem vsFront = new MenuItem(viewSub, SWT.PUSH);
+			vsFront.setText("&Font");
+			vsFront.addSelectionListener(new SelectionListener(){
+				public void widgetDefaultSelected(SelectionEvent e) {
+				}
+				public void widgetSelected(SelectionEvent e) {
+					AvoGlobal.glView.setViewFront();
+				}				
+			});
+			MenuItem vsLeft = new MenuItem(viewSub, SWT.PUSH);
+			vsLeft.setText("&Left");
+			vsLeft.addSelectionListener(new SelectionListener(){
+				public void widgetDefaultSelected(SelectionEvent e) {
+				}
+				public void widgetSelected(SelectionEvent e) {
+					AvoGlobal.glView.setViewLeft();
 				}				
 			});
 			MenuItem vsIso = new MenuItem(viewSub, SWT.PUSH);

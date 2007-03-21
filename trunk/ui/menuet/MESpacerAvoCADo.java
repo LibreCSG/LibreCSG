@@ -45,7 +45,7 @@ public class MESpacerAvoCADo {
 	 * @param mode
 	 */
 	public MESpacerAvoCADo(Menuet menuet, int mode) {
-		Image image = ImageUtils.getIcon("./avoCADo-Friend.png", 32, 32);
+		Image image = ImageUtils.getIcon("./avoCADo.png", 32, 32);
 		spacer = new MESpacer(menuet, Menuet.MENUET_MODE_PROJECT, image);
 		spacer.setToolTipText("Hello.  How are you today?\nCare to talk to an avocado?");
 		spacer.addMouseTrackListener(new MouseTrackListener(){
