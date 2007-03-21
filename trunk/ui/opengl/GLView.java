@@ -709,6 +709,22 @@ public class GLView {
 		updateGLView = true;
 	}
 	
+	public void setViewSketch(){
+		Sketch sketch = AvoGlobal.project.getActiveSketch();
+		if(sketch != null){
+			// TODO: orient view to active sketch 
+			rotation_x = 0.0f;
+			rotation_y = 0.0f;
+			rotation_z = 0.0f;
+			translation_x = 0.0f;
+			translation_y = 0.0f;
+			updateGLView = true;
+		}else{
+			System.out.println("GLView(setViewSketch): no active sketch, view not being changed.");
+		}
+		
+	}
+	
 	
 	private void testConvexize(){
 		gl.glLoadIdentity();

@@ -55,13 +55,8 @@ public class ToolPartSketchCtrl implements ToolCtrlPart{
 		// Add a new sketch to the active part
 		Part part = AvoGlobal.project.getActivePart();
 		if(part != null){
-			part.addNewSketch();
-			Sketch sketch = AvoGlobal.project.getActiveSketch();
-			if(sketch != null){
-				AvoGlobal.paramDialog.setParamSet(sketch.paramSet);
-			}else{
-				System.out.println("ToolPartSketchCtrl(menuetElementSelected): whah? couldn't get active sketch.");
-			}
+			// TODO: allow for planes other than planeXY!!
+			part.addNewSketch(part.planeXY);
 			// TODO, force update this way?
 			AvoGlobal.glView.updateGLView = true; // force update since grid should now be displayed...
 		}else{

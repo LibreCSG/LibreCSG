@@ -68,8 +68,8 @@ public class Part {
 		return newInt;
 	}
 	
-	public int addNewSketch(){
-		subPartList.add(new Sketch(this, subPartCounter++));
+	public int addNewSketch(SketchPlane sketchPlane){
+		subPartList.add(new Sketch(this, subPartCounter++, sketchPlane));
 		AvoGlobal.modelEventHandler.notifyElementAdded();
 		int newIndex = subPartList.size()-1;
 		activeSubPart = newIndex;

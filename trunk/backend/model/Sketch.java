@@ -13,6 +13,7 @@ import backend.model.sketch.Prim2D;
 import backend.model.sketch.Prim2DList;
 import backend.model.sketch.Region2D;
 import backend.model.sketch.Region2DList;
+import backend.model.sketch.SketchPlane;
 
 
 //
@@ -48,7 +49,8 @@ public class Sketch implements SubPart{
 	 */
 	protected List<Feature2D> feat2DList = new LinkedList<Feature2D>();
 	protected Region2DList    regionList = new Region2DList();
-	public    ParamSet        paramSet   = null;
+	
+	private SketchPlane sketchPlane;
 	
 	protected int activeFeat2D = -1;
 	
@@ -62,14 +64,10 @@ public class Sketch implements SubPart{
 	protected Part part;
 	protected int ID;
 	
-	public Sketch(Part part, int ID){
+	public Sketch(Part part, int ID, SketchPlane sketchPlane){
 		this.part = part;
 		this.ID = ID;
-		// TODO: need sketch tool interface -- stange way to do this? (sketch tool)? !!
-		paramSet = new ParamSet("Sketch", new ToolPartSketchModel());
-		paramSet.addParam("o", new Param("Offset", new Point3D(0.0, 0.0, 0.0)));
-		paramSet.addParam("r", new Param("Rotation", new Rotation3D(0.0, 0.0, 0.0)));
-		paramSet.label = "Sketch";
+		this.sketchPlane = sketchPlane;
 	}
 	
 	public Part getParentPart(){
