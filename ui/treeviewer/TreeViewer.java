@@ -116,10 +116,24 @@ public class TreeViewer {
 				TreeItem tiPart = new TreeItem(tiGroup, SWT.NONE, iPart);
 				tiPart.setText("Part " + part.getID());
 				tiPart.setData(new int[] {iGroup, iPart});
+				
+				TreeItem tiPartProp = new TreeItem(tiPart, SWT.NONE, 0);
+				tiPartProp.setData(new int[] {iGroup, iPart, 0});
+				tiPartProp.setText("Properties");
+				TreeItem tiPartXY = new TreeItem(tiPart, SWT.NONE, 1);
+				tiPartXY.setData(new int[] {iGroup, iPart, 1});
+				tiPartXY.setText("XY Plane");
+				TreeItem tiPartYZ = new TreeItem(tiPart, SWT.NONE, 2);
+				tiPartYZ.setData(new int[] {iGroup, iPart, 2});
+				tiPartYZ.setText("YZ Plane");
+				TreeItem tiPartZX = new TreeItem(tiPart, SWT.NONE, 3);
+				tiPartZX.setData(new int[] {iGroup, iPart, 3});
+				tiPartZX.setText("ZX Plane");
+				
 				for(int iSubPart=0; iSubPart < part.getSubPartListSize(); iSubPart++){
 					SubPart subPart = part.getAtIndex(iSubPart);
-					TreeItem tiSubPart = new TreeItem(tiPart, SWT.NONE, iSubPart);
-					tiSubPart.setData(new int[] {iGroup, iPart, iSubPart});
+					TreeItem tiSubPart = new TreeItem(tiPart, SWT.NONE, iSubPart+4);
+					tiSubPart.setData(new int[] {iGroup, iPart, iSubPart+4});
 					Sketch sketch = subPart.getSketch();					
 					if(sketch != null){
 						tiSubPart.setText("Sketch " + sketch.getID());

@@ -69,7 +69,7 @@ public class Region2DList extends LinkedList<Region2D>{
 						// check for intersection...
 						Point2D iPt = prim_A.intersect(prim_B);
 						if(iPt != null){								
-							if(allPrims.size() < maxPrimSize){ // HACK, just stop it.. out of control
+							if(allPrims.size() < maxPrimSize){ // TODO: HACK, just stop it.. out of control
 								foundIntersection = true;
 								PrimPair2D iPair = prim_B.splitPrimAtPoint(iPt);
 								allPrims.add(iPair.primA);
@@ -125,7 +125,10 @@ public class Region2DList extends LinkedList<Region2D>{
 			prunedPrimsCopy.add(prim);
 		}
 		for(Prim2D prim : prunedPrims){
-			RFDFSearch(allCycles, prunedPrimsCopy, prim);
+			boolean success = RFDFSearch(allCycles, prunedPrimsCopy, prim);
+			if(!success){
+				break;
+			}
 			prunedPrimsCopy.remove(0); // speed up a bit by removing the last prim2D checked.
 		}
 					
@@ -200,7 +203,7 @@ public class Region2DList extends LinkedList<Region2D>{
 	 * @param allPrims
 	 * @param primStart
 	 */
-	void RFDFSearch(LinkedList<Prim2DCycle> allCycles, Prim2DList allPrims, Prim2D primStart){
+	boolean RFDFSearch(LinkedList<Prim2DCycle> allCycles, Prim2DList allPrims, Prim2D primStart){
 		Point2D endPt = primStart.ptA; // end point (where the cycles should eventually end)
 		Point2D conPt = primStart.ptB; // connection point (where next prim2D must connect)
 		
@@ -212,7 +215,17 @@ public class Region2DList extends LinkedList<Region2D>{
 		Prim2DCycle pathSoFar = new Prim2DCycle();
 		pathSoFar.add(primStart); // path always starts with primStart.
 		
+		int trials = 0;
 		while(level > 0){
+			if((trials+1) % 10000 == 0){
+				System.out.println("RFDFSearch: Trials=" + (trials+1));
+			}
+			if((trials+1) % 100000 == 0){
+				System.out.println("RFDFSearch: Giving up on finding more cycles.. this algorithm kind of sucks :(");
+				return false;
+			}
+			trials++;
+			
 			//System.out.println("*     while");
 			if(usedAtLevel.size() < level){
 				// this is a new level; add a new list.
@@ -265,6 +278,7 @@ public class Region2DList extends LinkedList<Region2D>{
 			}
 			
 		}
+		return true;
 		
 	}
 	
