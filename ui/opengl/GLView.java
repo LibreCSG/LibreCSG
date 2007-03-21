@@ -462,11 +462,11 @@ public class GLView {
 						//
 						//  TEST Constructive Solid Geometry!
 						//
-						testCSG();
+						//testCSG();
 						//
 						//  TEST Convexize! (make arbitrary face into convex polygons)
 						//
-						testConvexize();
+						//testConvexize();
 						
 						glCanvas.swapBuffers(); // double buffering excitement!
 						glContext.release();	// go ahead, you can have it back.
