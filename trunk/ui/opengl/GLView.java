@@ -33,6 +33,7 @@ import backend.global.AvoColors;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D;
 import backend.model.Feature2D3D;
+import backend.model.Part;
 import backend.model.Sketch;
 import backend.model.SubPart;
 import backend.model.CSG.CSG_BooleanOperator;
@@ -398,6 +399,12 @@ public class GLView {
 						cad_3DXYZ(0.0f,0.0f,0.0f,0.25f);
 						
 						if(AvoGlobal.project.getActivePart() != null){
+							
+							Part part = AvoGlobal.project.getActivePart();
+							part.planeXY.drawPlanForDebug(gl);
+							part.planeYZ.drawPlanForDebug(gl);
+							part.planeZX.drawPlanForDebug(gl);
+							
 							for(int q=0; q < AvoGlobal.project.getActivePart().getSubPartListSize(); q++){
 								SubPart subPart = AvoGlobal.project.getActivePart().getAtIndex(q);
 								
@@ -430,6 +437,8 @@ public class GLView {
 									// TODO: getActiveSketch is old skoool :(
 									//   - reference to sketch should be simply handled via the paramSet! (selection list?)
 									feat2D3D.paramSet.getToolModel2D3D().draw3DFeature(gl, feat2D3D);
+									// TODO: don't double render! (just a hack to make transparency work a  
+									//                             bit better since polygons are not ordered)
 									feat2D3D.paramSet.getToolModel2D3D().draw3DFeature(gl, feat2D3D);
 								}
 							}

@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import backend.global.AvoGlobal;
+import backend.model.CSG.CSG_Vertex;
+import backend.model.sketch.SketchPlane;
 
 
 //
@@ -41,6 +43,16 @@ public class Part {
 	protected Group group;
 	protected int ID;
 	protected int subPartCounter = 1;
+	
+	private CSG_Vertex origin = new CSG_Vertex(0.0, 0.0, 0.0);
+	private CSG_Vertex xAxis  = new CSG_Vertex(1.0, 0.0, 0.0);
+	private CSG_Vertex yAxis  = new CSG_Vertex(0.0, 1.0, 0.0);
+	private CSG_Vertex zAxis  = new CSG_Vertex(0.0, 0.0, 1.0);
+	public final SketchPlane planeXY = new SketchPlane(origin, zAxis, xAxis);
+	public final SketchPlane planeYZ = new SketchPlane(origin, xAxis, yAxis);
+	public final SketchPlane planeZX = new SketchPlane(origin, yAxis, zAxis);
+
+	
 	
 	public Part(Group group, int ID){
 		this.group = group;
