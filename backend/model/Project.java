@@ -43,7 +43,7 @@ public class Project {
 	
 	protected int groupCounter = 1;
 	
-	public Project(){
+	public Project(){		
 	}
 	
 	/**

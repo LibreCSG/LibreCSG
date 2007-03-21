@@ -291,9 +291,12 @@ public class GLView {
 				if(mouse_down_button == MOUSE_RIGHT){					
 				}		
 				
+				//System.out.println("(X,Y),(rX,rY,rZ): (" + translation_x + "," + translation_y + "),(" + 
+				//		rotation_x + "," + rotation_y + "," + rotation_z + ")");
+				
 				//
 				// if mouse is inside glView, send the mouseMove event
-				// the the currently active tool
+				// to the currently active tool
 				//
 				if(glCanvas.getBounds().contains(e.x,e.y)){
 					updateGLView = true;
@@ -663,6 +666,24 @@ public class GLView {
 	
 	public void setViewTop(){
 		rotation_x = 0.0f;
+		rotation_y = 0.0f;
+		rotation_z = 0.0f;
+		translation_x = 0.0f;
+		translation_y = 0.0f;
+		updateGLView = true;
+	}
+	
+	public void setViewLeft(){
+		rotation_x = -90.0f;
+		rotation_y = 0.0f;
+		rotation_z = 90.0f;
+		translation_x = 0.0f;
+		translation_y = 0.0f;
+		updateGLView = true;
+	}
+	
+	public void setViewFront(){
+		rotation_x = -90.0f;
 		rotation_y = 0.0f;
 		rotation_z = 0.0f;
 		translation_x = 0.0f;
