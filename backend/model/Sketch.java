@@ -3,12 +3,10 @@ package backend.model;
 import java.util.LinkedList;
 import java.util.List;
 
-import ui.tools.part.ToolPartSketchModel;
-import backend.adt.Param;
-import backend.adt.ParamSet;
-import backend.adt.Point3D;
-import backend.adt.Rotation3D;
+import javax.media.opengl.GL;
+
 import backend.global.AvoGlobal;
+import backend.model.CSG.CSG_Vertex;
 import backend.model.sketch.Prim2D;
 import backend.model.sketch.Prim2DList;
 import backend.model.sketch.Region2D;
@@ -68,6 +66,10 @@ public class Sketch implements SubPart{
 		this.part = part;
 		this.ID = ID;
 		this.sketchPlane = sketchPlane;
+	}
+	
+	public SketchPlane getSketchPlane(){
+		return sketchPlane;
 	}
 	
 	public Part getParentPart(){

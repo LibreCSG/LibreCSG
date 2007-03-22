@@ -35,14 +35,20 @@ public class SketchPlane {
 
 	private CSG_Vertex origin;
 	private CSG_Vertex normal;
-	private CSG_Vertex var1Axis;
-	private CSG_Vertex var2Axis;
+	private CSG_Vertex xAxis;
+	private CSG_Vertex yAxis;
 	
-	public SketchPlane(CSG_Vertex origin, CSG_Vertex normal, CSG_Vertex var1Axis){
+	private double TOL = 1e-10;
+	
+	public SketchPlane(CSG_Vertex origin, CSG_Vertex normal, CSG_Vertex xAxis){
+		double dotProd = normal.getDotProduct(xAxis);
+		if(dotProd > TOL || dotProd < -TOL){
+			System.out.println("SketchPlane(Constructor): normal and var1Axis were not orthogonal! dotProd=" + dotProd);
+		}
 		this.origin   = origin;
 		this.normal   = normal.getUnitLength();
-		this.var1Axis = var1Axis.getUnitLength();
-		this.var2Axis = this.normal.getVectCrossProduct(this.var1Axis);
+		this.xAxis = xAxis.getUnitLength();
+		this.yAxis = this.normal.getVectCrossProduct(this.xAxis).getUnitLength();
 	}
 	
 	/**
@@ -64,15 +70,15 @@ public class SketchPlane {
 	 * direction of the 1st variables axis (plane orientation).
 	 */
 	public CSG_Vertex getVar1Axis(){
-		return var1Axis.deepCopy();
+		return xAxis.deepCopy();
 	}
 	
-	public void drawPlanForDebug(GL gl){
+	public void drawPlaneForDebug(GL gl){
 		// 3x5 rectangle (aligned along var 1);
-		CSG_Vertex a = origin.addToVertex(var1Axis.getScaledCopy( 2.5)).addToVertex(var2Axis.getScaledCopy( 1.5));
-		CSG_Vertex b = origin.addToVertex(var1Axis.getScaledCopy(-2.5)).addToVertex(var2Axis.getScaledCopy( 1.5));
-		CSG_Vertex c = origin.addToVertex(var1Axis.getScaledCopy(-2.5)).addToVertex(var2Axis.getScaledCopy(-1.5));
-		CSG_Vertex d = origin.addToVertex(var1Axis.getScaledCopy( 2.5)).addToVertex(var2Axis.getScaledCopy(-1.5));
+		CSG_Vertex a = origin.addToVertex(xAxis.getScaledCopy( 2.5)).addToVertex(yAxis.getScaledCopy( 1.5));
+		CSG_Vertex b = origin.addToVertex(xAxis.getScaledCopy(-2.5)).addToVertex(yAxis.getScaledCopy( 1.5));
+		CSG_Vertex c = origin.addToVertex(xAxis.getScaledCopy(-2.5)).addToVertex(yAxis.getScaledCopy(-1.5));
+		CSG_Vertex d = origin.addToVertex(xAxis.getScaledCopy( 2.5)).addToVertex(yAxis.getScaledCopy(-1.5));
 		gl.glColor3f(0.5f, 1.0f, 1.0f);
 		gl.glBegin(GL.GL_LINE_LOOP);
 			gl.glVertex3dv(a.getXYZ(), 0);
@@ -82,4 +88,57 @@ public class SketchPlane {
 		gl.glEnd();
 	}
 	
+	/**
+	 * orient the scene to the sketch plane.  
+	 * @param gl
+	 */
+	public void glOrientToPlane(GL gl){
+		gl.glLoadIdentity();
+		// align to origin
+		gl.glTranslated(origin.getX(), origin.getY(), origin.getZ());
+		
+		// rotate to align planes
+		double xRot = getRotationX();
+		double yRot = getRotationY();
+		gl.glRotated(xRot*180.0/Math.PI, 1.0, 0.0, 0.0);
+		gl.glRotated(yRot*180.0/Math.PI, 0.0, 1.0, 0.0);
+		
+		// rotate around z-axis to align 2D grid
+		double zRot = getRotationZ();
+		gl.glRotated(zRot*180.0/Math.PI, 0.0, 0.0, 1.0);
+		//System.out.println("xRot:" + xRot + " yRot:" + yRot + " zRot:" + zRot);
+	}
+	
+	/**
+	 * rotation about X axis, in radians.
+	 * @return
+	 */
+	public double getRotationX(){
+		return -Math.asin(normal.getY());		
+	}
+	
+	/**
+	 * rotation about Y axis, in radians.
+	 * @return
+	 */
+	public double getRotationY(){
+		return Math.asin(normal.getX());		
+	}
+	
+	/**
+	 * rotation about Z axis in radians.
+	 */
+	public double getRotationZ(){
+		double dotX = xAxis.getDotProduct(new CSG_Vertex(1.0, 0.0, 0.0));
+		double dotY = xAxis.getDotProduct(new CSG_Vertex(0.0, 1.0, 0.0));
+		double zRot = 0.0;
+		if(dotX > dotY){
+			// use dotX
+			zRot = Math.acos(dotX);
+		}else{
+			// use dotY
+			zRot = Math.acos(dotY)-Math.PI/2.0;
+		}
+		return zRot;
+	}
 }

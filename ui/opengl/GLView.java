@@ -95,6 +95,8 @@ public class GLView {
 	
 	//double lastMousePos3D[] = new double[] {0.0, 0.0, 0.0};
 	
+	/** stores the modelview used when backsolving for 3D cords from mouse location. */
+	private static double[] mouseModelview = new double[16];
 	
 	static int mouse_down_button 	= -1;
 	static int mouse_down_x 		= 0;
@@ -362,48 +364,17 @@ public class GLView {
 						gl.glLoadIdentity();
 						gl.glPolygonMode(GL.GL_FRONT, GL.GL_FILL);
 						
-						// if there is an active sketch, show the gridlines.
-						if(AvoGlobal.project.getActiveSketch() != null){
-							// disable depth test so that overlapped items at
-							// the same depth (in particular, 0.0) still get drawn.
-							gl.glDisable(GL.GL_DEPTH_TEST);
-							// set grid color						
-							gl.glColor4f(AvoColors.GL_COLOR4_GRID_DARK[0], AvoColors.GL_COLOR4_GRID_DARK[1],
-									AvoColors.GL_COLOR4_GRID_DARK[2], AvoColors.GL_COLOR4_GRID_DARK[3]);
-							gl.glColor4f(AvoColors.GL_COLOR4_GRID_LIGHT[0], AvoColors.GL_COLOR4_GRID_LIGHT[1],
-									AvoColors.GL_COLOR4_GRID_LIGHT[2], AvoColors.GL_COLOR4_GRID_LIGHT[3]);
-							// draw grid
-							gl.glDisable(GL.GL_LINE_SMOOTH);
-							GLDynPrim.mesh(gl, -10.0, 10.0, -10.0, 10.0, 20, 20);
-							
-							gl.glBegin(GL.GL_LINES);
-								gl.glColor4f(	AvoColors.GL_COLOR4_2D_X_AXIS[0], AvoColors.GL_COLOR4_2D_X_AXIS[1], 
-												AvoColors.GL_COLOR4_2D_X_AXIS[2], AvoColors.GL_COLOR4_2D_X_AXIS[3]);
-								gl.glVertex3d(-10.0, 0.0, 0.0);
-								gl.glVertex3d( 10.0, 0.0, 0.0);
-								gl.glColor4f(	AvoColors.GL_COLOR4_2D_Y_AXIS[0], AvoColors.GL_COLOR4_2D_Y_AXIS[1], 
-												AvoColors.GL_COLOR4_2D_Y_AXIS[2], AvoColors.GL_COLOR4_2D_Y_AXIS[3]);
-								gl.glVertex3d(0.0, -10.0, 0.0);
-								gl.glVertex3d(0.0,  10.0, 0.0);
-							gl.glEnd();
-							
-							
-							gl.glEnable(GL.GL_LINE_SMOOTH);
-							gl.glEnable(GL.GL_DEPTH_TEST);
-						}
+						
 						
 						gl.glColor4f(0.7f, 0.7f, 0.7f, 1.0f);
 						gl.glLineWidth(2.5f);
 
 						gl.glColor3f(1.0f,0.0f,0.0f);
-						cad_3DXYZ(0.0f,0.0f,0.0f,0.25f);
+						
 						
 						if(AvoGlobal.project.getActivePart() != null){
 							
-							Part part = AvoGlobal.project.getActivePart();
-							part.planeXY.drawPlanForDebug(gl);
-							part.planeYZ.drawPlanForDebug(gl);
-							part.planeZX.drawPlanForDebug(gl);
+							Part part = AvoGlobal.project.getActivePart();							
 							
 							for(int q=0; q < AvoGlobal.project.getActivePart().getSubPartListSize(); q++){
 								SubPart subPart = AvoGlobal.project.getActivePart().getAtIndex(q);
@@ -412,6 +383,12 @@ public class GLView {
 								Sketch sketch = subPart.getSketch();
 								if(sketch != null && !sketch.isConsumed){
 									gl.glPushMatrix();
+									
+									sketch.getSketchPlane().glOrientToPlane(gl);
+									
+									drawSketchGrid();
+									
+									gl.glLineWidth(2.0f);
 									// TODO: handle sketch offset/rotation
 									for(int i=0; i < sketch.getFeat2DListSize(); i++){
 										Feature2D f2D = sketch.getAtIndex(i);
@@ -429,8 +406,21 @@ public class GLView {
 								    	}
 									}
 									
+									drawTransparentMouseLayer();
+									
+									if(mouse_down_button != MOUSE_MIDDLE && 
+											mouse_down_button != MOUSE_MIDDLE_SHIFT && 
+											mouse_down_button != MOUSE_MIDDLE_CTRL &&
+											AvoGlobal.activeToolController != null){
+										drawToolEndPos();
+									}
+									
+									setMouseMatrixToModelview();
+									
 									gl.glPopMatrix();
 								}
+								
+								
 								
 								Feature2D3D feat2D3D = subPart.getFeature2D3D();
 								if(feat2D3D != null && feat2D3D.paramSet != null && feat2D3D.paramSet.getToolModel2D3D() != null){
@@ -441,31 +431,13 @@ public class GLView {
 									//                             bit better since polygons are not ordered)
 									feat2D3D.paramSet.getToolModel2D3D().draw3DFeature(gl, feat2D3D);
 								}
+								
 							}
 						}
 
-						if(mouse_down_button != MOUSE_MIDDLE && 
-								mouse_down_button != MOUSE_MIDDLE_SHIFT && 
-								mouse_down_button != MOUSE_MIDDLE_CTRL &&
-								AvoGlobal.activeToolController != null){
-							drawToolEndPos();
-						}
+						
 
-						//
-						// invisible plane to catch mouse events at depth ~0.0
-						// this should be the last thing drawn in the 2D mode
-						// TODO: HACK, this should be sized according to the grid, which should also be dynamic!
-						//
-						if(AvoGlobal.menuet.getCurrentToolMode() == Menuet.MENUET_MODE_SKETCH ||
-								AvoGlobal.menuet.getCurrentToolMode() == Menuet.MENUET_MODE_BUILD){
-							gl.glColor4f(1.0f,0.0f,0.0f, 0.0f);
-							gl.glBegin(GL.GL_QUADS);
-								gl.glVertex3f(-100.0f, 100.0f, 0.0f);
-								gl.glVertex3f( 100.0f, 100.0f, 0.0f);
-								gl.glVertex3f( 100.0f,-100.0f, 0.0f);
-								gl.glVertex3f(-100.0f,-100.0f, 0.0f);
-							gl.glEnd();
-						}
+						
 						
 						
 						//
@@ -497,6 +469,59 @@ public class GLView {
 			}
 	    }.run();
 		
+	}
+	
+	private void drawTransparentMouseLayer(){
+		//
+		// invisible plane to catch mouse events at depth ~0.0
+		// this should be the last thing drawn in the 2D mode
+		// TODO: HACK, this should be sized according to the grid, which should also be dynamic!
+		//
+		if(AvoGlobal.menuet.getCurrentToolMode() == Menuet.MENUET_MODE_SKETCH ||
+				AvoGlobal.menuet.getCurrentToolMode() == Menuet.MENUET_MODE_BUILD){
+			gl.glColor4f(1.0f,0.0f,0.0f, 0.0f);
+			gl.glBegin(GL.GL_QUADS);
+				gl.glVertex3f(-100.0f, 100.0f, 0.0f);
+				gl.glVertex3f( 100.0f, 100.0f, 0.0f);
+				gl.glVertex3f( 100.0f,-100.0f, 0.0f);
+				gl.glVertex3f(-100.0f,-100.0f, 0.0f);
+			gl.glEnd();
+		}
+	}
+	
+	private void drawSketchGrid(){
+		// if there is an active sketch, show the gridlines.
+		if(AvoGlobal.project.getActiveSketch() != null){
+			// disable depth test so that overlapped items at
+			// the same depth (in particular, 0.0) still get drawn.
+			
+			cad_3DXYZ(0.0f,0.0f,0.0f,0.25f);
+			
+			gl.glDisable(GL.GL_DEPTH_TEST);
+			// set grid color						
+			gl.glColor4f(AvoColors.GL_COLOR4_GRID_DARK[0], AvoColors.GL_COLOR4_GRID_DARK[1],
+					AvoColors.GL_COLOR4_GRID_DARK[2], AvoColors.GL_COLOR4_GRID_DARK[3]);
+			gl.glColor4f(AvoColors.GL_COLOR4_GRID_LIGHT[0], AvoColors.GL_COLOR4_GRID_LIGHT[1],
+					AvoColors.GL_COLOR4_GRID_LIGHT[2], AvoColors.GL_COLOR4_GRID_LIGHT[3]);
+			// draw grid
+			gl.glDisable(GL.GL_LINE_SMOOTH);
+			GLDynPrim.mesh(gl, -10.0, 10.0, -10.0, 10.0, 20, 20);
+			
+			gl.glBegin(GL.GL_LINES);
+				gl.glColor4f(	AvoColors.GL_COLOR4_2D_X_AXIS[0], AvoColors.GL_COLOR4_2D_X_AXIS[1], 
+								AvoColors.GL_COLOR4_2D_X_AXIS[2], AvoColors.GL_COLOR4_2D_X_AXIS[3]);
+				gl.glVertex3d(-10.0, 0.0, 0.0);
+				gl.glVertex3d( 10.0, 0.0, 0.0);
+				gl.glColor4f(	AvoColors.GL_COLOR4_2D_Y_AXIS[0], AvoColors.GL_COLOR4_2D_Y_AXIS[1], 
+								AvoColors.GL_COLOR4_2D_Y_AXIS[2], AvoColors.GL_COLOR4_2D_Y_AXIS[3]);
+				gl.glVertex3d(0.0, -10.0, 0.0);
+				gl.glVertex3d(0.0,  10.0, 0.0);
+			gl.glEnd();
+			
+			
+			gl.glEnable(GL.GL_LINE_SMOOTH);
+			gl.glEnable(GL.GL_DEPTH_TEST);
+		}
 	}
 	
 	private void drawToolEndPos(){
@@ -631,16 +656,20 @@ public class GLView {
 	    gl.glDisable(GL.GL_LIGHT0);
 	  }
 	
+	private void setMouseMatrixToModelview(){
+		gl.glGetDoublev( GL.GL_MODELVIEW_MATRIX, mouseModelview, 0 );
+	}
+	
 	public double[] getWorldCoorFromMouse(int mouseX, int mouseY){
 		// get mouse coordinates and project them onto the 3D space
 		int[] viewport = new int[4];
-		double[] modelview = new double[16];
+		//double[] modelview = new double[16];
 		double[] projection = new double[16];
 		float winX, winY;
 		FloatBuffer winZ = FloatBuffer.allocate(4);
 		double wcoord[] = new double[4];// wx, wy, wz;// returned xyz coords
 
-		gl.glGetDoublev( GL.GL_MODELVIEW_MATRIX, modelview, 0 );
+		//gl.glGetDoublev( GL.GL_MODELVIEW_MATRIX, modelview, 0 );
 		gl.glGetDoublev( GL.GL_PROJECTION_MATRIX, projection, 0 );
 		gl.glGetIntegerv( GL.GL_VIEWPORT, viewport, 0 );
 
@@ -650,7 +679,7 @@ public class GLView {
 		winY = (float)viewport[3] - (float)mouseY;		
 
 		gl.glReadPixels( mouseX, (int)winY, 1, 1, GL.GL_DEPTH_COMPONENT, GL.GL_FLOAT, winZ );
-		glu.gluUnProject((double)winX, (double)winY, (double)(winZ.get()), modelview, 0, projection, 0, viewport, 0, wcoord, 0);
+		glu.gluUnProject((double)winX, (double)winY, (double)(winZ.get()), mouseModelview, 0, projection, 0, viewport, 0, wcoord, 0);
 		
         //System.out.println("World coords: (" + wcoord[0] + ", " + wcoord[1] + ", " + wcoord[2] + ")");
 		
@@ -713,9 +742,9 @@ public class GLView {
 		Sketch sketch = AvoGlobal.project.getActiveSketch();
 		if(sketch != null){
 			// TODO: orient view to active sketch 
-			rotation_x = 0.0f;
-			rotation_y = 0.0f;
-			rotation_z = 0.0f;
+			rotation_x = (float)(sketch.getSketchPlane().getRotationX()*180.0/Math.PI);
+			rotation_y = -(float)(sketch.getSketchPlane().getRotationY()*180.0/Math.PI);
+			//rotation_z = (float)(sketch.getSketchPlane().getRotationZ()*180.0/Math.PI);
 			translation_x = 0.0f;
 			translation_y = 0.0f;
 			updateGLView = true;
