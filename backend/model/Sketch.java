@@ -40,6 +40,11 @@ import backend.model.sketch.SketchPlane;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
+
+/**
+ * model componet that represents the "Sketch" 
+ * which contains a set of Feature2D.
+ */
 public class Sketch implements SubPart{	
 	
 	/**

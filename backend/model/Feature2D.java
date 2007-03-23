@@ -31,6 +31,10 @@ import backend.model.sketch.Prim2DList;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
+
+/**
+ * model componet that represents "Sketch" tools
+ */
 public class Feature2D {
 
 	public boolean		      isSelected = true;

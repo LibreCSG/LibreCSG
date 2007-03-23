@@ -34,6 +34,10 @@ import backend.global.AvoGlobal;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
+
+/**
+ * model componet that represents "Modify" tools
+ */
 public class Feature3D3D implements SubPart{
 
 	protected List<SubPart> subPartList = new LinkedList<SubPart>();
