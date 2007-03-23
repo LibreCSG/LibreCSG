@@ -65,6 +65,14 @@ public class CSG_Solid {
 	}
 	
 	/**
+	 * Get the number of faces on this CSG_Solid. 
+	 * @return the total number of faces on the solid. 
+	 */
+	public int getNumberOfFaces(){
+		return faces.size();
+	}
+	
+	/**
 	 * add a CSG_Face to this CSG_Solid
 	 * @param f the CSG_Face to add.
 	 */

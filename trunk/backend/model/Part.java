@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import backend.global.AvoGlobal;
+import backend.model.CSG.CSG_Solid;
 import backend.model.CSG.CSG_Vertex;
 import backend.model.sketch.SketchPlane;
 
@@ -52,7 +53,7 @@ public class Part {
 	public final SketchPlane planeYZ = new SketchPlane(origin, xAxis, yAxis);
 	public final SketchPlane planeZX = new SketchPlane(origin, yAxis, zAxis);
 
-	
+	private CSG_Solid partSolid = new CSG_Solid(); 
 	
 	public Part(Group group, int ID){
 		this.group = group;
@@ -113,6 +114,15 @@ public class Part {
 		return subPartList.size();
 	}
 	
+	/**
+	 * @return true if a CSG_Solid exists yet for the part.
+	 */
+	public boolean solidExists(){
+		if(partSolid.getNumberOfFaces() > 0){
+			return true;
+		}
+		return false;
+	}
 	
 	/**
 	 * set the index of the SubPart that should be set to Active.
