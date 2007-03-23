@@ -29,6 +29,10 @@ import backend.adt.ParamSet;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
+
+/**
+ * model componet that represents "Build" tools
+ */
 public class Feature2D3D implements SubPart{
 	
 	public    ParamSet          paramSet    = null;

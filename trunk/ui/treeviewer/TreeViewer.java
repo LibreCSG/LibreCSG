@@ -11,6 +11,7 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
 import ui.event.ModelListener;
+import ui.menuet.Menuet;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D;
 import backend.model.Feature2D3D;
@@ -76,12 +77,63 @@ public class TreeViewer {
 		
 		tree.addMouseListener(new MouseListener(){
 			public void mouseDoubleClick(MouseEvent e) {
-				// TODO Set active elements in model based on treeItem selected!
+				// Set active elements in model based on treeItem selected.
 				if(tree.getSelection().length > 0){
 					TreeItem ti = tree.getSelection()[0];
 					int[] indxs = (int[])ti.getData();
-					System.out.println("TreeViewer clicked.. should change active element in model (not implemented)");
-					System.out.print(" ---> ");
+					if(indxs.length == 1){
+						// group selected
+						AvoGlobal.project.setActiveGroup(indxs[0]);
+						AvoGlobal.menuet.setCurrentToolMode(Menuet.MENUET_MODE_GROUP);
+						AvoGlobal.glView.updateGLView = true;
+					}
+					if(indxs.length == 2){
+						// part selected
+						AvoGlobal.project.setActiveGroup(indxs[0]);
+						AvoGlobal.project.getActiveGroup().setActivePart(indxs[1]);
+						AvoGlobal.menuet.setCurrentToolMode(Menuet.MENUET_MODE_PART);
+						AvoGlobal.glView.updateGLView = true;
+					}
+					if(indxs.length == 3){
+						// part selected
+						AvoGlobal.project.setActiveGroup(indxs[0]);
+						AvoGlobal.project.getActiveGroup().setActivePart(indxs[1]);
+						// handle special cases on subpart for properties and root planes
+						if(indxs[2] == 0){
+							// properties for part
+							System.out.println("Tree viewer.. Should open a Part Properties dialog, but not implemented yet.");
+						}
+						if(indxs[2] == 1 || indxs[2] == 2 || indxs[2] == 3){
+							// root plane selected
+							System.out.println("Tree viewer.. you clicked a root plane.. but it hasn't been implemented fully yet.");
+						}else{
+							// sub-part selected.
+							SubPart subpart = AvoGlobal.project.getActivePart().getAtIndex(indxs[2]-4);
+							Sketch sketch =  subpart.getSketch();
+							if(sketch != null){
+								// subpart was a "sketch" tool
+								AvoGlobal.project.getActivePart().setActiveSubPart(indxs[2]-4);
+								AvoGlobal.menuet.setCurrentToolMode(Menuet.MENUET_MODE_SKETCH);
+								AvoGlobal.glView.updateGLView = true;
+							}
+							Feature2D3D feat2D3D = subpart.getFeature2D3D();
+							if(feat2D3D != null){
+								// subpart was a "build" tool
+								AvoGlobal.project.getActivePart().setActiveSubPart(indxs[2]-4);
+								AvoGlobal.menuet.setCurrentToolMode(Menuet.MENUET_MODE_BUILD);
+								AvoGlobal.glView.updateGLView = true;
+							}
+							Feature3D3D feat3D3D = subpart.getFeature3D3D();
+							if(feat3D3D != null){
+								// subpart was a "modify" tool.
+								AvoGlobal.project.getActivePart().setActiveSubPart(indxs[2]-4);
+								AvoGlobal.menuet.setCurrentToolMode(Menuet.MENUET_MODE_MODIFY);
+								AvoGlobal.glView.updateGLView = true;
+							}							
+						}
+					}
+					
+					System.out.print("---> ");
 					for(int i : indxs){
 						System.out.print(i + ",");
 					}
@@ -100,7 +152,7 @@ public class TreeViewer {
 		Project project = AvoGlobal.project;
 		
 		// TODO: HACK! don't build the tree from scratch every time!!
-		tree.removeAll();
+		//tree.removeAll();
 		
 		if(project == null){
 			return;
@@ -108,31 +160,72 @@ public class TreeViewer {
 
 		for(int iGroup=0; iGroup < project.getGroupListSize(); iGroup++){
 			Group group = project.getAtIndex(iGroup);
-			TreeItem tiGroup = new TreeItem(tree, SWT.NONE, iGroup);
+			TreeItem tiGroup;
+			if(tree.getItemCount() > iGroup){
+				tiGroup = tree.getItem(iGroup);
+			}else{
+				tiGroup = new TreeItem(tree, SWT.NONE, iGroup);
+			}
 			tiGroup.setText("Group " + group.getID());
 			tiGroup.setData(new int[] {iGroup});
 			for(int iPart=0; iPart<group.getPartListSize(); iPart++){
 				Part part = group.getAtIndex(iPart);
-				TreeItem tiPart = new TreeItem(tiGroup, SWT.NONE, iPart);
+				TreeItem tiPart;
+				if(tiGroup.getItemCount() > iPart){
+					tiPart = tiGroup.getItem(iPart);
+				}else{
+					tiPart = new TreeItem(tiGroup, SWT.NONE, iPart);
+					tiGroup.setExpanded(true);
+				}
 				tiPart.setText("Part " + part.getID());
 				tiPart.setData(new int[] {iGroup, iPart});
 				
-				TreeItem tiPartProp = new TreeItem(tiPart, SWT.NONE, 0);
+				TreeItem tiPartProp;
+				if(tiPart.getItemCount() > 0){
+					tiPartProp = tiPart.getItem(0);
+				}else{
+					tiPartProp = new TreeItem(tiPart, SWT.NONE, 0);
+					tiPart.setExpanded(true);
+				}
 				tiPartProp.setData(new int[] {iGroup, iPart, 0});
 				tiPartProp.setText("Properties");
-				TreeItem tiPartXY = new TreeItem(tiPart, SWT.NONE, 1);
+				
+				TreeItem tiPartXY;
+				if(tiPart.getItemCount() > 1){
+					tiPartXY = tiPart.getItem(1);
+				}else{
+					tiPartXY = new TreeItem(tiPart, SWT.NONE, 1);
+				}
 				tiPartXY.setData(new int[] {iGroup, iPart, 1});
-				tiPartXY.setText("XY Plane");
-				TreeItem tiPartYZ = new TreeItem(tiPart, SWT.NONE, 2);
+				tiPartXY.setText("XY Plane");	
+				
+				TreeItem tiPartYZ;
+				if(tiPart.getItemCount() > 2){
+					tiPartYZ = tiPart.getItem(2);
+				}else{
+					tiPartYZ = new TreeItem(tiPart, SWT.NONE, 2);
+				}
 				tiPartYZ.setData(new int[] {iGroup, iPart, 2});
 				tiPartYZ.setText("YZ Plane");
-				TreeItem tiPartZX = new TreeItem(tiPart, SWT.NONE, 3);
+				
+				TreeItem tiPartZX;
+				if(tiPart.getItemCount() > 3){
+					tiPartZX = tiPart.getItem(3);
+				}else{
+					tiPartZX = new TreeItem(tiPart, SWT.NONE, 3);
+				}
 				tiPartZX.setData(new int[] {iGroup, iPart, 3});
 				tiPartZX.setText("ZX Plane");
 				
 				for(int iSubPart=0; iSubPart < part.getSubPartListSize(); iSubPart++){
 					SubPart subPart = part.getAtIndex(iSubPart);
-					TreeItem tiSubPart = new TreeItem(tiPart, SWT.NONE, iSubPart+4);
+					TreeItem tiSubPart;
+					if(tiPart.getItemCount() > iSubPart+4){
+						tiSubPart = tiPart.getItem(iSubPart+4);
+					}else{
+						tiSubPart = new TreeItem(tiPart, SWT.NONE, iSubPart+4);
+						tiPart.setExpanded(true);
+					}
 					tiSubPart.setData(new int[] {iGroup, iPart, iSubPart+4});
 					Sketch sketch = subPart.getSketch();					
 					if(sketch != null){
@@ -143,7 +236,12 @@ public class TreeViewer {
 						}
 						for(int iSketch=0; iSketch < sketch.getFeat2DListSize(); iSketch++){
 							Feature2D feat2D = sketch.getAtIndex(iSketch);
-							TreeItem tiFeat2D = new TreeItem(tiSubPart, SWT.NONE, iSketch);
+							TreeItem tiFeat2D;
+							if(tiSubPart.getItemCount() > iSketch){
+								tiFeat2D = tiSubPart.getItem(iSketch);
+							}else{
+								tiFeat2D = new TreeItem(tiSubPart, SWT.NONE, iSketch);
+							}
 							tiFeat2D.setData(new int[] {iGroup, iPart, iSubPart, iSketch});
 							tiFeat2D.setText(feat2D.paramSet.label);
 						}						
