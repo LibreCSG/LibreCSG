@@ -32,6 +32,10 @@ import backend.geometry.Geometry2D;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
+
+/**
+ * cycle of Prim2D that only intersect at their endpoints.
+ */
 public class Prim2DCycle extends Prim2DList implements Comparable{
 
 	private static final long serialVersionUID = 10013L;
@@ -74,20 +78,25 @@ public class Prim2DCycle extends Prim2DList implements Comparable{
 	 */
 	public boolean isCCW(){
 		// TODO: should take into acount initial angle (e.g., arcs) not just ptA to ptB.
+		// take into account center point of prim to account for curves. 
+		// this can be done without more than one additional point because
+		// this method specifies that Prim2D in the cycle may not intersect
+		// at any place but their end points.
 		double angle = 0.0;
 		LinkedList<Point2D> pointList = new LinkedList<Point2D>();
 		Point2D conPt = this.getFirst().ptA;
 		for(Prim2D prim : this){
 			pointList.add(conPt);
+			pointList.add(prim.getCenterPtAlongPrim());
 			conPt = prim.hasPtGetOther(conPt);
 		}
 		pointList.add(this.getFirst().ptA);
-		pointList.add(this.getFirst().ptB);
+		pointList.add(this.getFirst().getCenterPtAlongPrim());
 		for(int i=0; i<pointList.size()-2; i++){
 			angle += Geometry2D.threePtAngle(pointList.get(i), pointList.get(i+1), pointList.get(i+2));
 		}
 		//System.out.println("Angle for complete cycle is: " + angle);
-		return (angle > 0.0); // it should be ideally +180.0 or -180.0
+		return (angle < 0.0); // it should be ideally +180.0 or -180.0
 	}
 	
 	/**
@@ -177,8 +186,18 @@ public class Prim2DCycle extends Prim2DList implements Comparable{
 	 * (or vice versa).
 	 */
 	public void reverseCycleOrder(){
-		// TODO: reverse cycle order!
-		System.out.println("Prim2DCycle(reverseCycleOrder): cycle reversal not yet implemented...");
+		// reverse cycle order
+		Prim2DCycle newCycle = new Prim2DCycle();
+		newCycle.add(this.getFirst().getSwappedEndPtPrim2D());
+		this.removeFirst();
+		for(int i=this.size()-1; i>= 0; i--){
+			newCycle.add(this.get(i));
+			this.remove(i);
+		}
+		this.clear();
+		for(Prim2D prim : newCycle){
+			this.add(prim);
+		}
 	}
 	
 	/**
@@ -216,6 +235,27 @@ public class Prim2DCycle extends Prim2DList implements Comparable{
 			}else{
 				System.out.println("Prim2DCycle(isValid): Cycle was not valid; end point was not the same as the start point!");
 				return false;
+			}
+		}
+	}
+	
+	/**
+	 * make sure all prim2D in the cycle are
+	 * oriented from ptA to ptB.
+	 */
+	public void orientCycle(){
+		if(!isValidCycle()){
+			System.out.println("Prim2DCycle(orientCycle): trying to orient an invalid cycle! aborting!");
+			return;
+		}
+		Point2D conPt = this.getFirst().ptA;
+		for(int i=0; i<this.size(); i++){
+			Prim2D prim = this.get(i);
+			if(!prim.ptA.equalsPt(conPt)){
+				this.set(i, prim.getSwappedEndPtPrim2D());
+				conPt = prim.ptA;
+			}else{
+				conPt = prim.ptB;
 			}
 		}
 	}

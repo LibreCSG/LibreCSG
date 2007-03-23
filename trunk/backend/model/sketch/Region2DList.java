@@ -56,6 +56,7 @@ public class Region2DList extends LinkedList<Region2D>{
 		//
 		//  TODO: This step is rediculous! (generates TONS of cycles)
 		System.out.println("Region2DList(buildRegionsFromPrim2D): Generating all possible region cycles...");
+		System.out.println("Initial Prims in list: " + allPrims.size());
 		boolean foundIntersection = true;
 		int maxPrimSize = 1000; // TODO: HACK just for debug
 		while(foundIntersection){
@@ -70,19 +71,25 @@ public class Region2DList extends LinkedList<Region2D>{
 						Point2D iPt = prim_A.intersect(prim_B);
 						if(iPt != null){								
 							if(allPrims.size() < maxPrimSize){ // TODO: HACK, just stop it.. out of control
-								foundIntersection = true;
 								PrimPair2D iPair = prim_B.splitPrimAtPoint(iPt);
-								allPrims.add(iPair.primA);
-								allPrims.add(iPair.primB);
-								allPrims.remove(prim_B);
+								if(iPair != null){
+									foundIntersection = true;
+									allPrims.add(iPair.primA);
+									allPrims.add(iPair.primB);
+									allPrims.remove(prim_B);
+								}
 								//System.out.println("Added little prims! size:" + allPrims.size());
-							}
-							
+							}							
 						}							
 					}
 				}
 			}
 		}
+		if(allPrims.size() >= maxPrimSize){
+			System.out.println("Region2DList(buildRegionsFromPrim2D): *** Hit max prim list size!! size=" + allPrims.size());
+		}
+		
+		System.out.println("Total Prims now in list: " + allPrims.size());
 		
 		//
 		// prune elements that don't connect to another at both ends.
