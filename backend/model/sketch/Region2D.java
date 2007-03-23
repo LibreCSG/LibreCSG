@@ -1,7 +1,9 @@
 package backend.model.sketch;
 
-import java.util.Iterator;
 import java.util.LinkedList;
+
+import javax.media.opengl.GL;
+import javax.media.opengl.GLContext;
 
 import backend.adt.Point2D;
 import backend.geometry.Geometry2D;
@@ -154,26 +156,30 @@ public class Region2D implements Comparable{
 		return csgFace;
 	}
 	
+	public LinkedList<Point2D> getPeremeterPointList(){
+		LinkedList<Point2D> pointList = new LinkedList<Point2D>();
+		prim2DCycle.orientCycle();
+		for(Prim2D prim : prim2DCycle){
+			pointList.addAll(prim.getVertexList(25));
+			pointList.removeLast(); // since it overlaps with the next element	
+		}
+		return pointList;
+	}
+	
 	private CSG_Face createCSG_Face(){
 		CSG_Face face = null;
 		
 		// create a list of 2D points.
-		LinkedList<Point2D> pointList = new LinkedList<Point2D>();
-		for(Prim2D prim : prim2DCycle){
-			if(pointList.size() <= 0){
-				pointList.add(prim.ptA);
-				pointList.add(prim.ptB);
-			}else{
-				pointList.add(prim.hasPtGetOther(pointList.getLast()));
-			}			
-		}
+		LinkedList<Point2D> pointList = getPeremeterPointList();
 		
-		if(pointList.size() <= 3){
+		//System.out.println("face size: " + pointList.size());
+		
+		if(pointList.size() < 3){
 			System.out.println("Region2D(getCSG_Face): Invalid cycle.. Not enough points in list!");
 			return null;
 		}
 		
-		pointList.removeLast(); // last point is a repeat of the first.
+		//pointList.removeLast(); // last point is a repeat of the first.
 		
 		//
 		// pseudo-code for "convexize polygon" method

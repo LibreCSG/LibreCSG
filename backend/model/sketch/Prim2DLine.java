@@ -1,5 +1,7 @@
 package backend.model.sketch;
 
+import java.util.LinkedList;
+
 import javax.media.opengl.GL;
 
 import ui.opengl.GLDynPrim;
@@ -34,7 +36,7 @@ import backend.geometry.Geometry2D;
 * @created Feb. 2007
 */
 public class Prim2DLine extends Prim2D{
-
+	
 	public Prim2DLine(Point2D ptA, Point2D ptB){
 		if(ptA == null || ptB == null){
 			ptA = new Point2D(0.0, 0.0);
@@ -49,9 +51,70 @@ public class Prim2DLine extends Prim2D{
 		GLDynPrim.line2D(gl, ptA, ptB, 0.0);		
 	}
 
-	public Point2D intersectsArc(Prim2DArc arc) {
-		// TODO need Intersection code!
-		return null;
+	public Point2D intersectsArc(Prim2DArc arc) {			
+		// Intersection code of arc with line		
+		Point2D ptC = arc.center;		
+		double r = arc.radius;
+		double phiX   = ptB.getX() - ptA.getX();
+		double phiY   = ptB.getY() - ptA.getY();
+		double betaX  = ptA.getX() - ptC.getX();
+		double betaY  = ptA.getY() - ptC.getY();
+		double alphaX = ptA.getX()*ptA.getX() + ptC.getX()*ptC.getX() - 2.0*ptA.getX()*ptC.getX();
+		double alphaY = ptA.getY()*ptA.getY() + ptC.getY()*ptC.getY() - 2.0*ptA.getY()*ptC.getY();
+		
+		double A = phiX*phiX + phiY*phiY;
+		double B = 2.0*phiX*betaX + 2.0*phiY*betaY;
+		double C = alphaX + alphaY - r*r;
+				
+		double sqrtNum = B*B - 4*A*C;
+		if(sqrtNum < 0.0 || (A < Geometry2D.epsilon && A > -Geometry2D.epsilon)){
+			return null;  // No intersection, roots are imaginary or infinite.
+		}
+		// quadratic formula...
+		double sLine1 = (-B + Math.sqrt(sqrtNum))/(2*A);
+		double sLine2 = (-B - Math.sqrt(sqrtNum))/(2*A);
+		
+		double sLine = sLine1;
+		// the epsilons "shorten" the acceptable window for the primative that will be modified
+		// and the epsilons "widen" the window for "this" primative to ensure checking if very close.
+		if(sLine < -Geometry2D.epsilon || sLine > (1.0+Geometry2D.epsilon)){
+			// sLine1 not within (0,1) range, try sLine2
+			sLine = sLine2;
+			if(sLine < -Geometry2D.epsilon || sLine > (1.0+Geometry2D.epsilon)){
+				// sLine2 not within (0,1) range -- failed to get a good s for the line
+				return null;
+			}
+		}
+		
+		// sLine now contains a (0,1) parameter along the line segment.		
+		
+		double acosNum = (sLine*phiX+ptA.getX()-ptC.getX()) / r;
+		double asinNum = (sLine*phiY+ptA.getY()-ptC.getY()) / r;
+		if(acosNum > 1.0 || acosNum < -1.0 || asinNum > 1.0 || asinNum < -1.0){
+			System.out.println("Invalid arcsin,arccos numbers; asinNum:" + asinNum + ", acosNum:" + acosNum);
+			return null;
+		}
+		double sCircCos = Math.toDegrees(Math.acos(acosNum));
+		double sCircSin = Math.toDegrees(Math.asin(asinNum));
+		double sCircAngle = sCircCos;
+		if(sCircSin < 0.0){
+			sCircAngle = 360.0 - sCircCos;
+		}
+		
+		double posAngleDiff = (sCircAngle - arc.startAngle + 360.0)%360.0;
+		
+		// the epsilons "shorten" the acceptable window for the primative that will be modified
+		// and the epsilons "widen" the window for "this" primative to ensure checking if very close.
+		if(posAngleDiff <= Geometry2D.epsilon || posAngleDiff >= (arc.arcAngle - Geometry2D.epsilon)){
+			//System.out.println("close, but not an intersectoin!  :)");
+			return null;
+		}
+				
+		// intersection with line segment.. (same as arc)
+		double x = (1.0-sLine)*ptA.getX() + sLine*ptB.getX();
+		double y = (1.0-sLine)*ptA.getY() + sLine*ptB.getY();
+		return new Point2D(x,y);
+	
 	}
 
 	public Point2D intersectsLine(Prim2DLine ln) {
@@ -82,9 +145,7 @@ public class Prim2DLine extends Prim2D{
 				return ptB;
 			}
 		}
-		
-		
-		
+
 		if(denom == 0.0){
 			// lines are parallel...
 			// the only intersection worth noting is if the
@@ -127,12 +188,31 @@ public class Prim2DLine extends Prim2D{
 		return null;
 	}
 
-	public PrimPair2D splitPrimAtPoint(Point2D pt) {		
+	public PrimPair2D splitPrimAtPoint(Point2D pt) {	
+		System.out.println("splitting line...");
 		return new PrimPair2D(new Prim2DLine(ptA, pt), new Prim2DLine(pt, ptB));
 	}
 
 	public double getPrimLength() {
 		return ptA.computeDist(ptB);
+	}
+
+	@Override
+	public Prim2DLine getSwappedEndPtPrim2D() {
+		return new Prim2DLine(ptB, ptA);
+	}
+
+	@Override
+	public Point2D getCenterPtAlongPrim() {
+		return ptA.addPt(ptB).getScaledPt(0.5);
+	}
+
+	@Override
+	public LinkedList<Point2D> getVertexList(int maxVerts) {
+		LinkedList<Point2D> points = new LinkedList<Point2D>();
+		points.add(ptA);
+		points.add(ptB);
+		return points;
 	}
 
 	

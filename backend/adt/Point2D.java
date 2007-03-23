@@ -1,5 +1,7 @@
 package backend.adt;
 
+import backend.geometry.Geometry2D;
+
 
 
 //
@@ -28,6 +30,10 @@ package backend.adt;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
+
+/**
+ * immutable 2D point
+ */
 public class Point2D {
 	protected double x = 0.0;
 	protected double y = 0.0;
@@ -104,7 +110,8 @@ public class Point2D {
 	 * @return
 	 */
 	public boolean equalsPt(Point2D p2){
-		return ((x == p2.x) && (y == p2.y));
+		return ((x > (p2.x-Geometry2D.epsilon) && (x < (p2.x+Geometry2D.epsilon))) && 
+				(y > (p2.y-Geometry2D.epsilon) && (y < (p2.y+Geometry2D.epsilon))));
 	}
 	
 	/**
@@ -137,6 +144,15 @@ public class Point2D {
 	 */
 	public void setY(double newY){
 		y = newY;
+	}
+	
+	/**
+	 * get the cartesian angle going from this point to ptB.
+	 * @param ptB the point to go towards
+	 * @return the angle, in degrees.
+	 */
+	public double getCartesianAngle(Point2D ptB){
+		return Geometry2D.getAnglePtToPt(this, ptB);
 	}
 	
 	public String toString(){

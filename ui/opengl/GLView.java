@@ -435,11 +435,6 @@ public class GLView {
 							}
 						}
 
-						
-
-						
-						
-						
 						//
 						//  TEST Constructive Solid Geometry!
 						//

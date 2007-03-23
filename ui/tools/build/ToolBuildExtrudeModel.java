@@ -3,14 +3,15 @@ package ui.tools.build;
 import javax.media.opengl.GL;
 
 import ui.tools.ToolModelBuild;
-import backend.adt.ParamType;
 import backend.adt.Param;
 import backend.adt.ParamSet;
+import backend.adt.ParamType;
 import backend.adt.Point2D;
 import backend.adt.SelectionList;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D3D;
 import backend.model.Sketch;
+import backend.model.CSG.CSG_Face;
 import backend.model.sketch.Point2DList;
 import backend.model.sketch.Region2D;
 
@@ -60,6 +61,9 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 					for(int i=0; i<selectionList.getSelectionSize(); i++){
 						Region2D includedRegion = sketch.getRegAtIndex(Integer.parseInt(selectionList.getStringAtIndex(i)));
 						if(includedRegion != null){
+							CSG_Face face = includedRegion.getCSG_Face();
+							face.drawFaceForDebug(gl);
+							/*
 							Point2DList ptList = includedRegion.getPoint2DListTriangles();
 							gl.glColor4f(0.7f, 0.85f, 0.85f, 0.6f);
 							gl.glBegin(GL.GL_TRIANGLES);
@@ -98,7 +102,8 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 									gl.glVertex3d(p.getX(), p.getY(), 0.0);
 									gl.glVertex3d(p.getX(), p.getY(), height);
 								}
-							gl.glEnd();							
+							gl.glEnd();	
+							*/
 						}
 					}
 				}
