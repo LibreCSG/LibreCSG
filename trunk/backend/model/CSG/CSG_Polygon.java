@@ -291,6 +291,33 @@ public class CSG_Polygon {
 		return true; 
 	}
 	
+	/**
+	 * test to see if the given vertex is within this polygon.
+	 * vertices that fall on the edge are also considered to 
+	 * be inside.
+	 * @param testVert the CSG_Vertex to test
+	 * @return true if vertex is <em>inside or on the edge of</em> the polygon.
+	 */
+	public boolean vertexIsInsideOrOnEdgeOfPolygon(CSG_Vertex testVert){
+		CSG_Vertex lastVert = vertices.get(vertices.size()-1);
+		for(CSG_Vertex vert : vertices){
+			CSG_Vertex vertDiff = vert.subFromVertex(lastVert);
+			CSG_Vertex normalInsidePoly = vertDiff.getVectCrossProduct(getPlane().getNormal());			
+			// -- to visualize calculated normals for determining "inside" the polygon
+			//	GL gl = GLContext.getCurrent().getGL();
+			//	gl.glColor3f(0.0f, 0.0f, 1.0f);
+			//	vert.drawPointForDebug(gl);
+			//	gl.glColor3f(0.0f, 0.7f, 0.7f);
+			//	normalInsidePoly.getScaledCopy(0.125).addToVertex(vert).drawPointForDebug(gl);			
+			CSG_Plane testPlane = new CSG_Plane(normalInsidePoly, -normalInsidePoly.getDotProduct(vert));
+			if(testPlane.distFromVertex(testVert) < -TOL){
+				return false;  // point is outside (or on top of) an edge!
+			}
+			lastVert = vert;
+		}
+		return true; 
+	}
+	
 	public void drawPolygonForDebug(GL gl){
 		gl.glColor3f(0.5f, 0.7f, 0.7f);
 		gl.glBegin(GL.GL_POLYGON);

@@ -5,6 +5,8 @@ import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
 import ui.tools.ToolViewGroup;
 import backend.data.utilities.ImageUtils;
+import backend.global.AvoGlobal;
+import backend.model.Group;
 
 
 //
@@ -50,7 +52,14 @@ public class ToolGroupPartView extends ToolViewGroup{
 	
 	@Override
 	public void toolSelected() {
-		changeMenuetToolMode(Menuet.MENUET_MODE_PART, new ToolGroupPartCtrl());	
+		// Add a new Part to the Group
+		Group group = AvoGlobal.project.getActiveGroup();
+		if(group != null){
+			group.addNewPart();
+			changeMenuetToolMode(Menuet.MENUET_MODE_PART);
+		}else{
+			System.out.println("ToolGroupPartCtrl(menuetElementSelected): No group was active? Cannot add new Part!");
+		}			
 	}
 
 }

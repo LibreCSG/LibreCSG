@@ -50,7 +50,7 @@ public class ToolPartModifyView extends ToolViewPart{
 	
 	@Override
 	public void toolSelected() {
-		changeMenuetToolMode(Menuet.MENUET_MODE_MODIFY, new ToolPartModifyCtrl());
+		changeMenuetToolMode(Menuet.MENUET_MODE_MODIFY);
 	}
 
 }

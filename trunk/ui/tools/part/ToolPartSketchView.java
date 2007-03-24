@@ -5,6 +5,8 @@ import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
 import ui.tools.ToolViewPart;
 import backend.data.utilities.ImageUtils;
+import backend.global.AvoGlobal;
+import backend.model.Part;
 
 
 //
@@ -50,7 +52,15 @@ public class ToolPartSketchView extends ToolViewPart{
 
 	@Override
 	public void toolSelected() {
-		changeMenuetToolMode(Menuet.MENUET_MODE_SKETCH, new ToolPartSketchCtrl());
+		// create a new sketch and change the menuet to the sketch mode
+		Part part = AvoGlobal.project.getActivePart();
+		if(part != null){
+			// TODO: check for other planes on which to build the sketch besides the default if selected.
+			part.addNewSketch(part.planeXY);
+			changeMenuetToolMode(Menuet.MENUET_MODE_SKETCH);
+		}else{
+			System.out.println("ToolSketkchLineView(toolSelected): What?! there was no active part to build the sketch!");
+		}
 	}
 
 }

@@ -63,7 +63,7 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 						if(includedRegion != null){
 							CSG_Face face = includedRegion.getCSG_Face();
 							face.drawFaceForDebug(gl);
-							//face.drawFaceLinesForDebug(gl);
+							face.drawFaceLinesForDebug(gl);
 							
 							/*
 							Point2DList ptList = includedRegion.getPoint2DListTriangles();

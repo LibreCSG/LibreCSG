@@ -80,7 +80,7 @@ public class MenuetBuilder {
 		new METoolbox(menuet,Menuet.MENUET_MODE_SKETCH);
 		
 		new ToolSketchSelectView(menuet);
-		
+		menuet.setDefaultTool(3, Menuet.MENUET_MODE_SKETCH);
 		
 		//
 		//  TOOL MODE:  Build

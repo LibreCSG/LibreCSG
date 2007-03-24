@@ -77,8 +77,10 @@ public class MainAvoCADoShell{
 		shell.setImage(ImageUtils.getIcon("./avoCADo.png", 32, 32));
 		shell.open();
 		
-		StartupSplashShell.closeSplash();
+		AvoGlobal.intializeAvoCADoApp(this); // initialize app to starting model/view.
 		
+		StartupSplashShell.closeSplash();
+				
 		// handle events while the shell is not disposed
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch())

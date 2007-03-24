@@ -68,7 +68,7 @@ public class ToolPartBuildView extends ToolViewPart{
 		}else{			
 			// there is a sketch active!
 			
-			changeMenuetToolMode(Menuet.MENUET_MODE_BUILD, new ToolPartBuildCtrl());
+			changeMenuetToolMode(Menuet.MENUET_MODE_BUILD);
 			
 			// TODO: Building should not be done in the view!!
 			sketch.buildRegions();

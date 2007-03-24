@@ -43,7 +43,7 @@ public class ToolGroupDoneView extends ToolViewGroup{
 	
 	@Override
 	public void toolSelected() {
-		changeMenuetToolMode(Menuet.MENUET_MODE_PROJECT, new ToolGroupDoneCtrl());
+		changeMenuetToolMode(Menuet.MENUET_MODE_PROJECT);
 	}
 
 }

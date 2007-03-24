@@ -50,7 +50,7 @@ public class ToolProjectShareView extends ToolViewProject{
 	
 	@Override
 	public void toolSelected() {
-		changeMenuetToolMode(Menuet.MENUET_MODE_SHARE, new ToolProjectShareCtrl());		
+		changeMenuetToolMode(Menuet.MENUET_MODE_SHARE);		
 	}
 	
 }

@@ -189,7 +189,7 @@ public class Prim2DLine extends Prim2D{
 	}
 
 	public PrimPair2D splitPrimAtPoint(Point2D pt) {	
-		System.out.println("splitting line...");
+		//System.out.println("splitting line...");
 		return new PrimPair2D(new Prim2DLine(ptA, pt), new Prim2DLine(pt, ptB));
 	}
 

@@ -53,7 +53,7 @@ public class CSG_Face {
 	private CSG_Bounds bounds;
 	private CSG_Plane facePlane;	
 	private List<CSG_Polygon> polygons = new LinkedList<CSG_Polygon>();
-
+	private boolean selectable = false;
 	
 	/**
 	 * create a new Face (convex, planar, noncollinear polygons)<br/><br/>
@@ -202,7 +202,24 @@ public class CSG_Face {
 			}
 		}
 		clone.bounds = bounds.deepCopy();
+		clone.selectable = this.selectable;
 		return clone;
+	}
+	
+	/**
+	 * @return true if this face is intended to be selectable
+	 */
+	public boolean isSelectable(){
+		return selectable;
+	}
+	
+	/**
+	 * Set whether or not this CSG_Face should be selectable
+	 * by the user for creating subsequent sketchs.
+	 * @param selectable 
+	 */
+	public void setSelectable(boolean selectable){
+		this.selectable = selectable;
 	}
 	
 	public void drawFaceForDebug(GL gl){		

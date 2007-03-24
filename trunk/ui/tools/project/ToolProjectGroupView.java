@@ -50,7 +50,7 @@ public class ToolProjectGroupView extends ToolViewProject{
 	
 	@Override
 	public void toolSelected() {
-		changeMenuetToolMode(Menuet.MENUET_MODE_GROUP, new ToolProjectGroupCtrl());		
+		changeMenuetToolMode(Menuet.MENUET_MODE_GROUP);		
 	}
 
 }
