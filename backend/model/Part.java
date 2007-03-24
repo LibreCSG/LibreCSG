@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import backend.global.AvoGlobal;
+import backend.model.CSG.CSG_Face;
 import backend.model.CSG.CSG_Solid;
 import backend.model.CSG.CSG_Vertex;
 import backend.model.sketch.SketchPlane;
@@ -54,6 +55,8 @@ public class Part {
 	public final SketchPlane planeZX = new SketchPlane(origin, yAxis, zAxis);
 
 	private CSG_Solid partSolid = new CSG_Solid(); 
+	
+	private LinkedList<CSG_Face> selectableFaces = new LinkedList<CSG_Face>();
 	
 	public Part(Group group, int ID){
 		this.group = group;

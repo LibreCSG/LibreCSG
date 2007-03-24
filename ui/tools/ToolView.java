@@ -105,28 +105,20 @@ public abstract class ToolView{
 	 * changes the menuet tool by: <br>
 	 *   - (1) call menuetElementDeselected() (via the active controller in AvoGlobal) if != NULL.<br>
 	 *   - (2) update the state of the menuet to reflect the desired mode (via setCurrentToolMode)<br>
-	 *   - (3) set the active tool controller (via AvoGlobal) to match the menuet's mode.<br>
-	 *   - (4) call menuetElementSelected() for this tool<br><br>	  
 	 * 
 	 * @param mode Menuet tool mode to select (Menuet.MENUET_MODE_???)
-	 * @param toolCtrl ToolController to use for mouse/keyboard/etc. interfaces
 	 */
-	protected void changeMenuetToolMode(int mode, ToolCtrl toolCtrl){
+	protected void changeMenuetToolMode(int mode){
 		// (1) call menuetElementDeselected() (via the active controller in AvoGlobal) if != NULL.
 		if(AvoGlobal.activeToolController != null){
 			AvoGlobal.activeToolController.menuetElementDeselected();
 		}
 
+		AvoGlobal.activeToolController = null;
+		
 		// (2) update the state of the menuet to reflect the desired mode (via setCurrentToolMode)
 		AvoGlobal.menuet.setCurrentToolMode(mode);
 		
-		// (3) set the active tool controller (via AvoGlobal) to match the menuet's mode.
-		AvoGlobal.activeToolController = toolCtrl;
-		
-		// (4) call menuetToolSelected() for this tool
-		if(toolCtrl != null){
-			toolCtrl.menuetElementSelected();
-		}
 		
 	}
 	

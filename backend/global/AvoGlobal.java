@@ -8,9 +8,12 @@ import ui.menuet.MenuetToolboxDialog;
 import ui.opengl.GLView;
 import ui.opengl.RenderLevel;
 import ui.paramdialog.DynParamDialog;
+import ui.shells.MainAvoCADoShell;
 import ui.tools.ToolCtrl;
 import ui.treeviewer.TreeViewer;
 import backend.adt.ParamSet;
+import backend.model.Group;
+import backend.model.Part;
 import backend.model.Project;
 
 
@@ -121,6 +124,18 @@ public class AvoGlobal {
 	
 	public static double[] glCursor3DPos = new double[] {0.0, 0.0, 0.0}; 
 	
-	
+	public static void intializeAvoCADoApp(MainAvoCADoShell mainShell){
+		project.addNewGroup();
+		Group group = project.getActiveGroup();
+		if(group != null){
+			group.addNewPart();
+			Part part = group.getActivePart();
+			if(part != null){
+				part.addNewSketch(part.planeXY);
+				menuet.setCurrentToolMode(Menuet.MENUET_MODE_SKETCH);
+				glView.updateGLView = true;
+			}
+		}
+	}
 	
 }

@@ -54,7 +54,7 @@ public class ToolSketchCancelView extends ToolViewSketch{
 		m.setMessage("Are you sure you want to discard ALL changes\nand exit the Sketch drawing mode?");
 		m.setText("Discard ALL Changes?");
 		if(m.open() == SWT.YES){
-			this.changeMenuetToolMode(Menuet.MENUET_MODE_PART, new ToolSketchCancelCtrl());
+			this.changeMenuetToolMode(Menuet.MENUET_MODE_PART);
 		}
 
 	}

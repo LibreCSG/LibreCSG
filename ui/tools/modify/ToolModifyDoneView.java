@@ -43,7 +43,7 @@ public class ToolModifyDoneView extends ToolViewModify{
 	
 	@Override
 	public void toolSelected() {
-		changeMenuetToolMode(Menuet.MENUET_MODE_PART, new ToolModifyDoneCtrl());	
+		changeMenuetToolMode(Menuet.MENUET_MODE_PART);	
 	}
 
 }

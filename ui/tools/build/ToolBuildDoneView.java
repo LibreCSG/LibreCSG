@@ -44,7 +44,7 @@ public class ToolBuildDoneView extends ToolViewBuild{
 
 	@Override
 	public void toolSelected() {
-		changeMenuetToolMode(Menuet.MENUET_MODE_PART, new ToolBuildDoneCtrl());
+		changeMenuetToolMode(Menuet.MENUET_MODE_PART);
 		// TODO: if the feat2D3D isn't complete, then (1) let the user know, and then (2) delete it if user desires.
 	}
 	

@@ -224,7 +224,7 @@ public class Region2D implements Comparable{
 			polyPoints.add(ptC);
 			
 			double angle = Geometry2D.threePtAngle(ptA, ptB, ptC);
-			if(angle > TOL){ // points going clockwise
+			if(angle > TOL){ // points going clockwise				
 				CSG_Polygon poly = new CSG_Polygon(new CSG_Vertex(ptA, 0.0), new CSG_Vertex(ptB, 0.0), new CSG_Vertex(ptC, 0.0));
 				if(!polygonContainPoints(poly, pointList, polyPoints)){
 					int indexStart = index;
@@ -240,10 +240,11 @@ public class Region2D implements Comparable{
 						if(angleA > TOL && angleB > TOL && angleC > TOL){			
 							CSG_Polygon polyCopy = poly.deepCopy();
 							polyCopy.addVertex(new CSG_Vertex(ptD, 0.0));
+							polyPoints.add(ptD);
 							if(!polygonContainPoints(polyCopy, pointList, polyPoints)){
 								poly.addVertex(new CSG_Vertex(ptD, 0.0));
-								polyPoints.add(ptD);
 							}else{
+								polyPoints.removeLast();
 								// Polygon contained another vertex in the list!
 								break;
 							}							
@@ -279,7 +280,7 @@ public class Region2D implements Comparable{
 	private boolean polygonContainPoints(CSG_Polygon poly, LinkedList<Point2D> pointList, LinkedList<Point2D> invalidPoints){
 		boolean polyOverlapsOtherPoints = false;
 		for(Point2D point : pointList){
-			if(!invalidPoints.contains(point) && poly.vertexIsInsidePolygon(new CSG_Vertex(point, 0.0))){
+			if(!invalidPoints.contains(point) && poly.vertexIsInsideOrOnEdgeOfPolygon(new CSG_Vertex(point, 0.0))){
 				polyOverlapsOtherPoints = true;
 			}
 		}

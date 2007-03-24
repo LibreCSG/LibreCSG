@@ -65,6 +65,8 @@ public class Menuet extends Composite{
 	 */
 	LinkedList <MenuetElement>menuetElements[] = new LinkedList[MENUET_TOTAL_MODES];
 
+	int[] defaultTool = new int[MENUET_TOTAL_MODES];
+	
 	/**
 	 * Construct a new <b>menuet</b>: Mode based menu system
 	 */
@@ -75,6 +77,10 @@ public class Menuet extends Composite{
 		for(int i=0; i<MENUET_TOTAL_MODES; i++){
 			menuetElements[i] = new LinkedList<MenuetElement>();
 		}
+		// initialize defautl selected menuet element for each mode
+		for(int i=0; i<defaultTool.length; i++){
+			defaultTool[i] = -1;
+		};
 		
 		this.addControlListener(new ControlListener(){
 			public void controlMoved(ControlEvent e) {			
@@ -94,15 +100,31 @@ public class Menuet extends Composite{
 	public void setCurrentToolMode(int toolMode){
 		if(toolMode < 0 || toolMode >= MENUET_TOTAL_MODES){
 			// invalid toolMode
-			System.out.println("invalid tool mode specified.. ignoring setCurrentToolMode call");
+			System.out.println("Menuet(setCurrentTool): invalid tool mode specified.. ignoring setCurrentToolMode call");
 			return;
 		}
 		if(toolMode != currentToolMode){
 			disableAllTools();
 			currentToolMode = toolMode;
+			if(defaultTool[currentToolMode] >= 0 && defaultTool[currentToolMode] < menuetElements[currentToolMode].size()){
+				menuetElements[currentToolMode].get(defaultTool[currentToolMode]).toolView.toolSelected();
+			}		
 			updateToolModeDisplayed();
+		}		
+	}
+	
+	public void setDefaultTool(int defaultToolIndx, int toolMode){
+		if(toolMode < 0 || toolMode >= MENUET_TOTAL_MODES){
+			// invalid toolMode
+			System.out.println("Menuet(setDefaultTool): invalid tool mode specified.. ");
+			return;
 		}
-		
+		if(defaultToolIndx < 0 || defaultToolIndx >= menuetElements[toolMode].size()){
+			// invalid tool index
+			System.out.println("Menuet(setDefaultTool): invalid tool default Index!.. ");
+			return;
+		}
+		defaultTool[toolMode] = defaultToolIndx;
 	}
 	
 	/**

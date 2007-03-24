@@ -46,7 +46,7 @@ public class ToolSketchDoneView extends ToolViewSketch{
 
 	@Override
 	public void toolSelected() {
-		changeMenuetToolMode(Menuet.MENUET_MODE_PART, new ToolSketchDoneCtrl());
+		changeMenuetToolMode(Menuet.MENUET_MODE_PART);
 	}
 	
 

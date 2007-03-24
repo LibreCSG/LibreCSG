@@ -43,7 +43,7 @@ public class ToolShareDoneView extends ToolViewShare{
 	
 	@Override
 	public void toolSelected() {
-		changeMenuetToolMode(Menuet.MENUET_MODE_PROJECT, new ToolShareDoneCtrl());
+		changeMenuetToolMode(Menuet.MENUET_MODE_PROJECT);
 	}
 
 }
