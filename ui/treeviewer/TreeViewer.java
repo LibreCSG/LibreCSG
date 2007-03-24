@@ -158,6 +158,10 @@ public class TreeViewer {
 			return;
 		}
 
+		for(int i=project.getGroupListSize(); i<tree.getItemCount(); i++){
+			// remove groups that no longer exist
+			tree.getItem(i).dispose();
+		}
 		for(int iGroup=0; iGroup < project.getGroupListSize(); iGroup++){
 			Group group = project.getAtIndex(iGroup);
 			TreeItem tiGroup;
@@ -168,6 +172,10 @@ public class TreeViewer {
 			}
 			tiGroup.setText("Group " + group.getID());
 			tiGroup.setData(new int[] {iGroup});
+			for(int i=group.getPartListSize(); i<tiGroup.getItemCount(); i++){
+				// remove parts that no longer exist
+				tiGroup.getItem(i).dispose();
+			}
 			for(int iPart=0; iPart<group.getPartListSize(); iPart++){
 				Part part = group.getAtIndex(iPart);
 				TreeItem tiPart;
@@ -217,6 +225,10 @@ public class TreeViewer {
 				tiPartZX.setData(new int[] {iGroup, iPart, 3});
 				tiPartZX.setText("ZX Plane");
 				
+				for(int i=part.getSubPartListSize()+4; i<tiPart.getItemCount(); i++){
+					// remove subParts that no longer exist
+					tiPart.getItem(i).dispose();
+				}
 				for(int iSubPart=0; iSubPart < part.getSubPartListSize(); iSubPart++){
 					SubPart subPart = part.getAtIndex(iSubPart);
 					TreeItem tiSubPart;
@@ -233,6 +245,11 @@ public class TreeViewer {
 						if(sketch.isConsumed){
 							tiSubPart.setText("Sketch(c) " + sketch.getID());
 							tiSubPart.setBackground(new Color(Display.getCurrent(), 240, 200, 200));
+						}
+						
+						for(int i=sketch.getFeat2DListSize(); i<tiSubPart.getItemCount(); i++){
+							// remove Feature2D that no longer exist
+							tiSubPart.getItem(i).dispose();
 						}
 						for(int iSketch=0; iSketch < sketch.getFeat2DListSize(); iSketch++){
 							Feature2D feat2D = sketch.getAtIndex(iSketch);
