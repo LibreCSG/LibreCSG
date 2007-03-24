@@ -2,10 +2,9 @@ package ui.tools.sketch;
 
 import ui.menuet.MEButtonDone;
 import ui.menuet.Menuet;
-import ui.menuet.MenuetElement;
 import ui.tools.ToolViewSketch;
-import backend.data.utilities.ImageUtils;
-import backend.global.AvoColors;
+import backend.global.AvoGlobal;
+import backend.model.Sketch;
 
 
 //
@@ -46,7 +45,19 @@ public class ToolSketchDoneView extends ToolViewSketch{
 
 	@Override
 	public void toolSelected() {
+		Sketch sketch = AvoGlobal.project.getActiveSketch();
+		if(sketch != null){
+			if(sketch.getFeat2DListSize() == 0){
+				// if sketch has no Feature2D, then discard it.
+				AvoGlobal.project.getActivePart().removeActiveSubPart();
+				System.out.println("You clicked Done and the sketch had no features... discarding.");
+			}else{
+				// deselect Feat2D and keep the sketch.
+				sketch.deselectAllFeat2D();			
+			}
+		}
 		changeMenuetToolMode(Menuet.MENUET_MODE_PART);
+		AvoGlobal.glView.updateGLView = true;
 	}
 	
 

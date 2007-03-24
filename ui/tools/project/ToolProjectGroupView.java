@@ -5,6 +5,7 @@ import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
 import ui.tools.ToolViewProject;
 import backend.data.utilities.ImageUtils;
+import backend.global.AvoGlobal;
 
 
 //
@@ -50,6 +51,7 @@ public class ToolProjectGroupView extends ToolViewProject{
 	
 	@Override
 	public void toolSelected() {
+		AvoGlobal.project.addNewGroup();
 		changeMenuetToolMode(Menuet.MENUET_MODE_GROUP);		
 	}
 
