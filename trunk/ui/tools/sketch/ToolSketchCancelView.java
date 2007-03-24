@@ -5,10 +5,9 @@ import org.eclipse.swt.widgets.MessageBox;
 
 import ui.menuet.MEButtonCancel;
 import ui.menuet.Menuet;
-import ui.menuet.MenuetElement;
 import ui.tools.ToolViewSketch;
-import backend.global.AvoColors;
 import backend.global.AvoGlobal;
+import backend.model.Sketch;
 
 
 //
@@ -54,7 +53,12 @@ public class ToolSketchCancelView extends ToolViewSketch{
 		m.setMessage("Are you sure you want to discard ALL changes\nand exit the Sketch drawing mode?");
 		m.setText("Discard ALL Changes?");
 		if(m.open() == SWT.YES){
-			this.changeMenuetToolMode(Menuet.MENUET_MODE_PART);
+			Sketch sketch = AvoGlobal.project.getActiveSketch();
+			if(sketch != null){
+				sketch.deselectAllFeat2D();
+			}
+			changeMenuetToolMode(Menuet.MENUET_MODE_PART);
+			AvoGlobal.glView.updateGLView = true;
 		}
 
 	}

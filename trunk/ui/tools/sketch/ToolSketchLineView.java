@@ -1,16 +1,10 @@
 package ui.tools.sketch;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.MessageBox;
-
 import ui.menuet.MEButton;
 import ui.menuet.Menuet;
 import ui.menuet.MenuetElement;
 import ui.tools.ToolViewSketch;
 import backend.data.utilities.ImageUtils;
-import backend.global.AvoGlobal;
-import backend.model.Part;
-import backend.model.Sketch;
 
 
 //

@@ -1,8 +1,5 @@
 package ui.menuet;
 
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseTrackListener;
-
 import ui.tools.build.ToolBuildDoneView;
 import ui.tools.build.ToolBuildExtrudeView;
 import ui.tools.build.ToolBuildRevolveView;

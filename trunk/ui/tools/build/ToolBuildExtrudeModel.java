@@ -6,13 +6,11 @@ import ui.tools.ToolModelBuild;
 import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.ParamType;
-import backend.adt.Point2D;
 import backend.adt.SelectionList;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D3D;
 import backend.model.Sketch;
 import backend.model.CSG.CSG_Face;
-import backend.model.sketch.Point2DList;
 import backend.model.sketch.Region2D;
 
 
