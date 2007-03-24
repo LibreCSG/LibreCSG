@@ -174,6 +174,7 @@ public class Part {
 	 */
 	public void removeActiveSubPart(){
 		removeSubPartAtIndex(activeSubPart);
+		AvoGlobal.modelEventHandler.notifyElementRemoved();
 	}
 	
 	/**

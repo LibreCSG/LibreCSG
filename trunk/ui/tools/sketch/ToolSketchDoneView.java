@@ -51,12 +51,16 @@ public class ToolSketchDoneView extends ToolViewSketch{
 				// if sketch has no Feature2D, then discard it.
 				AvoGlobal.project.getActivePart().removeActiveSubPart();
 				System.out.println("You clicked Done and the sketch had no features... discarding.");
+				changeMenuetToolMode(Menuet.MENUET_MODE_PART);
 			}else{
 				// deselect Feat2D and keep the sketch.
-				sketch.deselectAllFeat2D();			
+				sketch.deselectAllFeat2D();		
+				sketch.buildRegions();
+				int i = AvoGlobal.project.getActivePart().addNewFeat2D3D(sketch.getID());
+				AvoGlobal.project.getActivePart().setActiveSubPart(i);
+				changeMenuetToolMode(Menuet.MENUET_MODE_BUILD);
 			}
-		}
-		changeMenuetToolMode(Menuet.MENUET_MODE_PART);
+		}		
 		AvoGlobal.glView.updateGLView = true;
 	}
 	
