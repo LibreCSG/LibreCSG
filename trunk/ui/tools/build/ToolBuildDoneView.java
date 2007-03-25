@@ -2,6 +2,7 @@ package ui.tools.build;
 
 import ui.menuet.MEButtonDone;
 import ui.menuet.Menuet;
+import ui.tools.ToolModelBuild;
 import ui.tools.ToolViewBuild;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D3D;
@@ -50,13 +51,13 @@ public class ToolBuildDoneView extends ToolViewBuild{
 		if(feat2D3D != null){
 			if(feat2D3D.paramSet == null){
 				AvoGlobal.project.getActivePart().removeActiveSubPart();
+			}else{
+				AvoGlobal.paramDialog.finalizeCurrentParams();
 			}
 		}else{
 			System.out.println("ToolBuildDoneView(toolSelected): Hmm??! No active feature2D3D?");
 		}
 		changeMenuetToolMode(Menuet.MENUET_MODE_PART);
-		
-		// TODO: if the feat2D3D isn't complete, then (1) let the user know, and then (2) delete it if user desires.
 	}
 	
 }

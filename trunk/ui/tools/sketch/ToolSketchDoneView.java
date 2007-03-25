@@ -54,6 +54,7 @@ public class ToolSketchDoneView extends ToolViewSketch{
 				changeMenuetToolMode(Menuet.MENUET_MODE_PART);
 			}else{
 				// deselect Feat2D and keep the sketch.
+				AvoGlobal.paramDialog.finalizeCurrentParams();
 				sketch.deselectAllFeat2D();		
 				sketch.buildRegions();
 				int i = AvoGlobal.project.getActivePart().addNewFeat2D3D(sketch.getID());

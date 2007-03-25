@@ -3,6 +3,8 @@ package ui.tools;
 import javax.media.opengl.GL;
 
 import backend.model.Feature2D3D;
+import backend.model.CSG.BoolOp;
+import backend.model.CSG.CSG_Solid;
 
 
 //
@@ -36,4 +38,16 @@ public interface ToolModelBuild extends ToolModel{
 	// TODO: should not actually do drawing! (I think?!?)
 	abstract public void draw3DFeature(GL gl, Feature2D3D feat2D3D);
 	
+	/**
+	 * Construct a CSG_Solid from the feature2D3D and return it.
+	 * @param feat2D3D 
+	 * @return the CSG_Solid (water-tight)
+	 */
+	abstract public CSG_Solid getBuiltSolid(Feature2D3D feat2D3D);
+	
+	/**
+	 * @return the Boolean operation to peform on 
+	 * the solid this tool creates.
+	 */
+	abstract public BoolOp getBooleanOperation();
 }
