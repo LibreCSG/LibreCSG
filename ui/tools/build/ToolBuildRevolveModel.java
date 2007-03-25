@@ -10,6 +10,8 @@ import backend.adt.SelectionList;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D3D;
 import backend.model.Sketch;
+import backend.model.CSG.BoolOp;
+import backend.model.CSG.CSG_Solid;
 
 
 //
@@ -53,6 +55,7 @@ public class ToolBuildRevolveModel implements ToolModelBuild{
 			if(sketch != null){
 				// TODO: only keep feature and consume sketch if selectionLists are all satisfied as well.
 				sketch.isConsumed = true;
+				AvoGlobal.modelEventHandler.notifyActiveElementChanged();
 			}else{
 				AvoGlobal.project.getActivePart().removeActiveSubPart();				
 			}
@@ -92,6 +95,16 @@ public class ToolBuildRevolveModel implements ToolModelBuild{
 		pSet.addParam("regions", new Param("Regions", new SelectionList()));
 		pSet.addParam("centerline", new Param("CenterLine", new SelectionList()));		
 		return pSet;
+	}
+
+	public BoolOp getBooleanOperation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public CSG_Solid getBuiltSolid(Feature2D3D feat2D3D) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

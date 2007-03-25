@@ -290,4 +290,20 @@ public class CSG_Face {
 		return true;
 	}
 	
+	public CSG_Face getTranslatedCopy(CSG_Vertex translation){
+		CSG_Face tFace = this.deepCopy();
+		for(int i=0; i < tFace.polygons.size(); i++){
+			tFace.polygons.set(i, tFace.polygons.get(i).getTranslatedCopy(translation));
+		}
+		return tFace;
+	}
+	
+	public void flipFaceDirection(){
+		for(CSG_Polygon poly : polygons){
+			poly.reverseVertexOrder();
+			
+		}
+		facePlane = polygons.get(0).getPlane();
+	}
+	
 }

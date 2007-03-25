@@ -1,10 +1,4 @@
-package ui.tools.build;
-
-import ui.menuet.MEButton;
-import ui.menuet.Menuet;
-import ui.menuet.MenuetElement;
-import ui.tools.ToolViewBuild;
-import backend.data.utilities.ImageUtils;
+package backend.model.CSG;
 
 
 //
@@ -31,27 +25,12 @@ import backend.data.utilities.ImageUtils;
 
 /*
 * @author  Adam Kumpf
-* @created Feb. 2007
+* @created Mar. 2007
 */
-public class ToolBuildExtrudeView extends ToolViewBuild{
 
-
-	public ToolBuildExtrudeView(Menuet menuet){	
-		
-		// initialize GUI elements
-		mElement = new MEButton(menuet, this.getToolMode(), this, false);
-		mElement.mePreferredHeight = 50;
-		mElement.meLabel = "Extrude";
-		mElement.meIcon = ImageUtils.getIcon("menuet/2D3D_Extrude.png", 24, 24);
-		mElement.setToolTipText("Extrude a 2D region.");
-		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
-		
-		this.applyToolGroupSettings();	// APPLY 2D GROUP SETTINGS
-	}
-
-	public void toolSelected() {
-		changeMenuetTool(mElement, new ToolBuildExtrudeCtrl());
-		
-	}
-	
+/**
+ * Boolean operations to perform on CSG_Solids
+ */
+public enum BoolOp {
+	Union, Intersection, Subtracted, SubtractFrom
 }

@@ -1,9 +1,9 @@
 package backend.model.sketch;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import javax.media.opengl.GL;
-import javax.media.opengl.GLContext;
 
 import backend.adt.Point2D;
 import backend.geometry.Geometry2D;
@@ -90,7 +90,7 @@ public class Region2D implements Comparable{
 	 */
 	public Point2DList getPoint2DListTriangles(){
 		// TODO: cache this, perhaps?
-		Point2DList p2DList = new Point2DList();
+		Point2DList p2DList = getPoint2DListEdges();
 		// TODO: HACK, just for triangular regions...
 		if(prim2DCycle.size() == 3){
 			Point2D ptA = prim2DCycle.get(0).ptA;
@@ -136,7 +136,7 @@ public class Region2D implements Comparable{
 	 */
 	public Point2DList getPoint2DListEdgeQuad(){
 		// TODO: HACK, doesn't take into account faces that may be on the inside of an object (drilled hole)
-		Point2DList p2DList = new Point2DList();
+		Point2DList p2DList = getPoint2DListEdges();
 		Point2D conPt = new Point2D(0.0, 0.0);
 		if(prim2DCycle.size() > 0){
 			conPt = prim2DCycle.getFirst().ptA;
@@ -156,8 +156,8 @@ public class Region2D implements Comparable{
 		return csgFace;
 	}
 	
-	public LinkedList<Point2D> getPeremeterPointList(){
-		LinkedList<Point2D> pointList = new LinkedList<Point2D>();
+	public Point2DList getPeremeterPointList(){
+		Point2DList pointList = new Point2DList();
 		prim2DCycle.orientCycle();
 		for(Prim2D prim : prim2DCycle){
 			pointList.addAll(prim.getVertexList(25));
@@ -287,5 +287,21 @@ public class Region2D implements Comparable{
 		return polyOverlapsOtherPoints;
 	}
 
+	public void glDrawUnselected(GL gl){
+		// TODO: put this in a GL lib of somekind..
+		gl.glColor4d(0.5, 0.75, 0.5, 0.25);
+		if(csgFace != null){
+			Iterator<CSG_Polygon> polyIter = csgFace.getPolygonIterator();
+			while(polyIter.hasNext()){
+				CSG_Polygon poly = polyIter.next();
+				poly.glDrawPolygon(gl);
+			}
+		}
+	}
+	
+	public void glDrawSelected(GL gl){
+//		 TODO: put this in a GL lib of somekind..
+		gl.glColor4d(0.7, 0.7, 0.9, 1.0);
+	}
 	
 }

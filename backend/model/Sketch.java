@@ -1,12 +1,10 @@
 package backend.model;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.media.opengl.GL;
-
 import backend.global.AvoGlobal;
-import backend.model.CSG.CSG_Vertex;
 import backend.model.sketch.Prim2D;
 import backend.model.sketch.Prim2DList;
 import backend.model.sketch.Region2D;
@@ -71,6 +69,10 @@ public class Sketch implements SubPart{
 		this.part = part;
 		this.ID = ID;
 		this.sketchPlane = sketchPlane;
+	}
+	
+	public Iterator<Region2D> getRegion2DIterator(){
+		return regionList.iterator();
 	}
 	
 	public SketchPlane getSketchPlane(){

@@ -318,6 +318,15 @@ public class CSG_Polygon {
 		return true; 
 	}
 	
+	public void glDrawPolygon(GL gl){
+		// TODO: put this in a GL lib of somekind..
+		gl.glBegin(GL.GL_POLYGON);
+		for(CSG_Vertex v : vertices){
+			gl.glVertex3dv(v.getXYZ(), 0);
+		}
+		gl.glEnd();
+	}
+	
 	public void drawPolygonForDebug(GL gl){
 		gl.glColor3f(0.5f, 0.7f, 0.7f);
 		gl.glBegin(GL.GL_POLYGON);
@@ -365,6 +374,14 @@ public class CSG_Polygon {
 	public boolean isValidPolygon(){
 		// TODO: check to make sure vertices are coplanar, convex, and non-collinear
 		return true;
+	}
+	
+	public CSG_Polygon getTranslatedCopy(CSG_Vertex translation){		
+		CSG_Polygon tPoly = this.deepCopy();
+		for(int i=0; i < tPoly.vertices.size(); i++){
+			tPoly.vertices.set(i, tPoly.vertices.get(i).addToVertex(translation));
+		}
+		return tPoly;
 	}
 	
 }

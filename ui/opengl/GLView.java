@@ -406,7 +406,9 @@ public class GLView {
 								    	}
 									}
 									
-									drawTransparentMouseLayer();
+									if(AvoGlobal.menuet.getCurrentToolMode() == Menuet.MENUET_MODE_SKETCH){
+										drawTransparentMouseLayer();
+									}									
 									
 									if(mouse_down_button != MOUSE_MIDDLE && 
 											mouse_down_button != MOUSE_MIDDLE_SHIFT && 
@@ -429,7 +431,7 @@ public class GLView {
 									feat2D3D.paramSet.getToolModel2D3D().draw3DFeature(gl, feat2D3D);
 									// TODO: don't double render! (just a hack to make transparency work a  
 									//                             bit better since polygons are not ordered)
-									feat2D3D.paramSet.getToolModel2D3D().draw3DFeature(gl, feat2D3D);
+									//feat2D3D.paramSet.getToolModel2D3D().draw3DFeature(gl, feat2D3D);
 								}
 								
 							}

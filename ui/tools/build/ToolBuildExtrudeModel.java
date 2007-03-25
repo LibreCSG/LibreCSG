@@ -1,16 +1,24 @@
 package ui.tools.build;
 
+import java.util.Iterator;
+
 import javax.media.opengl.GL;
 
 import ui.tools.ToolModelBuild;
 import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.ParamType;
+import backend.adt.Point2D;
 import backend.adt.SelectionList;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D3D;
 import backend.model.Sketch;
+import backend.model.CSG.BoolOp;
 import backend.model.CSG.CSG_Face;
+import backend.model.CSG.CSG_Polygon;
+import backend.model.CSG.CSG_Solid;
+import backend.model.CSG.CSG_Vertex;
+import backend.model.sketch.Point2DList;
 import backend.model.sketch.Region2D;
 
 
@@ -46,71 +54,18 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 		// if sketch is not consumed... just draw face to be extruded
 		//System.out.println("trying to draw extrude");
 		
-		// TODO: using selected regions from the sketch... this should be done with a SelectionList!
 		
-		ParamSet paramSet = feat2D3D.paramSet;
 		Sketch sketch = feat2D3D.getPrimarySketch();
-		if(sketch != null && paramSet != null){		
-			try{
-				SelectionList selectionList = paramSet.getParam("regions").getDataSelectionList();
-				Double height = paramSet.getParam("h").getDataDouble();
-				if(selectionList != null && height != null){
-					//System.out.println("drawing extrude at height=" + height + " and selection: " + selectionList.toString());
-					for(int i=0; i<selectionList.getSelectionSize(); i++){
-						Region2D includedRegion = sketch.getRegAtIndex(Integer.parseInt(selectionList.getStringAtIndex(i)));
-						if(includedRegion != null){
-							CSG_Face face = includedRegion.getCSG_Face();
-							face.drawFaceForDebug(gl);
-							face.drawFaceLinesForDebug(gl);
-							
-							/*
-							Point2DList ptList = includedRegion.getPoint2DListTriangles();
-							gl.glColor4f(0.7f, 0.85f, 0.85f, 0.6f);
-							gl.glBegin(GL.GL_TRIANGLES);
-								for(int j=ptList.size()-1; j >= 0; j--){
-									Point2D p = ptList.get(j);
-									gl.glVertex3d(p.getX(), p.getY(), 0.0);
-								}
-								for(Point2D p : ptList){
-									gl.glVertex3d(p.getX(), p.getY(), height);
-								}
-							gl.glEnd();
-							
-							Point2DList qList = includedRegion.getPoint2DListEdgeQuad();
-							gl.glBegin(GL.GL_QUADS);
-								int q = 0;
-								for(Point2D p : qList){
-									if(q%4 == 0 || q%4 == 1){
-										gl.glVertex3d(p.getX(), p.getY(), 0.0);
-									}else{
-										gl.glVertex3d(p.getX(), p.getY(), height);
-									}
-									q++;
-								}
-							gl.glEnd();
-							
-							Point2DList lnList = includedRegion.getPoint2DListEdges();
-							gl.glColor4f(0.6f, 0.75f, 0.75f, 1.0f);
-							gl.glBegin(GL.GL_LINES);
-								for(Point2D p : lnList){
-									gl.glVertex3d(p.getX(), p.getY(), 0.0);
-								}
-								for(Point2D p : lnList){
-									gl.glVertex3d(p.getX(), p.getY(), height);
-								}
-								for(Point2D p : lnList){
-									gl.glVertex3d(p.getX(), p.getY(), 0.0);
-									gl.glVertex3d(p.getX(), p.getY(), height);
-								}
-							gl.glEnd();	
-							*/
-						}
-					}
-				}
-			}catch(Exception ex){
-				System.out.println("Extrude(draw): " + ex.getClass().getName());
+		if(sketch != null){
+			Iterator<Region2D> regIter = sketch.getRegion2DIterator();
+			while(regIter.hasNext()){
+				Region2D region = regIter.next();
+				region.glDrawUnselected(gl);
 			}
-		}		
+		}
+		
+		getBuiltSolid(feat2D3D).glDrawSolid(gl);
+	
 	}
 
 	public boolean paramSetIsValid(ParamSet paramSet) {
@@ -138,6 +93,7 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 			if(sketch != null){
 				// TODO: only keep feature and consume sketch if selectionLists are all satisfied as well.
 				sketch.isConsumed = true;
+				AvoGlobal.modelEventHandler.notifyActiveElementChanged();
 			}else{
 				AvoGlobal.project.getActivePart().removeActiveSubPart();				
 			}
@@ -155,6 +111,67 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 		pSet.addParam("regions", new Param("Regions", new SelectionList()));
 		pSet.addParam("h", new Param("Height", 2*AvoGlobal.gridSize));
 		return pSet;
+	}
+
+	public BoolOp getBooleanOperation() {
+		return BoolOp.Union;
+	}
+
+	public CSG_Solid getBuiltSolid(Feature2D3D feat2D3D) {
+		ParamSet paramSet = feat2D3D.paramSet;
+		Sketch sketch = feat2D3D.getPrimarySketch();
+		CSG_Solid solid = new CSG_Solid();
+		if(sketch != null && paramSet != null){					
+			try{
+				SelectionList selectionList = paramSet.getParam("regions").getDataSelectionList();
+				Double height = paramSet.getParam("h").getDataDouble();
+				if(selectionList != null && height != null){
+					//System.out.println("drawing extrude at height=" + height + " and selection: " + selectionList.toString());
+					for(int i=0; i<selectionList.getSelectionSize(); i++){
+						Region2D includedRegion = sketch.getRegAtIndex(Integer.parseInt(selectionList.getStringAtIndex(i)));
+						if(includedRegion != null){
+							CSG_Face bottomFace = includedRegion.getCSG_Face();
+							solid.addFace(bottomFace);
+							
+							Point2DList ptList = includedRegion.getPeremeterPointList();
+							
+							CSG_Vertex lastVert        = null;
+							CSG_Vertex lastVertExtrude = null;
+							for(Point2D pt : ptList){
+								if(lastVert == null){
+									lastVert        = new CSG_Vertex(pt, 0.0);
+									lastVertExtrude = new CSG_Vertex(pt, height);
+								}else{
+									CSG_Vertex newVert        = new CSG_Vertex(pt, 0.0);
+									CSG_Vertex newVertExtrude = new CSG_Vertex(pt, height);
+									CSG_Polygon poly = new CSG_Polygon(newVert, lastVert, lastVertExtrude, newVertExtrude);
+									CSG_Face newFace = new CSG_Face(poly);
+									solid.addFace(newFace);
+									lastVert        = newVert;
+									lastVertExtrude = newVertExtrude;
+								}
+							}
+							CSG_Vertex newVert        = new CSG_Vertex(ptList.getFirst(), 0.0);
+							CSG_Vertex newVertExtrude = new CSG_Vertex(ptList.getFirst(), height);
+							CSG_Polygon poly = new CSG_Polygon(newVert, lastVert, lastVertExtrude, newVertExtrude);
+							CSG_Face newFace = new CSG_Face(poly);
+							solid.addFace(newFace);
+							
+							CSG_Face topFace = bottomFace.getTranslatedCopy(new CSG_Vertex(0.0, 0.0, height));
+							topFace.flipFaceDirection();
+							solid.addFace(topFace);
+							
+							if(!solid.isValidSolid()){
+								System.out.println("Solid was not valid!!");
+							}							
+						}
+					}
+				}
+			}catch(Exception ex){
+				System.out.println("Extrude(draw): " + ex.getClass().getName());
+			}
+		}
+		return solid;
 	}
 
 }

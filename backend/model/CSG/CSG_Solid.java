@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.media.opengl.GL;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -117,5 +119,15 @@ public class CSG_Solid {
 	public boolean isValidSolid(){
 		// TODO: check to make sure the solid is water-tight and that each face is valid! 
 		return true;
+	}
+	
+	public void glDrawSolid(GL gl){
+		Iterator<CSG_Face> iter = faces.iterator();
+		while(iter.hasNext()){
+			CSG_Face f = iter.next();
+			f.drawFaceForDebug(gl);
+			f.drawFaceLinesForDebug(gl);
+			f.drawFaceNormalsForDebug(gl);
+		}	
 	}
 }
