@@ -91,7 +91,8 @@ public class MenuetBuilder {
 		labelBuild.textIsBold = true;
 		
 		new ToolBuildExtrudeView(menuet);
-		new ToolBuildRevolveView(menuet);
+		// TODO: put revolve back in.. just removed for alpha release.
+		//new ToolBuildRevolveView(menuet);
 		
 		new METoolbox(menuet,Menuet.MENUET_MODE_BUILD);
 		
