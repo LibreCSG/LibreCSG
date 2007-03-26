@@ -42,6 +42,7 @@ public class MEButton extends MenuetElement{
 	int MEB_ARC_RADIUS  = 20;
 	int MEB_SIDE_SPACE  = 8;	// unconsumed space to right of button
 	boolean mouseIsOver = false;
+	protected int minButtonHeight = defaultMinDisplayHeight;
 	
 	public MEButton(Menuet menuet, int mode, ToolView toolView, boolean isStoredInToolbox){
 		super(menuet, mode, toolView, isStoredInToolbox);
@@ -146,7 +147,7 @@ public class MEButton extends MenuetElement{
 
 	@Override
 	public int getMinDisplayHeight(int width) {		
-		return defaultMinDisplayHeight;
+		return minButtonHeight;
 	}
 	
 	

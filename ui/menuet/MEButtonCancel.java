@@ -45,6 +45,7 @@ public class MEButtonCancel extends MEButton{
 	public MEButtonCancel(Menuet menuet, int mode, ToolView toolView) {
 		super(menuet, mode, toolView, false);
 		this.mePreferredHeight = preferredHeight;
+		this.minButtonHeight   = preferredHeight;
 		this.meColorMouseOver  = AvoColors.COLOR_MENUET_CNCL_MO;
 		this.meColorUnselected = AvoColors.COLOR_MENUET_CNCL_US; 
 		this.meLabel = "Cancel";
