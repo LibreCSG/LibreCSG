@@ -127,7 +127,7 @@ public class CSG_Solid {
 			CSG_Face f = iter.next();
 			f.drawFaceForDebug(gl);
 			f.drawFaceLinesForDebug(gl);
-			f.drawFaceNormalsForDebug(gl);
+			//f.drawFaceNormalsForDebug(gl);
 		}	
 	}
 }

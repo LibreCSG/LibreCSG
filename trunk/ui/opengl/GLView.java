@@ -420,21 +420,18 @@ public class GLView {
 									setMouseMatrixToModelview();
 									
 									gl.glPopMatrix();
-								}
-								
-								
-								
-								Feature2D3D feat2D3D = subPart.getFeature2D3D();
-								if(feat2D3D != null && feat2D3D.paramSet != null && feat2D3D.paramSet.getToolModel2D3D() != null){
-									// TODO: getActiveSketch is old skoool :(
-									//   - reference to sketch should be simply handled via the paramSet! (selection list?)
-									feat2D3D.paramSet.getToolModel2D3D().draw3DFeature(gl, feat2D3D);
-									// TODO: don't double render! (just a hack to make transparency work a  
-									//                             bit better since polygons are not ordered)
-									//feat2D3D.paramSet.getToolModel2D3D().draw3DFeature(gl, feat2D3D);
-								}
-								
+								}								
 							}
+							
+							Feature2D3D feat2D3D = part.getActiveSubPart().getFeature2D3D();
+							if(feat2D3D != null && feat2D3D.paramSet != null && feat2D3D.paramSet.getToolModel2D3D() != null){
+								Sketch sketch = feat2D3D.getPrimarySketch();
+								if(sketch != null && !sketch.isConsumed){
+									feat2D3D.paramSet.getToolModel2D3D().draw3DFeature(gl, feat2D3D);
+								}								
+							}
+							
+							part.glDrawSolid(gl);
 						}
 
 						//

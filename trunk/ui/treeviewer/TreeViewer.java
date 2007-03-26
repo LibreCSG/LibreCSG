@@ -102,10 +102,12 @@ public class TreeViewer {
 						if(indxs[2] == 0){
 							// properties for part
 							System.out.println("Tree viewer.. Should open a Part Properties dialog, but not implemented yet.");
+							return;
 						}
 						if(indxs[2] == 1 || indxs[2] == 2 || indxs[2] == 3){
 							// root plane selected
 							System.out.println("Tree viewer.. you clicked a root plane.. but it hasn't been implemented fully yet.");
+							return;
 						}else{
 							// sub-part selected.
 							SubPart subpart = AvoGlobal.project.getActivePart().getAtIndex(indxs[2]-4);
