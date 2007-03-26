@@ -12,6 +12,7 @@ import backend.adt.Point2D;
 import backend.adt.SelectionList;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D3D;
+import backend.model.Part;
 import backend.model.Sketch;
 import backend.model.CSG.BoolOp;
 import backend.model.CSG.CSG_Face;
@@ -87,12 +88,16 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 	public void finalize(ParamSet paramSet) {
 		System.out.println("Finalizig extrude");
 		// finalize extrude and return to main menu
+		// TODO: get feat2D3D directly as input to method (not active feature!)
 		Feature2D3D feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
 		if(feat2D3D != null){
 			Sketch sketch = feat2D3D.getPrimarySketch();
 			if(sketch != null){
 				// TODO: only keep feature and consume sketch if selectionLists are all satisfied as well.
 				sketch.isConsumed = true;
+				Part part = sketch.getParentPart();
+				part.updateSolid(getBuiltSolid(feat2D3D), getBooleanOperation());
+				
 				AvoGlobal.modelEventHandler.notifyActiveElementChanged();
 			}else{
 				AvoGlobal.project.getActivePart().removeActiveSubPart();				
@@ -159,11 +164,7 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 							
 							CSG_Face topFace = bottomFace.getTranslatedCopy(new CSG_Vertex(0.0, 0.0, height));
 							topFace.flipFaceDirection();
-							solid.addFace(topFace);
-							
-							if(!solid.isValidSolid()){
-								System.out.println("Solid was not valid!!");
-							}							
+							solid.addFace(topFace);						
 						}
 					}
 				}
@@ -171,6 +172,10 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 				System.out.println("Extrude(draw): " + ex.getClass().getName());
 			}
 		}
+		if(!solid.isValidSolid()){
+			System.out.println("ToolBuildExtrudeModel(getBuiltSolid): Solid was not valid!! returning default empty solid instead.");
+			return new CSG_Solid();
+		}	
 		return solid;
 	}
 

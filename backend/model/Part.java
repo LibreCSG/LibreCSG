@@ -3,7 +3,11 @@ package backend.model;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.media.opengl.GL;
+
 import backend.global.AvoGlobal;
+import backend.model.CSG.BoolOp;
+import backend.model.CSG.CSG_BooleanOperator;
 import backend.model.CSG.CSG_Face;
 import backend.model.CSG.CSG_Solid;
 import backend.model.CSG.CSG_Vertex;
@@ -125,6 +129,41 @@ public class Part {
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * Modify/Build on this part's current solid representation.
+	 * @param solid the CSG_Solid to add/subtract/intersect with this part's existing solid
+	 * @param boolop the boolean operation to apply. 
+	 */
+	public void updateSolid(CSG_Solid solid, BoolOp boolop){
+		switch(boolop){
+			case Union:{
+				partSolid = CSG_BooleanOperator.Union(partSolid, solid);
+				break;
+			}
+			case Intersection:{
+				partSolid = CSG_BooleanOperator.Intersection(partSolid, solid);
+				break;
+			}
+			case Subtracted:{
+				partSolid = CSG_BooleanOperator.Subtraction(partSolid, solid);
+				break;
+			}
+			case SubtractFrom:{
+				partSolid = CSG_BooleanOperator.Subtraction(solid, partSolid);
+				break;
+			}
+			default:{
+				System.out.println("Part(updateSolid): Unknown boolean operation, aborting solid update.");
+				break;
+			}
+		}
+		AvoGlobal.glView.updateGLView = true;
+	}
+	
+	public void glDrawSolid(GL gl){
+		partSolid.glDrawSolid(gl);
 	}
 	
 	/**
