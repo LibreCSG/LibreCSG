@@ -77,7 +77,7 @@ public class MainAvoCADoShell{
 		shell.setImage(ImageUtils.getIcon("./avoCADo.png", 32, 32));
 		shell.open();
 		
-		AvoGlobal.intializeAvoCADoApp(this); // initialize app to starting model/view.
+		AvoGlobal.intializeNewAvoCADoProject(); // initialize app to starting model/view.
 		
 		StartupSplashShell.closeSplash();
 				

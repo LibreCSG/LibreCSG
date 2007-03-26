@@ -124,7 +124,12 @@ public class AvoGlobal {
 	
 	public static double[] glCursor3DPos = new double[] {0.0, 0.0, 0.0}; 
 	
-	public static void intializeAvoCADoApp(MainAvoCADoShell mainShell){
+	/**
+	 * Setup a newly created project to be user friendly. :) <br/>
+	 * build the project all the way to a new sketch and 
+	 * then put the menuet in the sketch mode.
+	 */
+	public static void intializeNewAvoCADoProject(){
 		project.addNewGroup();
 		Group group = project.getActiveGroup();
 		if(group != null){
@@ -133,6 +138,7 @@ public class AvoGlobal {
 			if(part != null){
 				part.addNewSketch(part.planeXY);
 				menuet.setCurrentToolMode(Menuet.MENUET_MODE_SKETCH);
+				AvoGlobal.paramDialog.setParamSet(null);
 				glView.updateGLView = true;
 			}
 		}

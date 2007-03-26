@@ -9,6 +9,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
 import ui.menuet.Menuet;
+import ui.shells.AboutAvoCADoGPLShell;
 import backend.global.AvoGlobal;
 import backend.model.Project;
 
@@ -64,14 +65,8 @@ public class AvoMenuBar {
 					//      have been made since the last save.
 					// TODO: for now, just blindly tossing the old project and starting a new one.
 					AvoGlobal.project = new Project();
-					AvoGlobal.modelEventHandler.notifyElementRemoved();
-					AvoGlobal.modelEventHandler.notifyElementAdded();
-					AvoGlobal.modelEventHandler.notifyActiveElementChanged();
-					if(AvoGlobal.activeToolController != null){
-						AvoGlobal.activeToolController.menuetElementDeselected();
-					}
-					AvoGlobal.menuet.setCurrentToolMode(Menuet.MENUET_MODE_PROJECT);
-					AvoGlobal.paramDialog.setParamSet(null);
+					AvoGlobal.modelEventHandler.notifyElementRemoved();					
+					AvoGlobal.intializeNewAvoCADoProject();
 				}				
 			});
 			MenuItem fsQuit = new MenuItem(fileSub, SWT.PUSH);
@@ -160,6 +155,18 @@ public class AvoMenuBar {
 					Program.launch("http://avocado-cad.sourceforge.net/");
 				}				
 			});
+			MenuItem hsGPL = new MenuItem(helpSub, SWT.PUSH);
+			hsGPL.setText("Open Source License (GPL)");
+			hsGPL.addSelectionListener(new SelectionListener(){
+				public void widgetDefaultSelected(SelectionEvent e) {					
+				}
+				public void widgetSelected(SelectionEvent e) {
+					// load dialog with GPLv2
+					new AboutAvoCADoGPLShell(Display.getCurrent());
+				}				
+			});
+			
+			
 		}
 	}
 	
