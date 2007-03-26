@@ -52,7 +52,7 @@ public class ToolSketchSelectCtrl implements ToolCtrlSketch {
 	
 	public void glMouseDown(double x, double y, double z,  MouseEvent e) {
 		Sketch sketch = AvoGlobal.project.getActiveSketch();
-		if(sketch != null){		
+		if(sketch != null && !sketch.isConsumed){		
 			
 			if((e.stateMask & SWT.SHIFT) != 0){
 				shiftIsDown = true;

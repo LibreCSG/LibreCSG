@@ -49,7 +49,7 @@ public class ToolSketchExampleCtrl implements ToolCtrlSketch{
 	
 	public void glMouseDown(double x, double y, double z,  MouseEvent e) {
 		Sketch sketch = AvoGlobal.project.getActiveSketch();
-		if(sketch != null){
+		if(sketch != null && !sketch.isConsumed){
 			//
 			// starting to draw a new feature... deselect all other features.
 			//
