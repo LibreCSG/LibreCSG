@@ -423,12 +423,14 @@ public class GLView {
 								}								
 							}
 							
-							Feature2D3D feat2D3D = part.getActiveSubPart().getFeature2D3D();
-							if(feat2D3D != null && feat2D3D.paramSet != null && feat2D3D.paramSet.getToolModel2D3D() != null){
-								Sketch sketch = feat2D3D.getPrimarySketch();
-								if(sketch != null && !sketch.isConsumed){
-									feat2D3D.paramSet.getToolModel2D3D().draw3DFeature(gl, feat2D3D);
-								}								
+							if(part!= null && part.getActiveSubPart() != null){
+								Feature2D3D feat2D3D = part.getActiveSubPart().getFeature2D3D();
+								if(feat2D3D != null && feat2D3D.paramSet != null && feat2D3D.paramSet.getToolModel2D3D() != null){
+									Sketch sketch = feat2D3D.getPrimarySketch();
+									if(sketch != null && !sketch.isConsumed){
+										feat2D3D.paramSet.getToolModel2D3D().draw3DFeature(gl, feat2D3D);
+									}								
+								}
 							}
 							
 							part.glDrawSolid(gl);
