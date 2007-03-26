@@ -45,6 +45,7 @@ public class MEButtonDone extends MEButton{
 	public MEButtonDone(Menuet menuet, int mode, ToolView toolView) {
 		super(menuet, mode, toolView, false);
 		this.mePreferredHeight = preferredHeight;
+		this.minButtonHeight   = preferredHeight;
 		this.meColorMouseOver  = AvoColors.COLOR_MENUET_DONE_MO;
 		this.meColorUnselected = AvoColors.COLOR_MENUET_DONE_US; 
 		this.meLabel = "Done";
