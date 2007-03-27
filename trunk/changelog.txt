@@ -1,0 +1,6 @@
+avoCADo changelog, from newest to oldest.
+-----------------------------------------
+
+
+2007-03-25: avoCADo 07.03 preAlpha Released
+ - initial structural setup for application, but still a LOT to be desired.
