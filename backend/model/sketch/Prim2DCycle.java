@@ -40,6 +40,8 @@ public class Prim2DCycle extends Prim2DList implements Comparable{
 
 	private static final long serialVersionUID = 10013L;
 
+	private double cycleArea = 0;
+	
 	public double getCycleLength(){
 		double length = 0.0;
 		for(Prim2D prim : this){
@@ -47,14 +49,22 @@ public class Prim2DCycle extends Prim2DList implements Comparable{
 		}
 		return length;
 	}
+	
+	public double getCycleArea(){
+		return cycleArea;
+	}
 
+	public void setCycleArea(double cycleArea){
+		this.cycleArea = cycleArea;
+	}
+	
 	public int compareTo(Object o) {
 		if(o instanceof Prim2DCycle){
 			Prim2DCycle primB = (Prim2DCycle)o;
-			if(primB.getCycleLength() > this.getCycleLength()){
+			if(primB.getCycleArea() > this.getCycleArea()){
 				return -1;
 			}
-			if(primB.getCycleLength() < this.getCycleLength()){
+			if(primB.getCycleArea() < this.getCycleArea()){
 				return 1;
 			}
 		}
