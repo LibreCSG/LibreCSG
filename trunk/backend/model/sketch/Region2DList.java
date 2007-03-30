@@ -111,13 +111,20 @@ public class Region2DList extends LinkedList<Region2D>{
 					if(prim.ptB.equalsPt(primB.ptA) || prim.ptB.equalsPt(primB.ptB)){
 						conB = true;
 					}
-				}						
-			}				
+				}	
+			}		
+			if(prim.ptA.equalsPt(prim.ptB)){
+				// self loop, keep it around.
+				conA = true;
+				conB = true;
+			}
 			if(conA && conB){
 				prunedPrims.add(prim);
 				//System.out.println("added pruned prim! size:" + prunedPrims.size());
 			}
 		}
+		
+		System.out.println("Prims after initial prune: " + prunedPrims.size());
 		
 		// create a list for complete cycles.  
 		LinkedList<Prim2DCycle> allCycles = new LinkedList<Prim2DCycle>();
@@ -132,9 +139,16 @@ public class Region2DList extends LinkedList<Region2D>{
 			prunedPrimsCopy.add(prim);
 		}
 		for(Prim2D prim : prunedPrims){
-			boolean success = RFDFSearch(allCycles, prunedPrimsCopy, prim);
-			if(!success){
-				break;
+			if(prim.ptA.equalsPt(prim.ptB)){
+				// self loop (circular) keep it around
+				Prim2DCycle selfLoopCycle = new Prim2DCycle();
+				selfLoopCycle.add(prim);
+				allCycles.add(selfLoopCycle);
+			}else{
+				boolean success = RFDFSearch(allCycles, prunedPrimsCopy, prim);
+				if(!success){
+					break;
+				}
 			}
 			prunedPrimsCopy.remove(0); // speed up a bit by removing the last prim2D checked.
 		}
