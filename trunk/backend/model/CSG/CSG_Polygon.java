@@ -231,19 +231,20 @@ public class CSG_Polygon {
 		double A = -(v1.getY()*(v2.getZ()-v3.getZ()) + v2.getY()*(v3.getZ()-v1.getZ()) + v3.getY()*(v1.getZ()-v2.getZ())); 
 		double B = -(v1.getZ()*(v2.getX()-v3.getX()) + v2.getZ()*(v3.getX()-v1.getX()) + v3.getZ()*(v1.getX()-v2.getX()));
 		double C = -(v1.getX()*(v2.getY()-v3.getY()) + v2.getX()*(v3.getY()-v1.getY()) + v3.getX()*(v1.getY()-v2.getY()));
-		double D =  ( v1.getX()*(v2.getY()*v3.getZ()-v3.getY()*v2.getZ())
-						+ v2.getX()*(v3.getY()*v1.getZ()-v1.getY()*v3.getZ())
-						+ v3.getX()*(v1.getY()*v2.getZ()-v2.getY()*v1.getZ()));
-		double unitDivider= 1.0;
+		//double D =  ( v1.getX()*(v2.getY()*v3.getZ()-v3.getY()*v2.getZ())
+		//				+ v2.getX()*(v3.getY()*v1.getZ()-v1.getY()*v3.getZ())
+		//				+ v3.getX()*(v1.getY()*v2.getZ()-v2.getY()*v1.getZ()));
+		//double unitDivider= 1.0;
 		if((A < TOL && A > -TOL) && (B < TOL && B > -TOL) && (C < TOL && C > -TOL)){
 			// vertices are collinear!!!
 			System.out.println("CSG_Polygon(getPlane) Normal Was ZERO! Vertices must have been collinear!");
-		}else{
-			unitDivider = Math.sqrt(A*A + B*B + C*C);
 		}
+		//else{
+		//	unitDivider = Math.sqrt(A*A + B*B + C*C);
+		//}
 		
-		CSG_Vertex normal = new CSG_Vertex(A/unitDivider, B/unitDivider, C/unitDivider);
-		double normOffset = D/unitDivider;
+		CSG_Vertex normal = new CSG_Vertex(A, B, C).getUnitLength();
+		double normOffset = -v1.getDotProduct(normal);
 		return new CSG_Plane(normal, normOffset);
 	}
 	
@@ -272,6 +273,8 @@ public class CSG_Polygon {
 	 * @return true if vertex is <em>inside</em> the polygon.
 	 */
 	public boolean vertexIsInsidePolygon(CSG_Vertex testVert){
+		//return vertexIsInsideOrOnEdgeOfPolygon(testVert);
+		
 		CSG_Vertex lastVert = vertices.get(vertices.size()-1);
 		for(CSG_Vertex vert : vertices){
 			CSG_Vertex vertDiff = vert.subFromVertex(lastVert);
@@ -288,7 +291,8 @@ public class CSG_Polygon {
 			}
 			lastVert = vert;
 		}
-		return true; 
+		return true;
+		 
 	}
 	
 	/**

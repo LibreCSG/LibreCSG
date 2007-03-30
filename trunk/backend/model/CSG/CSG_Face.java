@@ -300,7 +300,7 @@ public class CSG_Face {
 				gl.glVertex3dv(iterV.next().getXYZ(), 0);
 			}
 			gl.glEnd();
-			if(selectable){
+			//if(selectable){
 				// draw perimeter line
 				gl.glColor3d(0.25, 0.25, 0.25);
 				// TODO: don't have perimeter, just draw polygon outlines
@@ -310,7 +310,7 @@ public class CSG_Face {
 					gl.glVertex3dv(iterV.next().getXYZ(), 0);
 				}
 				gl.glEnd();
-			}
+			//}
 		}
 	}
 	

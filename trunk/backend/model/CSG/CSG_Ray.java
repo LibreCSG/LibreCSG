@@ -75,21 +75,30 @@ public class CSG_Ray {
 			double y = 0.0;
 			double z = 0.0;
 			if(Math.abs(direction.getX()) > TOL){
-				// x was equivalently zero
+				// x can be set to zero
+				// (1) normA.y*y + normA.z*z - dA = 0 
+				// (2) normB.y*y + normB.z*z - dB = 0
+				// --> 
+				double div = faceB.getPlaneNormal().getZ()*faceA.getPlaneNormal().getY() - 
+				faceB.getPlaneNormal().getY()*faceA.getPlaneNormal().getZ();
 				x = 0.0;
-				y = (dB*faceA.getPlaneNormal().getZ() - dA*faceB.getPlaneNormal().getZ())/direction.getX();
-				z = (dA*faceB.getPlaneNormal().getY() - dB*faceA.getPlaneNormal().getY())/direction.getX();
+				y = (dB*faceA.getPlaneNormal().getZ() - dA*faceB.getPlaneNormal().getZ())/div;
+				z = (dA*faceB.getPlaneNormal().getY() - dB*faceA.getPlaneNormal().getY())/div;
 			}else{
 				if(Math.abs(direction.getY()) > TOL){
-					// y was equivalently zero
-					x = (dA*faceB.getPlaneNormal().getZ() - dB*faceA.getPlaneNormal().getZ())/direction.getY();
+					// y can be set to zero
+					double div = faceB.getPlaneNormal().getX()*faceA.getPlaneNormal().getZ() - 
+									faceB.getPlaneNormal().getZ()*faceA.getPlaneNormal().getX();
+					x = (dA*faceB.getPlaneNormal().getZ() - dB*faceA.getPlaneNormal().getZ())/div;
 					y = 0.0;
-					z = (dB*faceA.getPlaneNormal().getX() - dA*faceB.getPlaneNormal().getX())/direction.getY();
+					z = (dB*faceA.getPlaneNormal().getX() - dA*faceB.getPlaneNormal().getX())/div;
 				}else{
 					if(Math.abs(direction.getZ()) > TOL){
-						// z was equivalently zero
-						x = (dB*faceA.getPlaneNormal().getY() - dA*faceB.getPlaneNormal().getY())/direction.getZ();
-						y = (dA*faceB.getPlaneNormal().getX() - dB*faceA.getPlaneNormal().getX())/direction.getZ();
+						// z can be set to zero						
+						double div = faceB.getPlaneNormal().getY()*faceA.getPlaneNormal().getX() - 
+										faceB.getPlaneNormal().getX()*faceA.getPlaneNormal().getY();
+						x = (dB*faceA.getPlaneNormal().getY() - dA*faceB.getPlaneNormal().getY())/div;
+						y = (dA*faceB.getPlaneNormal().getX() - dB*faceA.getPlaneNormal().getX())/div;
 						z = 0.0;
 					}		
 				}
@@ -120,6 +129,10 @@ public class CSG_Ray {
 	 */
 	public CSG_Vertex getBasePoint(){
 		return basePoint.deepCopy();
+	}
+	
+	public CSG_Ray deepCopy(){
+		return new CSG_Ray(basePoint.deepCopy(), direction.deepCopy());
 	}
 	
 	public String toString(){

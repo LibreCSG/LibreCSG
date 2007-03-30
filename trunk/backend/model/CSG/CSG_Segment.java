@@ -182,8 +182,15 @@ public class CSG_Segment {
 		if(vertNearStartPt == vertNearEndPt){
 			descMid = VERTEX_DESC.VERTEX;
 		}else{
+			// TODO: BIG PROBLEM -- VEV being falsly classified as VFE
+			// this is most likely due to the final vertex being classified
+			// as an EDGE instead of a VERTEX, which in turn pushed the middle
+			// to FACE instead of EDGE. (perhaps error in zDists calculation?)
+			// or perhaps this analysis is bogus, and the problem is somewhere else completely...
 			if(descStart == VERTEX_DESC.VERTEX && descEnd == VERTEX_DESC.VERTEX && 
-					(vertNearStartPt-vertNearEndPt == 1 ||	vertNearStartPt-vertNearEndPt == -1)){
+					((vertNearStartPt-vertNearEndPt)%(poly.getNumberVertices()-2) == 1 || 
+							(vertNearStartPt-vertNearEndPt)%(poly.getNumberVertices()-2) == -1)){
+				// segment joins two neighboring vertices, middle must be a line
 				descMid = VERTEX_DESC.EDGE;
 			}else{
 				descMid = VERTEX_DESC.FACE;
@@ -292,6 +299,10 @@ public class CSG_Segment {
 		endVert = ray.getVertexAtDist(endDist);
 		descEnd = endDesc;
 		//ensureEndpointOrder();
+	}
+	
+	public CSG_Ray getRay(){
+		return ray;
 	}
 	
 	public VERTEX_DESC getStartDesc(){
