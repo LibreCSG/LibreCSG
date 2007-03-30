@@ -39,6 +39,7 @@ import backend.model.SubPart;
 import backend.model.CSG.CSG_BooleanOperator;
 import backend.model.CSG.CSG_Face;
 import backend.model.CSG.CSG_Polygon;
+import backend.model.CSG.CSG_Ray;
 import backend.model.CSG.CSG_Solid;
 import backend.model.CSG.CSG_Vertex;
 import backend.model.sketch.Prim2D;
@@ -814,6 +815,22 @@ public class GLView {
 		gl.glLoadIdentity();
 		gl.glLineWidth(2.0f);
 		gl.glPointSize(5.0f);
+		/*
+		CSG_Vertex v1ta = new CSG_Vertex(0.0, 0.0, 0.0);
+		CSG_Vertex v2ta = new CSG_Vertex(0.0, 3.0, 0.0);
+		CSG_Vertex v3ta = new CSG_Vertex(0.0, 3.0, 3.0);
+		CSG_Vertex v4ta = new CSG_Vertex(0.0, 0.0, 3.0);
+		CSG_Polygon tA = new CSG_Polygon(v1ta, v2ta, v3ta, v4ta);
+		
+		CSG_Vertex v1tb = new CSG_Vertex(-1.0,  2.0, 0.0);
+		CSG_Vertex v2tb = new CSG_Vertex(-1.0,  2.0, 3.0);
+		CSG_Vertex v3tb = new CSG_Vertex( 2.0, -1.0, 3.0);
+		CSG_Vertex v4tb = new CSG_Vertex( 2.0, -1.0, 0.0);
+		CSG_Polygon tB = new CSG_Polygon(v1tb, v2tb, v3tb, v4tb);
+		
+		CSG_Ray tRay = new CSG_Ray(new CSG_Face(tA), new CSG_Face(tB));
+		System.out.println(tRay);
+		*/
 		
 		// solid 1
 		CSG_Vertex v1 = new CSG_Vertex(0.0, 0.0, 0.0);
@@ -890,7 +907,7 @@ public class GLView {
 		}
 				
 		gl.glLoadIdentity();
-
+		
 	}
 	
 	private void glDrawSolid(CSG_Solid s, float r, float g, float b){

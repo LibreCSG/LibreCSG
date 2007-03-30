@@ -199,10 +199,10 @@ public class CSG_BooleanOperator {
 		while(aVerts.hasNext()){
 			double dist = faceB.distFromVertexToFacePlane(aVerts.next());
 			distAsToBPlane.add(dist);
-			if(dist > 0.0){
+			if(dist > TOL){
 				gotPositive = true;
 			}
-			if(dist < 0.0){
+			if(dist < -TOL){
 				gotNegative = true;
 			}
 		}
@@ -228,10 +228,10 @@ public class CSG_BooleanOperator {
 		while(bVerts.hasNext()){
 			double dist = faceA.distFromVertexToFacePlane(bVerts.next());
 			distBsToAPlane.add(dist);
-			if(dist > 0.0){
+			if(dist > TOL){
 				gotPositive = true;
 			}
-			if(dist < 0.0){
+			if(dist < -TOL){
 				gotNegative = true;
 			}			
 		}		
@@ -302,6 +302,7 @@ public class CSG_BooleanOperator {
 		CSG_Vertex startNextVert = polyA.getVertAtModIndex(startNextI);		// vertex after startVert
 		CSG_Vertex startVert = segmentA.getVertStart();						// startVert
 		CSG_Vertex startPrevVert = polyA.getVertAtModIndex(startPrevI);		// vertex before startVert
+		
 		int endNextI = segmentA.getVertIndexNearEnd();						// index of vertex after endVert or the
 																			//   end vertex if origEndDescA = VERTEX
 		int endPrevI = segmentA.getVertIndexNearEnd()-1;					// index of vertex before endVert
@@ -385,7 +386,8 @@ public class CSG_BooleanOperator {
 		if(segmentA.VERT_DESC_is_VFF()){
 			// subdividing -- 	
 			// Fig 6.3, (g) case of split to 4 polygons	(assume all 4 needed)
-			// TODO handle subdivide special cases seperately
+			// TODO handle subdivide special cases seperately	
+			// endVert and endPrevVert are the same sometimes!!!!!
 			CSG_Polygon newPoly1 = new CSG_Polygon(endVert, origEndVert, endNextVert);
 			CSG_Polygon newPoly2 = new CSG_Polygon(endVert, endPrevVert, origEndVert);
 			CSG_Polygon newPoly3 = new CSG_Polygon(startVert, endVert, endNextVert);
@@ -400,8 +402,7 @@ public class CSG_BooleanOperator {
 			faceA.addPolygon(newPoly2);
 			faceA.addPolygon(newPoly3);
 			faceA.addPolygon(newPoly4);		
-			polyA.markForDeletion();
-			
+			polyA.markForDeletion();					
 		}		
 		if(segmentA.VERT_DESC_is_EEV()){ 
 			// Symmetric to VEE			
@@ -421,6 +422,7 @@ public class CSG_BooleanOperator {
 			// subdividing --
 			// Fig 6.3, (i) case of split to 3 polygons
 			// TODO handle subdivide special cases seperately
+			System.out.println("EEE - may be overly subdivided");
 			int startNextNextI = startNextI + 1;
 			CSG_Vertex startNextNextVert = polyA.getVertAtModIndex(startNextNextI);
 			CSG_Polygon newPoly1 = new CSG_Polygon(startVert, startNextVert, startNextNextVert);
@@ -471,7 +473,8 @@ public class CSG_BooleanOperator {
 		if(segmentA.VERT_DESC_is_EFF()){			
 			// subdividing -- 	
 			// for simplicity, always do the Fig 6.3, (l) case of split to 4 polygons
-			// TODO handle subdivide special cases seperately			
+			// TODO handle subdivide special cases seperately	
+			System.out.println("EFF - may be overly subdivided");
 			CSG_Polygon newPoly1 = new CSG_Polygon(endVert, origEndVert, endNextVert);
 			CSG_Polygon newPoly2 = new CSG_Polygon(endVert, endPrevVert, origEndVert);
 			CSG_Polygon newPoly3 = new CSG_Polygon(startVert, endVert, endNextVert);
@@ -481,7 +484,7 @@ public class CSG_BooleanOperator {
 			CSG_Polygon newPoly4 = new CSG_Polygon(endPrevVert, endVert, startVert);
 			for(int i = startNextI; !polyA.indexIsSameModSize(i, endPrevI); i++){
 				newPoly4.addVertex(polyA.getVertAtModIndex(i));
-			}			
+			}
 			faceA.addPolygon(newPoly1);
 			faceA.addPolygon(newPoly2);
 			faceA.addPolygon(newPoly3);
@@ -536,7 +539,8 @@ public class CSG_BooleanOperator {
 		if(segmentA.VERT_DESC_is_FFF()){
 			// subdividing -- 	
 			// for simplicity, always do the Fig 6.3, (n) case of split to 6 polygons
-			// TODO handle subdivide special cases seperately			
+			// TODO handle subdivide special cases seperately		
+			System.out.println("FFF - may be overly subdivided");
 			CSG_Polygon newPoly1 = new CSG_Polygon(startVert, origStartVert, startNextVert);
 			CSG_Polygon newPoly2 = new CSG_Polygon(startVert, startPrevVert, origStartVert);
 			CSG_Polygon newPoly3 = new CSG_Polygon(endVert, endPrevVert, origEndVert);
