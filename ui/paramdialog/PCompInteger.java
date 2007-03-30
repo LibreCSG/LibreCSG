@@ -163,7 +163,7 @@ public class PCompInteger extends ParamComp{
 			Integer data = param.getDataInteger();
 			return data;
 		}catch(ParamNotCorrectTypeException e){
-			System.out.println(" *** WARNING *** PCompDouble :: param was not of type Integer!");
+			System.out.println(" *** WARNING *** PCompInteger :: param was not of type Integer!");
 			return 0;
 		}
 	}

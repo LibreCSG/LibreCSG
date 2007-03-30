@@ -97,7 +97,7 @@ public class ToolBuildRevolveModel implements ToolModelBuild{
 		return pSet;
 	}
 
-	public BoolOp getBooleanOperation() {
+	public BoolOp getBooleanOperation(ParamSet pSet) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -710,6 +710,7 @@ public class CSG_BooleanOperator {
 					}
 					if(newFace == null){
 						newFace = new CSG_Face(newPoly);
+						newFace.setSelectable(face.isSelectable());
 					}else{
 						newFace.addPolygon(newPoly);
 					}

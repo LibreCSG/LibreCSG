@@ -2,6 +2,7 @@ package ui.tools;
 
 import javax.media.opengl.GL;
 
+import backend.adt.ParamSet;
 import backend.model.Feature2D3D;
 import backend.model.CSG.BoolOp;
 import backend.model.CSG.CSG_Solid;
@@ -49,5 +50,5 @@ public interface ToolModelBuild extends ToolModel{
 	 * @return the Boolean operation to peform on 
 	 * the solid this tool creates.
 	 */
-	abstract public BoolOp getBooleanOperation();
+	abstract public BoolOp getBooleanOperation(ParamSet pSet);
 }

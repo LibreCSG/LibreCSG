@@ -211,9 +211,7 @@ public class DynParamDialog {
 			Param p = (Param)iter.next();
 			switch(p.getType()){
 				case Boolean : {
-					// TODO: PCompBoolean
-					Label l = new Label(paramComp, SWT.SINGLE);
-					l.setText(p.getLabel());
+					new PCompBoolean(paramComp, SWT.BORDER, p, paramSet);
 					break;
 				}
 				case Integer : {
