@@ -7,7 +7,9 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.widgets.Composite;
 
+import ui.tools.ToolCtrl;
 import ui.utilities.ColorUtils;
+import backend.global.AvoGlobal;
 
 
 //
@@ -66,6 +68,7 @@ public class Menuet extends Composite{
 	LinkedList <MenuetElement>menuetElements[] = new LinkedList[MENUET_TOTAL_MODES];
 
 	int[] defaultTool = new int[MENUET_TOTAL_MODES];
+	ToolCtrl[] defaultCtrl = new ToolCtrl[MENUET_TOTAL_MODES];
 	
 	/**
 	 * Construct a new <b>menuet</b>: Mode based menu system
@@ -106,13 +109,23 @@ public class Menuet extends Composite{
 		if(toolMode != currentToolMode){
 			disableAllTools();
 			currentToolMode = toolMode;
+			if(defaultCtrl[currentToolMode] != null){
+				AvoGlobal.activeToolController = defaultCtrl[currentToolMode];
+			}
 			if(defaultTool[currentToolMode] >= 0 && defaultTool[currentToolMode] < menuetElements[currentToolMode].size()){
 				menuetElements[currentToolMode].get(defaultTool[currentToolMode]).toolView.toolSelected();
-			}		
+			}				
 			updateToolModeDisplayed();
 		}		
 	}
 	
+	/**
+	 * set the default Tool to select when the meneut's mode is
+	 * changed.  (i.e., switching to the sketch mode may automatically
+	 * select a commonly used tool, like the Line or Select tools).
+	 * @param defaultToolIndx the index of the meneuet element to select
+	 * @param toolMode the menuet mode to attach the default selection to
+	 */
 	public void setDefaultTool(int defaultToolIndx, int toolMode){
 		if(toolMode < 0 || toolMode >= MENUET_TOTAL_MODES){
 			// invalid toolMode
@@ -125,6 +138,22 @@ public class Menuet extends Composite{
 			return;
 		}
 		defaultTool[toolMode] = defaultToolIndx;
+	}
+	
+	/**
+	 * set the default controller (glView mouse handling, etc.) for
+	 * a given menuet mode.  This will be used when the menuet mode
+	 * is changed but no menuetElement has been selected.
+	 * @param defaultToolCtrl the default ToolCtrl (controller) to use
+	 * @param toolMode the menuet mode to attach the controller to
+	 */
+	public void setDefaultCtrl(ToolCtrl defaultToolCtrl, int toolMode){
+		if(toolMode < 0 || toolMode >= MENUET_TOTAL_MODES){
+			// invalid toolMode
+			System.out.println("Menuet(setDefaultToolCtrl): invalid tool mode specified.. ");
+			return;
+		}
+		defaultCtrl[toolMode] = defaultToolCtrl;		
 	}
 	
 	/**

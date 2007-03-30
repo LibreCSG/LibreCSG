@@ -54,6 +54,7 @@ public class CSG_Face {
 	private CSG_Plane facePlane;	
 	private List<CSG_Polygon> polygons = new LinkedList<CSG_Polygon>();
 	private boolean selectable = false;
+	private boolean isSelected = false;
 	
 	/**
 	 * create a new Face (convex, planar, noncollinear polygons)<br/><br/>
@@ -203,6 +204,7 @@ public class CSG_Face {
 		}
 		clone.bounds = bounds.deepCopy();
 		clone.selectable = this.selectable;
+		clone.isSelected = this.isSelected;
 		return clone;
 	}
 	
@@ -220,6 +222,15 @@ public class CSG_Face {
 	 */
 	public void setSelectable(boolean selectable){
 		this.selectable = selectable;
+	}
+	
+	
+	public boolean isSelected(){
+		return isSelected;
+	}
+	
+	public void setSelected(boolean isSelected){
+		this.isSelected = isSelected;
 	}
 	
 	public void drawFaceForDebug(GL gl){		
@@ -271,6 +282,35 @@ public class CSG_Face {
 				gl.glVertex3dv(iterV.next().getXYZ(), 0);
 			}
 			gl.glEnd();
+		}
+	}
+	
+	
+	
+	public void glDrawFace(GL gl){
+		for(CSG_Polygon poly : polygons){
+			if(selectable && isSelected){
+				gl.glColor3d(0.4, 0.9, 0.7);
+			}else{
+				gl.glColor3d(0.4, 0.9, 0.4);
+			}
+			Iterator<CSG_Vertex> iterV = poly.getVertexIterator();
+			gl.glBegin(GL.GL_POLYGON);
+			while(iterV.hasNext()){
+				gl.glVertex3dv(iterV.next().getXYZ(), 0);
+			}
+			gl.glEnd();
+			if(selectable){
+				// draw perimeter line
+				gl.glColor3d(0.25, 0.25, 0.25);
+				// TODO: don't have perimeter, just draw polygon outlines
+				iterV = poly.getVertexIterator();
+				gl.glBegin(GL.GL_LINE_LOOP);
+				while(iterV.hasNext()){
+					gl.glVertex3dv(iterV.next().getXYZ(), 0);
+				}
+				gl.glEnd();
+			}
 		}
 	}
 	

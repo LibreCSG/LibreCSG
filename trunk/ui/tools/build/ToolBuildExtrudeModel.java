@@ -78,6 +78,7 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 		boolean isValid = (	paramSet != null &&
 							paramSet.label == "Extrude" &&
 							paramSet.hasParam("h", ParamType.Double) &&
+							paramSet.hasParam("cut", ParamType.Boolean) &&
 							paramSet.hasParam("regions", ParamType.SelectionList));
 		return isValid;
 	}
@@ -96,7 +97,7 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 				// TODO: only keep feature and consume sketch if selectionLists are all satisfied as well.
 				sketch.isConsumed = true;
 				Part part = sketch.getParentPart();
-				part.updateSolid(getBuiltSolid(feat2D3D), getBooleanOperation());
+				part.updateSolid(getBuiltSolid(feat2D3D), getBooleanOperation(paramSet));
 				
 				AvoGlobal.modelEventHandler.notifyActiveElementChanged();
 			}else{
@@ -115,10 +116,23 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 		ParamSet pSet = new ParamSet("Extrude", new ToolBuildExtrudeModel());
 		pSet.addParam("regions", new Param("Regions", new SelectionList()));
 		pSet.addParam("h", new Param("Height", 2*AvoGlobal.gridSize));
+		pSet.addParam("cut", new Param("Cut?", false));
 		return pSet;
 	}
 
-	public BoolOp getBooleanOperation() {
+	public BoolOp getBooleanOperation(ParamSet pSet) {
+		if(paramSetIsValid(pSet)){
+			try{
+				Boolean isCut = pSet.getParam("cut").getDataBoolean();
+				if(isCut){
+					return BoolOp.Subtracted;
+				}else{
+					return BoolOp.Union;
+				}
+			}catch(Exception ex){
+				System.out.println("Extrude(getBooleanOperation): " + ex.getClass().getName());
+			}			
+		}
 		return BoolOp.Union;
 	}
 
@@ -164,6 +178,8 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 							
 							CSG_Face topFace = bottomFace.getTranslatedCopy(new CSG_Vertex(0.0, 0.0, height));
 							topFace.flipFaceDirection();
+							topFace.setSelectable(true);
+							bottomFace.setSelectable(true);
 							solid.addFace(topFace);						
 						}
 					}

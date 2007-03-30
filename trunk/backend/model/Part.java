@@ -60,7 +60,6 @@ public class Part {
 
 	private CSG_Solid partSolid = new CSG_Solid(); 
 	
-	private LinkedList<CSG_Face> selectableFaces = new LinkedList<CSG_Face>();
 	
 	public Part(Group group, int ID){
 		this.group = group;
@@ -164,6 +163,11 @@ public class Part {
 	
 	public void glDrawSolid(GL gl){
 		partSolid.glDrawSolid(gl);
+	}
+	
+	// TODO: Hack!, don't actually pass the solid (but it's big so copying may be problematic...)
+	public CSG_Solid getSolid(){
+		return partSolid;
 	}
 	
 	/**

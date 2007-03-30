@@ -2,11 +2,11 @@ package ui.menuet;
 
 import ui.tools.build.ToolBuildDoneView;
 import ui.tools.build.ToolBuildExtrudeView;
-import ui.tools.build.ToolBuildRevolveView;
 import ui.tools.group.ToolGroupDoneView;
 import ui.tools.group.ToolGroupPartView;
 import ui.tools.modify.ToolModifyDoneView;
 import ui.tools.part.ToolPartBuildView;
+import ui.tools.part.ToolPartDefaultCtrl;
 import ui.tools.part.ToolPartDoneView;
 import ui.tools.part.ToolPartModifyView;
 import ui.tools.part.ToolPartSketchView;
@@ -123,6 +123,8 @@ public class MenuetBuilder {
 		new ToolPartSketchView(menuet);
 		new ToolPartBuildView(menuet);
 		new ToolPartModifyView(menuet);
+		
+		menuet.setDefaultCtrl(new ToolPartDefaultCtrl(), Menuet.MENUET_MODE_PART);
 		
 		//
 		//  TOOL MODE: Project

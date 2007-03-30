@@ -49,7 +49,7 @@ import backend.model.Project;
  * should be made sparingly if possible to reduce the amount of
  * cross-linked and depenedent code.  however, many methods may
  * require information about other parts of the application and
- * access via this global state is preffered over directly accessing
+ * access via this global state is preferred over directly accessing
  * information in generally unrelated classes.
  */
 public class AvoGlobal {
@@ -93,9 +93,6 @@ public class AvoGlobal {
 	public static TreeViewer treeViewer;
 	//	 TODO: make TreeViewer private	
 	
-
-	//public static Tool currentTool     = null;
-	
 	/**
 	 * The main assembly of parts in the workspace!
 	 */
@@ -138,7 +135,7 @@ public class AvoGlobal {
 			if(part != null){
 				part.addNewSketch(part.planeXY);
 				menuet.setCurrentToolMode(Menuet.MENUET_MODE_SKETCH);
-				AvoGlobal.paramDialog.setParamSet(null);
+				paramDialog.setParamSet(null);
 				glView.updateGLView = true;
 			}
 		}

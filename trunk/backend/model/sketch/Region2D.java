@@ -256,6 +256,10 @@ public class Region2D implements Comparable{
 					//System.out.println("adding polygon: " + poly);
 					if(face == null){
 						face = new CSG_Face(poly);
+						LinkedList<CSG_Vertex> perimVerts = new LinkedList<CSG_Vertex>();
+						for(Point2D point : pointList){
+							perimVerts.add(new CSG_Vertex(point, 0.0));
+						}
 					}else{
 						face.addPolygon(poly);
 					}
