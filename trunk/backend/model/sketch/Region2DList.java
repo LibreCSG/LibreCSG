@@ -179,14 +179,17 @@ public class Region2DList extends LinkedList<Region2D>{
 		//
 		for(Prim2DCycle pCycle : uniqueCycles){
 			pCycle.unconsumeAll();
+			if(pCycle.isCCW()){
+				pCycle.reverseCycleOrder();
+			}
+			double cycleArea = new Region2D(pCycle).getRegionArea();
+			pCycle.setCycleArea(cycleArea);
 		}		
 				
 		//
-		// sort the cycleList from shortest to longest.
+		// sort the cycleList from smallest to largest in terms of area.
 		//
 		Collections.sort(uniqueCycles);
-		// TODO: SORT BY AREA!! (not shortest path length)
-		//       use (Region2D) not cycles to do that...
 		
 		//
 		// flag edge direction for each cycle if possible...
