@@ -307,7 +307,7 @@ public class Region2DList extends LinkedList<Region2D>{
 	}
 	
 	/**
-	 * perform a deep Copy of the prim2DCycle.
+	 * create a deep Copy of the prim2DCycle.
 	 * @param origList
 	 * @return
 	 */
