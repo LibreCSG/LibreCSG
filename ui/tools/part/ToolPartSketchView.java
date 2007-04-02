@@ -58,6 +58,7 @@ public class ToolPartSketchView extends ToolViewPart{
 			// TODO: check for other planes on which to build the sketch besides the default if selected.
 			part.addNewSketch(part.planeXY);
 			changeMenuetToolMode(Menuet.MENUET_MODE_SKETCH);
+			AvoGlobal.glView.updateGLView = true;
 		}else{
 			System.out.println("ToolSketkchLineView(toolSelected): What?! there was no active part to build the sketch!");
 		}
