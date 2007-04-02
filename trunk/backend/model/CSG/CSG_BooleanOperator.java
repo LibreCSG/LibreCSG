@@ -661,7 +661,7 @@ public class CSG_BooleanOperator {
 				}				
 			}
 			if(!castWasSuccessful){
-				System.out.println("unsuccessful cast.. trying again.");
+				System.out.println("CSG: unsuccessful ray cast.. perturbing and trying again.  :)");
 			}
 		} // end the main while(!castWasSuccessful) loop
 		
