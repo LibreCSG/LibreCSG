@@ -6,6 +6,7 @@ import java.util.List;
 import ui.tools.ToolModelModify;
 import backend.adt.ParamSet;
 import backend.global.AvoGlobal;
+import backend.model.sketch.SketchPlane;
 
 
 //
@@ -44,7 +45,7 @@ public class Feature3D3D implements SubPart{
 	public    ParamSet paramSet         = null;
 	
 	protected Part part;
-	protected int ID;
+	public final int ID;
 	
 	public Feature3D3D(Part part, ToolModelModify toolMod3D3D, ParamSet paramSet, int ID){
 		this.part = part;
@@ -54,11 +55,6 @@ public class Feature3D3D implements SubPart{
 	
 	public Part getParentPart(){
 		return this.part;
-	}
-	
-	public int getID(){
-		int newInt = ID;
-		return newInt;
 	}
 	
 	/**
@@ -121,4 +117,9 @@ public class Feature3D3D implements SubPart{
 		return null;
 	}
 
+	// TODO: implement ability to get sketch plane!
+	public SketchPlane getPlaneByFaceID(int uniqueFaceID){
+		return null;
+	}
+	
 }

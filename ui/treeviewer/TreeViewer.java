@@ -172,7 +172,7 @@ public class TreeViewer {
 			}else{
 				tiGroup = new TreeItem(tree, SWT.NONE, iGroup);
 			}
-			tiGroup.setText("Group " + group.getID());
+			tiGroup.setText("Group " + group.ID);
 			tiGroup.setData(new int[] {iGroup});
 			for(int i=group.getPartListSize(); i<tiGroup.getItemCount(); i++){
 				// remove parts that no longer exist
@@ -187,7 +187,7 @@ public class TreeViewer {
 					tiPart = new TreeItem(tiGroup, SWT.NONE, iPart);
 					tiGroup.setExpanded(true);
 				}
-				tiPart.setText("Part " + part.getID());
+				tiPart.setText("Part " + part.ID);
 				tiPart.setData(new int[] {iGroup, iPart});
 				
 				TreeItem tiPartProp;
@@ -270,12 +270,12 @@ public class TreeViewer {
 						if(feat2D3D.paramSet != null){
 							tiSubPart.setText(feat2D3D.paramSet.label);
 						}else{
-							tiSubPart.setText("2Dto3D " + feat2D3D.getID());
+							tiSubPart.setText("2Dto3D " + feat2D3D.ID);
 						}
 					}
 					Feature3D3D feat3D3D = subPart.getFeature3D3D();
 					if(feat3D3D != null){
-						tiSubPart.setText("Feature 3D " + feat3D3D.getID());
+						tiSubPart.setText("Feature 3D " + feat3D3D.ID);
 					}
 					
 				}
