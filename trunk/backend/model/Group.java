@@ -42,8 +42,8 @@ public class Group {
 	protected int activePart = -1;
 	
 	protected Project project;
-	protected int ID;
-	protected int partCounter = 1;
+	public final int ID;
+	private int partCounter = 1;
 		
 	public Group(Project project, int ID){
 		this.project = project;
@@ -52,11 +52,6 @@ public class Group {
 	
 	public Project getParentProject(){
 		return this.project;
-	}
-	
-	public int getID(){
-		int newInt = ID;
-		return newInt;
 	}
 	
 	/**
@@ -142,4 +137,14 @@ public class Group {
 		removePartAtIndex(activePart);
 	}
 	
+	
+	public Part getPartByUniqueID(int uniqueID){
+		for(Part part : partList){
+			if(part.ID == uniqueID){
+				return part;
+			}
+		}
+		System.out.println("Group(getPartByUniqueID): No Part with the specified uniqueID was found! ID=" + uniqueID +", FIX THIS STAT!");
+		return null;
+	}
 }

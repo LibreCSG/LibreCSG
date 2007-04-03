@@ -63,7 +63,7 @@ public class Sketch implements SubPart{
 	public boolean isConsumed = false;
 	
 	protected Part part;
-	protected int ID;
+	public final int ID;
 	
 	public Sketch(Part part, int ID, SketchPlane sketchPlane){
 		this.part = part;

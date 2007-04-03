@@ -40,8 +40,7 @@ public class Project {
 	protected List<Group> groupList = new LinkedList<Group>();
 	
 	protected int activeGroup = -1;
-	
-	protected int groupCounter = 1;
+	private int groupCounter = 1;
 	
 	public Project(){		
 	}
@@ -201,8 +200,14 @@ public class Project {
 		removeGroupAtIndex(activeGroup);
 	}
 	
-	// TODO: High-level functionality to add a new sketch/feature/etc.
-	//       tracing down active elements where possible and creating the rest.
-	
+	public Group getGroupByUniqueID(int uniqueID){
+		for(Group group : groupList){
+			if(group.ID == uniqueID){
+				return group;
+			}
+		}
+		System.out.println("Project(getGroupByUniqueID): No Group with the specified uniqueID was found! ID=" + uniqueID +", FIX THIS STAT!");
+		return null;
+	}
 	
 }

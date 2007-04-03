@@ -1,6 +1,7 @@
 package backend.model;
 
 import backend.adt.ParamSet;
+import backend.model.sketch.SketchPlane;
 
 
 //
@@ -40,7 +41,7 @@ public class Feature2D3D implements SubPart{
 	protected int primarySketchID;
 	
 	protected Part part;
-	protected int ID;
+	public final int ID;
 	
 	public Feature2D3D(Part part, int primarySketchID, int ID){
 		this.part = part;
@@ -50,11 +51,6 @@ public class Feature2D3D implements SubPart{
 	
 	public Part getParentPart(){
 		return this.part;
-	}
-	
-	public int getID(){
-		int newInt = ID;
-		return newInt;
 	}
 	
 	public Sketch getPrimarySketch(){
@@ -75,5 +71,9 @@ public class Feature2D3D implements SubPart{
 		return null;
 	}
 	
+	// TODO: implement ability to get sketch plane!
+	public SketchPlane getPlaneByFaceID(int uniqueFaceID){
+		return null;
+	}
 	
 }

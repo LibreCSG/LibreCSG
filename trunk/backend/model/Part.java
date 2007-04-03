@@ -47,8 +47,8 @@ public class Part {
 	protected int activeSubPart = -1;
 	
 	protected Group group;
-	protected int ID;
-	protected int subPartCounter = 1;
+	public final int ID;
+	private int subPartCounter = 1;
 	
 	private CSG_Vertex origin = new CSG_Vertex(0.0, 0.0, 0.0);
 	private CSG_Vertex xAxis  = new CSG_Vertex(1.0, 0.0, 0.0);
@@ -68,11 +68,6 @@ public class Part {
 	
 	public Group getParentGroup(){
 		return this.group;		
-	}
-	
-	public int getID(){
-		int newInt = ID;
-		return newInt;
 	}
 	
 	public int addNewSketch(SketchPlane sketchPlane){
@@ -232,6 +227,7 @@ public class Part {
 				return sketch;
 			}
 		}
+		System.out.println("Part(getSketchByID): there was no Sketch at that ID! ID=" + id + ", FIX THIS NOW!");
 		return null;
 	}
 	
@@ -243,10 +239,11 @@ public class Part {
 	public Feature2D3D getFeat2D3DByID(int id){
 		for(SubPart subPart : subPartList){
 			Feature2D3D feat2D3D = subPart.getFeature2D3D();
-			if(feat2D3D != null && feat2D3D.getID() == id){
+			if(feat2D3D != null && feat2D3D.ID == id){
 				return feat2D3D;
 			}
 		}
+		System.out.println("Part(getFeat2D3DByID): there was no Feat2D3D at that ID! ID=" + id + ", FIX THIS NOW!");
 		return null;
 	}
 	
@@ -258,10 +255,11 @@ public class Part {
 	public Feature3D3D getFeat3D3DByID(int id){
 		for(SubPart subPart : subPartList){
 			Feature3D3D feat3D3D = subPart.getFeature3D3D();
-			if(feat3D3D != null && feat3D3D.getID() == id){
+			if(feat3D3D != null && feat3D3D.ID == id){
 				return feat3D3D;
 			}
 		}
+		System.out.println("Part(getFeat3D3DByID): there was no Feat3D3D at that ID! ID=" + id + ", FIX THIS NOW!");
 		return null;
 	}
 	
