@@ -1,5 +1,8 @@
 package ui.tools;
 
+import backend.model.Feature2D3D;
+import backend.model.CSG.CSG_Face;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -29,4 +32,13 @@ package ui.tools;
 */
 public interface ToolModelModify extends ToolModel{
 
+	/**
+	 * get the CSG_Face defined by this feature's unique faceID and
+	 * the corresponding parameter set.
+	 * @param pSet the ParamSet used to indicate how the feature should be constructed.
+	 * @param faceID the unique ID of the face to retreive
+	 * @return the CSG_Face specified by the faceID, or NULL if no face exists at that ID.
+	 */
+	abstract public CSG_Face getFaceByID(Feature2D3D feat3D3D, int faceID);
+	
 }

@@ -11,6 +11,7 @@ import backend.global.AvoGlobal;
 import backend.model.Feature2D3D;
 import backend.model.Sketch;
 import backend.model.CSG.BoolOp;
+import backend.model.CSG.CSG_Face;
 import backend.model.CSG.CSG_Solid;
 
 
@@ -103,6 +104,11 @@ public class ToolBuildRevolveModel implements ToolModelBuild{
 	}
 
 	public CSG_Solid getBuiltSolid(Feature2D3D feat2D3D) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public CSG_Face getFaceByID(Feature2D3D feat2D3D, int faceID) {
 		// TODO Auto-generated method stub
 		return null;
 	}
