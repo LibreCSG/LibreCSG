@@ -195,4 +195,10 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 		return solid;
 	}
 
+	public CSG_Face getFaceByID(Feature2D3D feat2D3D, int faceID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 }

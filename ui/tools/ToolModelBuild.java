@@ -5,6 +5,7 @@ import javax.media.opengl.GL;
 import backend.adt.ParamSet;
 import backend.model.Feature2D3D;
 import backend.model.CSG.BoolOp;
+import backend.model.CSG.CSG_Face;
 import backend.model.CSG.CSG_Solid;
 
 
@@ -45,6 +46,15 @@ public interface ToolModelBuild extends ToolModel{
 	 * @return the CSG_Solid (water-tight)
 	 */
 	abstract public CSG_Solid getBuiltSolid(Feature2D3D feat2D3D);
+	
+	/**
+	 * get the CSG_Face defined by this feature's unique faceID and
+	 * the corresponding parameter set.
+	 * @param pSet the ParamSet used to indicate how the feature should be constructed.
+	 * @param faceID the unique ID of the face to retreive
+	 * @return the CSG_Face specified by the faceID, or NULL if no face exists at that ID.
+	 */
+	abstract public CSG_Face getFaceByID(Feature2D3D feat2D3D, int faceID);
 	
 	/**
 	 * @return the Boolean operation to peform on 
