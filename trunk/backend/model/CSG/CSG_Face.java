@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.media.opengl.GL;
 
+import backend.model.ref.ModRef_Plane;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -55,6 +57,8 @@ public class CSG_Face {
 	private List<CSG_Polygon> polygons = new LinkedList<CSG_Polygon>();
 	private boolean selectable = false;
 	private boolean isSelected = false;
+	
+	private ModRef_Plane relativePlane = null;
 	
 	/**
 	 * create a new Face (convex, planar, noncollinear polygons)<br/><br/>
@@ -218,10 +222,38 @@ public class CSG_Face {
 	/**
 	 * Set whether or not this CSG_Face should be selectable
 	 * by the user for creating subsequent sketchs.
-	 * @param selectable 
+	 * @param planeReference A ModRef_Plane specifying the relative
+	 * plane upon which a subsequent sketch could be built.
 	 */
-	public void setSelectable(boolean selectable){
-		this.selectable = selectable;
+	public void setIsSelectable(ModRef_Plane planeReference){
+		this.selectable = true;
+		if(planeReference != null){
+			this.relativePlane = planeReference;
+		}else{
+			System.out.println("CSG_Face(setIsSelectable): a NULL ModRef_Plane was used! FIX THIS!");
+		}
+	}
+	
+	public ModRef_Plane getModRefPlane(){
+		if(!selectable){
+			System.out.println("CSG_Face(getModRefPlane): what are you doing? the face is not even selectable!!");
+			return null;
+		}
+		if(relativePlane != null){
+			return relativePlane;
+		}else{
+			System.out.println("CSG_Face(getModRefPlane): the plane was null, even though it was selectable.. bad news :(");
+			return null;
+		}		
+	}
+	
+	
+	/**
+	 * make this face NOT selectable.
+	 */
+	public void setIsNotSelectable(){
+		this.selectable = false;
+		this.relativePlane = null;
 	}
 	
 	

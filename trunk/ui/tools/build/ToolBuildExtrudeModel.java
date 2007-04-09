@@ -19,6 +19,7 @@ import backend.model.CSG.CSG_Face;
 import backend.model.CSG.CSG_Polygon;
 import backend.model.CSG.CSG_Solid;
 import backend.model.CSG.CSG_Vertex;
+import backend.model.ref.ModRef_Plane;
 import backend.model.sketch.Point2DList;
 import backend.model.sketch.Region2D;
 
@@ -178,8 +179,12 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 							
 							CSG_Face topFace = bottomFace.getTranslatedCopy(new CSG_Vertex(0.0, 0.0, height));
 							topFace.flipFaceDirection();
-							topFace.setSelectable(true);
-							bottomFace.setSelectable(true);
+							
+							// faceID = 1 --> top Face
+							// faceID = 2 --> bottom face
+							
+							topFace.setIsSelectable(new ModRef_Plane(feat2D3D.ID, 1));
+							bottomFace.setIsSelectable(new ModRef_Plane(feat2D3D.ID, 2));
 							solid.addFace(topFace);						
 						}
 					}
@@ -196,8 +201,19 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 	}
 
 	public CSG_Face getFaceByID(Feature2D3D feat2D3D, int faceID) {
-		// TODO Auto-generated method stub
-		return null;
+		switch(faceID){
+			case 1: {	
+						return null;
+					}
+			case 2: {	
+						return null;
+			}
+			default:{
+						System.out.println("ToolBuildExtrudeModel(getFaceByID): no face with ID=" + faceID + " !!!");
+						return null;
+					}
+		
+		}
 	}
 
 
