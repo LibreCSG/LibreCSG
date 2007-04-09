@@ -63,6 +63,8 @@ public class Part {
 	public final ModRef_Plane planeYZ = new ModRef_PlaneFixed(sketchPlaneYZ);
 	public final ModRef_Plane planeZX = new ModRef_PlaneFixed(sketchPlaneZX);
 	
+	private ModRef_Plane selectedPlane = null;
+	
 	private CSG_Solid partSolid = new CSG_Solid(); 
 	
 	
@@ -75,8 +77,20 @@ public class Part {
 		return this.group;		
 	}
 	
-	public int addNewSketch(ModRef_Plane sketchPlaneRef){
-		subPartList.add(new Sketch(this, subPartCounter++, sketchPlaneRef));
+	public void setSelectedPlane(ModRef_Plane selectedPlane){
+		this.selectedPlane = selectedPlane;
+	}
+	
+	public ModRef_Plane getSelectedPlane(){
+		return selectedPlane;
+	}
+	
+	public int addNewSketchOnSelectedPlane(){
+		if(selectedPlane == null){
+			// default plane if nothing is selected: XY plane
+			selectedPlane = planeXY;
+		}
+		subPartList.add(new Sketch(this, subPartCounter++, selectedPlane));
 		AvoGlobal.modelEventHandler.notifyElementAdded();
 		int newIndex = subPartList.size()-1;
 		activeSubPart = newIndex;

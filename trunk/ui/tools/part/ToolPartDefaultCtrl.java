@@ -32,6 +32,7 @@ public class ToolPartDefaultCtrl implements ToolCtrlPart{
 					// a selectable face was clicked!
 					System.out.println("You selected a selectable face!");
 					face.setSelected(true);
+					part.setSelectedPlane(face.getModRefPlane());
 				}else{
 					face.setSelected(false);
 				}
