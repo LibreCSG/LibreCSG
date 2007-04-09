@@ -133,7 +133,7 @@ public class AvoGlobal {
 			group.addNewPart();
 			Part part = group.getActivePart();
 			if(part != null){
-				part.addNewSketch(part.planeXY);
+				part.addNewSketchOnSelectedPlane();
 				menuet.setCurrentToolMode(Menuet.MENUET_MODE_SKETCH);
 				paramDialog.setParamSet(null);
 				glView.updateGLView = true;
