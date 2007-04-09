@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import backend.global.AvoGlobal;
+import backend.model.ref.ModRef_Plane;
 import backend.model.sketch.Prim2D;
 import backend.model.sketch.Prim2DList;
 import backend.model.sketch.Region2D;
@@ -51,7 +52,9 @@ public class Sketch implements SubPart{
 	protected List<Feature2D> feat2DList = new LinkedList<Feature2D>();
 	protected Region2DList    regionList = new Region2DList();
 	
-	private SketchPlane sketchPlane;
+	private ModRef_Plane sketchPlaneRef;
+	
+	//private SketchPlane sketchPlane;
 	
 	protected int activeFeat2D = -1;
 	
@@ -65,18 +68,28 @@ public class Sketch implements SubPart{
 	protected Part part;
 	public final int ID;
 	
-	public Sketch(Part part, int ID, SketchPlane sketchPlane){
+	public Sketch(Part part, int ID, ModRef_Plane sketchPlaneRef){
 		this.part = part;
 		this.ID = ID;
-		this.sketchPlane = sketchPlane;
+		this.sketchPlaneRef = sketchPlaneRef;
 	}
 	
 	public Iterator<Region2D> getRegion2DIterator(){
 		return regionList.iterator();
 	}
 	
+	/**
+	 * @return the actual plane on which to sketch.
+	 */
 	public SketchPlane getSketchPlane(){
-		return sketchPlane;
+		return sketchPlaneRef.getSketchPlane(part);
+	}
+	
+	/**
+	 * @return a reference to the sketch plane.
+	 */
+	public ModRef_Plane getSketchPlaneRef(){
+		return sketchPlaneRef;
 	}
 	
 	public Part getParentPart(){

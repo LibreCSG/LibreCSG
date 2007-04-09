@@ -8,9 +8,10 @@ import javax.media.opengl.GL;
 import backend.global.AvoGlobal;
 import backend.model.CSG.BoolOp;
 import backend.model.CSG.CSG_BooleanOperator;
-import backend.model.CSG.CSG_Face;
 import backend.model.CSG.CSG_Solid;
 import backend.model.CSG.CSG_Vertex;
+import backend.model.ref.ModRef_Plane;
+import backend.model.ref.ModRef_PlaneFixed;
 import backend.model.sketch.SketchPlane;
 
 
@@ -54,10 +55,14 @@ public class Part {
 	private CSG_Vertex xAxis  = new CSG_Vertex(1.0, 0.0, 0.0);
 	private CSG_Vertex yAxis  = new CSG_Vertex(0.0, 1.0, 0.0);
 	private CSG_Vertex zAxis  = new CSG_Vertex(0.0, 0.0, 1.0);
-	public final SketchPlane planeXY = new SketchPlane(origin, zAxis, xAxis);
-	public final SketchPlane planeYZ = new SketchPlane(origin, xAxis, yAxis);
-	public final SketchPlane planeZX = new SketchPlane(origin, yAxis, zAxis);
+	private final SketchPlane sketchPlaneXY = new SketchPlane(origin, zAxis, xAxis);
+	private final SketchPlane sketchPlaneYZ = new SketchPlane(origin, xAxis, yAxis);
+	private final SketchPlane sketchPlaneZX = new SketchPlane(origin, yAxis, zAxis);
 
+	public final ModRef_Plane planeXY = new ModRef_PlaneFixed(sketchPlaneXY);
+	public final ModRef_Plane planeYZ = new ModRef_PlaneFixed(sketchPlaneYZ);
+	public final ModRef_Plane planeZX = new ModRef_PlaneFixed(sketchPlaneZX);
+	
 	private CSG_Solid partSolid = new CSG_Solid(); 
 	
 	
@@ -70,8 +75,8 @@ public class Part {
 		return this.group;		
 	}
 	
-	public int addNewSketch(SketchPlane sketchPlane){
-		subPartList.add(new Sketch(this, subPartCounter++, sketchPlane));
+	public int addNewSketch(ModRef_Plane sketchPlaneRef){
+		subPartList.add(new Sketch(this, subPartCounter++, sketchPlaneRef));
 		AvoGlobal.modelEventHandler.notifyElementAdded();
 		int newIndex = subPartList.size()-1;
 		activeSubPart = newIndex;

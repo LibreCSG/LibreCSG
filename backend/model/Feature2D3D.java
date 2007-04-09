@@ -1,5 +1,6 @@
 package backend.model;
 
+import ui.tools.ToolModelBuild;
 import backend.adt.ParamSet;
 import backend.model.sketch.SketchPlane;
 
@@ -71,9 +72,21 @@ public class Feature2D3D implements SubPart{
 		return null;
 	}
 	
-	// TODO: implement ability to get sketch plane!
 	public SketchPlane getPlaneByFaceID(int uniqueFaceID){
-		return null;
+		if(paramSet == null){
+			// paramSet was null, can't find a plane
+			System.out.println("Feature2D3D(getPlaneByFaceID): paramSet was NULL, can't return a sketch!");
+			return null;
+		}
+		ToolModelBuild toolModelBuild = paramSet.getToolModel2D3D();
+		if(toolModelBuild != null){
+			// get sketchPlane from ModRef_Plane in CSG_face
+			return toolModelBuild.getFaceByID(this, uniqueFaceID).getModRefPlane().getSketchPlane(part);
+		}else{
+			// toolModel was null, can't find a plane
+			System.out.println("Feature2D3D(getPlaneByFaceID): Tool Model was NULL, can't return a sketch!");
+			return null;
+		}
 	}
 	
 }
