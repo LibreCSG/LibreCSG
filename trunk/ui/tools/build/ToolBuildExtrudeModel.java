@@ -190,7 +190,7 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 					}
 				}
 			}catch(Exception ex){
-				System.out.println("Extrude(draw): " + ex.getClass().getName());
+				System.out.println("ToolBuildExtrudeModel(getBuiltSolid): " + ex.getClass().getName());
 			}
 		}
 		if(!solid.isValidSolid()){
@@ -201,19 +201,37 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 	}
 
 	public CSG_Face getFaceByID(Feature2D3D feat2D3D, int faceID) {
-		switch(faceID){
-			case 1: {	
-						return null;
+		ParamSet paramSet = feat2D3D.paramSet;
+		Sketch sketch = feat2D3D.getPrimarySketch();
+		if(sketch != null && paramSet != null){					
+			try{
+				SelectionList selectionList = paramSet.getParam("regions").getDataSelectionList();
+				Double height = paramSet.getParam("h").getDataDouble();
+				if(selectionList != null && height != null){
+					Region2D includedRegion = sketch.getRegAtIndex(Integer.parseInt(selectionList.getStringAtIndex(0)));
+					if(includedRegion != null){
+						// CHECK FOR FACE ID  :)
+						switch(faceID){
+							case 1: {	// Top Face
+										CSG_Face topFace = includedRegion.getCSG_Face().getTranslatedCopy(new CSG_Vertex(0.0, 0.0, height));
+										topFace.flipFaceDirection();
+										return topFace;
+									}
+							case 2: {	// Bottom Face
+										return includedRegion.getCSG_Face();
+									}
+							default:{
+										System.out.println("ToolBuildExtrudeModel(getFaceByID): no face with ID=" + faceID + " !!!");
+										return null;
+									}
+						}						
 					}
-			case 2: {	
-						return null;
+				}
+			}catch(Exception ex){
+				System.out.println("ToolBuildExtrudeModel(getFaceByID): " + ex.getClass().getName());
 			}
-			default:{
-						System.out.println("ToolBuildExtrudeModel(getFaceByID): no face with ID=" + faceID + " !!!");
-						return null;
-					}
-		
 		}
+		return null;
 	}
 
 

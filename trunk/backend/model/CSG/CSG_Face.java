@@ -209,6 +209,7 @@ public class CSG_Face {
 		clone.bounds = bounds.deepCopy();
 		clone.selectable = this.selectable;
 		clone.isSelected = this.isSelected;
+		clone.relativePlane = this.relativePlane;
 		return clone;
 	}
 	
