@@ -30,7 +30,7 @@ public class ToolPartDefaultCtrl implements ToolCtrlPart{
 						Math.abs(face.distFromVertexToFacePlane(clickedVert)) < MIN_DIST_FROM_FACE &&
 						face.vertexIsInsideFace(clickedVert)){
 					// a selectable face was clicked!
-					System.out.println("You selected a selectable face!");
+					System.out.println("You selected a selectable face! " + face.getModRefPlane());
 					face.setSelected(true);
 					part.setSelectedPlane(face.getModRefPlane());
 				}else{
