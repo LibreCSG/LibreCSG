@@ -54,8 +54,6 @@ public class Sketch implements SubPart{
 	
 	private ModRef_Plane sketchPlaneRef;
 	
-	//private SketchPlane sketchPlane;
-	
 	protected int activeFeat2D = -1;
 	
 	/**

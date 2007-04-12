@@ -2,6 +2,7 @@ package backend.model.sketch;
 
 import javax.media.opengl.GL;
 
+import backend.model.CSG.CSG_Plane;
 import backend.model.CSG.CSG_Vertex;
 
 
@@ -41,6 +42,7 @@ public class SketchPlane {
 	private double TOL = 1e-10;
 	
 	public SketchPlane(CSG_Vertex origin, CSG_Vertex normal, CSG_Vertex xAxis){
+		System.out.println("SketchPlane(constructor): old constructor is being used.. this shoudl be fixed soon.");
 		double dotProd = normal.getDotProduct(xAxis);
 		if(dotProd > TOL || dotProd < -TOL){
 			System.out.println("SketchPlane(Constructor): normal and var1Axis were not orthogonal! dotProd=" + dotProd);
@@ -50,6 +52,15 @@ public class SketchPlane {
 		this.xAxis = xAxis.getUnitLength();
 		this.yAxis = this.normal.getVectCrossProduct(this.xAxis).getUnitLength();
 	}
+	
+	
+	public SketchPlane(CSG_Plane csgPlane){
+		System.out.println("SketchPlane(new constructor): not yet completed.. fix this!");
+		CSG_Vertex norm = csgPlane.getNormal().getUnitLength();
+		
+		// TODO construct sketchPlane from a CSG_Plane
+	}
+	
 	
 	/**
 	 * @return the CSG_Vertex of the plane's origin
