@@ -54,14 +54,14 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 
 	public void draw3DFeature(GL gl, Feature2D3D feat2D3D) {
 		// if sketch is not consumed... just draw face to be extruded
-		//System.out.println("trying to draw extrude");
-		
+		//System.out.println("trying to draw extrude");		
 		
 		Sketch sketch = feat2D3D.getPrimarySketch();
 		if(sketch != null){
 			Iterator<Region2D> regIter = sketch.getRegion2DIterator();
 			while(regIter.hasNext()){
 				Region2D region = regIter.next();
+				// TODO: draw on the sketch plane!
 				region.glDrawUnselected(gl);
 			}
 		}
@@ -103,12 +103,9 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 				AvoGlobal.modelEventHandler.notifyActiveElementChanged();
 			}else{
 				AvoGlobal.project.getActivePart().removeActiveSubPart();				
-			}
-
-			// TODO: return to main menuet! (but this should be handled from the controller, not the model)
-			
+			}			
 		}else{
-			System.out.println("I have no idea what's going on?!?  the active feature2D3D was null!?!");
+			System.out.println("ToolBuildExtrudeModel(finalize): I have no idea what's going on?!?  the active feature2D3D was null!?!");
 		}
 		
 	}
@@ -150,8 +147,11 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 					for(int i=0; i<selectionList.getSelectionSize(); i++){
 						Region2D includedRegion = sketch.getRegAtIndex(Integer.parseInt(selectionList.getStringAtIndex(i)));
 						if(includedRegion != null){
-							CSG_Face bottomFace = includedRegion.getCSG_Face();
-							solid.addFace(bottomFace);
+							
+							// faceID = 1 --> top Face
+							// faceID = 2 --> bottom face
+							solid.addFace(getFaceByID(feat2D3D, 1));
+							solid.addFace(getFaceByID(feat2D3D, 2));
 							
 							Point2DList ptList = includedRegion.getPeremeterPointList();
 							
@@ -175,17 +175,7 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 							CSG_Vertex newVertExtrude = new CSG_Vertex(ptList.getFirst(), height);
 							CSG_Polygon poly = new CSG_Polygon(newVert, lastVert, lastVertExtrude, newVertExtrude);
 							CSG_Face newFace = new CSG_Face(poly);
-							solid.addFace(newFace);
-							
-							CSG_Face topFace = bottomFace.getTranslatedCopy(new CSG_Vertex(0.0, 0.0, height));
-							topFace.flipFaceDirection();
-							
-							// faceID = 1 --> top Face
-							// faceID = 2 --> bottom face
-							
-							topFace.setIsSelectable(new ModRef_Plane(feat2D3D.ID, 1));
-							bottomFace.setIsSelectable(new ModRef_Plane(feat2D3D.ID, 2));
-							solid.addFace(topFace);						
+							solid.addFace(newFace);				
 						}
 					}
 				}
@@ -214,11 +204,21 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 						switch(faceID){
 							case 1: {	// Top Face
 										CSG_Face topFace = includedRegion.getCSG_Face().getTranslatedCopy(new CSG_Vertex(0.0, 0.0, height));
-										topFace.flipFaceDirection();
+										if(height >= 0.0){
+											// make sure normal points correct way
+											topFace.flipFaceDirection();
+										}
+										topFace.setIsSelectable(new ModRef_Plane(feat2D3D.ID, 1));
 										return topFace;
 									}
 							case 2: {	// Bottom Face
-										return includedRegion.getCSG_Face();
+										CSG_Face botFace = includedRegion.getCSG_Face();
+										if(height < 0.0){
+											// make sure normal points correct way.
+											botFace.flipFaceDirection();										
+										}
+										botFace.setIsSelectable(new ModRef_Plane(feat2D3D.ID, 2));
+										return botFace;
 									}
 							default:{
 										System.out.println("ToolBuildExtrudeModel(getFaceByID): no face with ID=" + faceID + " !!!");

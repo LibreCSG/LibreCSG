@@ -40,8 +40,6 @@ public class SketchPlane {
 	private CSG_Vertex xAxis;
 	private CSG_Vertex yAxis;
 	
-	private double TOL = 1e-10;
-	
 	/*
 	public SketchPlane(CSG_Vertex origin, CSG_Vertex normal, CSG_Vertex xAxis){
 		System.out.println("SketchPlane(constructor): old constructor is being used.. this should be fixed soon.");
