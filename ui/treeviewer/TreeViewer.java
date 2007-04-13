@@ -106,7 +106,25 @@ public class TreeViewer {
 						}
 						if(indxs[2] == 1 || indxs[2] == 2 || indxs[2] == 3){
 							// root plane selected
-							System.out.println("Tree viewer.. you clicked a root plane.. but it hasn't been implemented fully yet.");
+							Part part = AvoGlobal.project.getActivePart();
+							if(part == null){
+								System.out.println("TreeViewer(mouseDoubleClick): the active part was null?! this makes no CENTS!!11");
+								return;
+							}
+							switch(indxs[2]){
+							case 1: {
+									part.setSelectedPlane(part.planeXY);									
+									break;
+									}
+							case 2: {
+									part.setSelectedPlane(part.planeYZ);
+									break;
+									}
+							case 3: {
+									part.setSelectedPlane(part.planeZX);
+									break;
+									}
+							}
 							return;
 						}else{
 							// sub-part selected.
