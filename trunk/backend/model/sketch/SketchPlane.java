@@ -3,6 +3,7 @@ package backend.model.sketch;
 import javax.media.opengl.GL;
 
 import backend.model.CSG.CSG_Plane;
+import backend.model.CSG.CSG_Ray;
 import backend.model.CSG.CSG_Vertex;
 
 
@@ -41,6 +42,7 @@ public class SketchPlane {
 	
 	private double TOL = 1e-10;
 	
+	/*
 	public SketchPlane(CSG_Vertex origin, CSG_Vertex normal, CSG_Vertex xAxis){
 		System.out.println("SketchPlane(constructor): old constructor is being used.. this should be fixed soon.");
 		double dotProd = normal.getDotProduct(xAxis);
@@ -52,20 +54,21 @@ public class SketchPlane {
 		this.xAxis = xAxis.getUnitLength();
 		this.yAxis = this.normal.getVectCrossProduct(this.xAxis).getUnitLength();
 	}
+	*/
 	
-	
+	/**
+	 * construct sketchPlane from a CSG_Plane
+	 * @param csgPlane the plane to place the sketch on
+	 */
 	public SketchPlane(CSG_Plane csgPlane){
-		System.out.println("SketchPlane(new constructor): not yet completed.. fix this!");
 		if(csgPlane == null){
 			System.out.println("SketchPlane(constructor): a NULL CSG_Plane was given.  u betta check y'self.");
 			return;
 		}
-		CSG_Vertex norm = csgPlane.getNormal().getUnitLength();
-		CSG_Vertex xAxis = getXAxisFromNormal(norm);
-		
-		
-		
-		// TODO construct sketchPlane from a CSG_Plane
+		this.normal = csgPlane.getNormal().getUnitLength();
+		this.xAxis  = getXAxisFromNormal(this.normal);
+		this.origin = csgPlane.getRayIntersection(new CSG_Ray(new CSG_Vertex(0.0, 0.0, 0.0),this.normal));
+		this.yAxis = this.normal.getVectCrossProduct(this.xAxis).getUnitLength();
 	}
 	
 	/** 

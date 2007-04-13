@@ -8,6 +8,7 @@ import javax.media.opengl.GL;
 import backend.global.AvoGlobal;
 import backend.model.CSG.BoolOp;
 import backend.model.CSG.CSG_BooleanOperator;
+import backend.model.CSG.CSG_Plane;
 import backend.model.CSG.CSG_Solid;
 import backend.model.CSG.CSG_Vertex;
 import backend.model.ref.ModRef_Plane;
@@ -55,9 +56,9 @@ public class Part {
 	private CSG_Vertex xAxis  = new CSG_Vertex(1.0, 0.0, 0.0);
 	private CSG_Vertex yAxis  = new CSG_Vertex(0.0, 1.0, 0.0);
 	private CSG_Vertex zAxis  = new CSG_Vertex(0.0, 0.0, 1.0);
-	private final SketchPlane sketchPlaneXY = new SketchPlane(origin, zAxis, xAxis);
-	private final SketchPlane sketchPlaneYZ = new SketchPlane(origin, xAxis, yAxis);
-	private final SketchPlane sketchPlaneZX = new SketchPlane(origin, yAxis, zAxis);
+	private final SketchPlane sketchPlaneXY = new SketchPlane(new CSG_Plane(zAxis, 0.0));
+	private final SketchPlane sketchPlaneYZ = new SketchPlane(new CSG_Plane(xAxis, 0.0));
+	private final SketchPlane sketchPlaneZX = new SketchPlane(new CSG_Plane(yAxis, 0.0));
 
 	public final ModRef_Plane planeXY = new ModRef_PlaneFixed(sketchPlaneXY);
 	public final ModRef_Plane planeYZ = new ModRef_PlaneFixed(sketchPlaneYZ);
