@@ -81,7 +81,7 @@ public class Feature2D3D implements SubPart{
 		}
 		ToolModelBuild toolModelBuild = paramSet.getToolModel2D3D();
 		if(toolModelBuild != null){
-			// get sketchPlane from ModRef_Plane in CSG_face
+			// get sketchPlane by constructing one from the specified CSG_face
 			CSG_Face face = toolModelBuild.getFaceByID(this, uniqueFaceID);
 			return new SketchPlane(face.getPlane());
 		}else{

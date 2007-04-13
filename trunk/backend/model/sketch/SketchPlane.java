@@ -42,7 +42,7 @@ public class SketchPlane {
 	private double TOL = 1e-10;
 	
 	public SketchPlane(CSG_Vertex origin, CSG_Vertex normal, CSG_Vertex xAxis){
-		System.out.println("SketchPlane(constructor): old constructor is being used.. this shoudl be fixed soon.");
+		System.out.println("SketchPlane(constructor): old constructor is being used.. this should be fixed soon.");
 		double dotProd = normal.getDotProduct(xAxis);
 		if(dotProd > TOL || dotProd < -TOL){
 			System.out.println("SketchPlane(Constructor): normal and var1Axis were not orthogonal! dotProd=" + dotProd);
@@ -56,9 +56,85 @@ public class SketchPlane {
 	
 	public SketchPlane(CSG_Plane csgPlane){
 		System.out.println("SketchPlane(new constructor): not yet completed.. fix this!");
+		if(csgPlane == null){
+			System.out.println("SketchPlane(constructor): a NULL CSG_Plane was given.  u betta check y'self.");
+			return;
+		}
 		CSG_Vertex norm = csgPlane.getNormal().getUnitLength();
+		CSG_Vertex xAxis = getXAxisFromNormal(norm);
+		
+		
 		
 		// TODO construct sketchPlane from a CSG_Plane
+	}
+	
+	/** 
+	 * given a unit normal vector of a plane through the origin,
+	 * derive a suitable (and sensible) "x-axis" for the plane.
+	 * the 2D "x-axis" should not be confused with the actual
+	 * X,Y,Z coordinates in 3D space.
+	 * 
+	 * This took a while to get something reasonable... 
+	 * there may be bugs, but really think before you act here. :)
+	 * 
+	 * @param normal the plane's normal vector
+	 * @return the unit length x-axis vector. 
+	 */
+	private CSG_Vertex getXAxisFromNormal(CSG_Vertex normal){
+		double nx = normal.getX();
+		double ny = normal.getY();
+		double nz = normal.getZ();
+		double nxAbs = Math.abs(nx);
+		double nyAbs = Math.abs(ny);
+		double nzAbs = Math.abs(nz);
+		double xx = 1.0;
+		double xy = 1.0;
+		double xz = 1.0;
+		
+		// CASE: Z NORM GREATEST
+		if (nzAbs >= nxAbs && nzAbs >= nyAbs){	
+			if(nxAbs >= nyAbs){
+				xx = (1-nxAbs);
+				xy = (1-xx)*(Math.sqrt(2)-1);
+			}else{
+				xx = (1-nyAbs);
+				xy = (1-xx)*(Math.sqrt(2)-1)*(-Math.signum(ny)*Math.signum(nz));
+			}
+			xz = -(nx*xx + ny*xy)/nz;	// dot product of normal with point on plane = 0
+		}
+
+		// CASE: X NORM GREATEST
+		if (nxAbs >= nyAbs && nxAbs >= nzAbs){
+			if(nyAbs >= nzAbs){
+				xy = (1-nyAbs);
+				xz = (1-xy)*(Math.sqrt(2)-1);
+			}else{
+				xy = (1-nzAbs);
+				xz = (1-xy)*(Math.sqrt(2)-1)*(-Math.signum(nz)*Math.signum(nx));
+			}
+			xx = -(ny*xy + nz*xz)/nx;	// dot product of normal with point on plane = 0
+		}
+
+		// CASE: Y NORM GREATEST
+		if (nyAbs >= nzAbs && nyAbs >= nxAbs){
+			if(nzAbs > nxAbs){
+				xz = (1-nzAbs);
+				xx = (1-xz)*(Math.sqrt(2)-1);
+			}else{
+				xz = (1-nxAbs);
+				xx = (1-xz)*(Math.sqrt(2)-1)*(-Math.signum(nx)*Math.signum(ny));
+			}
+			xy = -(nx*xx + nz*xz)/ny;	// dot product of normal with point on plane = 0
+		}
+
+		// NORMALIZE VECTOR to unit length
+		// divider should be something nice (i.e. between 0.1 and 1.0)	
+		double divider = Math.sqrt(xx*xx + xy*xy + xz*xz); 
+		xx = xx/divider;
+		xy = xy/divider;
+		xz = xz/divider;
+	
+		return new CSG_Vertex(xx, xy, xz);
 	}
 	
 	
