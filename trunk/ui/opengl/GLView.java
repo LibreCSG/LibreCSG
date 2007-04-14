@@ -372,25 +372,23 @@ public class GLView {
 
 						gl.glColor3f(1.0f,0.0f,0.0f);
 						
-						
+						//
+						// Main Drawing routine for the active part
+						//
 						if(AvoGlobal.project.getActivePart() != null){
 							
 							Part part = AvoGlobal.project.getActivePart();							
 							
-							for(int q=0; q < AvoGlobal.project.getActivePart().getSubPartListSize(); q++){
-								SubPart subPart = AvoGlobal.project.getActivePart().getAtIndex(q);
-								
-								// TODO: HACK for now to just show the active 2D sketch
+							part.glDrawSolid(gl);
+							
+							SubPart subPart = AvoGlobal.project.getActiveSubPart();
+							if(subPart != null){
 								Sketch sketch = subPart.getSketch();
 								if(sketch != null && !sketch.isConsumed){
 									gl.glPushMatrix();
-									
 									sketch.getSketchPlane().glOrientToPlane(gl);
-									
 									drawSketchGrid();
-									
 									gl.glLineWidth(2.0f);
-									// TODO: handle sketch offset/rotation
 									for(int i=0; i < sketch.getFeat2DListSize(); i++){
 										Feature2D f2D = sketch.getAtIndex(i);
 										if(f2D.isSelected){
@@ -405,36 +403,27 @@ public class GLView {
 										for(Prim2D prim : f2D.prim2DList){
 								    		prim.glDraw(gl);
 								    	}
-									}
-									
+									}									
 									if(AvoGlobal.menuet.getCurrentToolMode() == Menuet.MENUET_MODE_SKETCH){
 										drawTransparentMouseLayer();
-									}									
-									
+										setMouseMatrixToModelview();
+									}
 									if(mouse_down_button != MOUSE_MIDDLE && 
 											mouse_down_button != MOUSE_MIDDLE_SHIFT && 
 											mouse_down_button != MOUSE_MIDDLE_CTRL &&
 											AvoGlobal.activeToolController != null){
 										drawToolEndPos();
 									}
-									
-									setMouseMatrixToModelview();
-									
 									gl.glPopMatrix();
-								}								
-							}
-							
-							if(part!= null && part.getActiveSubPart() != null){
+								}
 								Feature2D3D feat2D3D = part.getActiveSubPart().getFeature2D3D();
 								if(feat2D3D != null && feat2D3D.paramSet != null && feat2D3D.paramSet.getToolModel2D3D() != null){
-									Sketch sketch = feat2D3D.getPrimarySketch();
+									sketch = feat2D3D.getPrimarySketch();
 									if(sketch != null && !sketch.isConsumed){
 										feat2D3D.paramSet.getToolModel2D3D().draw3DFeature(gl, feat2D3D);
-									}								
+									}	
 								}
 							}
-							
-							part.glDrawSolid(gl);
 						}
 
 						//
@@ -494,7 +483,7 @@ public class GLView {
 			
 			cad_3DXYZ(0.0f,0.0f,0.0f,0.25f);
 			
-			gl.glDisable(GL.GL_DEPTH_TEST);
+		//	gl.glDisable(GL.GL_DEPTH_TEST);
 			// set grid color						
 			gl.glColor4f(AvoColors.GL_COLOR4_GRID_DARK[0], AvoColors.GL_COLOR4_GRID_DARK[1],
 					AvoColors.GL_COLOR4_GRID_DARK[2], AvoColors.GL_COLOR4_GRID_DARK[3]);
