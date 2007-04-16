@@ -22,6 +22,7 @@ import backend.model.CSG.CSG_Vertex;
 import backend.model.ref.ModRef_Plane;
 import backend.model.sketch.Point2DList;
 import backend.model.sketch.Region2D;
+import backend.model.sketch.SketchPlane;
 
 
 //
@@ -58,11 +59,11 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 		
 		Sketch sketch = feat2D3D.getPrimarySketch();
 		if(sketch != null){
+			sketch.getSketchPlane().glOrientToPlane(gl);
 			Iterator<Region2D> regIter = sketch.getRegion2DIterator();
 			while(regIter.hasNext()){
 				Region2D region = regIter.next();
-				// TODO: draw on the sketch plane!
-				region.glDrawUnselected(gl);
+				region.glDrawUnselected(gl);				
 			}
 		}
 		
@@ -98,7 +99,14 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 				// TODO: only keep feature and consume sketch if selectionLists are all satisfied as well.
 				sketch.isConsumed = true;
 				Part part = sketch.getParentPart();
-				part.updateSolid(getBuiltSolid(feat2D3D), getBooleanOperation(paramSet));
+				
+				// Ttranslate/rotate the part to be position on the sketch plane.
+				SketchPlane sp = sketch.getSketchPlane();
+				CSG_Vertex rotation = new CSG_Vertex(sp.getRotationX(), sp.getRotationY(), sp.getRotationZ());
+				CSG_Solid solid = getBuiltSolid(feat2D3D);
+				solid.applyTranslationRotation(sp.getOrigin(), rotation);
+				
+				part.updateSolid(solid,	getBooleanOperation(paramSet));
 				
 				AvoGlobal.modelEventHandler.notifyActiveElementChanged();
 			}else{
@@ -187,6 +195,9 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 			System.out.println("ToolBuildExtrudeModel(getBuiltSolid): Solid was not valid!! returning default empty solid instead.");
 			return new CSG_Solid();
 		}	
+		
+		
+		
 		return solid;
 	}
 

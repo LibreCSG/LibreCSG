@@ -172,4 +172,23 @@ public class CSG_Vertex {
 		return new CSG_Vertex(-x, -y, -z);
 	}
 	
+	/**
+	 * apply translation, then rotation in X, Y, Z order.
+	 * @param translation 3D translation
+	 * @param rotation 3D rotation
+	 * @return a copy of the vertex with the translation/rotation applied.
+	 */
+	public CSG_Vertex getTranslatedRotatedCopy(CSG_Vertex translation, CSG_Vertex rotation){
+		// TODO: don't use CSG_Vertex for translation/rotation (make specific classes)
+		double newX = x + translation.x;
+		double newY = y + translation.y;
+		double newZ = z + translation.z;
+		
+		// TODO: do rotation!
+		
+		return new CSG_Vertex(newX, newY, newZ);
+	}
+	
+	
+	
 }
