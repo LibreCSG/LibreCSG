@@ -67,6 +67,7 @@ public class SketchPlane {
 		this.xAxis  = getXAxisFromNormal(this.normal);
 		this.origin = csgPlane.getRayIntersection(new CSG_Ray(new CSG_Vertex(0.0, 0.0, 0.0),this.normal));
 		this.yAxis = this.normal.getVectCrossProduct(this.xAxis).getUnitLength();
+		System.out.println("sketch plane constructed with origin: " + origin + ", and xAxis: " + xAxis);
 	}
 	
 	/** 
@@ -210,7 +211,7 @@ public class SketchPlane {
 	 * @return
 	 */
 	public double getRotationY(){
-		return Math.asin(normal.getX());		
+		return -Math.asin(normal.getX());		
 	}
 	
 	/**
