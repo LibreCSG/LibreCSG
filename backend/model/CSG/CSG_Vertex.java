@@ -180,15 +180,34 @@ public class CSG_Vertex {
 	 */
 	public CSG_Vertex getTranslatedRotatedCopy(CSG_Vertex translation, CSG_Vertex rotation){
 		// TODO: don't use CSG_Vertex for translation/rotation (make specific classes)
-		double newX = x + translation.x;
-		double newY = y + translation.y;
-		double newZ = z + translation.z;
+		double newX = x;
+		double newY = y;
+		double newZ = z;
+		
+		System.out.println("Rotation: (" + rotation.getX() + "," + rotation.getY() + "," + rotation.getZ() + ")");
 		
 		// TODO: do rotation!
+		double rotX = rotation.getX();
+		double rotY = rotation.getY();
+		double rotZ = rotation.getZ();		
 		
-		return new CSG_Vertex(newX, newY, newZ);
+		// rotate about X axis		
+		double newY2 = newY*Math.cos(rotX) - newZ*Math.sin(rotX);
+		double newZ2 = newY*Math.sin(rotX) + newZ*Math.cos(rotX);
+		double newX2 = newX;
+		
+		// rotate about Y axis	
+		double newZ3 = newZ2*Math.cos(rotY) - newX2*Math.sin(rotY);
+		double newX3 = newZ2*Math.sin(rotY) + newX2*Math.cos(rotY);
+		double newY3 = newY2;
+		
+		// rotate about Z axis
+		double newX4 = newX3*Math.cos(rotZ) - newY3*Math.sin(rotZ);
+		double newY4 = newX3*Math.sin(rotZ) + newY3*Math.cos(rotZ);
+		double newZ4 = newZ3;		
+		
+		return new CSG_Vertex(newX4 + translation.x, newY4 + translation.y, newZ4 + translation.z);
 	}
-	
 	
 	
 }
