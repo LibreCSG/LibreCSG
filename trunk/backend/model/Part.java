@@ -1,5 +1,6 @@
 package backend.model;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -86,6 +87,10 @@ public class Part {
 		return selectedPlane;
 	}
 	
+	public Iterator<SubPart> getSubPartIterator(){
+		return subPartList.iterator();
+	}
+	
 	public int addNewSketchOnSelectedPlane(){
 		if(selectedPlane == null){
 			// default plane if nothing is selected: XY plane
@@ -121,6 +126,7 @@ public class Part {
 	 * @return the SubPart, or null if index was invalid.
 	 */
 	public SubPart getAtIndex(int i){
+		// TODO: don't get items by index!!
 		if(i < 0 || i >= subPartList.size()){
 			// index is not valid!
 			return null;
@@ -190,6 +196,7 @@ public class Part {
 	 * @param i index
 	 */
 	public void setActiveSubPart(int i){
+		// TODO: set active by ID, not index! (abstract away the way things are stored)
 		if(i < 0 || i >= subPartList.size()){
 			// index is not valid!
 			return;
@@ -219,6 +226,7 @@ public class Part {
 	 * @param i index
 	 */
 	public void removeSubPartAtIndex(int i){
+		// TODO: don't remove things by index!
 		if(i < 0 || i >= subPartList.size()){
 			// index is not valid!
 			return;
@@ -231,6 +239,7 @@ public class Part {
 	 * remove the active SubPart from the list.
 	 */
 	public void removeActiveSubPart(){
+		// TODO: only remove by ID (not whatever happens to be active)
 		removeSubPartAtIndex(activeSubPart);
 		AvoGlobal.modelEventHandler.notifyElementRemoved();
 	}

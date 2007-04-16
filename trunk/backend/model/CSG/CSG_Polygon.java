@@ -2,7 +2,6 @@ package backend.model.CSG;
 
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 
 import javax.media.opengl.GL;
 
@@ -386,6 +385,17 @@ public class CSG_Polygon {
 			tPoly.vertices.set(i, tPoly.vertices.get(i).addToVertex(translation));
 		}
 		return tPoly;
+	}
+	
+	/**
+	 * apply translation, then rotation in X, Y, Z order.
+	 * @param translation 3D translation
+	 * @param rotation 3D rotation
+	 */
+	public void applyTranslationRotation(CSG_Vertex translation, CSG_Vertex rotation){
+		for(int i = 0; i < this.vertices.size(); i++){
+			this.vertices.set(i, this.vertices.get(i).getTranslatedRotatedCopy(translation, rotation));
+		}
 	}
 	
 }

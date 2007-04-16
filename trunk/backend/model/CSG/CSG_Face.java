@@ -379,4 +379,16 @@ public class CSG_Face {
 		facePlane = polygons.get(0).getPlane();
 	}
 	
+	/**
+	 * apply translation, then rotation in X, Y, Z order.
+	 * @param translation 3D translation
+	 * @param rotation 3D rotation
+	 */
+	public void applyTranslationRotation(CSG_Vertex translation, CSG_Vertex rotation){
+		Iterator<CSG_Polygon> polyIter = polygons.iterator();
+		while(polyIter.hasNext()){
+			polyIter.next().applyTranslationRotation(translation, rotation);
+		}
+	}
+	
 }

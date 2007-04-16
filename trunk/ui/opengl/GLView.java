@@ -381,10 +381,47 @@ public class GLView {
 							
 							part.glDrawSolid(gl);
 							
-							SubPart subPart = AvoGlobal.project.getActiveSubPart();
-							if(subPart != null){
-								Sketch sketch = subPart.getSketch();
+							
+							SubPart activeSubPart = AvoGlobal.project.getActiveSubPart();
+							// TODO: draw sketches if not consumed and not active
+							Iterator<SubPart> subPartIter = part.getSubPartIterator();
+							while(subPartIter.hasNext()){
+								SubPart subPart = subPartIter.next();
+								if(subPart != null && subPart != activeSubPart){
+									Sketch sketch = subPart.getSketch();
+									if(sketch != null && !sketch.isConsumed){
+										// draw the sketch, it is not consumed.
+										gl.glPushMatrix();
+										sketch.getSketchPlane().glOrientToPlane(gl);
+										gl.glLineWidth(2.0f);
+										for(int i=0; i < sketch.getFeat2DListSize(); i++){
+											Feature2D f2D = sketch.getAtIndex(i);
+											if(f2D.isSelected){
+									    		gl.glColor4f(	AvoColors.GL_COLOR4_2D_ACTIVE[0], AvoColors.GL_COLOR4_2D_ACTIVE[1],
+									    						AvoColors.GL_COLOR4_2D_ACTIVE[2], AvoColors.GL_COLOR4_2D_ACTIVE[3]);
+									    		// TODO: HACK, don't build primatives here.. build when created/modified!
+									    		f2D.buildPrim2DList();
+									    	}else{
+									    		gl.glColor4f(	AvoColors.GL_COLOR4_2D_NONACT[0], AvoColors.GL_COLOR4_2D_NONACT[1],
+									    						AvoColors.GL_COLOR4_2D_NONACT[2], AvoColors.GL_COLOR4_2D_NONACT[3]);
+									    	}
+											for(Prim2D prim : f2D.prim2DList){
+									    		prim.glDraw(gl);
+									    	}
+										}									
+										gl.glPopMatrix();
+										
+										
+									}
+								}
+							}
+							
+							
+							// TODO: only call glDraw if feat2D3D or feat3D3D is active
+							if(activeSubPart != null){
+								Sketch sketch = activeSubPart.getSketch();
 								if(sketch != null && !sketch.isConsumed){
+									// draw active sketch if not consumed
 									gl.glPushMatrix();
 									sketch.getSketchPlane().glOrientToPlane(gl);
 									drawSketchGrid();
@@ -416,8 +453,10 @@ public class GLView {
 									}
 									gl.glPopMatrix();
 								}
-								Feature2D3D feat2D3D = part.getActiveSubPart().getFeature2D3D();
+								Feature2D3D feat2D3D = activeSubPart.getFeature2D3D();
 								if(feat2D3D != null && feat2D3D.paramSet != null && feat2D3D.paramSet.getToolModel2D3D() != null){
+									// request draw of feat2D3D if active
+									// TODO: why bother with sketch here?
 									sketch = feat2D3D.getPrimarySketch();
 									if(sketch != null && !sketch.isConsumed){
 										feat2D3D.paramSet.getToolModel2D3D().draw3DFeature(gl, feat2D3D);
