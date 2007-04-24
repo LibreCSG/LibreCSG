@@ -29,6 +29,7 @@ import org.eclipse.swt.widgets.Listener;
 
 import ui.menuet.Menuet;
 import backend.adt.Point2D;
+import backend.adt.Rotation3D;
 import backend.global.AvoColors;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D;
@@ -997,9 +998,9 @@ public class GLView {
 				CSG_Plane plane = new CSG_Plane(normal, 0.0);
 				SketchPlane sP  = new SketchPlane(plane);
 			
-				System.out.println("--> normal: " + normal);
+				//System.out.println("--> normal: " + normal);
 				CSG_Vertex translation = new CSG_Vertex(0.0, 0.0, 0.0);
-				CSG_Vertex rotation    = new CSG_Vertex(sP.getRotationX(), sP.getRotationY(), sP.getRotationZ());
+				Rotation3D rotation    = new Rotation3D(sP.getRotationX(), sP.getRotationY(), sP.getRotationZ());
 				CSG_Face f1 = new CSG_Face(new CSG_Polygon(v1, v2, v3, v4));
 				CSG_Face f2 = f1.getTranslatedCopy(new CSG_Vertex(-3.0,  0.0, 0.0));
 				CSG_Face f3 = f1.getTranslatedCopy(new CSG_Vertex(-3.0, -3.0, 0.0));
@@ -1013,18 +1014,18 @@ public class GLView {
 				f2.applyTranslationRotation(translation, rotation);
 				f3.applyTranslationRotation(translation, rotation);
 				f4.applyTranslationRotation(translation, rotation);
-				f1.glDrawFace(gl);
-				f2.glDrawFace(gl);
-				f3.glDrawFace(gl);
-				f4.glDrawFace(gl);
+				//f1.glDrawFace(gl);
+				//f2.glDrawFace(gl);
+				//f3.glDrawFace(gl);
+				//f4.glDrawFace(gl);
 				
 				gl.glColor3d(0.8, 0.0, 0.8);
 				sP.getVar1Axis().glDrawVertex(gl);
 				
 				plane.drawNormalFromOriginForDegug(gl);
-				gl.glRotatef((float)(rotation.getX()*180.0/Math.PI), 1.0f, 0.0f, 0.0f);
-			    gl.glRotatef((float)(rotation.getY()*180.0/Math.PI), 0.0f, 1.0f, 0.0f);
-			    gl.glRotatef((float)(rotation.getZ()*180.0/Math.PI), 0.0f, 0.0f, 1.0f);
+				gl.glRotatef((float)(rotation.getXRot()*180.0/Math.PI), 1.0f, 0.0f, 0.0f);
+			    gl.glRotatef((float)(rotation.getYRot()*180.0/Math.PI), 0.0f, 1.0f, 0.0f);
+			    gl.glRotatef((float)(rotation.getZRot()*180.0/Math.PI), 0.0f, 0.0f, 1.0f);
 			    gl.glColor3d(0.9, 0.7, 0.3);
 			    gl.glPointSize(5.0f);
 			    //vZ.glDrawVertex(gl);

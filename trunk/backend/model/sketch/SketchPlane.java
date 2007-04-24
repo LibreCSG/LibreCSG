@@ -2,6 +2,7 @@ package backend.model.sketch;
 
 import javax.media.opengl.GL;
 
+import backend.adt.Rotation3D;
 import backend.model.CSG.CSG_Plane;
 import backend.model.CSG.CSG_Ray;
 import backend.model.CSG.CSG_Vertex;
@@ -69,7 +70,7 @@ public class SketchPlane {
 		this.xAxis  = getXAxisFromNormal(this.normal);
 		this.origin = csgPlane.getRayIntersection(new CSG_Ray(new CSG_Vertex(0.0, 0.0, 0.0),this.normal));
 		this.yAxis = this.normal.getVectCrossProduct(this.xAxis).getUnitLength();
-		System.out.println("sketch plane constructed with origin: " + origin + ", and xAxis: " + xAxis);
+		//System.out.println("sketch plane constructed with origin: " + origin + ", and xAxis: " + xAxis);
 	}
 	
 	/** 
@@ -230,7 +231,7 @@ public class SketchPlane {
 	public double getRotationY(){
 
 		double rotX = getRotationX();
-		CSG_Vertex rotation    = new CSG_Vertex(rotX, 0.0, 0.0);
+		Rotation3D rotation    = new Rotation3D(rotX, 0.0, 0.0);
 		CSG_Vertex translation = new CSG_Vertex(0.0, 0.0, 0.0); 
 		CSG_Vertex newZAxis    = new CSG_Vertex(0.0, 0.0, 1.0).getTranslatedRotatedCopy(translation, rotation);
 		CSG_Vertex newXAxis    = new CSG_Vertex(1.0, 0.0, 0.0).getTranslatedRotatedCopy(translation, rotation);
@@ -273,7 +274,7 @@ public class SketchPlane {
 
 		double rotX = getRotationX();
 		double rotY = getRotationY();
-		CSG_Vertex rotation    = new CSG_Vertex(rotX, rotY, 0.0);
+		Rotation3D rotation    = new Rotation3D(rotX, rotY, 0.0);
 		CSG_Vertex translation = new CSG_Vertex(0.0, 0.0, 0.0);
 		CSG_Vertex newXAxis    = new CSG_Vertex(1.0, 0.0, 0.0).getTranslatedRotatedCopy(translation, rotation);
 		CSG_Vertex newYAxis    = new CSG_Vertex(0.0, 1.0, 0.0).getTranslatedRotatedCopy(translation, rotation);
