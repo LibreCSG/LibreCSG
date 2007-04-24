@@ -168,6 +168,12 @@ public class CSG_Vertex {
 		gl.glEnd();
 	}
 	
+	public void glDrawVertex(GL gl){
+		gl.glBegin(GL.GL_POINTS);
+			gl.glVertex3d(x, y, z);
+		gl.glEnd();
+	}
+	
 	public CSG_Vertex getFlippedVertex(){
 		return new CSG_Vertex(-x, -y, -z);
 	}
@@ -186,7 +192,7 @@ public class CSG_Vertex {
 		
 		System.out.println("Rotation: (" + rotation.getX() + "," + rotation.getY() + "," + rotation.getZ() + ")");
 		
-		// TODO: do rotation!
+		// TODO: do rotation! (only works in simplest of cases.. something is missing here)
 		double rotX = rotation.getX();
 		double rotY = rotation.getY();
 		double rotZ = rotation.getZ();		
