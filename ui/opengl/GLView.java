@@ -963,7 +963,8 @@ public class GLView {
 		vX.drawPointForDebug(gl);
 		vY.drawPointForDebug(gl);
 		vZ.drawPointForDebug(gl);
-		
+
+		/*
 		double rot = 0.0;
 		CSG_Vertex normal = new CSG_Vertex(Math.sin(rot), 0.0, Math.cos(rot));
 		
@@ -986,15 +987,17 @@ public class GLView {
 	    gl.glColor3d(0.9, 0.7, 0.3);
 	    gl.glPointSize(5.0f);
 	    vZ.glDrawVertex(gl);
-
-		/*
-		for(double rot=0.0; rot<1.57; rot+= 0.1){
+		 */
+	    
+		
+		for(double rot=-3.1; rot<3.1; rot+= 0.1){
 			
-			CSG_Vertex normal = new CSG_Vertex(Math.sin(rot), 0.0, Math.cos(rot));
+			CSG_Vertex normal = new CSG_Vertex(Math.sqrt(0.9)*Math.sin(rot), 0.10, Math.sqrt(0.9)*Math.cos(rot)).getUnitLength();
 			//CSG_Vertex normal = new CSG_Vertex(1.0, 0.0, 0.0);
 			CSG_Plane plane = new CSG_Plane(normal, 0.0);
 			SketchPlane sP = new SketchPlane(plane);
 		
+			System.out.println("--> normal: " + normal);
 			CSG_Vertex translation = new CSG_Vertex(0.0, 0.0, 0.0);
 			CSG_Vertex rotation    = new CSG_Vertex(sP.getRotationX(), sP.getRotationY(), sP.getRotationZ());
 			CSG_Face f1 = new CSG_Face(new CSG_Polygon(v1, v2, v3, v4));
@@ -1002,6 +1005,7 @@ public class GLView {
 			CSG_Face f3 = f1.getTranslatedCopy(new CSG_Vertex(-3.0, -3.0, 0.0));
 			CSG_Face f4 = f1.getTranslatedCopy(new CSG_Vertex( 0.0, -3.0, 0.0));
 			gl.glColor3d(rot, 0.5, 0.0);
+			gl.glPointSize(7.0f);
 			vX.getTranslatedRotatedCopy(translation, rotation).glDrawVertex(gl);
 			vY.getTranslatedRotatedCopy(translation, rotation).glDrawVertex(gl);
 			vZ.getTranslatedRotatedCopy(translation, rotation).glDrawVertex(gl);
@@ -1009,12 +1013,25 @@ public class GLView {
 			f2.applyTranslationRotation(translation, rotation);
 			f3.applyTranslationRotation(translation, rotation);
 			f4.applyTranslationRotation(translation, rotation);
-			f1.glDrawFace(gl);
-			f2.glDrawFace(gl);
-			f3.glDrawFace(gl);
-			f4.glDrawFace(gl);
+			//f1.glDrawFace(gl);
+			//f2.glDrawFace(gl);
+			//f3.glDrawFace(gl);
+			//f4.glDrawFace(gl);
+			
+			plane.drawNormalFromOriginForDegug(gl);
+			gl.glRotatef((float)(rotation.getX()*180.0/Math.PI), 1.0f, 0.0f, 0.0f);
+		    gl.glRotatef((float)(rotation.getY()*180.0/Math.PI), 0.0f, 1.0f, 0.0f);
+		    gl.glRotatef((float)(rotation.getZ()*180.0/Math.PI), 0.0f, 0.0f, 1.0f);
+		    gl.glColor3d(0.9, 0.7, 0.3);
+		    gl.glPointSize(5.0f);
+		    //vZ.glDrawVertex(gl);
+		    gl.glBegin(GL.GL_LINES);
+		    	gl.glVertex3d(0.0, 0.0, 0.0);
+		    	gl.glVertex3d(vZ.getX(), vZ.getY(), vZ.getZ());
+		    gl.glEnd();
+		    gl.glLoadIdentity();
 		}
-		*/
+		
 
 		
 	}

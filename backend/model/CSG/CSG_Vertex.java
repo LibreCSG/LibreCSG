@@ -197,20 +197,22 @@ public class CSG_Vertex {
 		double rotY = rotation.getY();
 		double rotZ = rotation.getZ();		
 		
-		// rotate about X axis		
-		double newY2 = newY*Math.cos(rotX) - newZ*Math.sin(rotX);
-		double newZ2 = newY*Math.sin(rotX) + newZ*Math.cos(rotX);
-		double newX2 = newX;
+		// rotate about Z axis
+		double newX2 = newX*Math.cos(rotZ) - newY*Math.sin(rotZ);
+		double newY2 = newX*Math.sin(rotZ) + newY*Math.cos(rotZ);
+		double newZ2 = newZ;
 		
 		// rotate about Y axis	
 		double newZ3 = newZ2*Math.cos(rotY) - newX2*Math.sin(rotY);
 		double newX3 = newZ2*Math.sin(rotY) + newX2*Math.cos(rotY);
 		double newY3 = newY2;
 		
-		// rotate about Z axis
-		double newX4 = newX3*Math.cos(rotZ) - newY3*Math.sin(rotZ);
-		double newY4 = newX3*Math.sin(rotZ) + newY3*Math.cos(rotZ);
-		double newZ4 = newZ3;		
+		// rotate about X axis		
+		double newY4 = newY3*Math.cos(rotX) - newZ3*Math.sin(rotX);
+		double newZ4 = newY3*Math.sin(rotX) + newZ3*Math.cos(rotX);
+		double newX4 = newX3;
+		
+		
 		
 		return new CSG_Vertex(newX4 + translation.x, newY4 + translation.y, newZ4 + translation.z);
 	}
