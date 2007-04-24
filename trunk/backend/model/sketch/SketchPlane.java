@@ -217,9 +217,9 @@ public class SketchPlane {
 		}
 		
 		if(normY >= 0.0){
-			return  Math.PI/2.0 - Math.asin(normZ);
+			return -( Math.PI/2.0 - Math.asin(normZ));
 		}else{
-			return -Math.PI/2.0 + Math.asin(normZ);
+			return -(-Math.PI/2.0 + Math.asin(normZ));
 		}	
 	}
 	
@@ -228,23 +228,24 @@ public class SketchPlane {
 	 * @return
 	 */
 	public double getRotationY(){
+
 		double rotX = getRotationX();
 		CSG_Vertex rotation    = new CSG_Vertex(rotX, 0.0, 0.0);
 		CSG_Vertex translation = new CSG_Vertex(0.0, 0.0, 0.0); 
 		CSG_Vertex newZAxis    = new CSG_Vertex(0.0, 0.0, 1.0).getTranslatedRotatedCopy(translation, rotation);
 		CSG_Vertex newXAxis    = new CSG_Vertex(1.0, 0.0, 0.0).getTranslatedRotatedCopy(translation, rotation);
-		CSG_Vertex newNormal   = normal.getTranslatedRotatedCopy(translation, rotation);
+		CSG_Vertex newNormal   = normal.deepCopy();
 		
 		double dotProdZ = newZAxis.getDotProduct(newNormal);
 		double dotProdX = newXAxis.getDotProduct(newNormal);
 		
 		double angleFromZ = Math.acos(dotProdZ);
 		double angleFromX = Math.acos(dotProdX);
-		System.out.println("Calc Y: newNormal=" + newNormal);
+		System.out.println("Calc Y: newNormal=" + newNormal + ", newZAxis=" + newZAxis);
 		System.out.println("Calc Y: AngleFromZ=" + angleFromZ + ", AngleFromX=" + angleFromX);
 		double rotY = 0.0;
-		if(angleFromZ >= Math.PI/2.0){
-			if(angleFromX >= Math.PI/2.0){
+		if(angleFromZ > Math.PI/2.0){
+			if(angleFromX > Math.PI/2.0){
 				// Z(hi),X(hi)	
 				rotY = -(Math.PI - angleFromZ);
 			}else{
@@ -252,7 +253,7 @@ public class SketchPlane {
 				rotY = Math.PI - angleFromZ;
 			}
 		}else{
-			if(angleFromX >= Math.PI/2.0){
+			if(angleFromX > Math.PI/2.0){
 				// Z(low),X(hi)	
 				rotY = -angleFromZ;
 			}else{
@@ -264,6 +265,8 @@ public class SketchPlane {
 		System.out.println("Calc Y: rotY=" + rotY);
 
 		return rotY;
+		
+		
 		
 		/*
 		// depends upon rotation about x-axis!! re-think this.
