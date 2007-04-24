@@ -388,7 +388,7 @@ public class CSG_Polygon {
 	}
 	
 	/**
-	 * apply translation, then rotation in X, Y, Z order.
+	 * apply rotation in X, Y, Z order, then translation.
 	 * @param translation 3D translation
 	 * @param rotation 3D rotation
 	 */
