@@ -58,6 +58,7 @@ public class CSG_Plane {
 			System.out.println("CSG_Plane: invalid normal for plane construction!");
 			normal = new CSG_Vertex(1.0, 0.0, 0.0);
 		}
+		// TODO: force unit length normal (also need to change offset to keep plane in same position).
 		this.normal = normal;
 		this.offset = offset;
 	}

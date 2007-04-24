@@ -241,8 +241,8 @@ public class SketchPlane {
 		
 		double angleFromZ = Math.acos(dotProdZ);
 		double angleFromX = Math.acos(dotProdX);
-		System.out.println("Calc Y: newNormal=" + newNormal + ", newZAxis=" + newZAxis);
-		System.out.println("Calc Y: AngleFromZ=" + angleFromZ + ", AngleFromX=" + angleFromX);
+		//System.out.println("Calc Y: newNormal=" + newNormal + ", newZAxis=" + newZAxis);
+		//System.out.println("Calc Y: AngleFromZ=" + angleFromZ + ", AngleFromX=" + angleFromX);
 		double rotY = 0.0;
 		if(angleFromZ > Math.PI/2.0){
 			if(angleFromX > Math.PI/2.0){
@@ -262,7 +262,7 @@ public class SketchPlane {
 			}
 		}
 				
-		System.out.println("Calc Y: rotY=" + rotY);
+		//System.out.println("Calc Y: rotY=" + rotY);
 
 		return rotY;
 		

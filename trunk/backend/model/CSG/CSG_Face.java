@@ -380,7 +380,7 @@ public class CSG_Face {
 	}
 	
 	/**
-	 * apply translation, then rotation in X, Y, Z order.
+	 * apply rotation in X, Y, Z order, then translation.
 	 * @param translation 3D translation
 	 * @param rotation 3D rotation
 	 */

@@ -179,7 +179,7 @@ public class CSG_Vertex {
 	}
 	
 	/**
-	 * apply translation, then rotation in X, Y, Z order.
+	 * apply rotation in X, Y, Z order, then translation.
 	 * @param translation 3D translation
 	 * @param rotation 3D rotation
 	 * @return a copy of the vertex with the translation/rotation applied.
@@ -190,9 +190,8 @@ public class CSG_Vertex {
 		double newY = y;
 		double newZ = z;
 		
-		System.out.println("Rotation: (" + rotation.getX() + "," + rotation.getY() + "," + rotation.getZ() + ")");
+		//System.out.println("Rotation: (" + rotation.getX() + "," + rotation.getY() + "," + rotation.getZ() + ")");
 		
-		// TODO: do rotation! (only works in simplest of cases.. something is missing here)
 		double rotX = rotation.getX();
 		double rotY = rotation.getY();
 		double rotZ = rotation.getZ();		
