@@ -1,5 +1,7 @@
 package backend.model.CSG;
 
+import javax.media.opengl.GL;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -111,6 +113,16 @@ public class CSG_Plane {
 			return 0.0;
 		}
 		return dist;
+	}
+	
+	public void drawNormalFromOriginForDegug(GL gl){
+		gl.glColor3d(1.0, 0.0, 0.0);
+		double scale = 1.0;
+		gl.glBegin(GL.GL_LINES);
+			gl.glVertex3dv(normal.getScaledCopy(scale).getXYZ(), 0);
+			gl.glVertex3d(0.0, 0.0, 0.0);
+		gl.glEnd();
+		
 	}
 	
 }

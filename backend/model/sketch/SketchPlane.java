@@ -40,6 +40,8 @@ public class SketchPlane {
 	private CSG_Vertex xAxis;
 	private CSG_Vertex yAxis;
 	
+	private double TOL = 1e-10;
+	
 	/*
 	public SketchPlane(CSG_Vertex origin, CSG_Vertex normal, CSG_Vertex xAxis){
 		System.out.println("SketchPlane(constructor): old constructor is being used.. this should be fixed soon.");
@@ -203,7 +205,22 @@ public class SketchPlane {
 	 * @return
 	 */
 	public double getRotationX(){
-		return -Math.asin(normal.getY());		
+		
+		double normY = normal.getY();
+		double normZ = normal.getZ();
+		double d = normY*normY + normZ*normZ;
+		if(d > TOL){
+			// flatten to 2D yz-plane and renormalize to 1.0 for easy trig math.
+			d = Math.sqrt(d);
+			normY = normY/d;
+			normZ = normZ/d;
+		}
+		
+		if(normY >= 0.0){
+			return  Math.PI/2.0 - Math.asin(normZ);
+		}else{
+			return -Math.PI/2.0 + Math.asin(normZ);
+		}	
 	}
 	
 	/**
@@ -211,13 +228,64 @@ public class SketchPlane {
 	 * @return
 	 */
 	public double getRotationY(){
-		return -Math.asin(normal.getX());		
+		double rotX = getRotationX();
+		CSG_Vertex rotation    = new CSG_Vertex(rotX, 0.0, 0.0);
+		CSG_Vertex translation = new CSG_Vertex(0.0, 0.0, 0.0); 
+		CSG_Vertex newZAxis    = new CSG_Vertex(0.0, 0.0, 1.0).getTranslatedRotatedCopy(translation, rotation);
+		CSG_Vertex newXAxis    = new CSG_Vertex(1.0, 0.0, 0.0).getTranslatedRotatedCopy(translation, rotation);
+		CSG_Vertex newNormal   = normal.getTranslatedRotatedCopy(translation, rotation);
+		
+		double dotProdZ = newZAxis.getDotProduct(newNormal);
+		double dotProdX = newXAxis.getDotProduct(newNormal);
+		
+		double angleFromZ = Math.acos(dotProdZ);
+		double angleFromX = Math.acos(dotProdX);
+		System.out.println("Calc Y: newNormal=" + newNormal);
+		System.out.println("Calc Y: AngleFromZ=" + angleFromZ + ", AngleFromX=" + angleFromX);
+		double rotY = 0.0;
+		if(angleFromZ >= Math.PI/2.0){
+			if(angleFromX >= Math.PI/2.0){
+				// Z(hi),X(hi)	
+				rotY = -(Math.PI - angleFromZ);
+			}else{
+				// Z(hi),X(low)	
+				rotY = Math.PI - angleFromZ;
+			}
+		}else{
+			if(angleFromX >= Math.PI/2.0){
+				// Z(low),X(hi)	
+				rotY = -angleFromZ;
+			}else{
+				// Z(low),X(low)
+				rotY = angleFromZ;
+			}
+		}
+				
+		System.out.println("Calc Y: rotY=" + rotY);
+
+		return rotY;
+		
+		/*
+		// depends upon rotation about x-axis!! re-think this.
+		double normX = normal.getX();
+		double normZ = normal.getZ();
+		double d = normX*normX + normZ*normZ;
+		if(d > TOL){
+			// flatten to 2D zx-plane and renormalize to 1.0 for easy trig math.
+			d = Math.sqrt(d);
+			normX = normX/d;
+			normZ = normZ/d;
+		}
+		return Math.asin(normX);
+		*/
 	}
 	
 	/**
 	 * rotation about Z axis in radians.
 	 */
 	public double getRotationZ(){
+		return 0.0;
+		/*
 		double dotX = xAxis.getDotProduct(new CSG_Vertex(1.0, 0.0, 0.0));
 		double dotY = xAxis.getDotProduct(new CSG_Vertex(0.0, 1.0, 0.0));
 		double zRot = 0.0;
@@ -229,5 +297,6 @@ public class SketchPlane {
 			zRot = Math.acos(dotY)-Math.PI/2.0;
 		}
 		return zRot;
+		*/
 	}
 }
