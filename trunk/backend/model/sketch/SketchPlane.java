@@ -239,8 +239,9 @@ public class SketchPlane {
 		double dotProdZ = newZAxis.getDotProduct(newNormal);
 		double dotProdX = newXAxis.getDotProduct(newNormal);
 		
-		double angleFromZ = Math.acos(dotProdZ);
-		double angleFromX = Math.acos(dotProdX);
+		// find trig values, making sure to keep input to [-1.0, 1.0]
+		double angleFromZ = Math.acos(Math.max(-1.0, Math.min(1.0, dotProdZ)));
+		double angleFromX = Math.acos(Math.max(-1.0, Math.min(1.0, dotProdX)));
 		//System.out.println("Calc Y: newNormal=" + newNormal + ", newZAxis=" + newZAxis);
 		//System.out.println("Calc Y: AngleFromZ=" + angleFromZ + ", AngleFromX=" + angleFromX);
 		double rotY = 0.0;
@@ -260,46 +261,52 @@ public class SketchPlane {
 				// Z(low),X(low)
 				rotY = angleFromZ;
 			}
-		}
-				
-		//System.out.println("Calc Y: rotY=" + rotY);
-
+		}				
+		//System.out.println("Calc Y: rotX=" + rotX + ", rotY=" + rotY);
 		return rotY;
-		
-		
-		
-		/*
-		// depends upon rotation about x-axis!! re-think this.
-		double normX = normal.getX();
-		double normZ = normal.getZ();
-		double d = normX*normX + normZ*normZ;
-		if(d > TOL){
-			// flatten to 2D zx-plane and renormalize to 1.0 for easy trig math.
-			d = Math.sqrt(d);
-			normX = normX/d;
-			normZ = normZ/d;
-		}
-		return Math.asin(normX);
-		*/
 	}
 	
 	/**
 	 * rotation about Z axis in radians.
 	 */
 	public double getRotationZ(){
-		return 0.0;
-		/*
-		double dotX = xAxis.getDotProduct(new CSG_Vertex(1.0, 0.0, 0.0));
-		double dotY = xAxis.getDotProduct(new CSG_Vertex(0.0, 1.0, 0.0));
-		double zRot = 0.0;
-		if(dotX > dotY){
-			// use dotX
-			zRot = Math.acos(dotX);
+
+		double rotX = getRotationX();
+		double rotY = getRotationY();
+		CSG_Vertex rotation    = new CSG_Vertex(rotX, rotY, 0.0);
+		CSG_Vertex translation = new CSG_Vertex(0.0, 0.0, 0.0);
+		CSG_Vertex newXAxis    = new CSG_Vertex(1.0, 0.0, 0.0).getTranslatedRotatedCopy(translation, rotation);
+		CSG_Vertex newYAxis    = new CSG_Vertex(0.0, 1.0, 0.0).getTranslatedRotatedCopy(translation, rotation);
+		
+		double dotProdX = newXAxis.getDotProduct(xAxis);
+		double dotProdY = newYAxis.getDotProduct(xAxis);
+		
+		// find trig values, making sure to keep input to [-1.0, 1.0]
+		double angleFromX = Math.acos(Math.max(-1.0, Math.min(1.0, dotProdX)));
+		double angleFromY = Math.acos(Math.max(-1.0, Math.min(1.0, dotProdY)));
+		
+		//System.out.println("Calc Z: AngleFromX=" + angleFromX + ", AngleFromY=" + angleFromY);
+		
+		double rotZ = 0.0;
+		if(angleFromX > Math.PI/2.0){
+			if(angleFromY > Math.PI/2.0){
+				// X(hi),Y(hi)	
+				rotZ = -angleFromX;
+			}else{
+				// X(hi),Y(low)	
+				rotZ =  angleFromX;
+			}
 		}else{
-			// use dotY
-			zRot = Math.acos(dotY)-Math.PI/2.0;
-		}
-		return zRot;
-		*/
+			if(angleFromY > Math.PI/2.0){
+				// X(low),Y(hi)	
+				rotZ = -angleFromX;
+			}else{
+				// X(low),Y(low)
+				rotZ = angleFromX;
+			}
+		}				
+		//System.out.println("Calc Y: rotY=" + rotY);
+		return rotZ;
+
 	}
 }
