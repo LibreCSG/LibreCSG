@@ -9,6 +9,7 @@ import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.ParamType;
 import backend.adt.Point2D;
+import backend.adt.Rotation3D;
 import backend.adt.SelectionList;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D3D;
@@ -102,7 +103,7 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 				
 				// Ttranslate/rotate the part to be position on the sketch plane.
 				SketchPlane sp = sketch.getSketchPlane();
-				CSG_Vertex rotation = new CSG_Vertex(sp.getRotationX(), sp.getRotationY(), sp.getRotationZ());
+				Rotation3D rotation = new Rotation3D(sp.getRotationX(), sp.getRotationY(), sp.getRotationZ());
 				CSG_Solid solid = getBuiltSolid(feat2D3D);
 				solid.applyTranslationRotation(sp.getOrigin(), rotation);
 				

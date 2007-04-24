@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.media.opengl.GL;
 
+import backend.adt.Rotation3D;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -138,7 +140,7 @@ public class CSG_Solid {
 	 * @param translation 3D translation
 	 * @param rotation 3D rotation
 	 */
-	public void applyTranslationRotation(CSG_Vertex translation, CSG_Vertex rotation){
+	public void applyTranslationRotation(CSG_Vertex translation, Rotation3D rotation){
 		Iterator<CSG_Face> facesIter = faces.iterator();
 		while(facesIter.hasNext()){
 			facesIter.next().applyTranslationRotation(translation, rotation);
