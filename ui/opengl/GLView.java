@@ -378,7 +378,7 @@ public class GLView {
 						//
 						//  TEST Rotations!
 						//
-						testRotation();
+						//testRotation();
 						
 						gl.glColor4f(0.7f, 0.7f, 0.7f, 1.0f);
 						gl.glLineWidth(2.5f);
