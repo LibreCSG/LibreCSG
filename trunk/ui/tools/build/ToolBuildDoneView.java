@@ -5,7 +5,7 @@ import ui.menuet.Menuet;
 import ui.tools.ToolModelBuild;
 import ui.tools.ToolViewBuild;
 import backend.global.AvoGlobal;
-import backend.model.Feature2D3D;
+import backend.model.Build;
 
 
 //
@@ -47,7 +47,7 @@ public class ToolBuildDoneView extends ToolViewBuild{
 
 	@Override
 	public void toolSelected() {
-		Feature2D3D feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
+		Build feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
 		if(feat2D3D != null){
 			if(feat2D3D.paramSet == null){
 				AvoGlobal.project.getActivePart().removeActiveSubPart();

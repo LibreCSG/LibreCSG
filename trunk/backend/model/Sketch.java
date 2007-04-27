@@ -246,11 +246,11 @@ public class Sketch implements SubPart{
 	}
 
 	
-	public Feature2D3D getFeature2D3D() {
+	public Build getBuild() {
 		return null;
 	}
 
-	public Feature3D3D getFeature3D3D() {
+	public Modify getModify() {
 		return null;
 	}
 

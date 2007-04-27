@@ -1,6 +1,6 @@
 package backend.model.ref;
 
-import backend.model.Feature3D3D;
+import backend.model.Modify;
 import backend.model.Part;
 
 
@@ -45,7 +45,7 @@ public class ModRef_Modify extends ModelReference{
 		return "SubPartID:" + uniqueSubPartID;
 	}
 	
-	public Feature3D3D getModify(Part part){
+	public Modify getModify(Part part){
 		return part.getFeat3D3DByID(uniqueSubPartID);
 	}
 	

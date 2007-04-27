@@ -147,10 +147,10 @@ public class Project {
 	 * get the active Feature2D3D if it exists.
 	 * @return
 	 */
-	public Feature2D3D getActiveFeat2D3D(){
+	public Build getActiveFeat2D3D(){
 		SubPart subPart = getActiveSubPart();
 		if(subPart != null){
-			return subPart.getFeature2D3D();
+			return subPart.getBuild();
 		}
 		return null;
 	}
@@ -159,10 +159,10 @@ public class Project {
 	 * get the active Feature3D3D if it exists.
 	 * @return
 	 */
-	public Feature3D3D getActiveFeat3D3D(){
+	public Modify getActiveFeat3D3D(){
 		SubPart subPart = getActiveSubPart();
 		if(subPart != null){
-			return subPart.getFeature3D3D();
+			return subPart.getModify();
 		}
 		return null;
 	}

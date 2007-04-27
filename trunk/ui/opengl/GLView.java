@@ -33,7 +33,7 @@ import backend.adt.Rotation3D;
 import backend.global.AvoColors;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D;
-import backend.model.Feature2D3D;
+import backend.model.Build;
 import backend.model.Part;
 import backend.model.Sketch;
 import backend.model.SubPart;
@@ -466,7 +466,7 @@ public class GLView {
 									}
 									gl.glPopMatrix();
 								}
-								Feature2D3D feat2D3D = activeSubPart.getFeature2D3D();
+								Build feat2D3D = activeSubPart.getBuild();
 								if(feat2D3D != null && feat2D3D.paramSet != null && feat2D3D.paramSet.getToolModel2D3D() != null){
 									// request draw of feat2D3D if active
 									// TODO: why bother with sketch here?

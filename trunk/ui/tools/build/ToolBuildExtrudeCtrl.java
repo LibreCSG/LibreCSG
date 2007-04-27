@@ -8,7 +8,7 @@ import backend.adt.ParamSet;
 import backend.adt.Point2D;
 import backend.adt.SelectionList;
 import backend.global.AvoGlobal;
-import backend.model.Feature2D3D;
+import backend.model.Build;
 import backend.model.Sketch;
 import backend.model.sketch.Region2D;
 
@@ -48,7 +48,7 @@ public class ToolBuildExtrudeCtrl implements ToolCtrlBuild{
 
 	public void glMouseDown(double x, double y, double z, MouseEvent e) {
 		
-		Feature2D3D feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
+		Build feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
 		if(feat2D3D != null){	
 			Sketch sketch = feat2D3D.getPrimarySketch();
 			if(sketch != null){
@@ -109,7 +109,7 @@ public class ToolBuildExtrudeCtrl implements ToolCtrlBuild{
 	}
 
 	public void menuetElementSelected() {
-		Feature2D3D feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
+		Build feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
 		if(feat2D3D != null){
 			feat2D3D.paramSet = (new ToolBuildExtrudeModel()).constructNewParamSet();
 			AvoGlobal.glView.updateGLView = true;
