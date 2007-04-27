@@ -34,9 +34,9 @@ import backend.model.sketch.SketchPlane;
 */
 
 /**
- * model componet that represents "Build" tools
+ * model componet that represents "Build" tools.
  */
-public class Feature2D3D implements SubPart{
+public class Build implements SubPart{
 	
 	public    ParamSet          paramSet    = null;
 	
@@ -45,7 +45,7 @@ public class Feature2D3D implements SubPart{
 	protected Part part;
 	public final int ID;
 	
-	public Feature2D3D(Part part, int primarySketchID, int ID){
+	public Build(Part part, int primarySketchID, int ID){
 		this.part = part;
 		this.primarySketchID = primarySketchID;
 		this.ID = ID;
@@ -61,11 +61,11 @@ public class Feature2D3D implements SubPart{
 	
 	//TODO: handle how sketches are linked to the Feature2D3D (sketch by number?)
 	
-	public Feature2D3D getFeature2D3D() {
+	public Build getBuild() {
 		return this;
 	}
 
-	public Feature3D3D getFeature3D3D() {
+	public Modify getModify() {
 		return null;
 	}
 

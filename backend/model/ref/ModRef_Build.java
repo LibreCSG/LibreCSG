@@ -1,6 +1,6 @@
 package backend.model.ref;
 
-import backend.model.Feature2D3D;
+import backend.model.Build;
 import backend.model.Part;
 
 
@@ -45,7 +45,7 @@ public class ModRef_Build extends ModelReference{
 		return "SubPartID:" + uniqueSubPartID;
 	}
 
-	public Feature2D3D getBuild(Part part){
+	public Build getBuild(Part part){
 		return part.getFeat2D3DByID(uniqueSubPartID);
 	}
 	

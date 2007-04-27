@@ -1,7 +1,7 @@
 package backend.model.ref;
 
-import backend.model.Feature2D3D;
-import backend.model.Feature3D3D;
+import backend.model.Build;
+import backend.model.Modify;
 import backend.model.Part;
 import backend.model.sketch.SketchPlane;
 
@@ -53,12 +53,12 @@ public class ModRef_Plane extends ModelReference{
 	}
 	
 	public SketchPlane getSketchPlane(Part part){
-		Feature2D3D feat2D3D = part.getFeat2D3DByID(uniqueSubPartID);
+		Build feat2D3D = part.getFeat2D3DByID(uniqueSubPartID);
 		if(feat2D3D != null){
 			// get the sketch plane from the feature2D3D
 			return feat2D3D.getPlaneByFaceID(uniqueFaceID);
 		}else{
-			Feature3D3D feat3D3D = part.getFeat3D3DByID(uniqueSubPartID);
+			Modify feat3D3D = part.getFeat3D3DByID(uniqueSubPartID);
 			if(feat3D3D != null){
 				// get the sketch plane from the feature3D3D
 				return feat3D3D.getPlaneByFaceID(uniqueFaceID);

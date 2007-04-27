@@ -9,7 +9,7 @@ import backend.adt.Point2D;
 import backend.adt.SelectionList;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D;
-import backend.model.Feature2D3D;
+import backend.model.Build;
 import backend.model.Sketch;
 import backend.model.sketch.Prim2D;
 import backend.model.sketch.Prim2DLine;
@@ -45,7 +45,7 @@ import backend.model.sketch.Region2D;
 public class ToolBuildRevolveCtrl implements ToolCtrlBuild{
 
 	public void glMouseDown(double x, double y, double z, MouseEvent e) {
-		Feature2D3D feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
+		Build feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
 		if(feat2D3D != null){	
 			Sketch sketch = feat2D3D.getPrimarySketch();
 			if(sketch != null){

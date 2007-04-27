@@ -37,12 +37,12 @@ public interface SubPart {
 	/**
 	 * @return the Feature2D3D if this SubPart is one, or null otherwise.
 	 */
-	abstract Feature2D3D getFeature2D3D();
+	abstract Build getBuild();
 	
 	/**
 	 * @return the Feature3D3D if this SubPart is one, or null otherwise.
 	 */
-	abstract Feature3D3D getFeature3D3D();
+	abstract Modify getModify();
 	
 	/**
 	 * @return the Part under which this SubPart was created.

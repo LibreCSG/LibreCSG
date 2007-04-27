@@ -12,7 +12,7 @@ import backend.adt.Point2D;
 import backend.adt.Rotation3D;
 import backend.adt.SelectionList;
 import backend.global.AvoGlobal;
-import backend.model.Feature2D3D;
+import backend.model.Build;
 import backend.model.Part;
 import backend.model.Sketch;
 import backend.model.CSG.BoolOp;
@@ -54,7 +54,7 @@ import backend.model.sketch.SketchPlane;
 */
 public class ToolBuildExtrudeModel implements ToolModelBuild{
 
-	public void draw3DFeature(GL gl, Feature2D3D feat2D3D) {
+	public void draw3DFeature(GL gl, Build feat2D3D) {
 		// if sketch is not consumed... just draw face to be extruded
 		//System.out.println("trying to draw extrude");		
 		
@@ -93,7 +93,7 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 		System.out.println("Finalizig extrude");
 		// finalize extrude and return to main menu
 		// TODO: get feat2D3D directly as input to method (not active feature!)
-		Feature2D3D feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
+		Build feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
 		if(feat2D3D != null){
 			Sketch sketch = feat2D3D.getPrimarySketch();
 			if(sketch != null){
@@ -143,7 +143,7 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 		return BoolOp.Union;
 	}
 
-	public CSG_Solid getBuiltSolid(Feature2D3D feat2D3D) {
+	public CSG_Solid getBuiltSolid(Build feat2D3D) {
 		ParamSet paramSet = feat2D3D.paramSet;
 		Sketch sketch = feat2D3D.getPrimarySketch();
 		CSG_Solid solid = new CSG_Solid();
@@ -202,7 +202,7 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 		return solid;
 	}
 
-	public CSG_Face getFaceByID(Feature2D3D feat2D3D, int faceID) {
+	public CSG_Face getFaceByID(Build feat2D3D, int faceID) {
 		ParamSet paramSet = feat2D3D.paramSet;
 		Sketch sketch = feat2D3D.getPrimarySketch();
 		if(sketch != null && paramSet != null){					
@@ -217,7 +217,7 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 							case 1: {	// Top Face
 										CSG_Face topFace = includedRegion.getCSG_Face().getTranslatedCopy(new CSG_Vertex(0.0, 0.0, height));
 										if(height >= 0.0){
-											// make sure normal points correct way
+											// make sure normal points correct way (outward).
 											topFace.flipFaceDirection();
 										}
 										topFace.setIsSelectable(new ModRef_Plane(feat2D3D.ID, 1));
@@ -226,7 +226,7 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 							case 2: {	// Bottom Face
 										CSG_Face botFace = includedRegion.getCSG_Face();
 										if(height < 0.0){
-											// make sure normal points correct way.
+											// make sure normal points correct way (outward).
 											botFace.flipFaceDirection();										
 										}
 										botFace.setIsSelectable(new ModRef_Plane(feat2D3D.ID, 2));

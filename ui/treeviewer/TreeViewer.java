@@ -14,8 +14,8 @@ import ui.event.ModelListener;
 import ui.menuet.Menuet;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D;
-import backend.model.Feature2D3D;
-import backend.model.Feature3D3D;
+import backend.model.Build;
+import backend.model.Modify;
 import backend.model.Group;
 import backend.model.Part;
 import backend.model.Project;
@@ -136,14 +136,14 @@ public class TreeViewer {
 								AvoGlobal.menuet.setCurrentToolMode(Menuet.MENUET_MODE_SKETCH);
 								AvoGlobal.glView.updateGLView = true;
 							}
-							Feature2D3D feat2D3D = subpart.getFeature2D3D();
+							Build feat2D3D = subpart.getBuild();
 							if(feat2D3D != null){
 								// subpart was a "build" tool
 								AvoGlobal.project.getActivePart().setActiveSubPart(indxs[2]-4);
 								AvoGlobal.menuet.setCurrentToolMode(Menuet.MENUET_MODE_BUILD);
 								AvoGlobal.glView.updateGLView = true;
 							}
-							Feature3D3D feat3D3D = subpart.getFeature3D3D();
+							Modify feat3D3D = subpart.getModify();
 							if(feat3D3D != null){
 								// subpart was a "modify" tool.
 								AvoGlobal.project.getActivePart().setActiveSubPart(indxs[2]-4);
@@ -283,7 +283,7 @@ public class TreeViewer {
 							tiFeat2D.setText(feat2D.paramSet.label);
 						}						
 					}
-					Feature2D3D feat2D3D = subPart.getFeature2D3D();
+					Build feat2D3D = subPart.getBuild();
 					if(feat2D3D != null){
 						if(feat2D3D.paramSet != null){
 							tiSubPart.setText(feat2D3D.paramSet.label);
@@ -291,7 +291,7 @@ public class TreeViewer {
 							tiSubPart.setText("2Dto3D " + feat2D3D.ID);
 						}
 					}
-					Feature3D3D feat3D3D = subPart.getFeature3D3D();
+					Modify feat3D3D = subPart.getModify();
 					if(feat3D3D != null){
 						tiSubPart.setText("Feature 3D " + feat3D3D.ID);
 					}

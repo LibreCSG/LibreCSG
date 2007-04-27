@@ -8,7 +8,7 @@ import backend.adt.Param;
 import backend.adt.ParamSet;
 import backend.adt.SelectionList;
 import backend.global.AvoGlobal;
-import backend.model.Feature2D3D;
+import backend.model.Build;
 import backend.model.Sketch;
 import backend.model.CSG.BoolOp;
 import backend.model.CSG.CSG_Face;
@@ -43,14 +43,14 @@ import backend.model.CSG.CSG_Solid;
 */
 public class ToolBuildRevolveModel implements ToolModelBuild{
 
-	public void draw3DFeature(GL gl, Feature2D3D feat2D3D) {
+	public void draw3DFeature(GL gl, Build feat2D3D) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	public void finalize(ParamSet paramSet) {
 		// finalize revolve and return to main menu
-		Feature2D3D feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
+		Build feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
 		if(feat2D3D != null){
 			Sketch sketch = feat2D3D.getPrimarySketch();
 			if(sketch != null){
@@ -103,12 +103,12 @@ public class ToolBuildRevolveModel implements ToolModelBuild{
 		return null;
 	}
 
-	public CSG_Solid getBuiltSolid(Feature2D3D feat2D3D) {
+	public CSG_Solid getBuiltSolid(Build feat2D3D) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public CSG_Face getFaceByID(Feature2D3D feat2D3D, int faceID) {
+	public CSG_Face getFaceByID(Build feat2D3D, int faceID) {
 		// TODO Auto-generated method stub
 		return null;
 	}

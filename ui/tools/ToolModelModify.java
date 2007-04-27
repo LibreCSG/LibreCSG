@@ -1,6 +1,6 @@
 package ui.tools;
 
-import backend.model.Feature2D3D;
+import backend.model.Build;
 import backend.model.CSG.CSG_Face;
 
 
@@ -39,6 +39,6 @@ public interface ToolModelModify extends ToolModel{
 	 * @param faceID the unique ID of the face to retreive
 	 * @return the CSG_Face specified by the faceID, or NULL if no face exists at that ID.
 	 */
-	abstract public CSG_Face getFaceByID(Feature2D3D feat3D3D, int faceID);
+	abstract public CSG_Face getFaceByID(Build feat3D3D, int faceID);
 	
 }

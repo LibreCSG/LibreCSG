@@ -39,7 +39,7 @@ import backend.model.sketch.SketchPlane;
 /**
  * model componet that represents "Modify" tools
  */
-public class Feature3D3D implements SubPart{
+public class Modify implements SubPart{
 
 	protected List<SubPart> subPartList = new LinkedList<SubPart>();
 	public    ParamSet paramSet         = null;
@@ -47,7 +47,7 @@ public class Feature3D3D implements SubPart{
 	protected Part part;
 	public final int ID;
 	
-	public Feature3D3D(Part part, ToolModelModify toolMod3D3D, ParamSet paramSet, int ID){
+	public Modify(Part part, ToolModelModify toolMod3D3D, ParamSet paramSet, int ID){
 		this.part = part;
 		this.paramSet = paramSet;
 		this.ID = ID;
@@ -105,11 +105,11 @@ public class Feature3D3D implements SubPart{
 	}
 
 	
-	public Feature2D3D getFeature2D3D() {
+	public Build getBuild() {
 		return null;
 	}
 
-	public Feature3D3D getFeature3D3D() {
+	public Modify getModify() {
 		return this;
 	}
 

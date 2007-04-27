@@ -105,7 +105,7 @@ public class Part {
 	
 	public int addNewFeat2D3D(int sketchID){
 		if(sketchID > 0 && sketchID < subPartCounter && getSketchByID(sketchID) != null){
-			subPartList.add(new Feature2D3D(this, sketchID, subPartCounter++));
+			subPartList.add(new Build(this, sketchID, subPartCounter++));
 			AvoGlobal.modelEventHandler.notifyElementAdded();
 			return subPartList.size()-1;
 		}else{
@@ -115,7 +115,7 @@ public class Part {
 	}
 	
 	public int addNewFeat3D3D(){
-		subPartList.add(new Feature3D3D(this, null, null, subPartCounter++));
+		subPartList.add(new Modify(this, null, null, subPartCounter++));
 		AvoGlobal.modelEventHandler.notifyElementAdded();
 		return subPartList.size()-1;
 	}
@@ -265,9 +265,9 @@ public class Part {
 	 * @param id the ID of the Feature2D3D to retreive
 	 * @return the Feature2D3D, if it exists, or null otherwise.
 	 */
-	public Feature2D3D getFeat2D3DByID(int id){
+	public Build getFeat2D3DByID(int id){
 		for(SubPart subPart : subPartList){
-			Feature2D3D feat2D3D = subPart.getFeature2D3D();
+			Build feat2D3D = subPart.getBuild();
 			if(feat2D3D != null && feat2D3D.ID == id){
 				return feat2D3D;
 			}
@@ -281,9 +281,9 @@ public class Part {
 	 * @param id the ID of the Feature3D3D to retreive
 	 * @return the Feature3D3D, if it exists, or null otherwise.
 	 */
-	public Feature3D3D getFeat3D3DByID(int id){
+	public Modify getFeat3D3DByID(int id){
 		for(SubPart subPart : subPartList){
-			Feature3D3D feat3D3D = subPart.getFeature3D3D();
+			Modify feat3D3D = subPart.getModify();
 			if(feat3D3D != null && feat3D3D.ID == id){
 				return feat3D3D;
 			}
