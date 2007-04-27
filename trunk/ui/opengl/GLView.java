@@ -391,10 +391,11 @@ public class GLView {
 						if(AvoGlobal.project.getActivePart() != null){
 							
 							Part part = AvoGlobal.project.getActivePart();							
-							
+							gl.glLoadIdentity();	// ensure back at identity orientation.
+							setMouseMatrixToModelview(); // mouse is at identity unless overridden later by sketch.
 							part.glDrawSolid(gl);
 							
-							
+							gl.glLoadIdentity();	// ensure back at identity orientation.							
 							SubPart activeSubPart = AvoGlobal.project.getActiveSubPart();
 							// TODO: draw sketches if not consumed and not active
 							Iterator<SubPart> subPartIter = part.getSubPartIterator();
@@ -430,7 +431,7 @@ public class GLView {
 							}
 							
 							
-							// TODO: only call glDraw if feat2D3D or feat3D3D is active
+							// only call glDraw if feat2D3D or feat3D3D is active
 							if(activeSubPart != null){
 								Sketch sketch = activeSubPart.getSketch();
 								if(sketch != null && !sketch.isConsumed){
@@ -772,10 +773,13 @@ public class GLView {
 	public void setViewSketch(){
 		Sketch sketch = AvoGlobal.project.getActiveSketch();
 		if(sketch != null){
+			System.out.println("GLSketchRotation: (" + sketch.getSketchPlane().getRotationX() + "," +
+					sketch.getSketchPlane().getRotationY() + "," +
+					sketch.getSketchPlane().getRotationZ() + ")");
 			// TODO: orient view to active sketch 
 			rotation_x = (float)(sketch.getSketchPlane().getRotationX()*180.0/Math.PI);
-			rotation_y = -(float)(sketch.getSketchPlane().getRotationY()*180.0/Math.PI);
-			//rotation_z = (float)(sketch.getSketchPlane().getRotationZ()*180.0/Math.PI);
+			rotation_y = (float)(sketch.getSketchPlane().getRotationY()*180.0/Math.PI);
+			rotation_z = (float)(sketch.getSketchPlane().getRotationZ()*180.0/Math.PI);
 			translation_x = 0.0f;
 			translation_y = 0.0f;
 			updateGLView = true;

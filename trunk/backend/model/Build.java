@@ -40,6 +40,7 @@ public class Build implements SubPart{
 	
 	public    ParamSet          paramSet    = null;
 	
+	// TODO: this should be a ModRef_Sketch!
 	protected int primarySketchID;
 	
 	protected Part part;
