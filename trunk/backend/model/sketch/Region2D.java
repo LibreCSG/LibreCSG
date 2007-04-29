@@ -175,7 +175,8 @@ public class Region2D implements Comparable{
 		//System.out.println("face size: " + pointList.size());
 		
 		if(pointList.size() < 3){
-			System.out.println("Region2D(getCSG_Face): Invalid cycle.. Not enough points in list!");
+			System.out.println("Region2D(getCSG_Face): Invalid cycle.. Not enough points in list!  size=" + pointList.size());
+			System.out.println("point0=" + pointList.get(0) + ", point1=" + pointList.get(1));
 			return null;
 		}
 		
