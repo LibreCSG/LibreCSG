@@ -66,6 +66,13 @@ public class CSG_Segment {
 	
 	private final double TOL = 1e-10;
 	
+	/**
+	 * construct a new CSG_Segment by finding the part of a ray that
+	 * exists within a polygon. 
+	 * @param poly the polygon that contains the segment.
+	 * @param zDists the distance from another polygon's plane to this polygon.
+	 * @param ray the ray that will contain the segment.
+	 */
 	public CSG_Segment(CSG_Polygon poly, List<Double> zDists, CSG_Ray ray){
 		this.ray = ray;
 		if(poly.getNumberVertices() != zDists.size()){

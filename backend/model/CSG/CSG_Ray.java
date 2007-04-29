@@ -58,7 +58,7 @@ public class CSG_Ray {
 	 * @param faceB the 2nd CSG_Face
 	 */
 	public CSG_Ray(CSG_Face faceA, CSG_Face faceB){
-		direction = faceA.getPlaneNormal().getVectCrossProduct(faceB.getPlaneNormal()).getUnitLength();
+		direction = faceA.getPlaneNormal().getCrossProduct(faceB.getPlaneNormal()).getUnitLength();
 		if(direction.getDistFromOrigin() < TOL){
 			System.out.println("planes are parallel!  They will not intersect at a line. ");
 			basePoint = new CSG_Vertex(0.0, 0.0, 0.0); // dummy base Point
@@ -177,6 +177,11 @@ public class CSG_Ray {
 		}
 	}
 	
+	/**
+	 * get a ray that has been altered just slightly to
+	 * hopefully get rid of any mathematical singularities.
+	 * @return
+	 */
 	public CSG_Ray getPerturbedRay(){
 		double pert = 1e-7;
 		double pertX = pert*Math.random() - pert/2.0;

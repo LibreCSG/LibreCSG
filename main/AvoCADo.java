@@ -32,6 +32,12 @@ import ui.shells.StartupSplashShell;
  * @created Jan. 2007
  */
 
+/**
+ * The main avoCADo class..  <br/><br/>
+ * 1. Initialize things <br/>
+ * 2. Run the Application <br/>
+ * 3. Finalize/Safely close things <br/>
+ */
 public class AvoCADo {
 
 	final Display display;

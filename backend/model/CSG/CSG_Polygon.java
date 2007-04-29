@@ -279,7 +279,7 @@ public class CSG_Polygon {
 		CSG_Vertex lastVert = vertices.get(vertices.size()-1);
 		for(CSG_Vertex vert : vertices){
 			CSG_Vertex vertDiff = vert.subFromVertex(lastVert);
-			CSG_Vertex normalInsidePoly = vertDiff.getVectCrossProduct(getPlane().getNormal());			
+			CSG_Vertex normalInsidePoly = vertDiff.getCrossProduct(getPlane().getNormal());			
 			// -- to visualize calculated normals for determining "inside" the polygon
 			//	GL gl = GLContext.getCurrent().getGL();
 			//	gl.glColor3f(0.0f, 0.0f, 1.0f);
@@ -307,7 +307,7 @@ public class CSG_Polygon {
 		CSG_Vertex lastVert = vertices.get(vertices.size()-1);
 		for(CSG_Vertex vert : vertices){
 			CSG_Vertex vertDiff = vert.subFromVertex(lastVert);
-			CSG_Vertex normalInsidePoly = vertDiff.getVectCrossProduct(getPlane().getNormal());			
+			CSG_Vertex normalInsidePoly = vertDiff.getCrossProduct(getPlane().getNormal());			
 			// -- to visualize calculated normals for determining "inside" the polygon
 			//	GL gl = GLContext.getCurrent().getGL();
 			//	gl.glColor3f(0.0f, 0.0f, 1.0f);

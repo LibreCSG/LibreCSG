@@ -29,6 +29,12 @@ import org.eclipse.swt.widgets.Display;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
+
+/**
+ * allow for simple animations by extending this class. 
+ * this should make transition effects very easy to implement.
+ * (e.g., sliding input boxes, scaling graphics, etc.)
+ */
 public abstract class Animator {
 
 	int mSec = 25;	// 40Hz animation framerate (ideally)

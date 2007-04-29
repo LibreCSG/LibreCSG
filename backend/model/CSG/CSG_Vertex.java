@@ -125,7 +125,7 @@ public class CSG_Vertex {
 	 * @return the CSG_Vextor representing the cross-product
 	 *   of this and vertB. 
 	 */
-	public CSG_Vertex getVectCrossProduct(CSG_Vertex vertB){
+	public CSG_Vertex getCrossProduct(CSG_Vertex vertB){
 		double cx = y*vertB.z - z*vertB.y;
 		double cy = z*vertB.x - x*vertB.z;
 		double cz = x*vertB.y - y*vertB.x;
