@@ -11,6 +11,7 @@ import backend.adt.ParamType;
 import backend.adt.Point2D;
 import backend.adt.Rotation3D;
 import backend.adt.SelectionList;
+import backend.adt.Translation3D;
 import backend.global.AvoGlobal;
 import backend.model.Build;
 import backend.model.Part;
@@ -104,8 +105,9 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 				// Ttranslate/rotate the part to be position on the sketch plane.
 				SketchPlane sp = sketch.getSketchPlane();
 				Rotation3D rotation = new Rotation3D(sp.getRotationX(), sp.getRotationY(), sp.getRotationZ());
+				Translation3D trans = new Translation3D(sp.getOrigin().getX(), sp.getOrigin().getY(), sp.getOrigin().getZ());
 				CSG_Solid solid = getBuiltSolid(feat2D3D);
-				solid.applyTranslationRotation(sp.getOrigin(), rotation);
+				solid.applyTranslationRotation(trans, rotation);
 				
 				part.updateSolid(solid,	getBooleanOperation(paramSet));
 				

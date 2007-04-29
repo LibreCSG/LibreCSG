@@ -8,6 +8,7 @@ import javax.media.opengl.GL;
 import backend.adt.Point2D;
 import backend.adt.Point3D;
 import backend.adt.Rotation3D;
+import backend.adt.Translation3D;
 
 
 //
@@ -185,7 +186,7 @@ public class CSG_Vertex {
 	 * @param rotation 3D rotation
 	 * @return a copy of the vertex with the translation/rotation applied.
 	 */
-	public CSG_Vertex getTranslatedRotatedCopy(CSG_Vertex translation, Rotation3D rotation){
+	public CSG_Vertex getTranslatedRotatedCopy(Translation3D translation, Rotation3D rotation){
 		// TODO: don't use CSG_Vertex for translation/rotation (make specific classes)
 		double newX = x;
 		double newY = y;
@@ -212,7 +213,9 @@ public class CSG_Vertex {
 		double newZ4 = newY3*Math.sin(rotX) + newZ3*Math.cos(rotX);
 		double newX4 = newX3;	
 		
-		return new CSG_Vertex(newX4 + translation.x, newY4 + translation.y, newZ4 + translation.z);
+		return new CSG_Vertex(	newX4 + translation.getXTrans(), 
+								newY4 + translation.getYTrans(), 
+								newZ4 + translation.getZTrans());
 	}
 	
 	
