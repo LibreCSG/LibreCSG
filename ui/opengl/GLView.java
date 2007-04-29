@@ -331,8 +331,10 @@ public class GLView {
 		glInit();
 		initLights(gl);
 		
+		// -----------------------------------------------------------
+		// >>>>>>>>>>>>>>>> MAIN OPEN GL DRAWING LOOP <<<<<<<<<<<<<<<<
+		// -----------------------------------------------------------
 		new Runnable() {
-	    	//int rot = 0;
 	        public void run() {	  
 				if (glCanvas.isDisposed()) return;
 				else{
@@ -422,8 +424,7 @@ public class GLView {
 										
 									}
 								}
-							}
-							
+							}							
 							
 							// only call glDraw if feat2D3D or feat3D3D is active
 							if(activeSubPart != null){
@@ -485,9 +486,6 @@ public class GLView {
 						// TODO: dynamically change RenderLevel based on time to render!
 						//System.out.println("Time to render: " + timeDiff);
 						
-						
-						
-						
 						updateGLView = false;
 					}
 					Display.getCurrent().timerExec(50, this); // run "this" again in 50mSec.
@@ -523,7 +521,7 @@ public class GLView {
 			
 			cad_3DXYZ(0.0f,0.0f,0.0f,0.25f);
 			
-		//	gl.glDisable(GL.GL_DEPTH_TEST);
+			// gl.glDisable(GL.GL_DEPTH_TEST);
 			// set grid color						
 			gl.glColor4f(AvoColors.GL_COLOR4_GRID_DARK[0], AvoColors.GL_COLOR4_GRID_DARK[1],
 					AvoColors.GL_COLOR4_GRID_DARK[2], AvoColors.GL_COLOR4_GRID_DARK[3]);
@@ -640,12 +638,6 @@ public class GLView {
 			gl.glVertex3f(x+sizeB, y-sizeB, z);			
 		gl.glEnd();	
 		gl.glLineWidth(2.25f);
-//		gl.glBegin(GL.GL_LINES);
-//			gl.glVertex3f(x, y+size, z);
-//			gl.glVertex3f(x, y-size, z);
-//			gl.glVertex3f(x+size, y, z);
-//			gl.glVertex3f(x-size, y, z);			
-//		gl.glEnd();	
 	}
 
 	private void glInit(){
