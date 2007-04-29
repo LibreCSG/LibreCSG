@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import javax.media.opengl.GL;
 
 import backend.adt.Rotation3D;
+import backend.adt.Translation3D;
 
 
 //
@@ -394,7 +395,7 @@ public class CSG_Polygon {
 	 * @param translation 3D translation
 	 * @param rotation 3D rotation
 	 */
-	public void applyTranslationRotation(CSG_Vertex translation, Rotation3D rotation){
+	public void applyTranslationRotation(Translation3D translation, Rotation3D rotation){
 		for(int i = 0; i < this.vertices.size(); i++){
 			this.vertices.set(i, this.vertices.get(i).getTranslatedRotatedCopy(translation, rotation));
 		}

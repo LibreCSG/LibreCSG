@@ -3,6 +3,7 @@ package backend.model.sketch;
 import javax.media.opengl.GL;
 
 import backend.adt.Rotation3D;
+import backend.adt.Translation3D;
 import backend.model.CSG.CSG_Plane;
 import backend.model.CSG.CSG_Ray;
 import backend.model.CSG.CSG_Vertex;
@@ -231,8 +232,8 @@ public class SketchPlane {
 	public double getRotationY(){
 
 		double rotX = getRotationX();
-		Rotation3D rotation    = new Rotation3D(rotX, 0.0, 0.0);
-		CSG_Vertex translation = new CSG_Vertex(0.0, 0.0, 0.0); 
+		Rotation3D rotation       = new Rotation3D(rotX, 0.0, 0.0);
+		Translation3D translation = new Translation3D(0.0, 0.0, 0.0); 
 		CSG_Vertex newZAxis    = new CSG_Vertex(0.0, 0.0, 1.0).getTranslatedRotatedCopy(translation, rotation);
 		CSG_Vertex newXAxis    = new CSG_Vertex(1.0, 0.0, 0.0).getTranslatedRotatedCopy(translation, rotation);
 		CSG_Vertex newNormal   = normal.deepCopy();
@@ -274,8 +275,8 @@ public class SketchPlane {
 
 		double rotX = getRotationX();
 		double rotY = getRotationY();
-		Rotation3D rotation    = new Rotation3D(rotX, rotY, 0.0);
-		CSG_Vertex translation = new CSG_Vertex(0.0, 0.0, 0.0);
+		Rotation3D rotation       = new Rotation3D(rotX, rotY, 0.0);
+		Translation3D translation = new Translation3D(0.0, 0.0, 0.0);
 		CSG_Vertex newXAxis    = new CSG_Vertex(1.0, 0.0, 0.0).getTranslatedRotatedCopy(translation, rotation);
 		CSG_Vertex newYAxis    = new CSG_Vertex(0.0, 1.0, 0.0).getTranslatedRotatedCopy(translation, rotation);
 		

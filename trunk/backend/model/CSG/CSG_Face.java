@@ -7,6 +7,7 @@ import java.util.List;
 import javax.media.opengl.GL;
 
 import backend.adt.Rotation3D;
+import backend.adt.Translation3D;
 import backend.model.ref.ModRef_Plane;
 
 
@@ -385,7 +386,7 @@ public class CSG_Face {
 	 * @param translation 3D translation
 	 * @param rotation 3D rotation
 	 */
-	public void applyTranslationRotation(CSG_Vertex translation, Rotation3D rotation){
+	public void applyTranslationRotation(Translation3D translation, Rotation3D rotation){
 		Iterator<CSG_Polygon> polyIter = polygons.iterator();
 		while(polyIter.hasNext()){
 			polyIter.next().applyTranslationRotation(translation, rotation);

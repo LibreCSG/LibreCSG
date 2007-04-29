@@ -6,6 +6,7 @@ import javax.media.opengl.GL;
 
 import backend.adt.Point2D;
 import backend.adt.Rotation3D;
+import backend.adt.Translation3D;
 import backend.model.CSG.CSG_BooleanOperator;
 import backend.model.CSG.CSG_Face;
 import backend.model.CSG.CSG_Plane;
@@ -257,7 +258,7 @@ public class GLTests {
 				SketchPlane sP  = new SketchPlane(plane);
 			
 				//System.out.println("--> normal: " + normal);
-				CSG_Vertex translation = new CSG_Vertex(0.0, 0.0, 0.0);
+				Translation3D translation = new Translation3D(0.0, 0.0, 0.0);
 				Rotation3D rotation    = new Rotation3D(sP.getRotationX(), sP.getRotationY(), sP.getRotationZ());
 				CSG_Face f1 = new CSG_Face(new CSG_Polygon(v1, v2, v3, v4));
 				CSG_Face f2 = f1.getTranslatedCopy(new CSG_Vertex(-3.0,  0.0, 0.0));
