@@ -20,7 +20,7 @@ import backend.model.CSG.CSG_Solid;
 //This code is distributed under the terms of the 
 //GNU General Public License (GPL).
 //
-//This file is part of avoADo.
+//This file is part of avoCADo.
 //
 //AvoCADo is free software; you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
