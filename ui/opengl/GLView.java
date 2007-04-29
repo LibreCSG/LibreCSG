@@ -28,25 +28,19 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
 import ui.menuet.Menuet;
-import backend.adt.Point2D;
 import backend.adt.Rotation3D;
 import backend.global.AvoColors;
 import backend.global.AvoGlobal;
-import backend.model.Feature2D;
 import backend.model.Build;
+import backend.model.Feature2D;
 import backend.model.Part;
 import backend.model.Sketch;
 import backend.model.SubPart;
-import backend.model.CSG.CSG_BooleanOperator;
 import backend.model.CSG.CSG_Face;
 import backend.model.CSG.CSG_Plane;
 import backend.model.CSG.CSG_Polygon;
-import backend.model.CSG.CSG_Solid;
 import backend.model.CSG.CSG_Vertex;
 import backend.model.sketch.Prim2D;
-import backend.model.sketch.Prim2DCycle;
-import backend.model.sketch.Prim2DLine;
-import backend.model.sketch.Region2D;
 import backend.model.sketch.SketchPlane;
 
 
@@ -370,15 +364,15 @@ public class GLView {
 						//
 						//  TEST Constructive Solid Geometry!
 						//
-						//testCSG();
+						//GLTests.testCSG(gl);
 						//
 						//  TEST Convexize! (make arbitrary face into convex polygons)
 						//
-						//testConvexize();
+						//GLTests.testConvexize(gl);
 						//
 						//  TEST Rotations!
 						//
-						//testRotation();
+						//GLTests.testRotation(gl);
 						
 						gl.glColor4f(0.7f, 0.7f, 0.7f, 1.0f);
 						gl.glLineWidth(2.5f);
@@ -788,274 +782,5 @@ public class GLView {
 		}
 		
 	}
-	
-	
-	private void testConvexize(){
-		gl.glLoadIdentity();
-		gl.glTranslated(-5.0, 0.0, 0.0);
-		Point2D ptA = new Point2D(0.0, 0.0);
-		Point2D ptB = new Point2D(2.0, 0.0);
-		Point2D ptC = new Point2D(2.0, 2.0);
-		Point2D ptD = new Point2D(1.1, 1.0);
-		Point2D ptE = new Point2D(2.0, 3.0);
-		Point2D ptF = new Point2D(3.0, 2.0);
-		Point2D ptG = new Point2D(2.5, 1.0);
-		Point2D ptH = new Point2D(2.5, 0.0);
-		Point2D ptI = new Point2D(4.0, 1.0);
-		Point2D ptJ = new Point2D(3.0, 3.0);
-		Point2D ptK = new Point2D(2.0, 4.0);
-		Point2D ptL = new Point2D(0.0, 2.0);
-		Point2D ptM = new Point2D(-1.0, 1.0);
-		
-		
-		Prim2DLine l1  = new Prim2DLine(ptA, ptB);
-		Prim2DLine l2  = new Prim2DLine(ptB, ptC);
-		Prim2DLine l3  = new Prim2DLine(ptC, ptD);
-		Prim2DLine l4  = new Prim2DLine(ptD, ptE);
-		Prim2DLine l5  = new Prim2DLine(ptE, ptF);
-		Prim2DLine l6  = new Prim2DLine(ptF, ptG);
-		Prim2DLine l7  = new Prim2DLine(ptG, ptH);
-		Prim2DLine l8  = new Prim2DLine(ptH, ptI);
-		Prim2DLine l9  = new Prim2DLine(ptI, ptJ);
-		Prim2DLine l10 = new Prim2DLine(ptJ, ptK);
-		Prim2DLine l11 = new Prim2DLine(ptK, ptL);
-		Prim2DLine l12 = new Prim2DLine(ptL, ptM);
-		Prim2DLine l13 = new Prim2DLine(ptM, ptA);
-		Prim2DCycle cycle = new Prim2DCycle();
-		cycle.add(l1);
-		cycle.add(l2);
-		cycle.add(l3);
-		cycle.add(l4);
-		cycle.add(l5);
-		cycle.add(l6);
-		cycle.add(l7);
-		cycle.add(l8);
-		cycle.add(l9);
-		cycle.add(l10);
-		cycle.add(l11);
-		cycle.add(l12);
-		cycle.add(l13);
-		
-		Region2D region = new Region2D(cycle);
-		CSG_Face face = region.getCSG_Face();
-		
-		face.drawFaceForDebug(gl);
-		face.drawFaceLinesForDebug(gl);
-		//System.out.println("face area: " + face.getArea());
-		gl.glLoadIdentity();
-	}
-	
-	
-	private void testCSG(){
-		
-		System.out.println(" ------  Constructive Solid Geometry Test -------- ");
-		
-		gl.glLoadIdentity();
-		gl.glLineWidth(2.0f);
-		gl.glPointSize(5.0f);
-		/*
-		CSG_Vertex v1ta = new CSG_Vertex(0.0, 0.0, 0.0);
-		CSG_Vertex v2ta = new CSG_Vertex(0.0, 3.0, 0.0);
-		CSG_Vertex v3ta = new CSG_Vertex(0.0, 3.0, 3.0);
-		CSG_Vertex v4ta = new CSG_Vertex(0.0, 0.0, 3.0);
-		CSG_Polygon tA = new CSG_Polygon(v1ta, v2ta, v3ta, v4ta);
-		
-		CSG_Vertex v1tb = new CSG_Vertex(-1.0,  2.0, 0.0);
-		CSG_Vertex v2tb = new CSG_Vertex(-1.0,  2.0, 3.0);
-		CSG_Vertex v3tb = new CSG_Vertex( 2.0, -1.0, 3.0);
-		CSG_Vertex v4tb = new CSG_Vertex( 2.0, -1.0, 0.0);
-		CSG_Polygon tB = new CSG_Polygon(v1tb, v2tb, v3tb, v4tb);
-		
-		CSG_Ray tRay = new CSG_Ray(new CSG_Face(tA), new CSG_Face(tB));
-		System.out.println(tRay);
-		*/
-		
-		// solid 1
-		CSG_Vertex v1 = new CSG_Vertex(0.0, 0.0, 0.0);
-		CSG_Vertex v2 = new CSG_Vertex(1.0, 0.0, 0.0);
-		CSG_Vertex v3 = new CSG_Vertex(1.0, 1.0, 0.0);
-		CSG_Vertex v4 = new CSG_Vertex(0.0, 1.0, 0.0);
-		CSG_Vertex v5 = new CSG_Vertex(0.0, 0.0, 1.0);
-		CSG_Vertex v6 = new CSG_Vertex(1.0, 0.0, 1.0);
-		CSG_Vertex v7 = new CSG_Vertex(1.0, 1.0, 1.0);
-		CSG_Vertex v8 = new CSG_Vertex(0.0, 1.0, 1.0);
-		
-		CSG_Face f1 = new CSG_Face(new CSG_Polygon(v1, v2, v3, v4));
-		CSG_Face f2 = new CSG_Face(new CSG_Polygon(v1, v5, v6, v2));
-		CSG_Face f3 = new CSG_Face(new CSG_Polygon(v2, v6, v7, v3));
-		CSG_Face f4 = new CSG_Face(new CSG_Polygon(v3, v7, v8, v4));
-		CSG_Face f5 = new CSG_Face(new CSG_Polygon(v4, v8, v5, v1));
-		CSG_Face f6 = new CSG_Face(new CSG_Polygon(v8, v7, v6, v5));
-		
-		CSG_Solid s1 = new CSG_Solid(f1);
-		s1.addFace(f2);
-		s1.addFace(f3);
-		s1.addFace(f4);
-		s1.addFace(f5);
-		s1.addFace(f6);
 
-		// solid 2
-		CSG_Vertex v1b = new CSG_Vertex(0.75, 0.75, 0.75).addToVertex(new CSG_Vertex(0,0,-0.5));
-		CSG_Vertex v2b = new CSG_Vertex(1.75, 0.75, 0.75).addToVertex(new CSG_Vertex(0,0,-0.5));
-		CSG_Vertex v3b = new CSG_Vertex(1.75, 1.75, 0.75).addToVertex(new CSG_Vertex(0,0,-0.5));
-		CSG_Vertex v4b = new CSG_Vertex(0.75, 1.75, 0.75).addToVertex(new CSG_Vertex(0,0,-0.5));
-		CSG_Vertex v5b = new CSG_Vertex(0.75, 0.75, 1.75).addToVertex(new CSG_Vertex(0,0,-0.5));
-		CSG_Vertex v6b = new CSG_Vertex(1.75, 0.75, 1.75).addToVertex(new CSG_Vertex(0,0,-0.5));
-		CSG_Vertex v7b = new CSG_Vertex(1.75, 1.75, 1.75).addToVertex(new CSG_Vertex(0,0,-0.5));
-		CSG_Vertex v8b = new CSG_Vertex(0.75, 1.75, 1.75).addToVertex(new CSG_Vertex(0,0,-0.5));
-		
-		CSG_Face f1b = new CSG_Face(new CSG_Polygon(v1b, v2b, v3b, v4b));
-		CSG_Face f2b = new CSG_Face(new CSG_Polygon(v1b, v5b, v6b, v2b));
-		CSG_Face f3b = new CSG_Face(new CSG_Polygon(v2b, v6b, v7b, v3b));
-		CSG_Face f4b = new CSG_Face(new CSG_Polygon(v3b, v7b, v8b, v4b));
-		CSG_Face f5b = new CSG_Face(new CSG_Polygon(v4b, v8b, v5b, v1b));
-		CSG_Face f6b = new CSG_Face(new CSG_Polygon(v8b, v7b, v6b, v5b));
-		
-		CSG_Solid s2 = new CSG_Solid(f1b);
-		s2.addFace(f2b);
-		s2.addFace(f3b);
-		s2.addFace(f4b);
-		s2.addFace(f5b);
-		s2.addFace(f6b);
-				
-		//
-		//  2 solids to play with now!
-		//
-		
-		///*
-		glDrawSolid(s1, 0.4f, 0.5f, 0.8f);
-		glDrawSolid(s2, 0.4f, 0.5f, 0.8f);
-		
-		
-		CSG_Solid s3i = CSG_BooleanOperator.Intersection(s1, s2);
-		CSG_Solid s3u = CSG_BooleanOperator.Union(s1, s2);
-		CSG_Solid s3s = CSG_BooleanOperator.Subtraction(s1, s2);
-		
-		if(s3i != null){
-			gl.glTranslated(2.0,0.0,0.0);
-			glDrawSolid(s3i, 0.4f, 0.8f, 0.4f);
-		}
-		if(s3u != null){
-			gl.glTranslated(2.0,0.0,0.0);
-			glDrawSolid(s3u, 0.4f, 0.8f, 0.4f);
-		}
-		if(s3s != null){
-			gl.glTranslated(2.0,0.0,0.0);
-			glDrawSolid(s3s, 0.4f, 0.8f, 0.4f);
-		}
-				
-		gl.glLoadIdentity();
-		
-	}
-	
-	private void testRotation(){
-		
-		System.out.println(" ------  GL Rotation Test -------- ");
-		
-		gl.glLoadIdentity();
-		gl.glLineWidth(2.0f);
-		gl.glPointSize(5.0f);
-		
-		CSG_Vertex v1 = new CSG_Vertex(1.0, 1.0, 0.0);
-		CSG_Vertex v2 = new CSG_Vertex(2.0, 1.0, 0.0);
-		CSG_Vertex v3 = new CSG_Vertex(2.0, 2.0, 0.0);
-		CSG_Vertex v4 = new CSG_Vertex(1.0, 2.0, 0.0);
-		
-		CSG_Vertex vX = new CSG_Vertex(1.0, 0.0, 0.0);
-		CSG_Vertex vY = new CSG_Vertex(0.0, 1.0, 0.0);
-		CSG_Vertex vZ = new CSG_Vertex(0.0, 0.0, 1.0);
-		
-		vX.drawPointForDebug(gl);
-		vY.drawPointForDebug(gl);
-		vZ.drawPointForDebug(gl);
-
-		/*
-		double rot = 0.0;
-		CSG_Vertex normal = new CSG_Vertex(Math.sin(rot), 0.0, Math.cos(rot));
-		
-		
-		CSG_Plane plane = new CSG_Plane(normal, 0.0);
-		plane.drawNormalFromOriginForDegug(gl);
-		
-		SketchPlane sP = new SketchPlane(plane);
-		CSG_Vertex translation = new CSG_Vertex(0.0, 0.0, 0.0);
-		CSG_Vertex rotation = new CSG_Vertex(sP.getRotationX(), sP.getRotationY(), sP.getRotationZ());
-		System.out.println("glRot: " + rotation);
-		gl.glColor3d(0.0, 0.0, 1.0);
-		gl.glPointSize(9.0f);
-		vZ.getTranslatedRotatedCopy(translation, rotation).glDrawVertex(gl);
-		
-		// now do it directly in GL space to ensure error is not simply in CSG_Vertex rotation code...
-		gl.glRotatef((float)(rotation.getX()*180.0/Math.PI), 1.0f, 0.0f, 0.0f);
-	    gl.glRotatef((float)(rotation.getY()*180.0/Math.PI), 0.0f, 1.0f, 0.0f);
-	    gl.glRotatef((float)(rotation.getZ()*180.0/Math.PI), 0.0f, 0.0f, 1.0f);
-	    gl.glColor3d(0.9, 0.7, 0.3);
-	    gl.glPointSize(5.0f);
-	    vZ.glDrawVertex(gl);
-		 */
-	    
-		for(double yInc= -0.5; yInc<0.55; yInc+= 0.1){
-			for(double rot=-3.10; rot<3.14; rot+= 0.1){
-				
-				CSG_Vertex normal = new CSG_Vertex(Math.sin(rot), yInc, Math.cos(rot)).getUnitLength();
-				//CSG_Vertex normal = new CSG_Vertex(1.0, 0.0, 0.0);
-				CSG_Plane plane = new CSG_Plane(normal, 0.0);
-				SketchPlane sP  = new SketchPlane(plane);
-			
-				//System.out.println("--> normal: " + normal);
-				CSG_Vertex translation = new CSG_Vertex(0.0, 0.0, 0.0);
-				Rotation3D rotation    = new Rotation3D(sP.getRotationX(), sP.getRotationY(), sP.getRotationZ());
-				CSG_Face f1 = new CSG_Face(new CSG_Polygon(v1, v2, v3, v4));
-				CSG_Face f2 = f1.getTranslatedCopy(new CSG_Vertex(-3.0,  0.0, 0.0));
-				CSG_Face f3 = f1.getTranslatedCopy(new CSG_Vertex(-3.0, -3.0, 0.0));
-				CSG_Face f4 = f1.getTranslatedCopy(new CSG_Vertex( 0.0, -3.0, 0.0));
-				gl.glColor3d(rot, 0.5, 0.0);
-				gl.glPointSize(7.0f);
-				//vX.getTranslatedRotatedCopy(translation, rotation).glDrawVertex(gl);
-				//vY.getTranslatedRotatedCopy(translation, rotation).glDrawVertex(gl);
-				vZ.getTranslatedRotatedCopy(translation, rotation).glDrawVertex(gl);
-				f1.applyTranslationRotation(translation, rotation);
-				f2.applyTranslationRotation(translation, rotation);
-				f3.applyTranslationRotation(translation, rotation);
-				f4.applyTranslationRotation(translation, rotation);
-				//f1.glDrawFace(gl);
-				//f2.glDrawFace(gl);
-				//f3.glDrawFace(gl);
-				//f4.glDrawFace(gl);
-				
-				gl.glColor3d(0.8, 0.0, 0.8);
-				sP.getVar1Axis().glDrawVertex(gl);
-				
-				plane.drawNormalFromOriginForDegug(gl);
-				gl.glRotatef((float)(rotation.getXRot()*180.0/Math.PI), 1.0f, 0.0f, 0.0f);
-			    gl.glRotatef((float)(rotation.getYRot()*180.0/Math.PI), 0.0f, 1.0f, 0.0f);
-			    gl.glRotatef((float)(rotation.getZRot()*180.0/Math.PI), 0.0f, 0.0f, 1.0f);
-			    gl.glColor3d(0.9, 0.7, 0.3);
-			    gl.glPointSize(5.0f);
-			    //vZ.glDrawVertex(gl);
-			    gl.glBegin(GL.GL_LINES);
-			    	gl.glColor3d(0.9, 0.7, 0.3); // normal
-			    	gl.glVertex3d(0.0, 0.0, 0.0);
-			    	gl.glVertex3d(vZ.getX(), vZ.getY(), vZ.getZ());
-			    	gl.glColor3d(0.9, 0.3, 0.9); // x-axis
-			    	gl.glVertex3d(0.0, 0.0, 0.0);
-			    	gl.glVertex3d(1.0, 0.0, 0.0);		    	
-			    gl.glEnd();
-			    gl.glLoadIdentity();
-			    gl.glColor3d(0.7, 0.7, 0.7);
-			}
-		}
-
-		
-	}
-	
-	private void glDrawSolid(CSG_Solid s, float r, float g, float b){
-		Iterator<CSG_Face> iter = s.getFacesIter();
-		while(iter.hasNext()){
-			CSG_Face f = iter.next();
-			f.drawFaceForDebug(gl);
-			f.drawFaceLinesForDebug(gl);
-			f.drawFaceNormalsForDebug(gl);
-		}	
-	}
 }
