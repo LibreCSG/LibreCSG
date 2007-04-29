@@ -28,7 +28,6 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
 import ui.menuet.Menuet;
-import backend.adt.Rotation3D;
 import backend.global.AvoColors;
 import backend.global.AvoGlobal;
 import backend.model.Build;
@@ -36,12 +35,7 @@ import backend.model.Feature2D;
 import backend.model.Part;
 import backend.model.Sketch;
 import backend.model.SubPart;
-import backend.model.CSG.CSG_Face;
-import backend.model.CSG.CSG_Plane;
-import backend.model.CSG.CSG_Polygon;
-import backend.model.CSG.CSG_Vertex;
 import backend.model.sketch.Prim2D;
-import backend.model.sketch.SketchPlane;
 
 
 //
@@ -49,7 +43,7 @@ import backend.model.sketch.SketchPlane;
 //This code is distributed under the terms of the 
 //GNU General Public License (GPL).
 //
-//This file is part of avoADo.
+//This file is part of avoCADo.
 //
 //AvoCADo is free software; you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by

@@ -8,7 +8,6 @@ import ui.menuet.MenuetToolboxDialog;
 import ui.opengl.GLView;
 import ui.opengl.RenderLevel;
 import ui.paramdialog.DynParamDialog;
-import ui.shells.MainAvoCADoShell;
 import ui.tools.ToolCtrl;
 import ui.treeviewer.TreeViewer;
 import backend.adt.ParamSet;
@@ -22,7 +21,7 @@ import backend.model.Project;
 //This code is distributed under the terms of the 
 //GNU General Public License (GPL).
 //
-//This file is part of avoADo.
+//This file is part of avoCADo.
 //
 //AvoCADo is free software; you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by

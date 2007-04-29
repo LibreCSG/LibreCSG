@@ -4,7 +4,6 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 
 import ui.menuet.Menuet;
-import backend.global.AvoColors;
 
 
 
@@ -13,7 +12,7 @@ import backend.global.AvoColors;
 //This code is distributed under the terms of the 
 //GNU General Public License (GPL).
 //
-//This file is part of avoADo.
+//This file is part of avoCADo.
 //
 //AvoCADo is free software; you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
