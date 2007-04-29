@@ -161,4 +161,8 @@ public abstract class Prim2D {
 	public Point2D getPtB(){
 		return ptB;
 	}
+	
+	public String toString(){
+		return "Prim2D: ptA=" + ptA + ", ptB=" + ptB;
+	}
 }

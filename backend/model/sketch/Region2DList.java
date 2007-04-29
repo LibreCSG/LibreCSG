@@ -1,9 +1,9 @@
 package backend.model.sketch;
 
-import java.util.Collections;
 import java.util.LinkedList;
 
 import backend.adt.Point2D;
+import backend.geometry.Geometry2D;
 
 
 //
@@ -36,27 +36,48 @@ public class Region2DList extends LinkedList<Region2D>{
 
 	private static final long serialVersionUID = 1000L;
 
-	
-	
 	/**
 	 * build 2D regions from all of the Prim2D
-	 * found in this sketch.  This is a very
+	 * found in this sketch.  This is a somewhat
 	 * expensive operation and should be done
 	 * minimally. (e.g., switching to 2D->3D mode
 	 * before extruding/revolving/etc).
 	 */
 	public void buildRegionsFromPrim2D(Prim2DList allPrims){
-		
-		this.clear();
+		this.clear(); // start with a fresh list.
 		
 		//
-		// find intersections between prims and keep running until
+		// STEP INVOLVED TO GET 2D REGIONS! :)
+		//
+		// 1. find intersections of prim2D and split them so that none overlap (except at endpoints).
+		// 2. only keep unique Prim2D.
+		// 3. get rid of all prim2D that do not connect to others (or theirself) at both ends.
+		//
+		// 4. start from each prim2D still remaining, and walk down connecting prim2D, always taking 
+		//      the left-most turn possible when the elements branch. 
+		// 5. check to see what the total angle was for the cycle (is it clockwise?).
+		// 6. if the cycle was clockwise (!isCCW) then keep it and consume elements in that direction.
+		//
+		// 7. perform steps 4,5,6 again but starting at the opposite end of the initial prim2D.
+		// 
+		// 8. all cycles are of minimal area and unique!... EXCEPT, fully enclosed regions.
+		//     (e.g., a circle withing a circle)
+		//    check to see if everypoint of each region is within any other region.
+		// 9. cut the larger region to go around the inner region.
+		// 
+		// 10. repeat steps 8,9 until there are no more cuts to be made.
+		//
+		
+		System.out.println("Region2DList(buildRegionsFromPrim2D): Building 2D regions from the sketch...");
+		
+		
+		// STEP 1:
+		// Find Intersections Between Prims and keep running until
 		// no more intersections are found.  this will give a list
 		// of Prim2D that intersect only at endpoints.
 		//
-		//  TODO: This step is rediculous! (generates TONS of cycles)
-		System.out.println("Region2DList(buildRegionsFromPrim2D): Generating all possible region cycles...");
-		System.out.println("Initial Prims in list: " + allPrims.size());
+		//  TODO: This step is rediculous! (generates TONS of prims)
+		//System.out.println("Initial Prims in list: " + allPrims.size());
 		boolean foundIntersection = true;
 		int maxPrimSize = 1000; // TODO: HACK just for debug
 		while(foundIntersection){
@@ -89,223 +110,152 @@ public class Region2DList extends LinkedList<Region2D>{
 			System.out.println("Region2DList(buildRegionsFromPrim2D): *** Hit max prim list size!! size=" + allPrims.size());
 		}
 		
-		System.out.println("Total Prims now in list: " + allPrims.size());
-		
-		//
-		// prune elements that don't connect to another at both ends.
-		// this isn't a requirement for the next step, but since the
-		// depth-first search is pretty intense, this can substantially
-		// improve it by cutting out a large number of iterations in
-		// some cases.
-		//
-		System.out.println("Region2DList(buildRegionsFromPrim2D): Pruning list of cycles...");
-		Prim2DList prunedPrims = new Prim2DList();
-		for(Prim2D prim : allPrims){
-			boolean conA = false;
-			boolean conB = false;
-			for(Prim2D primB : allPrims){
-				if(!prim.equals(primB)){
-					if(prim.ptA.equalsPt(primB.ptA) || prim.ptA.equalsPt(primB.ptB)){
-						conA = true;
-					}
-					if(prim.ptB.equalsPt(primB.ptA) || prim.ptB.equalsPt(primB.ptB)){
-						conB = true;
-					}
-				}	
-			}		
-			if(prim.ptA.equalsPt(prim.ptB)){
-				// self loop, keep it around.
-				conA = true;
-				conB = true;
-			}
-			if(conA && conB){
-				prunedPrims.add(prim);
-				//System.out.println("added pruned prim! size:" + prunedPrims.size());
-			}
-		}
-		
-		System.out.println("Prims after initial prune: " + prunedPrims.size());
-		
-		// create a list for complete cycles.  
-		LinkedList<Prim2DCycle> allCycles = new LinkedList<Prim2DCycle>();
-		
-		//
-		// find cycles... Recursion-free depth first search
-		//
-		System.out.println("Region2DList(buildRegionsFromPrim2D): Recursion Free Depth-first search...");
-		System.out.println("Region2DList(buildRegionsFromPrim2D): ** This may take a long time with lots of regions! **");
-		Prim2DList prunedPrimsCopy = new Prim2DList();
-		for(Prim2D prim : prunedPrims){
-			prunedPrimsCopy.add(prim);
-		}
-		for(Prim2D prim : prunedPrims){
-			if(prim.ptA.equalsPt(prim.ptB)){
-				// self loop (circular) keep it around
-				Prim2DCycle selfLoopCycle = new Prim2DCycle();
-				selfLoopCycle.add(prim);
-				allCycles.add(selfLoopCycle);
-			}else{
-				boolean success = RFDFSearch(allCycles, prunedPrimsCopy, prim);
-				if(!success){
+		// STEP 2:
+		// unique-ify the prims (check for duplicates and discard if found)
+		for(int i=allPrims.size()-1; i>=0; i--){
+			boolean foundMatch = false;
+			Prim2D testPrim = allPrims.get(i);
+			for(Prim2D prim : allPrims){
+				if(!prim.equals(testPrim) &&
+						prim.hasPtGetOther(testPrim.ptA) != null &&
+						prim.hasPtGetOther(testPrim.ptB) != null &&
+						prim.getCenterPtAlongPrim().equalsPt(testPrim.getCenterPtAlongPrim())){
+					foundMatch = true;
 					break;
 				}
 			}
-			prunedPrimsCopy.remove(0); // speed up a bit by removing the last prim2D checked.
-		}
-					
-		System.out.println("Total Cycles found: " + allCycles.size());
-		
-		//
-		// only keep unique cycles...
-		//
-		LinkedList<Prim2DCycle> uniqueCycles = new LinkedList<Prim2DCycle>();
-		for(Prim2DCycle cycleA : allCycles){
-			boolean isUnique = true;
-			for(Prim2DCycle cycleB : uniqueCycles){
-				// if any cycleB has the same prim2D as cycleA, then isUnique = false
-				if(hasSamePrim2D(cycleA, cycleB)){
-					isUnique = false;
-				}				
-			}
-			if(isUnique){
-				uniqueCycles.add(cycleA);
+			if(foundMatch){
+				allPrims.remove(i);
 			}
 		}
 		
-		System.out.println("Total Unique Cycles found: " + uniqueCycles.size());
+		//System.out.println("Total Prims now in list: " + allPrims.size());
 		
-		//
-		// make sure all prim2D start out as unconsumed...
-		//
-		for(Prim2DCycle pCycle : uniqueCycles){
-			pCycle.unconsumeAll();
-			if(pCycle.isCCW()){
-				pCycle.reverseCycleOrder();
-			}
-			double cycleArea = new Region2D(pCycle).getRegionArea();
-			pCycle.setCycleArea(cycleArea);
-		}		
-				
-		//
-		// sort the cycleList from smallest to largest in terms of area.
-		//
-		Collections.sort(uniqueCycles);
 		
+		// STEP 3:
+		// prune elements that don't connect to another at both ends.
+		// there could be a string of element wandering off in space, so
+		// this needs to be done iteratively until there are no more
+		// dangling elements.
 		//
-		// flag edge direction for each cycle if possible...
-		//   if edge is already consumed in a given direction, 
-		//   discard that cycle.
-		//
-		LinkedList<Prim2DCycle> finalCycles = new LinkedList<Prim2DCycle>();
-		for(Prim2DCycle cycle : uniqueCycles){
-			if(cycle.cycleDirectionIsUnconsumed()){
-				finalCycles.add(cycle);
-				cycle.consumeCycleDirection();
-			}
-		}		
-		
-		System.out.println("Total Final Cycles found: " + finalCycles.size());
-		
-		//
-		// put final cycles into the regionList! :)
-		//
-		for(Prim2DCycle cycle : finalCycles){
-			if(cycle.isCCW()){
-				cycle.reverseCycleOrder();
-			}
-			Region2D r = new Region2D(cycle);
-			this.add(r);
-		}		
-	}
-	
-	
-	/**
-	 * recursive-free depth first search... 
-	 *  -- only allow for each Prim2D to be used once
-	 *  -- also cut off paths that cross back through the same point (figure 8's)...
-	 * @param allCycles
-	 * @param allPrims
-	 * @param primStart
-	 */
-	boolean RFDFSearch(LinkedList<Prim2DCycle> allCycles, Prim2DList allPrims, Prim2D primStart){
-		Point2D endPt = primStart.ptA; // end point (where the cycles should eventually end)
-		Point2D conPt = primStart.ptB; // connection point (where next prim2D must connect)
-		
-		// all of the prim2D used so far at a given level
-		LinkedList<Prim2DList> usedAtLevel = new LinkedList<Prim2DList>();
-		int level = 1;
-		
-		// the path taken so far
-		Prim2DCycle pathSoFar = new Prim2DCycle();
-		pathSoFar.add(primStart); // path always starts with primStart.
-		
-		int trials = 0;
-		while(level > 0){
-			if((trials+1) % 10000 == 0){
-				System.out.println("RFDFSearch: Trials=" + (trials+1));
-			}
-			if((trials+1) % 100000 == 0){
-				System.out.println("RFDFSearch: Giving up on finding more cycles.. this algorithm kind of sucks :(");
-				return false;
-			}
-			trials++;
-			
-			//System.out.println("*     while");
-			if(usedAtLevel.size() < level){
-				// this is a new level; add a new list.
-				usedAtLevel.add(new Prim2DList());
-				//System.out.println("**    added new level:" + level);
-			}
-			for(int i=0; i<allPrims.size(); i++){
-				Prim2D prim = allPrims.get(i);
-				if(!pathSoFar.contains(prim) && !usedAtLevel.get(level-1).contains(prim)){
-					// the prim is not in the current path and has not been used yet, try it.
-					//System.out.println("***   considering new prim2D; i=" + i);
-					
-					// add it to the set of used prim2D so we don't check it again later.
-					usedAtLevel.get(level-1).add(prim); 
-					
-					// check is conPt is an end point of the prim2D. if so, get the other point.
-					Point2D nextPt = prim.hasPtGetOther(conPt);
-					if(nextPt != null){						
-						if(nextPt.equalsPt(endPt)){							
-							// cycle has been completed. 
-							// add it and continue checking others.
-							pathSoFar.add(prim);
-							allCycles.add(copyCL(pathSoFar)); // use a copy since pathSoFar will change!
-							//System.out.println("****  added cycle");
-							pathSoFar.removeLast();
-						}else{
-							if(pathSoFar.containsPt(nextPt)){
-								// crossing over an old point (and it's not the end), don't continue down this one..
-							}else{
-								pathSoFar.add(prim);
-								// not the end yet. 
-								// update the conPt and continue trying at the next level.
-								conPt = nextPt;							
-								level++;
-								//System.out.println("****  going to next level; newLevel=" + level);
-								break;
+		System.out.println("Region2DList(buildRegionsFromPrim2D): Pruning dangling elements...");
+		Prim2DList prunedPrims = new Prim2DList();
+		for(Prim2D prim : allPrims){ // just to be safe, we'll make our own copy of "allPrims" 
+			prunedPrims.add(prim);
+		}
+		// iteratively prune off dangling prims until there are no more!
+		int lastPrimListSize = Integer.MAX_VALUE;
+		while(lastPrimListSize > prunedPrims.size()){
+			//System.out.println("iterating... prunedPrims.size=" + prunedPrims.size());
+			lastPrimListSize = prunedPrims.size();
+			Prim2DList tempList = new Prim2DList();
+			for(Prim2D prim : prunedPrims){
+				if(prim.ptA.equalsPt(prim.ptB)){
+					// self connecting primitive (e.g., circle)
+					tempList.add(prim);
+				}else{
+					boolean conA = false;
+					boolean conB = false;
+					for(Prim2D primB : prunedPrims){
+						if(!prim.equals(primB)){
+							if(prim.ptA.equalsPt(primB.ptA) || prim.ptA.equalsPt(primB.ptB)){
+								conA = true;
+							}
+							if(prim.ptB.equalsPt(primB.ptA) || prim.ptB.equalsPt(primB.ptB)){
+								conB = true;
 							}
 						}
 					}
-				}
-				if(i == (allPrims.size()-1)){
-					// just checked last Prim2D in the set.					
-					level--;
-					//System.out.println("***** going down a level; newLevel=" + level);
-					conPt = pathSoFar.getLast().hasPtGetOther(conPt);
-					pathSoFar.removeLast();
-					usedAtLevel.removeLast();
-				}
+					if(conA && conB){
+						tempList.add(prim);
+					}
+				}				
+			}
+			prunedPrims = tempList;
+		}
+		
+		//
+		// No more dangling prims! :) 
+		//  --> all prim2D are now connected to another/itself at both ends.
+		//
 				
+		// STEPS 4,5,6,7 (mainly bundled into the method "smartSearchForValidCycle()"
+		// Start at each prim and check for valid cycles!
+		//
+		for(Prim2D prim : prunedPrims){
+			//System.out.println("starting from: " + prim);
+			if(!prim.consumedAB){
+				smartSearchForValidCycle(prim, prunedPrims, prim);
+			}
+			if(!prim.consumedBA){
+				smartSearchForValidCycle(prim.getSwappedEndPtPrim2D(), prunedPrims, prim);
 			}
 			
 		}
-		return true;
+		System.out.println("Total Cycles Found: " + this.size());
+		
+		
+		// STEP 8,9,10 
+		// TODO: cut out inner 2D regions!
+		//
 		
 	}
 	
+
+	private void smartSearchForValidCycle(Prim2D startPrim, Prim2DList prunedPrims, Prim2D extraCheck){
+		Prim2DCycle newCycle = new Prim2DCycle();
+		newCycle.add(startPrim);
+		Point2D conPt = startPrim.ptB;
+		while(!newCycle.isValidCycle()){
+			Prim2D nextPrim = null;
+			double maxAngle = -180.0;
+			for(Prim2D primB : prunedPrims){
+				if(!newCycle.contains(primB) && primB != extraCheck){
+					Point2D otherPoint = primB.hasPtGetOther(conPt);
+					if(otherPoint != null){
+						if(	(primB.ptA.equalsPt(conPt) && !primB.consumedAB) ||
+							(primB.ptB.equalsPt(conPt) && !primB.consumedBA)	){
+							// prim2D is not consumed in the given direction and 
+							// does not occur in the list so far. :)
+							
+							// check 3-point-angle, 
+							// if this is the largest angle, keep it!
+							double angle = Geometry2D.threePtAngle(	newCycle.getLast().getCenterPtAlongPrim(), 
+									conPt, 
+									primB.getCenterPtAlongPrim());
+							//System.out.println(" --> angle="  +angle);
+							if(angle > maxAngle){
+								maxAngle = angle;
+								nextPrim = primB;
+							}									
+						}								
+					}
+				}
+			}
+			if(nextPrim != null){
+				if(!nextPrim.hasPtGetOther(conPt).equalsPt(newCycle.getFirst().ptA) && 
+						newCycle.containsPt(nextPrim.hasPtGetOther(conPt))){
+					// conPt would intersect the cycle somewhere not at the end! discard it!
+					break;
+				}else{
+					newCycle.add(nextPrim);
+					conPt = nextPrim.hasPtGetOther(conPt);
+				}
+			}else{
+				// nothing connects?!
+				break;
+			}					
+		}
+		if(newCycle.isValidCycle() && !newCycle.isCCW()){
+			newCycle.consumeCycleDirection();
+			this.add(new Region2D(newCycle));
+			// System.out.println("********* Added cycle!");			
+		}else{
+			//System.out.println("didn't add cycle: isValid=" + newCycle.isValidCycle() + ", isCCW=" + newCycle.isCCW());
+		}
+	}
+	
+
 	/**
 	 * create a deep Copy of the prim2DCycle.
 	 * @param origList

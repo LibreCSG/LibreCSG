@@ -225,7 +225,7 @@ public class Prim2DCycle extends Prim2DList implements Comparable{
 			if(prim.ptA.equalsPt(prim.ptB)){
 				return true;
 			}else{
-				System.out.println("Prim2DCycle(isValid): Single element cycle, and ptA != ptB..  bogus.");
+				//System.out.println("Prim2DCycle(isValid): Single element cycle, and ptA != ptB..  bogus.");
 				return false;
 			}
 		}else{
@@ -234,7 +234,7 @@ public class Prim2DCycle extends Prim2DList implements Comparable{
 			for(Prim2D prim : this){
 				Point2D nextPt = prim.hasPtGetOther(conPt);
 				if(nextPt == null){
-					System.out.println("Prim2DCycle(isValid): Cycle was not valid; could not find a connected point!");
+					//System.out.println("Prim2DCycle(isValid): Cycle was not valid; could not find a connected point!");
 					return false;
 				}else{
 					conPt = nextPt;
@@ -243,7 +243,7 @@ public class Prim2DCycle extends Prim2DList implements Comparable{
 			if(conPt.equalsPt(this.getFirst().ptA)){
 				return true;
 			}else{
-				System.out.println("Prim2DCycle(isValid): Cycle was not valid; end point was not the same as the start point!");
+				//System.out.println("Prim2DCycle(isValid): Cycle was not valid; end point was not the same as the start point!");
 				return false;
 			}
 		}
