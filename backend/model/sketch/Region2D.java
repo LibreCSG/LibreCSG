@@ -166,6 +166,87 @@ public class Region2D implements Comparable{
 		return pointList;
 	}
 	
+	/**
+	 * tests to see if regionB is entirely within the 
+	 * perimeter of this Region2D
+	 * @param regionB the region to test.
+	 * @return true iff regionB is within this region.
+	 */
+	public boolean containsRegion(Region2D regionB){
+		if(!this.csgFace.vertexIsInsideFace(regionB.getCSG_Face().getFirstPolygonBarycenter())){
+			return false; // didn't contain face's first polygon baricenter.
+		}
+		for(Point2D ptB : regionB.prim2DCycle.getPointList()){
+			if(!this.regionContainsPoint2D(ptB)){
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * test to see if this region has the same prim2D points
+	 * as the given region.  This can be used to quickly find
+	 * duplicate regions (perhaps with just reversed or offset
+	 * prim2D).
+	 * @param regionB the region to compare to.
+	 * @return true iff this region has the same defining points as the given region.
+	 */
+	public boolean hasSamePointsAsRegion(Region2D regionB){
+		if(this.prim2DCycle.size() != regionB.prim2DCycle.size()){
+			return false; // cycles are of different size.
+		}
+		for(Prim2D prim : prim2DCycle){
+			if(	!regionB.prim2DCycle.containsPt(prim.ptA) ||
+				!regionB.prim2DCycle.containsPt(prim.ptB) ||
+				!regionB.prim2DCycle.containsPt(prim.getCenterPtAlongPrim())){
+				return false; // one of the points could not be found. the cycles are different.
+			}
+		}
+		return true; // every end and mid point is contained.
+	}
+	
+	/**
+	 * alter this region to have a whole cut in it that is
+	 * defined by the given region.
+	 * @param regionB the region2D to cut from this region.
+	 */
+	public void cutRegionFromRegion(Region2D regionB){
+		// TODO!
+		
+		
+	}
+	
+	/**
+	 * create a new region that is formed by joining this region
+	 * with another region.
+	 * @param regionB the region to join to this region2D.
+	 * @return the new joined reegion2D.
+	 */
+	public Region2D createNewRegionByJoining(Region2D regionB){
+		// TODO! 
+		
+		return null;
+	}
+	
+	/** 
+	 * find the closest distance from the vertices of this region2D
+	 * to any edge/vertex of the given region.
+	 * @param regionB the region to find the distance to.
+	 * @return the closest distance.
+	 */
+	public double distanceFromVerticiesToRegion(Region2D regionB){
+		double distance = Double.MAX_VALUE;
+		for(Point2D pt : this.prim2DCycle.getPointList()){
+			double d = regionB.prim2DCycle.getClosestDistanceToPoint(pt);
+			if(d < distance){
+				distance = d;
+			}
+		}
+		return distance;
+	}
+	
+	
 	private CSG_Face createCSG_Face(){
 		CSG_Face face = null;
 		
@@ -227,7 +308,7 @@ public class Region2D implements Comparable{
 			double angle = Geometry2D.threePtAngle(ptA, ptB, ptC);
 			if(angle > TOL){ // points going clockwise				
 				CSG_Polygon poly = new CSG_Polygon(new CSG_Vertex(ptA, 0.0), new CSG_Vertex(ptB, 0.0), new CSG_Vertex(ptC, 0.0));
-				if(!polygonContainPoints(poly, pointList, polyPoints)){
+				if(!polygonContainsPoints(poly, pointList, polyPoints)){
 					int indexStart = index;
 					for(int i=index; i-indexStart < (listSize-3); i++){
 						Point2D ptD = pointList.get((i+3)%listSize);
@@ -242,7 +323,7 @@ public class Region2D implements Comparable{
 							CSG_Polygon polyCopy = poly.deepCopy();
 							polyCopy.addVertex(new CSG_Vertex(ptD, 0.0));
 							polyPoints.add(ptD);
-							if(!polygonContainPoints(polyCopy, pointList, polyPoints)){
+							if(!polygonContainsPoints(polyCopy, pointList, polyPoints)){
 								poly.addVertex(new CSG_Vertex(ptD, 0.0));
 							}else{
 								polyPoints.removeLast();
@@ -282,7 +363,8 @@ public class Region2D implements Comparable{
 		return face;
 	}
 	
-	private boolean polygonContainPoints(CSG_Polygon poly, LinkedList<Point2D> pointList, LinkedList<Point2D> invalidPoints){
+	// TODO: use point2DList instead of a linkedList<Point2D>
+	private boolean polygonContainsPoints(CSG_Polygon poly, LinkedList<Point2D> pointList, LinkedList<Point2D> invalidPoints){
 		boolean polyOverlapsOtherPoints = false;
 		for(Point2D point : pointList){
 			if(!invalidPoints.contains(point) && poly.vertexIsInsideOrOnEdgeOfPolygon(new CSG_Vertex(point, 0.0))){

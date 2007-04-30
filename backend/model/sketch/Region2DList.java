@@ -49,9 +49,10 @@ public class Region2DList extends LinkedList<Region2D>{
 		//
 		// STEP INVOLVED TO GET 2D REGIONS! :)
 		//
-		// 1. find intersections of prim2D and split them so that none overlap (except at endpoints).
+		// 1. find intersections of all prim2D and split them so that none overlap (except at endpoints).
 		// 2. only keep unique Prim2D.
 		// 3. get rid of all prim2D that do not connect to others (or theirself) at both ends.
+		//      therse are referred to as "dangling" prim2D.
 		//
 		// 4. start from each prim2D still remaining, and walk down connecting prim2D, always taking 
 		//      the left-most turn possible when the elements branch. 
@@ -60,12 +61,15 @@ public class Region2DList extends LinkedList<Region2D>{
 		//
 		// 7. perform steps 4,5,6 again but starting at the opposite end of the initial prim2D.
 		// 
-		// 8. all cycles are of minimal area and unique!... EXCEPT, fully enclosed regions.
+		// 8. there is a chance for duplicate cycles, but in opposite direction.. make sure these
+		//      duplicates are removed.
+		//
+		// 9. all cycles are of minimal area and unique!... EXCEPT, fully enclosed regions.
 		//     (e.g., a circle withing a circle)
 		//    check to see if everypoint of each region is within any other region.
-		// 9. cut the larger region to go around the inner region.
+		// 10. cut the larger region to go around the inner region.
 		// 
-		// 10. repeat steps 8,9 until there are no more cuts to be made.
+		// 11. repeat steps 8,9 until there are no more cuts to be made.
 		//
 		
 		System.out.println("Region2DList(buildRegionsFromPrim2D): Building 2D regions from the sketch...");
@@ -195,9 +199,96 @@ public class Region2DList extends LinkedList<Region2D>{
 		System.out.println("Total Cycles Found: " + this.size());
 		
 		
-		// STEP 8,9,10 
+		// STEP 8
+		// remove any duplicate cycles (same elements but different starting point/direction).
+		System.out.println("Searching for region duplicates...");
+		for(int i=this.size()-1; i>= 0; i--){
+			Region2D regA = this.get(i);
+			boolean duplicateFound = false;
+			for(Region2D regB : this){
+				if(regA != regB && regA.hasSamePointsAsRegion(regB)){
+					duplicateFound = true;
+					break;
+				}
+			}
+			if(duplicateFound){
+				this.remove(i);
+				System.out.println("@@ duplicate found! --> removing");
+			}			
+		}
+		
+		// STEP 9,10,11 
 		// TODO: cut out inner 2D regions!
 		//
+		System.out.println("Cutting out inner regions from larger regions...");
+		int[] numContainedRegions = new int[this.size()];
+		boolean performedCut = true;
+		while(performedCut){
+			System.out.println("cutting");
+			performedCut = false;
+			
+			// find regions contained within regions.
+			int j = 0;
+			for(Region2D regA : this){
+				numContainedRegions[j] = 0;
+				for(Region2D regB : this){
+					if(regA != regB && regA.containsRegion(regB)){
+						// regB is entirely within regA
+						numContainedRegions[j]++;
+					}
+				}
+				j++;
+			}
+			
+			for(int i=1; i<this.size(); i++){
+				for(j=0; j<this.size(); j++){
+					if(numContainedRegions[j] == i){
+						// found a region with a minimal number of other regions within it.
+						Region2DList innerRegions = new Region2DList();
+						Region2D outerRegion = this.get(j);
+						for(Region2D regB : this){
+							if(outerRegion != regB && outerRegion.containsRegion(regB)){
+								innerRegions.add(regB);
+							}
+						}
+						// innerRegions have now been found.
+						if(innerRegions.size() != i){
+							System.out.println("Region2DList(buildRegionsFromPrim2D): big mistake! wrong number of contained regions!");
+						}
+						Region2D combinedInnerRegion = innerRegions.getFirst();
+						innerRegions.removeFirst();
+						int totalRegions = innerRegions.size();						
+						for(int m=0; m<totalRegions; m++){
+							// do this totalRegions number of times...
+							double[] dists = new double[innerRegions.size()]; 
+							int lowestDistIndex = 0;
+							for(int k=0; k<innerRegions.size(); k++){
+								dists[k] = innerRegions.get(k).distanceFromVerticiesToRegion(combinedInnerRegion);
+								if(dists[k] < dists[lowestDistIndex]){
+									lowestDistIndex = k;
+								}
+							}
+							// lowestDistIndex is the element that should be joined on next! :)
+							// TODO
+							combinedInnerRegion = combinedInnerRegion.createNewRegionByJoining(innerRegions.get(lowestDistIndex));
+							innerRegions.remove(lowestDistIndex);
+						}
+						// TODO
+						outerRegion.cutRegionFromRegion(combinedInnerRegion);
+						//performedCut = true;
+						break;
+					}
+				}
+				if(performedCut){
+					break;
+				}
+			}			
+		}
+		
+		
+		for(int j=0; j<this.size(); j++){
+			System.out.println("contained: [" + j + "]=" + numContainedRegions[j] );
+		}
 		
 	}
 	

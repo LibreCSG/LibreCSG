@@ -71,9 +71,16 @@ public class Prim2DCycle extends Prim2DList implements Comparable{
 		return 0; 
 	}
 	
+	/**
+	 * test to see if this prim2DCycle contains the specified point at
+	 * one of its prim2D ends or centerpoint.
+	 * @param pt the given point to test.
+	 * @return true iff the given point exists at one of the endpoints 
+	 * or the centerpoint of any prim2D that this cycle contains.
+	 */
 	public boolean containsPt(Point2D pt){
 		for(Prim2D prim : this){
-			if(prim.ptA.equalsPt(pt) || prim.ptB.equalsPt(pt)){
+			if(prim.ptA.equalsPt(pt) || prim.ptB.equalsPt(pt) || prim.getCenterPtAlongPrim().equalsPt(pt)){
 				return true;
 			}
 		}
@@ -268,6 +275,23 @@ public class Prim2DCycle extends Prim2DList implements Comparable{
 				conPt = prim.ptB;
 			}
 		}
+	}
+	
+	/**
+	 * get the closest euclidean distance from the point to
+	 * each of the prim2D that make up this prim2DCycle.
+	 * @param pt the point to test
+	 * @return the closest distance to the given point.
+	 */
+	public double getClosestDistanceToPoint(Point2D pt){
+		double distance = Double.MAX_VALUE;
+		for(Prim2D prim : this){
+			double d = prim.distFromPrim(pt);
+			if(d < distance){
+				distance = d;
+			}
+		}
+		return distance;
 	}
 	
 }

@@ -1,6 +1,7 @@
 package ui.opengl;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 
 import javax.media.opengl.GL;
 
@@ -299,8 +300,87 @@ public class GLTests {
 			    gl.glLoadIdentity();
 			    gl.glColor3d(0.7, 0.7, 0.7);
 			}
-		}
-
-		
+		}		
 	}
+	
+	
+	/**
+	 * test the perimeter formation routine.  
+	 * This should be able to take any CSG_Face composed of
+	 * many convex polygons and return just the points
+	 * along hte face's perimeter for edge drawing 
+	 * purposes in open GL.
+	 * @param gl
+	 */
+	public static void testPerimeterFormation(GL gl){
+		gl.glLoadIdentity();
+		gl.glTranslated(-5.0, 0.0, 0.0);
+		Point2D ptA = new Point2D(0.0, 0.0);
+		Point2D ptB = new Point2D(2.0, 0.0);
+		Point2D ptC = new Point2D(2.0, 2.0);
+		Point2D ptD = new Point2D(1.1, 1.0);
+		Point2D ptE = new Point2D(2.0, 3.0);
+		Point2D ptF = new Point2D(3.0, 2.0);
+		Point2D ptG = new Point2D(2.5, 1.0);
+		Point2D ptH = new Point2D(2.5, 0.0);
+		Point2D ptI = new Point2D(4.0, 1.0);
+		Point2D ptJ = new Point2D(3.0, 3.0);
+		Point2D ptK = new Point2D(2.0, 4.0);
+		Point2D ptL = new Point2D(0.0, 2.0);
+		Point2D ptM = new Point2D(-1.0, 1.0);
+		
+		
+		Prim2DLine l1  = new Prim2DLine(ptA, ptB);
+		Prim2DLine l2  = new Prim2DLine(ptB, ptC);
+		Prim2DLine l3  = new Prim2DLine(ptC, ptD);
+		Prim2DLine l4  = new Prim2DLine(ptD, ptE);
+		Prim2DLine l5  = new Prim2DLine(ptE, ptF);
+		Prim2DLine l6  = new Prim2DLine(ptF, ptG);
+		Prim2DLine l7  = new Prim2DLine(ptG, ptH);
+		Prim2DLine l8  = new Prim2DLine(ptH, ptI);
+		Prim2DLine l9  = new Prim2DLine(ptI, ptJ);
+		Prim2DLine l10 = new Prim2DLine(ptJ, ptK);
+		Prim2DLine l11 = new Prim2DLine(ptK, ptL);
+		Prim2DLine l12 = new Prim2DLine(ptL, ptM);
+		Prim2DLine l13 = new Prim2DLine(ptM, ptA);
+		Prim2DCycle cycle = new Prim2DCycle();
+		cycle.add(l1);
+		cycle.add(l2);
+		cycle.add(l3);
+		cycle.add(l4);
+		cycle.add(l5);
+		cycle.add(l6);
+		cycle.add(l7);
+		cycle.add(l8);
+		cycle.add(l9);
+		cycle.add(l10);
+		cycle.add(l11);
+		cycle.add(l12);
+		cycle.add(l13);
+		
+		Region2D region = new Region2D(cycle);
+		CSG_Face face = region.getCSG_Face();
+		
+		face.drawFaceForDebug(gl);
+		face.drawFaceLinesForDebug(gl);
+		
+		gl.glTranslated(5.0, 0.0, 0.0);
+		// now find the perimeter and draw that...
+		gl.glLineWidth(3.0f);
+		gl.glPointSize(5.0f);
+		gl.glColor3d(0.9, 0.7, 0.3);
+		LinkedList<CSG_Vertex> perim = face.getPerimeterVertices();
+		for(int i=0; i<perim.size(); i++){
+			CSG_Vertex vA = perim.get(i);
+			CSG_Vertex vB = perim.get((i+1)%perim.size());
+			gl.glBegin(GL.GL_LINE_LOOP);
+				gl.glVertex3d(vA.getX(), vA.getY(), vA.getZ());
+				gl.glVertex3d(vB.getX(), vB.getY(), vB.getZ());
+			gl.glEnd();
+		}
+		
+		//System.out.println("face area: " + face.getArea());
+		gl.glLoadIdentity();
+	}
+	
 }

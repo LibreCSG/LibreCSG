@@ -56,7 +56,7 @@ public class AboutAvoCADoGPLShell {
 		setupShell(); 				// place components in the avoCADo license shell
 		
 		shell.setText("avoCADo GPLv2");
-		shell.setSize(583, 350);	//TODO: set intial size to last known size
+		shell.setSize(583, 350);	//TODO: set initial size to last known size
 		Rectangle b = display.getBounds();
 		int xPos = Math.max(0, (b.width-583)/2);
 		int yPos = Math.max(0, (b.height-350)/2);

@@ -44,5 +44,22 @@ public class Prim2DList extends LinkedList<Prim2D>{
 		}
 	}
 	
+	/**
+	 * get a list of all unique points in this Prim2DList.
+	 * @return the list of points.
+	 */
+	public Point2DList getPointList(){
+		Point2DList pList = new Point2DList();
+		for(Prim2D prim : this){
+			if(!pList.contains(prim.ptA)){
+				pList.add(prim.ptA);
+			}
+			if(!pList.contains(prim.ptB)){
+				pList.add(prim.ptB);
+			}
+		}
+		return pList;
+	}
+	
 	
 }

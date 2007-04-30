@@ -187,7 +187,6 @@ public class CSG_Vertex {
 	 * @return a copy of the vertex with the translation/rotation applied.
 	 */
 	public CSG_Vertex getTranslatedRotatedCopy(Translation3D translation, Rotation3D rotation){
-		// TODO: don't use CSG_Vertex for translation/rotation (make specific classes)
 		double newX = x;
 		double newY = y;
 		double newZ = z;
