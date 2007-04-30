@@ -41,8 +41,13 @@ import backend.model.sketch.SketchPlane;
 */
 
 /**
- * model componet that represents the "Sketch" 
- * which contains a set of Feature2D.
+ * A "Sketch" is a model which contains a set of Feature2D.<br/>
+ * The 2D geometry (Feature2D) gets added the drawing (Sketch) when a 
+ * tool (SketchTool) is active and the user clicks the mouse in the openGL 
+ * viewing area. (e.g., the user clicks the rectangle SketchTool, then clicks 
+ * and drags in the viewing area to construct it).  All 2D geometries (Feature2D) 
+ * are constructed of a list of 2D primitive (Prim2D) elements such as lines, 
+ * arcs, quadratics, cubics, etc.
  */
 public class Sketch implements SubPart{	
 	

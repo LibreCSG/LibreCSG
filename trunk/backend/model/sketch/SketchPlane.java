@@ -35,6 +35,16 @@ import backend.model.CSG.CSG_Vertex;
 * @author  Adam Kumpf
 * @created Mar. 2007
 */
+
+/**
+ * The "sketch plane" is a 2D plane in a 3D space.  
+ * In other words, it lets purely 2D shapes be placed on a plane that could be at 
+ * any angle/orientation in 3D space.  The sketch plane allows for calculations 
+ * and interactions to remain much simpler when sketching than they would be if 
+ * every line, arc, curve, etc. was defined directly in 3D.  In particular, there 
+ * is rotation information contained in the SketchPlane that allows openGL and 3D 
+ * CSG intersection code to orient to the 2D space where the sketch is located.
+ */
 public class SketchPlane {
 
 	private CSG_Vertex origin;
