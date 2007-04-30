@@ -369,6 +369,10 @@ public class GLView {
 						//  TEST Rotations!
 						//
 						//GLTests.testRotation(gl);
+						//
+						//  TEST Perimeter Formation!
+						//
+						//GLTests.testPerimeterFormation(gl);
 						
 						gl.glColor4f(0.7f, 0.7f, 0.7f, 1.0f);
 						gl.glLineWidth(2.5f);

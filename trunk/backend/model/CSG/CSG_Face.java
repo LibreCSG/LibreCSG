@@ -124,7 +124,9 @@ public class CSG_Face {
 	}
 	
 	/**
-	 * @return the face's barycenter (the average of all vertices that define it);
+	 * @return the face's barycenter (the average of all vertices that define it, 
+	 * which <b> could be located outside the perimeter of a convex face</b>).
+	 * see "getFirstPolygonBarycenter()" if you require a vertex within the face.
 	 */
 	public CSG_Vertex getFaceBarycenter(){
 		double x = 0.0;
@@ -140,11 +142,36 @@ public class CSG_Face {
 				y += v.getY();
 				z += v.getZ();
 			}
-		}			
+		}
 		if(totalVertices > 0){
 			return new CSG_Vertex(x/(double)totalVertices, y/(double)totalVertices, z/(double)totalVertices);
 		}else{
 			System.out.println("CSG_Face(getFaceBarycenter): totalVertices = 0!! ");
+			return new CSG_Vertex(0.0, 0.0, 0.0);
+		}
+	}
+	
+	/**
+	 * @return the first polygon's barycenter (the average of all vertices that define it) 
+	 * which <b> is gauranteed to be located within the face.</b>).
+	 */
+	public CSG_Vertex getFirstPolygonBarycenter(){
+		double x = 0.0;
+		double y = 0.0;
+		double z = 0.0;
+		int totalVertices = 0;
+		Iterator<CSG_Vertex> iterV = polygons.get(0).getVertexIterator();
+		while(iterV.hasNext()){
+			CSG_Vertex v = iterV.next();
+			totalVertices++;
+			x += v.getX();
+			y += v.getY();
+			z += v.getZ();
+		}		
+		if(totalVertices > 0){
+			return new CSG_Vertex(x/(double)totalVertices, y/(double)totalVertices, z/(double)totalVertices);
+		}else{
+			System.out.println("CSG_Face(getFirstPolygonBarycenter): totalVertices = 0!! ");
 			return new CSG_Vertex(0.0, 0.0, 0.0);
 		}
 	}
@@ -337,17 +364,90 @@ public class CSG_Face {
 			gl.glEnd();
 			//if(selectable){
 				// draw perimeter line
-				gl.glColor3d(0.25, 0.25, 0.25);
+				//gl.glColor3d(0.25, 0.25, 0.25);
 				// TODO: don't have perimeter, just draw polygon outlines
-				iterV = poly.getVertexIterator();
-				gl.glBegin(GL.GL_LINE_LOOP);
-				while(iterV.hasNext()){
-					gl.glVertex3dv(iterV.next().getXYZ(), 0);
-				}
-				gl.glEnd();
+				//iterV = poly.getVertexIterator();
+				//gl.glBegin(GL.GL_LINE_LOOP);
+				//while(iterV.hasNext()){
+				//	gl.glVertex3dv(iterV.next().getXYZ(), 0);
+				//}
+				//gl.glEnd();
+				
+				
 			//}
 		}
+		// draw perimeter.. :)
+		gl.glColor3d(0.25, 0.25, 0.25);
+		Iterator<CSG_Vertex> iterPerim = this.getPerimeterVertices().iterator();
+		gl.glBegin(GL.GL_LINE_LOOP);
+			while(iterPerim.hasNext()){
+				gl.glVertex3dv(iterPerim.next().getXYZ(), 0);
+			}
+		gl.glEnd();
 	}
+	
+	
+	public LinkedList<CSG_Vertex> getPerimeterVertices(){
+		LinkedList<CSG_Vertex>  perim = new LinkedList<CSG_Vertex>();
+		
+		// make a copy of the list so we can add/remove items freely.
+		LinkedList<CSG_Polygon> polys = new LinkedList<CSG_Polygon>();
+		for(CSG_Polygon poly : polygons){
+			polys.add(poly);
+		}
+		
+		boolean isFirstTime = true;
+		int lastSize = Integer.MAX_VALUE;
+		while(lastSize > polys.size()){
+			lastSize = polys.size();
+			for(int n=0; n<polys.size(); n++){
+				CSG_Polygon poly = polys.get(n);
+				if(isFirstTime){
+					// first time, just add the entire polygon.
+					Iterator<CSG_Vertex> iter = poly.getVertexIterator();
+					while(iter.hasNext()){
+						perim.add(iter.next());
+					}
+					polys.removeFirst();
+					isFirstTime = false;
+				}else{				
+					// look for a shared edge.. 
+					// if it exists, squish the two polygons together.
+					double TOL = 1e-12;
+					boolean gotoNext = false;
+					int polyVerts = poly.getNumberVertices();
+					for(int i=0; i<polyVerts; i++){
+						CSG_Vertex pVertA = poly.getVertAtModIndex(i);
+						for(int j=0; j<perim.size(); j++){
+							CSG_Vertex ptA = perim.get(j);
+							if(pVertA.getDistBetweenVertices(ptA) < TOL){
+								// points matched.. check the next one
+								CSG_Vertex pVertB = poly.getVertAtModIndex(i+1);
+								CSG_Vertex ptB = perim.get((j-1+perim.size())%perim.size());
+								if(pVertB.getDistBetweenVertices(ptB) < TOL){
+									// edge matched!
+									for(int q=i; q>i-poly.getNumberVertices()+1; q--){
+										perim.add(j, poly.getVertAtModIndex(q));
+									}
+									polys.remove(n);
+									gotoNext = true;
+								}
+							}
+							if(gotoNext){
+								break;
+							}
+						}
+						if(gotoNext){
+							break;
+						}
+					}
+					
+				}
+			}
+		}
+		return perim;
+	}
+	
 	
 	public void drawFaceNormalsForDebug(GL gl){
 		for(CSG_Polygon poly : polygons){			
