@@ -224,7 +224,7 @@ public class Region2DList extends LinkedList<Region2D>{
 		int[] numContainedRegions = new int[this.size()];
 		boolean performedCut = true;
 		while(performedCut){
-			System.out.println("cutting");
+			System.out.println("cutting (TODO... not yet implemented)");
 			performedCut = false;
 			
 			// find regions contained within regions.
