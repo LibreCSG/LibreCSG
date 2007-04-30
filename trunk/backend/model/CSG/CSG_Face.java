@@ -62,6 +62,9 @@ public class CSG_Face {
 	
 	private ModRef_Plane relativePlane = null;
 	
+	private boolean perimNeedsUpdated = true;
+	private LinkedList<CSG_Vertex> perimVertices = null;
+	
 	/**
 	 * create a new Face (convex, planar, noncollinear polygons)<br/><br/>
 	 * <b>More polygons may be added to this face, but they must remain coplanar!</b><br/>
@@ -72,6 +75,7 @@ public class CSG_Face {
 		polygons.add(polygon);
 		facePlane = polygon.getPlane();
 		bounds = polygon.getBounds();
+		perimNeedsUpdated = true;
 	}
 	
 	public Object[] getPolygonArray(){
@@ -81,6 +85,7 @@ public class CSG_Face {
 	public void addPolygon(CSG_Polygon polygon){
 		polygons.add(polygon);
 		bounds.includeBounds(polygon.getBounds());
+		perimNeedsUpdated = true;
 	}
 	
 	public CSG_Bounds getBounds(){
@@ -183,6 +188,7 @@ public class CSG_Face {
 				polygons.remove(i);
 			}
 		}
+		perimNeedsUpdated = true;
 	}
 	
 	/**
@@ -362,19 +368,6 @@ public class CSG_Face {
 				gl.glVertex3dv(iterV.next().getXYZ(), 0);
 			}
 			gl.glEnd();
-			//if(selectable){
-				// draw perimeter line
-				//gl.glColor3d(0.25, 0.25, 0.25);
-				// TODO: don't have perimeter, just draw polygon outlines
-				//iterV = poly.getVertexIterator();
-				//gl.glBegin(GL.GL_LINE_LOOP);
-				//while(iterV.hasNext()){
-				//	gl.glVertex3dv(iterV.next().getXYZ(), 0);
-				//}
-				//gl.glEnd();
-				
-				
-			//}
 		}
 		// draw perimeter.. :)
 		gl.glColor3d(0.25, 0.25, 0.25);
@@ -388,6 +381,16 @@ public class CSG_Face {
 	
 	
 	public LinkedList<CSG_Vertex> getPerimeterVertices(){
+		if(perimVertices != null && !perimNeedsUpdated){
+			return perimVertices;
+		}else{
+			perimVertices = computePerimeterVertices();
+			perimNeedsUpdated = false;
+			return perimVertices;
+		}
+	}
+	
+	private LinkedList<CSG_Vertex> computePerimeterVertices(){
 		LinkedList<CSG_Vertex>  perim = new LinkedList<CSG_Vertex>();
 		
 		// make a copy of the list so we can add/remove items freely.
