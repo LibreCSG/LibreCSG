@@ -68,6 +68,10 @@ public class ModRef_Plane extends ModelReference{
 		return null;
 	}
 	
+	public int getUniqueFaceID(){
+		return uniqueFaceID;
+	}
+	
 	@Override
 	public String getStringReferenceInfo() {
 		return "SubPartID:" + uniqueSubPartID + ", FaceID:" + uniqueFaceID;

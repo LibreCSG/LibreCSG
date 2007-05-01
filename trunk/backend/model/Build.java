@@ -2,7 +2,6 @@ package backend.model;
 
 import ui.tools.ToolModelBuild;
 import backend.adt.ParamSet;
-import backend.model.CSG.CSG_Face;
 import backend.model.sketch.SketchPlane;
 
 
@@ -82,9 +81,8 @@ public class Build implements SubPart{
 		}
 		ToolModelBuild toolModelBuild = paramSet.getToolModel2D3D();
 		if(toolModelBuild != null){
-			// get sketchPlane by constructing one from the specified CSG_face
-			CSG_Face face = toolModelBuild.getFaceByID(this, uniqueFaceID);
-			return new SketchPlane(face.getPlane());
+			// get sketchPlane by the ID of the assocaited face.
+			return toolModelBuild.getSketchPlaneByID(this, uniqueFaceID);
 		}else{
 			// toolModel was null, can't find a plane
 			System.out.println("Feature2D3D(getPlaneByFaceID): Tool Model was NULL, can't return a sketch!");

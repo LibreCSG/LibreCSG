@@ -153,17 +153,29 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 			try{
 				SelectionList selectionList = paramSet.getParam("regions").getDataSelectionList();
 				Double height = paramSet.getParam("h").getDataDouble();
+				int faceCounter = 1;
 				if(selectionList != null && height != null){
 					//System.out.println("drawing extrude at height=" + height + " and selection: " + selectionList.toString());
 					for(int i=0; i<selectionList.getSelectionSize(); i++){
 						Region2D includedRegion = sketch.getRegAtIndex(Integer.parseInt(selectionList.getStringAtIndex(i)));
 						if(includedRegion != null){
 							
-							// faceID = 1 --> top Face
-							// faceID = 2 --> bottom face
-							solid.addFace(getFaceByID(feat2D3D, 1));
-							solid.addFace(getFaceByID(feat2D3D, 2));
+							// top Face
+							CSG_Face topFace = includedRegion.getCSG_Face().getTranslatedCopy(new CSG_Vertex(0.0, 0.0, height));
+							if(height >= 0.0){ // make sure normal points correct way (outward).
+								topFace.flipFaceDirection();
+							}
+							topFace.setIsSelectable(new ModRef_Plane(feat2D3D.ID, faceCounter++));
+							solid.addFace(topFace);
 							
+							// bottom face
+							CSG_Face botFace = includedRegion.getCSG_Face();
+							if(height < 0.0){ // make sure normal points correct way (outward).
+								botFace.flipFaceDirection();										
+							}
+							botFace.setIsSelectable(new ModRef_Plane(feat2D3D.ID, faceCounter++));
+							solid.addFace(botFace);
+														
 							Point2DList ptList = includedRegion.getPeremeterPointList();
 							
 							CSG_Vertex lastVert        = null;
@@ -199,54 +211,22 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 			return new CSG_Solid();
 		}	
 		
-		
-		
 		return solid;
 	}
 
-	public CSG_Face getFaceByID(Build feat2D3D, int faceID) {
-		ParamSet paramSet = feat2D3D.paramSet;
-		Sketch sketch = feat2D3D.getPrimarySketch();
-		if(sketch != null && paramSet != null){					
-			try{
-				SelectionList selectionList = paramSet.getParam("regions").getDataSelectionList();
-				Double height = paramSet.getParam("h").getDataDouble();
-				if(selectionList != null && height != null){
-					Region2D includedRegion = sketch.getRegAtIndex(Integer.parseInt(selectionList.getStringAtIndex(0)));
-					if(includedRegion != null){
-						// CHECK FOR FACE ID  :)
-						switch(faceID){
-							case 1: {	// Top Face
-										CSG_Face topFace = includedRegion.getCSG_Face().getTranslatedCopy(new CSG_Vertex(0.0, 0.0, height));
-										if(height >= 0.0){
-											// make sure normal points correct way (outward).
-											topFace.flipFaceDirection();
-										}
-										topFace.setIsSelectable(new ModRef_Plane(feat2D3D.ID, 1));
-										return topFace;
-									}
-							case 2: {	// Bottom Face
-										CSG_Face botFace = includedRegion.getCSG_Face();
-										if(height < 0.0){
-											// make sure normal points correct way (outward).
-											botFace.flipFaceDirection();										
-										}
-										botFace.setIsSelectable(new ModRef_Plane(feat2D3D.ID, 2));
-										return botFace;
-									}
-							default:{
-										System.out.println("ToolBuildExtrudeModel(getFaceByID): no face with ID=" + faceID + " !!!");
-										return null;
-									}
-						}						
-					}
-				}
-			}catch(Exception ex){
-				System.out.println("ToolBuildExtrudeModel(getFaceByID): " + ex.getClass().getName());
+	public SketchPlane getSketchPlaneByID(Build feat2D3D, int faceID) {
+		// TODO: this is a bit of a hack.. just recontruct the solid and find 
+		// what plane the selected face contains.. should always get it right, 
+		// but at the cost of being quite slow.
+		CSG_Solid tempSolid = getBuiltSolid(feat2D3D);
+		Iterator<CSG_Face> faceIter = tempSolid.getFacesIter();
+		while(faceIter.hasNext()){
+			CSG_Face face = faceIter.next();
+			if(face.isSelectable() && face.getModRefPlane().getUniqueFaceID() == faceID){
+				return new SketchPlane(face.getPlane());
 			}
 		}
+		System.out.println("ToolBuildExtrude(getSketchPlaneByID): No face existed with that ID.  faceID=" + faceID);
 		return null;
 	}
-
-
 }
