@@ -1,6 +1,14 @@
 avoCADo changelog, from newest to oldest.
 -----------------------------------------
 
+2007-05-01: avoCADo 07.05 preAlpha Released
+ - new 2D region formation algorithm (much faster)
+ - ability to reference faces by a unique ID
+ - rotation code to form a plane by a normal vector (and offset) alone
+ - ability to delete selected 2D shapes in the Sketch mode
+ - a few small structural changes to allow for future expansion
+ - some new icons
+ - a bit of code cleanup and documentation
 
 2007-03-25: avoCADo 07.03 preAlpha Released
  - initial structural setup for application, but still a LOT to be desired.
