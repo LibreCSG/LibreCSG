@@ -46,7 +46,7 @@ public class ToolPartBuildView extends ToolViewPart{
 		mElement = new MEButton(menuet, this.getToolMode(), this, false);
 		mElement.mePreferredHeight = 100;
 		mElement.meLabel = "Build";
-		mElement.meIcon = ImageUtils.getIcon("menuet/MAIN_2Dto3D.png", 24, 24);
+		mElement.meIcon = ImageUtils.getIcon("menuet/Part_Build.png", 24, 24);
 		mElement.setToolTipText("Transform 2D sketches\ninto various 3D shapes.");
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
 		

@@ -41,7 +41,7 @@ public class ToolProjectShareView extends ToolViewProject{
 		mElement = new MEButton(menuet, this.getToolMode(), this, false);
 		mElement.mePreferredHeight = 100;
 		mElement.meLabel = "Share";
-		mElement.meIcon = ImageUtils.getIcon("menuet/MAIN_2Dto3D.png", 24, 24);
+		mElement.meIcon = ImageUtils.getIcon("menuet/Project_Share.png", 24, 24);
 		mElement.setToolTipText("Share the project with others.");
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
 		
