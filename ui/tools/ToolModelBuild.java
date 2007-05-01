@@ -5,8 +5,8 @@ import javax.media.opengl.GL;
 import backend.adt.ParamSet;
 import backend.model.Build;
 import backend.model.CSG.BoolOp;
-import backend.model.CSG.CSG_Face;
 import backend.model.CSG.CSG_Solid;
+import backend.model.sketch.SketchPlane;
 
 
 //
@@ -48,13 +48,13 @@ public interface ToolModelBuild extends ToolModel{
 	abstract public CSG_Solid getBuiltSolid(Build feat2D3D);
 	
 	/**
-	 * get the CSG_Face defined by this feature's unique faceID and
+	 * get the SketchPlane defined by this feature's faceID and
 	 * the corresponding parameter set.
 	 * @param pSet the ParamSet used to indicate how the feature should be constructed.
 	 * @param faceID the unique ID of the face to retreive
-	 * @return the CSG_Face specified by the faceID, or NULL if no face exists at that ID.
+	 * @return the SketchPlane specified by the faceID, or NULL if no face exists at that ID.
 	 */
-	abstract public CSG_Face getFaceByID(Build feat2D3D, int faceID);
+	abstract public SketchPlane getSketchPlaneByID(Build feat2D3D, int faceID);
 	
 	/**
 	 * @return the Boolean operation to peform on 

@@ -3,16 +3,16 @@ package ui.tools.build;
 import javax.media.opengl.GL;
 
 import ui.tools.ToolModelBuild;
-import backend.adt.ParamType;
 import backend.adt.Param;
 import backend.adt.ParamSet;
+import backend.adt.ParamType;
 import backend.adt.SelectionList;
 import backend.global.AvoGlobal;
 import backend.model.Build;
 import backend.model.Sketch;
 import backend.model.CSG.BoolOp;
-import backend.model.CSG.CSG_Face;
 import backend.model.CSG.CSG_Solid;
+import backend.model.sketch.SketchPlane;
 
 
 //
@@ -108,7 +108,7 @@ public class ToolBuildRevolveModel implements ToolModelBuild{
 		return null;
 	}
 
-	public CSG_Face getFaceByID(Build feat2D3D, int faceID) {
+	public SketchPlane getSketchPlaneByID(Build feat2D3D, int faceID) {
 		// TODO Auto-generated method stub
 		return null;
 	}
