@@ -1,5 +1,6 @@
 package ui.tools;
 
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseEvent;
 
 
@@ -81,6 +82,8 @@ public interface ToolCtrl {
 	 * @param e mouseEvent (useful for key state, button pressed, etc.)
 	 */
 	abstract public void glMouseUp(double x, double y, double z,  MouseEvent e);
+	
+	abstract public void glKeyPressed(KeyEvent e, boolean ctrlIsDown, boolean shiftIsDown);
 	
 	/**
 	 * This is called by the menuet element (the tool's view)

@@ -1,6 +1,7 @@
 package ui.tools.build;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolCtrlBuild;
@@ -119,6 +120,10 @@ public class ToolBuildRevolveCtrl implements ToolCtrlBuild{
 	}
 
 	public void menuetElementSelected() {
+	}
+
+	public void glKeyPressed(KeyEvent e, boolean ctrlIsDown, boolean shiftIsDown) {
+		// TODO Auto-generated method stub
 	}
 	
 }

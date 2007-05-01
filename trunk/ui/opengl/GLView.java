@@ -201,6 +201,13 @@ public class GLView {
 					}
 				}
 				
+				//
+				// let current tool know that a key has been pressed
+				//
+				if(AvoGlobal.activeToolController != null){
+					AvoGlobal.activeToolController.glKeyPressed(e, ctrlIsDown, shiftIsDown);
+					updateGLView = true;
+				}	
 			}
 			public void keyReleased(KeyEvent e) {			
 			}			

@@ -1,5 +1,6 @@
 package ui.tools.sketch;
 
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolCtrlSketch;
@@ -94,6 +95,10 @@ public class ToolSketchExampleCtrl implements ToolCtrlSketch{
 	}
 
 	public void menuetElementSelected() {
+	}
+
+	public void glKeyPressed(KeyEvent e, boolean ctrlIsDown, boolean shiftIsDown) {
+		// TODO Auto-generated method stub
 	}
 	
 }
