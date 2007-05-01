@@ -2,6 +2,7 @@ package ui.tools.part;
 
 import java.util.Iterator;
 
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolCtrlPart;
@@ -92,6 +93,10 @@ public class ToolPartDefaultCtrl implements ToolCtrlPart{
 	public void menuetElementSelected() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void glKeyPressed(KeyEvent e, boolean ctrlIsDown, boolean shiftIsDown) {
+		// TODO Auto-generated method stub
 	}
 
 }

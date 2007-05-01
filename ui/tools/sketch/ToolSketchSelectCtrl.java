@@ -1,6 +1,7 @@
 package ui.tools.sketch;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolCtrlSketch;
@@ -71,6 +72,12 @@ public class ToolSketchSelectCtrl implements ToolCtrlSketch {
 				for(Prim2D prim2D : f2D.prim2DList){
 					if(prim2D.distFromPrim(new Point2D(x,y)) < 0.2){
 						f2D.isSelected = true;
+						//
+						// give paramDialog the paramSet so that it can
+						// be displayed to the user for manual parameter
+						// input.
+						//
+						AvoGlobal.paramDialog.setParamSet(f2D.paramSet);
 					}
 				}
 			}
@@ -91,6 +98,21 @@ public class ToolSketchSelectCtrl implements ToolCtrlSketch {
 	}
 
 	public void menuetElementSelected() {
+	}
+
+	public void glKeyPressed(KeyEvent e, boolean ctrlIsDown, boolean shiftIsDown) {
+		Sketch sketch = AvoGlobal.project.getActiveSketch();
+		if(sketch != null && !sketch.isConsumed){
+			if(e.character == SWT.DEL){
+				for(int i = sketch.getFeat2DListSize()-1; i >= 0; i--){
+					Feature2D f2D = sketch.getAtIndex(i);
+					if(f2D.isSelected){
+						sketch.removeFeat2DAtIndex(i);
+					}
+				}
+			}
+			AvoGlobal.glView.updateGLView = true;
+		}
 	}
 
 

@@ -1,6 +1,7 @@
 package ui.tools.build;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolCtrlBuild;
@@ -114,6 +115,10 @@ public class ToolBuildExtrudeCtrl implements ToolCtrlBuild{
 			feat2D3D.paramSet = (new ToolBuildExtrudeModel()).constructNewParamSet();
 			AvoGlobal.glView.updateGLView = true;
 		}
+	}
+
+	public void glKeyPressed(KeyEvent e, boolean ctrlIsDown, boolean shiftIsDown) {
+		// TODO Auto-generated method stub
 	}
 
 
