@@ -474,6 +474,9 @@ public class GLView {
 									sketch = feat2D3D.getPrimarySketch();
 									if(sketch != null && !sketch.isConsumed){
 										feat2D3D.paramSet.getToolModel2D3D().draw3DFeature(gl, feat2D3D);
+										// TODO: HACK, selecting regions seems to break for non XY plane orientations.
+										feat2D3D.getPrimarySketch().getSketchPlane().glOrientToPlane(gl);
+										setMouseMatrixToModelview();
 									}	
 								}
 							}
