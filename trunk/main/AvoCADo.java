@@ -53,7 +53,7 @@ public class AvoCADo {
 	
 	public AvoCADo(){
 		display = new Display();
-		
+
 		// splash screen.. loads before openGL is needed
 		// since that can take a few seconds.  This gives
 		// more immediate feedback that the app has started.
