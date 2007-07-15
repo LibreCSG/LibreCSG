@@ -3,9 +3,9 @@
 	<classpathentry kind="src" path=""/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.swt"/>
-	<classpathentry kind="lib" path="/DATA/Code/Eclipse/jogl.jar" sourcepath="/DATA/Code/Eclipse/jogl-src.zip">
+	<classpathentry kind="lib" path="/DATA/Code/Eclipse/jogl-jars/jogl-1_0_0-linux-i586/lib/jogl.jar" sourcepath="/DATA/Code/Eclipse/jogl-jars/jogl-1_0_0-src.zip">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/DATA/Code/Eclipse/libjogl"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/DATA/Code/Eclipse/jogl-jars/jogl-1_0_0-linux-i586/lib"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path=""/>
