@@ -345,7 +345,7 @@ public class GLView {
 						glContext.makeCurrent();
 						gl = glContext.getGL ();
 						//-------------------------------						
-						int width = glCanvas.getParent().getBounds().width;
+						int width = glCanvas.getBounds().width;
 						int height= glCanvas.getBounds().height;
 					    gl.glViewport(0, 0, width, height);
 					    aspect = (float) width / (float) height;
