@@ -52,7 +52,7 @@ public class Region2DList extends LinkedList<Region2D>{
 		// 1. find intersections of all prim2D and split them so that none overlap (except at endpoints).
 		// 2. only keep unique Prim2D.
 		// 3. get rid of all prim2D that do not connect to others (or theirself) at both ends.
-		//      therse are referred to as "dangling" prim2D.
+		//      these are referred to as "dangling" prim2D.
 		//
 		// 4. start from each prim2D still remaining, and walk down connecting prim2D, always taking 
 		//      the left-most turn possible when the elements branch. 
@@ -65,11 +65,11 @@ public class Region2DList extends LinkedList<Region2D>{
 		//      duplicates are removed.
 		//
 		// 9. all cycles are of minimal area and unique!... EXCEPT, fully enclosed regions.
-		//     (e.g., a circle withing a circle)
-		//    check to see if everypoint of each region is within any other region.
+		//     (e.g., a circle within a circle)
+		//    check to see if every point of each region is within any other region.
 		// 10. cut the larger region to go around the inner region.
 		// 
-		// 11. repeat steps 8,9 until there are no more cuts to be made.
+		// 11. repeat steps 9,10 until there are no more cuts to be made.
 		//
 		
 		System.out.println("Region2DList(buildRegionsFromPrim2D): Building 2D regions from the sketch...");
@@ -80,7 +80,7 @@ public class Region2DList extends LinkedList<Region2D>{
 		// no more intersections are found.  this will give a list
 		// of Prim2D that intersect only at endpoints.
 		//
-		//  TODO: This step is rediculous! (generates TONS of prims)
+		//  TODO: This step is ridiculous! (generates TONS of prims)
 		//System.out.println("Initial Prims in list: " + allPrims.size());
 		boolean foundIntersection = true;
 		int maxPrimSize = 1000; // TODO: HACK just for debug
@@ -239,7 +239,13 @@ public class Region2DList extends LinkedList<Region2D>{
 				}
 				j++;
 			}
+			// we now have a list of the number of regions contained within each region.
 			
+			System.out.println("NOT HANDLING INNER REGION CUTTING!! TODO!");
+			//-----------
+			// TODO!!!!!
+			//-----------
+			/*
 			for(int i=1; i<this.size(); i++){
 				for(j=0; j<this.size(); j++){
 					if(numContainedRegions[j] == i){
@@ -251,11 +257,11 @@ public class Region2DList extends LinkedList<Region2D>{
 								innerRegions.add(regB);
 							}
 						}
-						// innerRegions have now been found.
+						// innerRegions have now been found (regions contained within this iterations outerRegion).
 						if(innerRegions.size() != i){
 							System.out.println("Region2DList(buildRegionsFromPrim2D): big mistake! wrong number of contained regions!");
 						}
-						Region2D combinedInnerRegion = innerRegions.getFirst();
+						Region2D combinedInnerRegion = innerRegions.getFirst();						
 						innerRegions.removeFirst();
 						int totalRegions = innerRegions.size();						
 						for(int m=0; m<totalRegions; m++){
@@ -269,7 +275,8 @@ public class Region2DList extends LinkedList<Region2D>{
 								}
 							}
 							// lowestDistIndex is the element that should be joined on next! :)
-							// TODO
+							System.out.println("lowest Dist index: " + lowestDistIndex);
+							// TODO!
 							combinedInnerRegion = combinedInnerRegion.createNewRegionByJoining(innerRegions.get(lowestDistIndex));
 							innerRegions.remove(lowestDistIndex);
 						}
@@ -282,7 +289,7 @@ public class Region2DList extends LinkedList<Region2D>{
 				if(performedCut){
 					break;
 				}
-			}			
+			}		*/	
 		}
 		
 		
