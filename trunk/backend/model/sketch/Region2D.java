@@ -212,9 +212,8 @@ public class Region2D implements Comparable{
 	 * @param regionB the region2D to cut from this region.
 	 */
 	public void cutRegionFromRegion(Region2D regionB){
-		// TODO!
-		
-		
+		// TODO!		
+		System.out.println("TODO: cut a region from this region.");
 	}
 	
 	/**
@@ -225,7 +224,7 @@ public class Region2D implements Comparable{
 	 */
 	public Region2D createNewRegionByJoining(Region2D regionB){
 		// TODO! 
-		
+		System.out.println("TODO: create a new region by joining this region with another region (i.e., regionB).");
 		return null;
 	}
 	
@@ -237,6 +236,9 @@ public class Region2D implements Comparable{
 	 */
 	public double distanceFromVerticiesToRegion(Region2D regionB){
 		double distance = Double.MAX_VALUE;
+		if(regionB == null){
+				System.out.println("** BAD NEWS! Null region passed to 'distanceFromVerticiesToRegion' **");
+		}
 		for(Point2D pt : this.prim2DCycle.getPointList()){
 			double d = regionB.prim2DCycle.getClosestDistanceToPoint(pt);
 			if(d < distance){
