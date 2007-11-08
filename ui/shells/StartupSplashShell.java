@@ -48,11 +48,11 @@ public class StartupSplashShell {
 		setupShell(); 				// place components in the main avoCADo shell
 		
 		shell.setText("avoCADo");
-		shell.setBackgroundImage(ImageUtils.getIcon("./avoCADo-Splash.jpg", 360, 180));
-		shell.setSize(360, 180);	//TODO: set intial size to last known size
+		shell.setBackgroundImage(ImageUtils.getIcon("./avoCADo-Splash.jpg", 360, 298));
+		shell.setSize(360, 298);	//TODO: set intial size to last known size
 		Rectangle b = display.getBounds();
 		int xPos = Math.max(0, (b.width-360)/2);
-		int yPos = Math.max(0, (b.height-180)/2);
+		int yPos = Math.max(0, (b.height-298)/2);
 		shell.setLocation(xPos, yPos);
 		shell.setImage(ImageUtils.getIcon("./avoCADo.png", 32, 32));
 		shell.open();
