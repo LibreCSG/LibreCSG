@@ -67,4 +67,13 @@ public interface ToolModel {
 	abstract public void updateDerivedParams(ParamSet paramSet);
 	
 	
+	/**
+	 * check to see if the element is worth keeping by inspecting it paramSet 
+	 * values.  For example, if a line has its start and end points at the 
+	 * same location, the line is not worth keeping and should return false.
+	 * @param paramSet a <em>valid</em> paramSet for the given ToolModel.
+	 * @return true if the element is worth keeping.
+	 */	
+	abstract public boolean isWorthKeeping(ParamSet paramSet);
+	
 }

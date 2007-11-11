@@ -113,4 +113,9 @@ public class ToolBuildRevolveModel implements ToolModelBuild{
 		return null;
 	}
 
+	public boolean isWorthKeeping(ParamSet paramSet) {
+		// TODO: check for isWorthKeeping! 
+		return true;
+	}
+	
 }

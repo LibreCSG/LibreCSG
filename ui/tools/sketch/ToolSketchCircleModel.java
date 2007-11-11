@@ -85,4 +85,9 @@ public class ToolSketchCircleModel implements ToolModelSketch {
 		return pSet;
 	}
 
+	public boolean isWorthKeeping(ParamSet paramSet) {
+		// TODO: check for isWorthKeeping! 
+		return true;
+	}
+
 }
