@@ -57,5 +57,10 @@ public class ToolSketchSelectModel implements ToolModelSketch{
 	public ParamSet constructNewParamSet() {
 		return null;
 	}
+	
+	public boolean isWorthKeeping(ParamSet paramSet) {
+		// TODO: check for isWorthKeeping! 
+		return true;
+	}
 
 }

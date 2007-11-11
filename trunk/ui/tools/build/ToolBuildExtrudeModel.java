@@ -229,4 +229,9 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 		System.out.println("ToolBuildExtrude(getSketchPlaneByID): No face existed with that ID.  faceID=" + faceID);
 		return null;
 	}
+	
+	public boolean isWorthKeeping(ParamSet paramSet) {
+		// TODO: check for isWorthKeeping! 
+		return true;
+	}
 }
