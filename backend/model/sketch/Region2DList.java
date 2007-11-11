@@ -276,11 +276,11 @@ public class Region2DList extends LinkedList<Region2D>{
 							}
 							// lowestDistIndex is the element that should be joined on next! :)
 							System.out.println("lowest Dist index: " + lowestDistIndex);
-							// TODO!
+							// TODO! -- inner region cutting
 							combinedInnerRegion = combinedInnerRegion.createNewRegionByJoining(innerRegions.get(lowestDistIndex));
 							innerRegions.remove(lowestDistIndex);
 						}
-						// TODO
+						// TODO! -- more inner region cutting
 						outerRegion.cutRegionFromRegion(combinedInnerRegion);
 						//performedCut = true;
 						break;
