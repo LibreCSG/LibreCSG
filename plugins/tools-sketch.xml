@@ -1,0 +1,96 @@
+<xml>
+	<tool category="sketch" name="Line" version="1.0" description="draw a line specified by its endpoints">
+		<icon>
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 7 7 7 7 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 7 9 9 7 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 7 9 9 7 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 7 7 7 9 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 9 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 9 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 9 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 9 0 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 9 0 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 9 0 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 9 0 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 9 0 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 9 0 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 9 0 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 9 0 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 9 0 0 0 0 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 9 7 7 7 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 7 9 9 7 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 7 9 9 7 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 7 7 7 7 0
+			0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+		</icon>
+		<param id="a" label="Pt. A"  type="Point2D" description="pointA of line"/>
+		<param id="b" label="Pt. B"  type="Point2D" description="pointB of line"/>
+		<param id="l" label="Length" type="Double"  desctiption="length of line" isDerived="true"/>
+		
+		<routine name="initializeParams"><![CDATA[
+			// ** void initializeParams(ParamSet paramSet) **
+			paramSet.changeParam("a", new Point2D(0.0, 0.0));
+			paramSet.changeParam("b", new Point2D(0.0, 0.0));
+			paramSet.changeParam("l", 0.0);
+		]]></routine>
+		
+		<routine name="updateDerivedParams"><![CDATA[
+			// ** void updateDerivedParams(ParamSet paramSet) **
+			Point2D ptA = paramSet.getParam("a").getDataPoint2D();
+			Point2D ptB = paramSet.getParam("b").getDataPoint2D();
+			paramSet.changeParam("l", ptA.computeDist(ptB));
+		]]></routine>	
+		
+		<routine name="isWorthKeeping"><![CDATA[
+			// ** boolean isWorthKeeping(ParamSet paramSet) **
+			Point2D ptA = paramSet.getParam("a").getDataPoint2D();
+			Point2D ptB = paramSet.getParam("b").getDataPoint2D();
+			// * discard if start point is the same as the end point
+			if(ptA.equalsPt(ptB)){
+				return false; // not worth keeping since Pt.A == Pt.B
+			}
+			return true; 
+		]]></routine>
+		
+		<routine name="finalizeParams"><![CDATA[
+			// ** void finalizeParams(ParamSet paramSet) **
+		]]></routine>		
+		
+		<routine name="buildPrim2DList"><![CDATA[
+			// ** Prim2DList buildPrim2DList(ParamSet paramSet) **
+			Point2D ptA = paramSet.getParam("a").getDataPoint2D();
+			Point2D ptB = paramSet.getParam("b").getDataPoint2D();
+			Prim2DList primList = new Prim2DList();
+			primList.add(new Prim2DLine(ptA,ptB));
+			return primList;
+		]]></routine>		
+		
+		<routine name="glMouseDown"><![CDATA[
+			// ** void glMouseDown(double x, double y, double z,  MouseEvent e, ParamSet paramSet) **
+			paramSet.changeParam("a", new Point2D(x,y));
+			paramSet.changeParam("b", new Point2D(x,y));
+		]]></routine>	
+		
+		<routine name="glMouseDrag"><![CDATA[
+			// ** void glMouseDrag(double x, double y, double z,  MouseEvent e, ParamSet paramSet) **
+			paramSet.changeParam("b", new Point2D(x,y));
+		]]></routine>	
+		
+		<routine name="glMouseUp"><![CDATA[
+			// ** void glMouseUp(double x, double y, double z,  MouseEvent e, ParamSet paramSet) **
+			paramSet.changeParam("b", new Point2D(x,y));
+		]]></routine>
+		
+		<routine name="glMouseUpMoved"><![CDATA[
+			// ** void glMouseMovedUp(double x, double y, double z, MouseEvent e, ParamSet paramSet) **
+		]]></routine>
+		
+		<routine name="glKeyPressed"><![CDATA[
+			// ** void glKeyPressed(KeyEvent e, boolean ctrlIsDown, boolean shiftIsDown, ParamSet paramSet) **
+		]]></routine>
+		
+	</tool>
+
+
+</xml>
