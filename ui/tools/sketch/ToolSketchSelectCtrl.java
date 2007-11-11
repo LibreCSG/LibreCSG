@@ -5,6 +5,7 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolCtrlSketch;
+import backend.adt.ParamSet;
 import backend.adt.Point2D;
 import backend.global.AvoGlobal;
 import backend.model.Feature2D;
@@ -51,7 +52,7 @@ public class ToolSketchSelectCtrl implements ToolCtrlSketch {
 	public ToolSketchSelectCtrl(){		
 	}
 	
-	public void glMouseDown(double x, double y, double z,  MouseEvent e) {
+	public void glMouseDown(double x, double y, double z,  MouseEvent e, ParamSet paramSet) {
 		Sketch sketch = AvoGlobal.project.getActiveSketch();
 		if(sketch != null && !sketch.isConsumed){		
 			
@@ -85,13 +86,13 @@ public class ToolSketchSelectCtrl implements ToolCtrlSketch {
 		}
 	}
 
-	public void glMouseDrag(double x, double y, double z,  MouseEvent e) {
+	public void glMouseDrag(double x, double y, double z,  MouseEvent e, ParamSet paramSet) {
 	}
 
-	public void glMouseUp(double x, double y, double z,  MouseEvent e) {
+	public void glMouseUp(double x, double y, double z,  MouseEvent e, ParamSet paramSet) {
 	}
 
-	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
+	public void glMouseMovedUp(double x, double y, double z, MouseEvent e, ParamSet paramSet) {
 	}
 
 	public void menuetElementDeselected() {
@@ -100,7 +101,7 @@ public class ToolSketchSelectCtrl implements ToolCtrlSketch {
 	public void menuetElementSelected() {
 	}
 
-	public void glKeyPressed(KeyEvent e, boolean ctrlIsDown, boolean shiftIsDown) {
+	public void glKeyPressed(KeyEvent e, boolean ctrlIsDown, boolean shiftIsDown, ParamSet paramSet) {
 		Sketch sketch = AvoGlobal.project.getActiveSketch();
 		if(sketch != null && !sketch.isConsumed){
 			if(e.character == SWT.DEL){

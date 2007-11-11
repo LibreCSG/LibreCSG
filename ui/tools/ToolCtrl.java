@@ -3,6 +3,8 @@ package ui.tools;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseEvent;
 
+import backend.adt.ParamSet;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -46,7 +48,7 @@ public interface ToolCtrl {
 	 * @param z z-position
 	 * @param e mouseEvent (useful for key state, button pressed, etc.)
 	 */
-	abstract public void glMouseDown(double x, double y, double z, MouseEvent e);
+	abstract public void glMouseDown(double x, double y, double z, MouseEvent e, ParamSet paramSet);
 	
 	/**
 	 * glView calls this when it recieved a <em>mousemove</em> 
@@ -58,7 +60,7 @@ public interface ToolCtrl {
 	 * @param z z-position
 	 * @param e mouseEvent (useful for key state, button pressed, etc.)
 	 */
-	abstract public void glMouseDrag(double x, double y, double z,  MouseEvent e);
+	abstract public void glMouseDrag(double x, double y, double z,  MouseEvent e, ParamSet paramSet);
 	
 	/**
 	 * glView calls this when it recieved a <em>mousemove</em> 
@@ -70,7 +72,7 @@ public interface ToolCtrl {
 	 * @param z z-position
 	 * @param e mouseEvent (useful for key state, button pressed, etc.)
 	 */
-	abstract public void glMouseMovedUp(double x, double y, double z,  MouseEvent e);
+	abstract public void glMouseMovedUp(double x, double y, double z,  MouseEvent e, ParamSet paramSet);
 	
 	/**
 	 * glView calls this when it recieved a <em>mouseup</em> event.
@@ -81,9 +83,9 @@ public interface ToolCtrl {
 	 * @param z z-position
 	 * @param e mouseEvent (useful for key state, button pressed, etc.)
 	 */
-	abstract public void glMouseUp(double x, double y, double z,  MouseEvent e);
+	abstract public void glMouseUp(double x, double y, double z,  MouseEvent e, ParamSet paramSet);
 	
-	abstract public void glKeyPressed(KeyEvent e, boolean ctrlIsDown, boolean shiftIsDown);
+	abstract public void glKeyPressed(KeyEvent e, boolean ctrlIsDown, boolean shiftIsDown, ParamSet paramSet);
 	
 	/**
 	 * This is called by the menuet element (the tool's view)
