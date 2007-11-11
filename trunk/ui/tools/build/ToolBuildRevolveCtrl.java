@@ -45,12 +45,12 @@ import backend.model.sketch.Region2D;
 */
 public class ToolBuildRevolveCtrl implements ToolCtrlBuild{
 
-	public void glMouseDown(double x, double y, double z, MouseEvent e) {
+	public void glMouseDown(double x, double y, double z, MouseEvent e, ParamSet paramSet) {
 		Build feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
 		if(feat2D3D != null){	
 			Sketch sketch = feat2D3D.getPrimarySketch();
 			if(sketch != null){
-				ParamSet paramSet = feat2D3D.paramSet;
+				//ParamSet paramSet = feat2D3D.paramSet;
 				if(!(new ToolBuildRevolveModel()).paramSetIsValid(paramSet)){
 					// paramSet is not valid for this feature, create a new one.
 					paramSet = (new ToolBuildRevolveModel()).constructNewParamSet();
@@ -107,13 +107,13 @@ public class ToolBuildRevolveCtrl implements ToolCtrlBuild{
 		}		
 	}
 
-	public void glMouseDrag(double x, double y, double z, MouseEvent e) {
+	public void glMouseDrag(double x, double y, double z, MouseEvent e, ParamSet paramSet) {
 	}
 
-	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
+	public void glMouseMovedUp(double x, double y, double z, MouseEvent e, ParamSet paramSet) {
 	}
 
-	public void glMouseUp(double x, double y, double z, MouseEvent e) {
+	public void glMouseUp(double x, double y, double z, MouseEvent e, ParamSet paramSet) {
 	}
 	
 	public void menuetElementDeselected() {
@@ -122,7 +122,7 @@ public class ToolBuildRevolveCtrl implements ToolCtrlBuild{
 	public void menuetElementSelected() {
 	}
 
-	public void glKeyPressed(KeyEvent e, boolean ctrlIsDown, boolean shiftIsDown) {
+	public void glKeyPressed(KeyEvent e, boolean ctrlIsDown, boolean shiftIsDown, ParamSet paramSet) {
 		// TODO Auto-generated method stub
 	}
 	

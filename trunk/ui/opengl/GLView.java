@@ -205,7 +205,7 @@ public class GLView {
 				// let current tool know that a key has been pressed
 				//
 				if(AvoGlobal.activeToolController != null){
-					AvoGlobal.activeToolController.glKeyPressed(e, ctrlIsDown, shiftIsDown);
+					AvoGlobal.activeToolController.glKeyPressed(e, ctrlIsDown, shiftIsDown, AvoGlobal.paramDialog.getParamSet());
 					updateGLView = true;
 				}	
 			}
@@ -244,7 +244,7 @@ public class GLView {
 				if(mouse_down_button == MOUSE_LEFT && 
 						AvoGlobal.activeToolController != null){
 					double[] coor = getWorldCoorFromMouse(e.x,e.y);
-					AvoGlobal.activeToolController.glMouseDown(coor[0], coor[1], coor[2], e);
+					AvoGlobal.activeToolController.glMouseDown(coor[0], coor[1], coor[2], e, AvoGlobal.paramDialog.getParamSet());
 					updateGLView = true;
 				}				
 			}
@@ -253,7 +253,7 @@ public class GLView {
 						glCanvas.getBounds().contains(e.x,e.y) && 
 						(AvoGlobal.activeToolController != null)){
 					double[] coor = getWorldCoorFromMouse(e.x,e.y);
-					AvoGlobal.activeToolController.glMouseUp(coor[0], coor[1], coor[2], e);					
+					AvoGlobal.activeToolController.glMouseUp(coor[0], coor[1], coor[2], e, AvoGlobal.paramDialog.getParamSet());					
 				}
 				mouse_down_button = -1;
 				updateGLView = true;
@@ -304,9 +304,11 @@ public class GLView {
 					double[] coor = getWorldCoorFromMouse(e.x,e.y);
 					if(AvoGlobal.activeToolController != null){
 						if(mouse_down_button == MOUSE_LEFT){
-							AvoGlobal.activeToolController.glMouseDrag(coor[0], coor[1], coor[2], e);
+							AvoGlobal.activeToolController.glMouseDrag(coor[0], coor[1], coor[2], e, AvoGlobal.paramDialog.getParamSet());
 						}else{
 							if(mouse_down_button == -1){
+								// no mouse buttons are currently down.
+								AvoGlobal.activeToolController.glMouseMovedUp(coor[0], coor[1], coor[2], e, AvoGlobal.paramDialog.getParamSet());
 							}
 						}
 					}

@@ -278,6 +278,13 @@ public class DynParamDialog {
 	}
 	
 	/**
+	 * gets the current param set being displayed to the user.
+	 */
+	public ParamSet getParamSet(){
+		return paramSet;
+	}	
+	
+	/**
 	 * finalize the current parameters being shown, if any, 
 	 * by calling to the toolInterface and requesting that
 	 * any final steps be taken.  This should be performed 

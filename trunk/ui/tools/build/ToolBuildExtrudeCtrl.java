@@ -47,13 +47,13 @@ public class ToolBuildExtrudeCtrl implements ToolCtrlBuild{
 	public void buildDerivedParams(ParamSet pSet) {
 	}
 
-	public void glMouseDown(double x, double y, double z, MouseEvent e) {
+	public void glMouseDown(double x, double y, double z, MouseEvent e, ParamSet paramSet) {
 		
 		Build feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
 		if(feat2D3D != null){	
 			Sketch sketch = feat2D3D.getPrimarySketch();
 			if(sketch != null){
-				ParamSet paramSet = feat2D3D.paramSet;
+				//ParamSet paramSet = feat2D3D.paramSet;
 				if(!(new ToolBuildExtrudeModel()).paramSetIsValid(paramSet)){
 					//System.out.println("%% making new extrude paramSet");
 					// paramSet is not valid for this feature, create a new one.
@@ -95,15 +95,15 @@ public class ToolBuildExtrudeCtrl implements ToolCtrlBuild{
 		
 	}
 
-	public void glMouseDrag(double x, double y, double z, MouseEvent e) {
+	public void glMouseDrag(double x, double y, double z, MouseEvent e, ParamSet paramSet) {
 	}
 
-	public void glMouseUp(double x, double y, double z, MouseEvent e) {
+	public void glMouseUp(double x, double y, double z, MouseEvent e, ParamSet paramSet) {
 		// TODO: hack just to see if label updates...
 		AvoGlobal.modelEventHandler.notifyElementAdded();
 	}
 
-	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
+	public void glMouseMovedUp(double x, double y, double z, MouseEvent e, ParamSet paramSet) {
 	}
 
 	public void menuetElementDeselected() {
@@ -117,7 +117,7 @@ public class ToolBuildExtrudeCtrl implements ToolCtrlBuild{
 		}
 	}
 
-	public void glKeyPressed(KeyEvent e, boolean ctrlIsDown, boolean shiftIsDown) {
+	public void glKeyPressed(KeyEvent e, boolean ctrlIsDown, boolean shiftIsDown, ParamSet paramSet) {
 		// TODO Auto-generated method stub
 	}
 

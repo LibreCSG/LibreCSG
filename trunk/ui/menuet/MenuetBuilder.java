@@ -49,7 +49,7 @@ import backend.global.AvoGlobal;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class MenuetBuilder {
+public class MenuetBuilder extends ClassLoader{
 
 	/**
 	 * Build all of the tools into the menuet.
@@ -68,6 +68,22 @@ public class MenuetBuilder {
 		MELabel labelSketch = new MELabel(menuet,Menuet.MENUET_MODE_SKETCH);
 		labelSketch.meLabel = "Sketch";
 		labelSketch.textIsBold = true;
+		
+		/*
+		 * Test Code for ClassLoader! :) 
+		 *  --> Dynamically created tools
+		 */
+		
+		System.out.println("building Dynamical Tool Test!");
+
+		String filename = "./ui/menuet/dynamicClasses/Foo.java";
+		DynamicClassLoader dcl = new DynamicClassLoader();
+		Class c = dcl.getClassFromFile("Foo", filename);
+		System.out.println("done building dynamic tool...");
+		
+		/*
+		 * End of Test for ClassLoader
+		 */
 		
 		new ToolSketchLineView(menuet);
 		new ToolSketchCircleView(menuet);
@@ -172,5 +188,7 @@ public class MenuetBuilder {
 		//
 		AvoGlobal.menuet.currentToolMode = Menuet.MENUET_MODE_PROJECT;
 	}
+	
+
 	
 }

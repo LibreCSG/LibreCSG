@@ -6,6 +6,7 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolCtrlPart;
+import backend.adt.ParamSet;
 import backend.global.AvoGlobal;
 import backend.model.Part;
 import backend.model.CSG.CSG_Face;
@@ -48,7 +49,7 @@ public class ToolPartDefaultCtrl implements ToolCtrlPart{
 
 	private final double MIN_DIST_FROM_FACE = 0.1;
 	
-	public void glMouseDown(double x, double y, double z, MouseEvent e) {
+	public void glMouseDown(double x, double y, double z, MouseEvent e, ParamSet paramSet) {
 		Part part = AvoGlobal.project.getActivePart();
 		if(part != null){
 			CSG_Vertex clickedVert = new CSG_Vertex(x, y, z);
@@ -70,17 +71,17 @@ public class ToolPartDefaultCtrl implements ToolCtrlPart{
 		}
 	}
 
-	public void glMouseDrag(double x, double y, double z, MouseEvent e) {
+	public void glMouseDrag(double x, double y, double z, MouseEvent e, ParamSet paramSet) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
+	public void glMouseMovedUp(double x, double y, double z, MouseEvent e, ParamSet paramSet) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public void glMouseUp(double x, double y, double z, MouseEvent e) {
+	public void glMouseUp(double x, double y, double z, MouseEvent e, ParamSet paramSet) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -95,7 +96,7 @@ public class ToolPartDefaultCtrl implements ToolCtrlPart{
 		
 	}
 
-	public void glKeyPressed(KeyEvent e, boolean ctrlIsDown, boolean shiftIsDown) {
+	public void glKeyPressed(KeyEvent e, boolean ctrlIsDown, boolean shiftIsDown, ParamSet paramSet) {
 		// TODO Auto-generated method stub
 	}
 

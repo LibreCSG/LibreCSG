@@ -48,7 +48,7 @@ public class ToolSketchLineCtrl implements ToolCtrlSketch {
 	public ToolSketchLineCtrl(){		
 	}
 	
-	public void glMouseDown(double x, double y, double z,  MouseEvent e) {
+	public void glMouseDown(double x, double y, double z,  MouseEvent e, ParamSet paramSet) {
 		Sketch sketch = AvoGlobal.project.getActiveSketch();
 		if(sketch != null && !sketch.isConsumed){
 			//
@@ -82,13 +82,13 @@ public class ToolSketchLineCtrl implements ToolCtrlSketch {
 		}
 	}
 
-	public void glMouseDrag(double x, double y, double z,  MouseEvent e) {
+	public void glMouseDrag(double x, double y, double z,  MouseEvent e, ParamSet paramSet) {
 		Feature2D feat2D = AvoGlobal.project.getActiveFeat2D();
 		if(feat2D != null){
 			//
 			// get parameter set
 			//
-			ParamSet paramSet = feat2D.paramSet;
+			//ParamSet paramSet = feat2D.paramSet;
 		
 			//
 			// update param values
@@ -102,13 +102,13 @@ public class ToolSketchLineCtrl implements ToolCtrlSketch {
 		}
 	}
 
-	public void glMouseUp(double x, double y, double z,  MouseEvent e) {
+	public void glMouseUp(double x, double y, double z,  MouseEvent e, ParamSet paramSet) {
 		Feature2D feat2D = AvoGlobal.project.getActiveFeat2D();
 		if(feat2D != null){
 			//
 			// get parameter set
 			//
-			ParamSet paramSet = feat2D.paramSet;
+			//ParamSet paramSet = feat2D.paramSet;
 			
 			//
 			// finalize the feature's formation
@@ -134,7 +134,7 @@ public class ToolSketchLineCtrl implements ToolCtrlSketch {
 		}
 	}
 
-	public void glMouseMovedUp(double x, double y, double z, MouseEvent e) {
+	public void glMouseMovedUp(double x, double y, double z, MouseEvent e, ParamSet paramSet) {
 	}
 
 	public void menuetElementDeselected() {
@@ -143,7 +143,7 @@ public class ToolSketchLineCtrl implements ToolCtrlSketch {
 	public void menuetElementSelected() {
 	}
 
-	public void glKeyPressed(KeyEvent e, boolean ctrlIsDown, boolean shiftIsDown) {
+	public void glKeyPressed(KeyEvent e, boolean ctrlIsDown, boolean shiftIsDown, ParamSet paramSet) {
 		// TODO Auto-generated method stub
 	}
 
