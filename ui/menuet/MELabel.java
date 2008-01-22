@@ -59,7 +59,7 @@ public class MELabel extends MenuetElement{
 		// draw text
 		g.setForeground(this.meColorForeground);
 		FontData fd = new FontData();
-		fd.setHeight(10);
+		fd.setHeight(8);
 		if(textIsBold){
 			fd.setStyle(SWT.BOLD);
 		}else{

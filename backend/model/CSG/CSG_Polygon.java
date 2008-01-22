@@ -239,7 +239,8 @@ public class CSG_Polygon {
 		//double unitDivider= 1.0;
 		if((A < TOL && A > -TOL) && (B < TOL && B > -TOL) && (C < TOL && C > -TOL)){
 			// vertices are collinear!!!
-			System.out.println("CSG_Polygon(getPlane) Normal Was ZERO! Vertices must have been collinear!");
+			//System.out.println("CSG_Polygon(getPlane) Normal Was ZERO! Vertices must have been collinear!");
+			return null;
 		}
 		//else{
 		//	unitDivider = Math.sqrt(A*A + B*B + C*C);
@@ -277,6 +278,11 @@ public class CSG_Polygon {
 	public boolean vertexIsInsidePolygon(CSG_Vertex testVert){
 		//return vertexIsInsideOrOnEdgeOfPolygon(testVert);
 		
+		if(getPlane() == null || getPlane().getNormal() == null){
+			//System.out.println("collinear null check -- normal was NULL.");
+			return false;  // collinear (no area, so cannot contain any points).
+		}
+		
 		CSG_Vertex lastVert = vertices.get(vertices.size()-1);
 		for(CSG_Vertex vert : vertices){
 			CSG_Vertex vertDiff = vert.subFromVertex(lastVert);
@@ -308,6 +314,11 @@ public class CSG_Polygon {
 		CSG_Vertex lastVert = vertices.get(vertices.size()-1);
 		for(CSG_Vertex vert : vertices){
 			CSG_Vertex vertDiff = vert.subFromVertex(lastVert);
+			if(getPlane() == null || getPlane().getNormal() == null){
+				System.out.println(" NULL PLANE/NORMAL in CSG_Polygon vertexIsInsideOrOnEdgeOfPolygon().  try to keep this from happening!!");
+				System.out.println(this);
+				//return true;
+			}
 			CSG_Vertex normalInsidePoly = vertDiff.getCrossProduct(getPlane().getNormal());			
 			// -- to visualize calculated normals for determining "inside" the polygon
 			//	GL gl = GLContext.getCurrent().getGL();
@@ -399,6 +410,48 @@ public class CSG_Polygon {
 		for(int i = 0; i < this.vertices.size(); i++){
 			this.vertices.set(i, this.vertices.get(i).getTranslatedRotatedCopy(translation, rotation));
 		}
+	}
+	
+	/**
+	 * get the closest distance between vertices of this polygon and the one passed in.
+	 * @param poly2 the polygon to check
+	 * @return the shortest distance between vertices.
+	 */
+	public double getClosestDistanceToPoly(CSG_Polygon poly2){
+		double distance = Double.MAX_VALUE;
+		Iterator<CSG_Vertex> vertIter = vertices.iterator();
+		while(vertIter.hasNext()){
+			CSG_Vertex vert = vertIter.next();
+			Iterator<CSG_Vertex> vert2Iter = poly2.vertices.iterator();
+			while(vert2Iter.hasNext()){
+				CSG_Vertex vert2 = vert2Iter.next();
+				double distCheck = vert.getDistBetweenVertices(vert2);
+				if(distCheck < distance){
+					distance = distCheck;
+				}
+			}
+		}
+		return distance;
+	}
+	
+	public CSG_Polygon getClosestJoiningPolygon(CSG_Polygon poly2){
+		CSG_Polygon polyJoin = null;
+		double distance = Double.MAX_VALUE;
+		Iterator<CSG_Vertex> vertIter = vertices.iterator();
+		while(vertIter.hasNext()){
+			CSG_Vertex vert = vertIter.next();
+			Iterator<CSG_Vertex> vert2Iter = poly2.vertices.iterator();
+			while(vert2Iter.hasNext()){
+				CSG_Vertex vert2 = vert2Iter.next();
+				double distCheck = vert.getDistBetweenVertices(vert2);
+				if(distCheck < distance){
+					distance = distCheck;
+					CSG_Vertex midVert = vert2.subFromVertex(vert).getScaledCopy(0.5).addToVertex(vert);
+					polyJoin = new CSG_Polygon(vert, midVert, vert2, midVert);
+				}
+			}
+		}
+		return polyJoin;
 	}
 	
 }

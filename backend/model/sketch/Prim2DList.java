@@ -61,5 +61,9 @@ public class Prim2DList extends LinkedList<Prim2D>{
 		return pList;
 	}
 	
+	public Prim2DList deepCopy(){
+		return this.deepCopy();
+	}
+	
 	
 }

@@ -159,4 +159,7 @@ public class Point2D {
 		return "Point2D: (" + Double.toString(x) + "," + Double.toString(y) + ")";
 	}
 	
+	public Point2D deepCopy(){
+		return new Point2D(this.x, this.y);
+	}
 }

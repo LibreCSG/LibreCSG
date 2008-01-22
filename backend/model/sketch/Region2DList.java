@@ -213,90 +213,92 @@ public class Region2DList extends LinkedList<Region2D>{
 			}
 			if(duplicateFound){
 				this.remove(i);
-				System.out.println("@@ duplicate found! --> removing");
+				System.out.println("duplicate found; doing a good thing --> removing");
 			}			
 		}
 		
 		// STEP 9,10,11 
-		// TODO: cut out inner 2D regions!
+		// cut out inner 2D regions!
 		//
 		System.out.println("Cutting out inner regions from larger regions...");
 		int[] numContainedRegions = new int[this.size()];
 		boolean performedCut = true;
-		while(performedCut){
-			System.out.println("cutting (TODO... not yet implemented)");
+		while(performedCut){			
+			System.out.println("cutting |___LOOPING___|");
 			performedCut = false;
 			
 			// find regions contained within regions.
-			int j = 0;
+			int k = 0;
 			for(Region2D regA : this){
-				numContainedRegions[j] = 0;
-				for(Region2D regB : this){
+				numContainedRegions[k] = 0;
+				for(Region2D regB : this){		
+					//System.out.println("bef; k=" + k + ", contained=" + numContainedRegions[k]);
 					if(regA != regB && regA.containsRegion(regB)){
 						// regB is entirely within regA
-						numContainedRegions[j]++;
+						numContainedRegions[k]++;
 					}
+					//System.out.println("aft; k=" + k + ", contained=" + numContainedRegions[k]);
 				}
-				j++;
+				k++;
 			}
+			for(int j=0; j<this.size(); j++){
+				System.out.println("contained: [" + j + "]=" + numContainedRegions[j] );
+			}
+			
 			// we now have a list of the number of regions contained within each region.
 			
-			System.out.println("NOT HANDLING INNER REGION CUTTING!! TODO!");
-			//-----------
-			// TODO!!!!!
-			//-----------
-			/*
-			for(int i=1; i<this.size(); i++){
-				for(j=0; j<this.size(); j++){
-					if(numContainedRegions[j] == i){
-						// found a region with a minimal number of other regions within it.
-						Region2DList innerRegions = new Region2DList();
-						Region2D outerRegion = this.get(j);
-						for(Region2D regB : this){
-							if(outerRegion != regB && outerRegion.containsRegion(regB)){
-								innerRegions.add(regB);
-							}
-						}
-						// innerRegions have now been found (regions contained within this iterations outerRegion).
-						if(innerRegions.size() != i){
-							System.out.println("Region2DList(buildRegionsFromPrim2D): big mistake! wrong number of contained regions!");
-						}
-						Region2D combinedInnerRegion = innerRegions.getFirst();						
-						innerRegions.removeFirst();
-						int totalRegions = innerRegions.size();						
-						for(int m=0; m<totalRegions; m++){
-							// do this totalRegions number of times...
-							double[] dists = new double[innerRegions.size()]; 
-							int lowestDistIndex = 0;
-							for(int k=0; k<innerRegions.size(); k++){
-								dists[k] = innerRegions.get(k).distanceFromVerticiesToRegion(combinedInnerRegion);
-								if(dists[k] < dists[lowestDistIndex]){
-									lowestDistIndex = k;
+			System.out.println(" *** HANDLING INNER REGION CUTTING! ***");
+
+			// cut from outside in... (otherwise it is difficult to cut the 
+			// second step of a "circle within a circle within a circle") since 
+			// you would be left with using a donut for the second cut.
+			//
+			//			
+			
+			// only one cut is performed each time.. 
+			// the outer while loop will then re-check for more regions to cut.
+			boolean breakLoop = false;
+			for(int regionsContained=this.size(); regionsContained>0; regionsContained--){
+				//System.out.println(" --- looking for first region that contains " + regionsContained + " regions within it.");
+				for(int i=0; i<this.size(); i++){
+					//System.out.println(" ---- checking region index: " + i);
+					if(numContainedRegions[i] == regionsContained){
+						System.out.println("found contained regions.  index=" + i + ", regionsContained=" + regionsContained);
+						Region2D outerRegion = this.get(i);
+						// now find the outer-most region inside and cut it.
+						for(int testRegContains=regionsContained-1; testRegContains>=0; testRegContains--){
+							for(int j=0; j<this.size(); j++){
+								if(j != i && numContainedRegions[j] == testRegContains && outerRegion.containsRegion(this.get(j))){
+									System.out.println("I will CUT! cutting region " + j + " from region " + i);
+									outerRegion.cutRegionFromRegion(this.get(j));
+									System.out.println("after cut -- OuterRegion: " + outerRegion);
+									performedCut = true;
+									breakLoop = true; // at least one region cut, break and start over.	
+									//System.out.println("b1");
+									break;
 								}
 							}
-							// lowestDistIndex is the element that should be joined on next! :)
-							System.out.println("lowest Dist index: " + lowestDistIndex);
-							// TODO! -- inner region cutting
-							combinedInnerRegion = combinedInnerRegion.createNewRegionByJoining(innerRegions.get(lowestDistIndex));
-							innerRegions.remove(lowestDistIndex);
+							if(breakLoop){
+								//System.out.println("b2");
+								break;
+							}
 						}
-						// TODO! -- more inner region cutting
-						outerRegion.cutRegionFromRegion(combinedInnerRegion);
-						//performedCut = true;
-						break;
+						if(breakLoop){
+							//System.out.println("b3");
+							break;
+						}
+					}else{
+						//System.out.println("no luck.  trying a different region.");
 					}
-				}
-				if(performedCut){
+				}	
+				if(breakLoop){
+					//System.out.println("b4");
 					break;
 				}
-			}		*/	
+			}
+
 		}
-		
-		
-		for(int j=0; j<this.size(); j++){
-			System.out.println("contained: [" + j + "]=" + numContainedRegions[j] );
-		}
-		
+				
 	}
 	
 
