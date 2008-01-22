@@ -8,6 +8,5 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/DATA/Code/Eclipse/jogl-jars/jogl-1_0_0-linux-i586/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/DATA/Code/Eclipse/java-sdk-jars/tools.jar"/>
 	<classpathentry kind="output" path=""/>
 </classpath>
