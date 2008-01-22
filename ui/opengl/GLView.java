@@ -109,9 +109,11 @@ public class GLView {
 		GLData data = new GLData ();
 		data.doubleBuffer = true;
 		data.depthSize = 8;
+		data.stencilSize = 1;
 		glCanvas = new GLCanvas(comp, SWT.NONE, data);
 		
 		GLCapabilities glc = new GLCapabilities();
+		glc.setStencilBits(1);
 		System.out.println("JOGL -- OpenGL Capabilities -- " +
 				"DepthBits:" + glc.getDepthBits() + 
 				"; DoubleBuff:" + glc.getDoubleBuffered() + 

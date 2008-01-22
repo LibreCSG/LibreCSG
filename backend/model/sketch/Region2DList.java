@@ -6,32 +6,32 @@ import backend.adt.Point2D;
 import backend.geometry.Geometry2D;
 
 
-//
+
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
 //This code is distributed under the terms of the 
 //GNU General Public License (GPL).
-//
+
 //This file is part of avoCADo.
-//
+
 //AvoCADo is free software; you can redistribute it and/or modify
 //it under the terms of the GNU General Public License as published by
 //the Free Software Foundation; either version 2 of the License, or
 //(at your option) any later version.
-//
+
 //AvoCADo is distributed in the hope that it will be useful,
 //but WITHOUT ANY WARRANTY; without even the implied warranty of
 //MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //GNU General Public License for more details.
-//
+
 //You should have received a copy of the GNU General Public License
 //along with AvoCADo; if not, write to the Free Software
 //Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-//
+
 
 /*
-* @author  Adam Kumpf
-* @created Feb. 2007
-*/
+ * @author  Adam Kumpf
+ * @created Feb. 2007
+ */
 public class Region2DList extends LinkedList<Region2D>{
 
 	private static final long serialVersionUID = 1000L;
@@ -45,7 +45,7 @@ public class Region2DList extends LinkedList<Region2D>{
 	 */
 	public void buildRegionsFromPrim2D(Prim2DList allPrims){
 		this.clear(); // start with a fresh list.
-		
+
 		//
 		// STEP INVOLVED TO GET 2D REGIONS! :)
 		//
@@ -71,10 +71,10 @@ public class Region2DList extends LinkedList<Region2D>{
 		// 
 		// 11. repeat steps 9,10 until there are no more cuts to be made.
 		//
-		
+
 		System.out.println("Region2DList(buildRegionsFromPrim2D): Building 2D regions from the sketch...");
-		
-		
+
+
 		// STEP 1:
 		// Find Intersections Between Prims and keep running until
 		// no more intersections are found.  this will give a list
@@ -113,7 +113,7 @@ public class Region2DList extends LinkedList<Region2D>{
 		if(allPrims.size() >= maxPrimSize){
 			System.out.println("Region2DList(buildRegionsFromPrim2D): *** Hit max prim list size!! size=" + allPrims.size());
 		}
-		
+
 		// STEP 2:
 		// unique-ify the prims (check for duplicates and discard if found)
 		for(int i=allPrims.size()-1; i>=0; i--){
@@ -132,10 +132,10 @@ public class Region2DList extends LinkedList<Region2D>{
 				allPrims.remove(i);
 			}
 		}
-		
+
 		//System.out.println("Total Prims now in list: " + allPrims.size());
-		
-		
+
+
 		// STEP 3:
 		// prune elements that don't connect to another at both ends.
 		// there could be a string of element wandering off in space, so
@@ -177,12 +177,12 @@ public class Region2DList extends LinkedList<Region2D>{
 			}
 			prunedPrims = tempList;
 		}
-		
+
 		//
 		// No more dangling prims! :) 
 		//  --> all prim2D are now connected to another/itself at both ends.
 		//
-				
+
 		// STEPS 4,5,6,7 (mainly bundled into the method "smartSearchForValidCycle()"
 		// Start at each prim and check for valid cycles!
 		//
@@ -194,11 +194,11 @@ public class Region2DList extends LinkedList<Region2D>{
 			if(!prim.consumedBA){
 				smartSearchForValidCycle(prim.getSwappedEndPtPrim2D(), prunedPrims, prim);
 			}
-			
+
 		}
 		System.out.println("Total Cycles Found: " + this.size());
-		
-		
+
+
 		// STEP 8
 		// remove any duplicate cycles (same elements but different starting point/direction).
 		System.out.println("Searching for region duplicates...");
@@ -216,95 +216,60 @@ public class Region2DList extends LinkedList<Region2D>{
 				System.out.println("duplicate found; doing a good thing --> removing");
 			}			
 		}
-		
+
 		// STEP 9,10,11 
-		// cut out inner 2D regions!
+		// cut out inner 2D regions (holes)!
 		//
 		System.out.println("Cutting out inner regions from larger regions...");
-		int[] numContainedRegions = new int[this.size()];
-//		boolean performedCut = true;
-//		while(performedCut){			
-//			System.out.println("cutting |___LOOPING___|");
-//			performedCut = false;
-			
-			// find regions contained within regions.
-			int k = 0;
-			for(Region2D regA : this){
-				numContainedRegions[k] = 0;
-				for(Region2D regB : this){		
-					//System.out.println("bef; k=" + k + ", contained=" + numContainedRegions[k]);
-					if(regA != regB && regA.containsRegion(regB)){
-						// regB is entirely within regA
-						numContainedRegions[k]++;
-						regA.cutRegionFromRegion(regB);
-					}
-					//System.out.println("aft; k=" + k + ", contained=" + numContainedRegions[k]);
-				}
-				k++;
-			}
-			for(int j=0; j<this.size(); j++){
-				System.out.println("contained: [" + j + "]=" + numContainedRegions[j] );
-			}
+		LinkedList<LinkedList<Integer>> regionsContained = new LinkedList<LinkedList<Integer>>();
 
-			
-/*			
-			
-			// we now have a list of the number of regions contained within each region.
-			
-			System.out.println(" *** HANDLING INNER REGION CUTTING! ***");
-
-			// cut from outside in... (otherwise it is difficult to cut the 
-			// second step of a "circle within a circle within a circle") since 
-			// you would be left with using a donut for the second cut.
-			//
-			//			
-			
-			// only one cut is performed each time.. 
-			// the outer while loop will then re-check for more regions to cut.
-			boolean breakLoop = false;
-			for(int regionsContained=this.size(); regionsContained>0; regionsContained--){
-				//System.out.println(" --- looking for first region that contains " + regionsContained + " regions within it.");
-				for(int i=0; i<this.size(); i++){
-					//System.out.println(" ---- checking region index: " + i);
-					if(numContainedRegions[i] == regionsContained){
-						System.out.println("found contained regions.  index=" + i + ", regionsContained=" + regionsContained);
-						Region2D outerRegion = this.get(i);
-						// now find the outer-most region inside and cut it.
-						for(int testRegContains=regionsContained-1; testRegContains>=0; testRegContains--){
-							for(int j=0; j<this.size(); j++){
-								if(j != i && numContainedRegions[j] == testRegContains && outerRegion.containsRegion(this.get(j))){
-									System.out.println("I will CUT! cutting region " + j + " from region " + i);
-									outerRegion.cutRegionFromRegion(this.get(j));
-									System.out.println("after cut -- OuterRegion: " + outerRegion);
-									performedCut = true;
-									breakLoop = true; // at least one region cut, break and start over.	
-									//System.out.println("b1");
-									break;
-								}
-							}
-							if(breakLoop){
-								//System.out.println("b2");
-								break;
-							}
-						}
-						if(breakLoop){
-							//System.out.println("b3");
-							break;
-						}
-					}else{
-						//System.out.println("no luck.  trying a different region.");
-					}
-				}	
-				if(breakLoop){
-					//System.out.println("b4");
-					break;
+		// find regions contained within regions.
+		int k = 0;
+		for(Region2D regA : this){
+			LinkedList<Integer> llRegionIndexes = new LinkedList<Integer>();
+			for(int i=0; i<this.size(); i++){
+				Region2D regB = this.get(i);
+				if(regA != regB && !regA.regionHasBeenCut(regB) && regA.containsRegion(regB)){
+					llRegionIndexes.add(i);					
 				}
 			}
-
+			regionsContained.add(llRegionIndexes);
+			k++;
 		}
-		*/		
+		// show the contain info for debug.
+		for(int j=0; j<this.size(); j++){
+			System.out.println("contained: [" + j + "]=" + regionsContained.get(j).size() );
+		}
+
+		//
+		// there is some serious thought in this, so think carefully before you go messing with it! :)
+		//
+		for(int i=0; i<this.size(); i++){
+			Region2D outerRegion = this.get(i);
+			LinkedList<Integer> myConRegions = regionsContained.get(i);
+			LinkedList<Integer> forbiddenRegionsToSubtract = new LinkedList<Integer>();
+			if(myConRegions.size() == 0){
+				continue; // no contained region, move on to the next one.
+			}
+			for(int j=this.size(); j>=0; j--){ // loop from most contained regions to least
+				for(Integer conIndex : myConRegions){
+					int numSubContainedRegions = regionsContained.get(conIndex).size();
+					if(numSubContainedRegions == j && !forbiddenRegionsToSubtract.contains(conIndex)){
+						outerRegion.cutRegionFromRegion(this.get(conIndex));
+						for(Integer subConIndex : regionsContained.get(conIndex)){
+							forbiddenRegionsToSubtract.add(subConIndex);
+						}
+					}
+				}
+			}			
+		}
+		
+		// just display the region info for debug.
+		for(int j=0; j<this.size(); j++){
+			System.out.println("region: [" + j + "]=" + this.get(j));
+		}		
 	}
-	
+
 
 	private void smartSearchForValidCycle(Prim2D startPrim, Prim2DList prunedPrims, Prim2D extraCheck){
 		Prim2DCycle newCycle = new Prim2DCycle();
@@ -318,10 +283,10 @@ public class Region2DList extends LinkedList<Region2D>{
 					Point2D otherPoint = primB.hasPtGetOther(conPt);
 					if(otherPoint != null){
 						if(	(primB.ptA.equalsPt(conPt) && !primB.consumedAB) ||
-							(primB.ptB.equalsPt(conPt) && !primB.consumedBA)	){
+								(primB.ptB.equalsPt(conPt) && !primB.consumedBA)	){
 							// prim2D is not consumed in the given direction and 
 							// does not occur in the list so far. :)
-							
+
 							// check 3-point-angle, 
 							// if this is the largest angle, keep it!
 							double angle = Geometry2D.threePtAngle(	newCycle.getLast().getCenterPtAlongPrim(), 
@@ -358,7 +323,7 @@ public class Region2DList extends LinkedList<Region2D>{
 			//System.out.println("didn't add cycle: isValid=" + newCycle.isValidCycle() + ", isCCW=" + newCycle.isCCW());
 		}
 	}
-	
+
 
 	/**
 	 * create a deep Copy of the prim2DCycle.
@@ -372,8 +337,8 @@ public class Region2DList extends LinkedList<Region2D>{
 		}
 		return newList;
 	}
-	
-	
+
+
 	/**
 	 * check to see if two cycles contain the same prim2D.
 	 * @param cycleA
@@ -393,6 +358,6 @@ public class Region2DList extends LinkedList<Region2D>{
 		}
 		return true;
 	}
-	
-	
+
+
 }

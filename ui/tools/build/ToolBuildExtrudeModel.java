@@ -65,7 +65,7 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 			Iterator<Region2D> regIter = sketch.getRegion2DIterator();
 			while(regIter.hasNext()){
 				Region2D region = regIter.next();
-				region.glDrawUnselected(gl);				
+				region.glDrawUnselected(gl, true);				
 			}
 		}
 		

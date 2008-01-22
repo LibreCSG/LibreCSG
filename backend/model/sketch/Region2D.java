@@ -53,7 +53,7 @@ public class Region2D implements Comparable{
 
 		}		
 	}
-	
+
 	public double getRegionArea(){
 		if(csgFace == null){
 			return Double.MAX_VALUE;
@@ -188,10 +188,21 @@ public class Region2D implements Comparable{
 		return pointList;
 	}
 
+	public boolean regionHasBeenCut(Region2D cutRegion){
+		for(Region2D subReg : regionsToSubtract){
+			if(subReg.equals(cutRegion)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * tests to see if regionB is entirely within the 
 	 * perimeter of this Region2D.  Edge points, in 
-	 * this care, as still considered within.
+	 * this care, as still considered within.  There is
+	 * no checking regarding subtractedRegions, so check
+	 * for those separately if you care about that.
 	 * @param regionB the region to test.
 	 * @return true iff regionB is within this region.
 	 */
@@ -199,11 +210,6 @@ public class Region2D implements Comparable{
 		if(this.equals(regionB)){
 			return true; // same region.
 		}		
-		// this is a quick check that should catch for most regions that are not close together.
-		if(!this.csgFace.vertexIsInsideFace(regionB.getCSG_Face().getFirstPolygonBarycenter())){
-			return false; // didn't contain face's first polygon baricenter.
-		}
-
 		// now do a rigorous check...
 		LinkedList<Point2D> pointsToTest = regionB.prim2DCycle.getPointList();
 		for(Point2D pt : pointsToTest){
@@ -220,36 +226,7 @@ public class Region2D implements Comparable{
 					ok = true;
 					break; // go to next point, this one is okay. :)
 				}
-			}			
-			if(ok){
-				continue;
-			}
-			// inside edges from cut operations.
-			Iterator<Region2D> iterReg = regionsToSubtract.iterator();
-			while(iterReg.hasNext()){
-				// check each subtracted region
-				Region2D subtractedRegion = iterReg.next();
-				if(subtractedRegion.equals(regionB)){
-					//System.out.println("found duplicate in subtracted region!!! therefore I don't contain it. :)");
-					return false;
-				}
-				if(subtractedRegion.regionContainsPoint2D(pt)){
-					//System.out.println("found a point in the subtrated region! therefore I cannot contain the region. :)");
-					return false; // point was inside a subtracted region.
-				}
-				Iterator<Point2D> subIter = subtractedRegion.getPeremeterPointList().iterator();
-				while(subIter.hasNext()){
-					Point2D subPt = subIter.next();
-					if(subPt.equals(pt)){
-						//System.out.println("subPt Iter HIT! :)");
-						ok = true;
-						break; // same point as perimeter of subtracted region, still not considred outside. 
-					}
-				}
-				if(ok){
-					break;
-				}
-			}		
+			}					
 			if(ok){
 				//System.out.println("caught last chance OK continue. :)");
 				continue;
@@ -258,7 +235,6 @@ public class Region2D implements Comparable{
 			return false; // check both inside polygons and edge vertices, but no luck.
 		}
 		return true;
-
 	}
 
 	/**
@@ -277,7 +253,7 @@ public class Region2D implements Comparable{
 		}
 		return false;
 	}
-	
+
 	/**
 	 * test to see if this region has the same prim2D points
 	 * as the given region.  This can be used to quickly find
@@ -300,53 +276,6 @@ public class Region2D implements Comparable{
 		return true; // every end and mid point is contained.
 	}
 
-
-	/**
-	 * merge a region into this region, assuming that the 
-	 * two regions touch at atleast one end point.
-	 * @param regionB the region to merge with this one.
-	 */
-	private void mergeRegion(Region2D regionB){
-		if(this.sharesAtLeastOneCommonPrimEndPoint(regionB)){
-			System.out.println(" %%% TODO %%% MERGE!");
-			// 1. find a prim that is not the same (i.e., not a shared edge)
-			// 2. start walking down that prim
-			// 3. at the endpoint, find all possible paths to take.
-			// 4. take the one with the most positive 3pt angle
-			// 5. if the next prim to take is NOT the first, then keep repeating (from step 3).
-			// 6. otherwise, stop, and finalize the cycle.
-			for(Prim2D primA : this.prim2DCycle){
-				if(regionB.prim2DCycle.containsPt(primA.ptA)){
-					// starting point?
-				}
-			}
-		}else{
-			System.out.println(" ### Tried to merge a region with another region that did not share an end point!  not gonna' do it! ");
-		}		
-	}
-	
-	private void mergeSubtractRegionsWherePossible(){
-		boolean mergedARegion = true;
-		while(mergedARegion){
-			mergedARegion = false;
-			for(Region2D regionA : regionsToSubtract){
-				for(Region2D regionB : regionsToSubtract){
-					if(!regionA.equals(regionB) && regionA.sharesAtLeastOneCommonPrimEndPoint(regionB)){
-						// MERGE regionB into regionA!
-						regionA.mergeRegion(regionB);
-						regionsToSubtract.remove(regionB);
-						mergedARegion = true;
-						break;
-					}
-				}
-				if(mergedARegion){
-					break;
-				}
-			}
-		}
-	}
-	
-	
 	/**
 	 * alter this region to have a hole cut in it that is
 	 * defined by the given region.
@@ -354,10 +283,7 @@ public class Region2D implements Comparable{
 	 */
 	public void cutRegionFromRegion(Region2D regionB){
 		if(regionB != null){
-			// add it.
-			regionsToSubtract.add(regionB);
-			// now merge with any regions it may touch.
-			//mergeSubtractRegionsWherePossible();
+			regionsToSubtract.add(new Region2D(regionB.prim2DCycle));
 			this.csgFace = createCSG_Face();
 		}else{
 			System.out.println(" ### cutRegionFromRegion was passed a null region (not doing anything). ");
@@ -398,89 +324,6 @@ public class Region2D implements Comparable{
 			System.out.println("point0=" + pointList.get(0) + ", point1=" + pointList.get(1));
 			return null;
 		}
-
-		//pointList.removeLast(); // last point is a repeat of the first.
-
-		//   
-		// get perimeter list of all regions to subtract.
-		// add inline via a line.
-		//
-		//
-
-		/*
-		if(regionsToSubtract.size() > 0){
-			System.out.println("regions to subtract: " + regionsToSubtract.size());
-
-			// 2. iteravely:
-			//      find the closest element to the perimeter
-			//      cut out that region via a line
-
-			// 1. make a shallow copy of the regionsToSubtract List
-			LinkedList<Region2D> regToSubClone = new LinkedList<Region2D>();
-			for(Region2D reg : regionsToSubtract){
-				regToSubClone.add(reg);
-			}
-
-			// 2. iteratively, find the closest region and subtract it.
-			int initialRegions = regToSubClone.size();
-			for(int z=0; z<initialRegions; z++){
-				// find closest joining points.
-				int regionIndex = 0;
-				int ptAIndex = 0;
-				int ptBIndex = 0;
-				double closestDist = Double.MAX_VALUE;
-				for(int rIndex=0; rIndex<regToSubClone.size(); rIndex++){
-					LinkedList<Point2D> cutPointList = regToSubClone.get(rIndex).getPeremeterPointList();
-					for(int i=0; i<pointList.size(); i++){
-						Point2D testPtA = pointList.get(i);
-						for(int j=0; j<cutPointList.size(); j++){
-							Point2D testPtB = cutPointList.get(j);
-							double dist = testPtA.computeDist(testPtB);
-							if(dist < closestDist){
-								closestDist = dist;
-								ptAIndex = i;
-								ptBIndex = j;
-								regionIndex = rIndex;
-							}
-						}
-					}
-				}
-
-				// TODO:  The critical thing that needs to happen here is this:
-				//        The inner region(s) to subtract need to be separated. 
-				//        If they share an edge or a point then things get crazy 
-				//        and it doesn't work.  each "region" in the regionsToSubtract
-				//        list needs to not touch any other (i.e., combine regions that
-				//        do touch before attempting this step!! :)  That's a headache, 
-				//        but things should work once that is taken care of.
-				//
-				
-				LinkedList<Point2D> cutPointList = regToSubClone.get(regionIndex).getPeremeterPointList();
-				System.out.println("closest info:  regIndex=" + regionIndex + " @ dist=" + closestDist);
-				System.out.println("  --> between points: " + pointList.get(ptAIndex) + " AND " + cutPointList.get(ptBIndex));
-
-				// now do subtraction/cut!
-				Point2D breakPt = pointList.get(ptAIndex).deepCopy();
-				System.out.println("Line went to break pt: " + breakPt);
-				// add points in reverse (since it is a cut)
-				for(int i=0; i<cutPointList.size(); i++){
-					Point2D subPt = cutPointList.get((ptBIndex-i+cutPointList.size())%cutPointList.size());
-					pointList.add(ptAIndex+1+i, subPt.deepCopy());
-					if(i == (cutPointList.size()-1)){
-						// last time!
-						pointList.add(ptAIndex+2+i, cutPointList.get(ptBIndex).deepCopy());
-						pointList.add(ptAIndex+3+i, breakPt);
-					}
-				}
-
-				regToSubClone.remove(regionIndex);
-			}
-
-			for(int i=0; i<pointList.size(); i++){
-				System.out.println(" * i:" + i + ", " + pointList.get(i));
-			}			
-		}
-		//*/
 
 		//
 		// pseudo-code for "convexize polygon" method
@@ -636,17 +479,54 @@ public class Region2D implements Comparable{
 		return polyOverlapsOtherPoints;
 	}
 
-	public void glDrawUnselected(GL gl){
+	public void glDrawUnselected(GL gl, boolean stencilCutRegions){
 		// TODO: put this in a GL lib of somekind..
 		gl.glColor4d(0.95, 0.5, 0.5, 0.5);
-		// stencil out "subtracted" regions
-		
+		//
+		// -------------------------
+		//		
+		if(stencilCutRegions && regionsToSubtract.size() > 0){
+			// stencil out "subtracted" regions
+
+			//Disable color and depth buffers
+			gl.glColorMask(false, false, false, false);             //Disable writing in color buffer
+			gl.glDepthMask(false);                                  //Disable writing in depth buffer
+
+			gl.glEnable(GL.GL_STENCIL_TEST);                        //Enable Stencil test
+			gl.glClearStencil(0);
+			gl.glClear(GL.GL_STENCIL_BUFFER_BIT);
+			gl.glStencilFunc(GL.GL_ALWAYS, 1, 1);                   //Test always success, value written 1
+			gl.glStencilOp(GL.GL_KEEP, GL.GL_KEEP, GL.GL_REPLACE);  //Stencil & Depth test passes => replace existing value
+
+			for(Region2D reg : regionsToSubtract){
+				reg.glDrawUnselected(gl, false);
+			}
+
+			// turn back on everything.
+			gl.glDepthMask(true);
+			gl.glColorMask(true, true, true, true); //Enable drawing of r, g, b & a
+
+			gl.glStencilFunc(GL.GL_NOTEQUAL, 1, 1);                //Draw only where stencil buffer is NOT 1
+			gl.glStencilOp(GL.GL_KEEP, GL.GL_KEEP, GL.GL_KEEP);    //Stencil buffer read only
+			gl.glColor4d(0.5, 0.95, 0.5, 0.5);
+		}
+
+
+		//
+		// -------------------------
+		//
 		if(csgFace != null){
 			Iterator<CSG_Polygon> polyIter = csgFace.getPolygonIterator();
 			while(polyIter.hasNext()){
 				CSG_Polygon poly = polyIter.next();
 				poly.glDrawPolygon(gl);
 			}
+		}
+
+		//
+		//
+		if(regionsToSubtract.size() > 0){
+			gl.glDisable(GL.GL_STENCIL_TEST);                        //Disable Stencil test
 		}
 	}
 
@@ -656,7 +536,11 @@ public class Region2D implements Comparable{
 	}
 
 	public String toString(){
-		return "Region2D: area=" + getRegionArea() + ", regions to cut: " + regionsToSubtract.size();
+		double subArea = 0.0;
+		for(Region2D subReg : regionsToSubtract){
+			subArea += subReg.getRegionArea();
+		}
+		return "Region2D: area=" + (getRegionArea()-subArea) + ", regions to cut: " + regionsToSubtract.size();
 	}
 
 }
