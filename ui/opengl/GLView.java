@@ -433,6 +433,8 @@ public class GLView {
 								}
 							}							
 							
+							
+							
 							// only call glDraw if feat2D3D or feat3D3D is active
 							if(activeSubPart != null){
 								Sketch sketch = activeSubPart.getSketch();
