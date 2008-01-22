@@ -69,22 +69,6 @@ public class MenuetBuilder extends ClassLoader{
 		labelSketch.meLabel = "Sketch";
 		labelSketch.textIsBold = true;
 		
-		/*
-		 * Test Code for ClassLoader! :) 
-		 *  --> Dynamically created tools
-		 */
-		
-		System.out.println("building Dynamical Tool Test!");
-
-		String filename = "./ui/menuet/dynamicClasses/Foo.java";
-		DynamicClassLoader dcl = new DynamicClassLoader();
-		Class c = dcl.getClassFromFile("Foo", filename);
-		System.out.println("done building dynamic tool...");
-		
-		/*
-		 * End of Test for ClassLoader
-		 */
-		
 		new ToolSketchLineView(menuet);
 		new ToolSketchCircleView(menuet);
 		new ToolSketchRectView(menuet);
