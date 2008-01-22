@@ -222,10 +222,10 @@ public class Region2DList extends LinkedList<Region2D>{
 		//
 		System.out.println("Cutting out inner regions from larger regions...");
 		int[] numContainedRegions = new int[this.size()];
-		boolean performedCut = true;
-		while(performedCut){			
-			System.out.println("cutting |___LOOPING___|");
-			performedCut = false;
+//		boolean performedCut = true;
+//		while(performedCut){			
+//			System.out.println("cutting |___LOOPING___|");
+//			performedCut = false;
 			
 			// find regions contained within regions.
 			int k = 0;
@@ -236,6 +236,7 @@ public class Region2DList extends LinkedList<Region2D>{
 					if(regA != regB && regA.containsRegion(regB)){
 						// regB is entirely within regA
 						numContainedRegions[k]++;
+						regA.cutRegionFromRegion(regB);
 					}
 					//System.out.println("aft; k=" + k + ", contained=" + numContainedRegions[k]);
 				}
@@ -244,6 +245,9 @@ public class Region2DList extends LinkedList<Region2D>{
 			for(int j=0; j<this.size(); j++){
 				System.out.println("contained: [" + j + "]=" + numContainedRegions[j] );
 			}
+
+			
+/*			
 			
 			// we now have a list of the number of regions contained within each region.
 			
@@ -298,7 +302,7 @@ public class Region2DList extends LinkedList<Region2D>{
 			}
 
 		}
-				
+		*/		
 	}
 	
 

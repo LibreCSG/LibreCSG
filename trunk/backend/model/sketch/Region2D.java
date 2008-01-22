@@ -71,13 +71,21 @@ public class Region2D implements Comparable{
 	 * @return true iff vertex is inside the face.
 	 */
 	public boolean regionContainsPoint2D(Point2D pt){
-		if(csgFace != null){
-			return csgFace.vertexIsInsideFace(new CSG_Vertex(pt, 0.0));
-		}else{
-			// TODO! do something better than just printing the error to the console.
-			System.out.println(" ### NO CSG FACE EXISTED WHEN CHECKING FOR REGION CONTAINING POINT!!");
+		if(!this.csgFace.vertexIsInsideFace(new CSG_Vertex(pt, 0.0))){
 			return false;
 		}
+		// check if inside edges from cut operations.
+		Iterator<Region2D> iterReg = regionsToSubtract.iterator();
+		while(iterReg.hasNext()){
+			// check each subtracted region
+			Region2D subtractedRegion = iterReg.next();
+			if(subtractedRegion.regionContainsPoint2D(pt)){
+				//System.out.println("found a point in the subtrated region! therefore I cannot contain the region. :)");
+				return false; // point was inside a subtracted region.
+			}
+		}	
+		//System.out.println("got to end of for loop without any continues... pt=" + pt);
+		return true; // point was inside face and not inside a cut region.. point is contained! :)
 	}
 
 
@@ -293,13 +301,46 @@ public class Region2D implements Comparable{
 	}
 
 
+	/**
+	 * merge a region into this region, assuming that the 
+	 * two regions touch at atleast one end point.
+	 * @param regionB the region to merge with this one.
+	 */
+	private void mergeRegion(Region2D regionB){
+		if(this.sharesAtLeastOneCommonPrimEndPoint(regionB)){
+			System.out.println(" %%% TODO %%% MERGE!");
+			// 1. find a prim that is not the same (i.e., not a shared edge)
+			// 2. start walking down that prim
+			// 3. at the endpoint, find all possible paths to take.
+			// 4. take the one with the most positive 3pt angle
+			// 5. if the next prim to take is NOT the first, then keep repeating (from step 3).
+			// 6. otherwise, stop, and finalize the cycle.
+			for(Prim2D primA : this.prim2DCycle){
+				if(regionB.prim2DCycle.containsPt(primA.ptA)){
+					// starting point?
+				}
+			}
+		}else{
+			System.out.println(" ### Tried to merge a region with another region that did not share an end point!  not gonna' do it! ");
+		}		
+	}
+	
 	private void mergeSubtractRegionsWherePossible(){
 		boolean mergedARegion = true;
 		while(mergedARegion){
 			mergedARegion = false;
 			for(Region2D regionA : regionsToSubtract){
 				for(Region2D regionB : regionsToSubtract){
-					
+					if(!regionA.equals(regionB) && regionA.sharesAtLeastOneCommonPrimEndPoint(regionB)){
+						// MERGE regionB into regionA!
+						regionA.mergeRegion(regionB);
+						regionsToSubtract.remove(regionB);
+						mergedARegion = true;
+						break;
+					}
+				}
+				if(mergedARegion){
+					break;
 				}
 			}
 		}
@@ -316,7 +357,7 @@ public class Region2D implements Comparable{
 			// add it.
 			regionsToSubtract.add(regionB);
 			// now merge with any regions it may touch.
-			mergeSubtractRegionsWherePossible();
+			//mergeSubtractRegionsWherePossible();
 			this.csgFace = createCSG_Face();
 		}else{
 			System.out.println(" ### cutRegionFromRegion was passed a null region (not doing anything). ");
@@ -366,6 +407,7 @@ public class Region2D implements Comparable{
 		//
 		//
 
+		/*
 		if(regionsToSubtract.size() > 0){
 			System.out.println("regions to subtract: " + regionsToSubtract.size());
 
@@ -434,13 +476,11 @@ public class Region2D implements Comparable{
 				regToSubClone.remove(regionIndex);
 			}
 
-			/*
 			for(int i=0; i<pointList.size(); i++){
 				System.out.println(" * i:" + i + ", " + pointList.get(i));
-			}	
-			//*/		
+			}			
 		}
-
+		//*/
 
 		//
 		// pseudo-code for "convexize polygon" method
@@ -598,7 +638,9 @@ public class Region2D implements Comparable{
 
 	public void glDrawUnselected(GL gl){
 		// TODO: put this in a GL lib of somekind..
-		gl.glColor4d(0.5, 0.75, 0.5, 0.25);
+		gl.glColor4d(0.95, 0.5, 0.5, 0.5);
+		// stencil out "subtracted" regions
+		
 		if(csgFace != null){
 			Iterator<CSG_Polygon> polyIter = csgFace.getPolygonIterator();
 			while(polyIter.hasNext()){
