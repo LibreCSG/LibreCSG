@@ -67,6 +67,7 @@ public class MEButton extends MenuetElement{
 
 	void paintElement(PaintEvent e) {
 		GC g = e.gc;
+		
 		g.setBackground(this.getBackground());
 		int width  = this.getBounds().width;
 		int height = this.getBounds().height;
@@ -108,7 +109,7 @@ public class MEButton extends MenuetElement{
 		// draw button text
 		g.setForeground(this.meColorForeground);
 		FontData fd = new FontData();
-		fd.setHeight(10);
+		fd.setHeight(8);
 		g.setFont(new Font(this.getDisplay(), fd));
 		Point textPt = g.textExtent(this.meLabel);
 		switch(this.meDispOptions){

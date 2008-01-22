@@ -108,7 +108,9 @@ public class CSG_Face {
 	/**
 	 * check to see if the given vertex is inside this CSG_Face.
 	 * This is done by checking if the vertex is contained in
-	 * any of the face's convex polygons.
+	 * any of the face's convex polygons. vertices that fall 
+	 * exactly on the edge are <em>not</em> considered to 
+	 * be <em>inside</em> the Face.
 	 * @param vert the CSG_Vertex to check
 	 * @return true iff vertex is inside the face.
 	 */
@@ -495,5 +497,60 @@ public class CSG_Face {
 			polyIter.next().applyTranslationRotation(translation, rotation);
 		}
 	}
+	
+	/**
+	 * get the closest distance from this face to another.
+	 * @param face2 the other face.
+	 * @return the distance.
+	 */
+	public double getDistanceToFace(CSG_Face face2){
+		double distance = Double.MAX_VALUE;
+		Iterator<CSG_Polygon> polyIter = polygons.iterator();
+		while(polyIter.hasNext()){
+			CSG_Polygon poly = polyIter.next();
+			Iterator<CSG_Polygon> poly2Iter = face2.polygons.iterator();
+			while(poly2Iter.hasNext()){
+				CSG_Polygon poly2 = poly2Iter.next();
+				double distCheck = poly.getClosestDistanceToPoly(poly2);
+				if(distCheck < distance){
+					distance = distCheck;
+				}
+			}
+		}
+		return distance;
+	}
+	
+	/**
+	 * combine this face with the face given as the argument.  
+	 * The faces will be joined via their closest vertices.
+	 * @param face2 the face to combine this one with.
+	 */
+	/*
+	public void combineWithFace(CSG_Face face2){
+		double distance = Double.MAX_VALUE;
+		CSG_Polygon joiningPolygon = null;
+		Iterator<CSG_Polygon> polyIter = polygons.iterator();
+		while(polyIter.hasNext()){
+			CSG_Polygon poly = polyIter.next();
+			Iterator<CSG_Polygon> poly2Iter = face2.polygons.iterator();
+			while(poly2Iter.hasNext()){
+				CSG_Polygon poly2 = poly2Iter.next();
+				double distCheck = poly.getClosestDistanceToPoly(poly2);
+				if(distCheck < distance){
+					distance = distCheck;
+					joiningPolygon = poly.getClosestJoiningPolygon(poly2);
+				}
+			}
+		}
+		if(joiningPolygon == null){
+			System.out.println("Tried to Join CSG_Faces with a NULL polygon.. abort. :(");
+			return;
+		}
+		polygons.add(joiningPolygon);	
+		for(CSG_Polygon polyToAdd : face2.polygons){
+			polygons.add(polyToAdd);
+		}
+	}
+	//*/
 	
 }

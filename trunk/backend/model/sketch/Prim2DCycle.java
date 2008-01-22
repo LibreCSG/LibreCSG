@@ -294,4 +294,8 @@ public class Prim2DCycle extends Prim2DList implements Comparable{
 		return distance;
 	}
 	
+	public Prim2DCycle deepCopy(){
+		return this.deepCopy();
+	}
+	
 }
