@@ -108,7 +108,7 @@ public class GLView {
 	public GLView(Composite comp){
 		GLData data = new GLData ();
 		data.doubleBuffer = true;
-		data.depthSize = 8;
+		data.depthSize = 16;
 		data.stencilSize = 1;
 		glCanvas = new GLCanvas(comp, SWT.NONE, data);
 		
