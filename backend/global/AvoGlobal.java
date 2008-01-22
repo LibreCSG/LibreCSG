@@ -44,9 +44,9 @@ import backend.model.Project;
 */
 
 /**
- * avoCADo's main global variables.  Refernces to global state
+ * avoCADo's main global variables.  References to global state
  * should be made sparingly if possible to reduce the amount of
- * cross-linked and depenedent code.  however, many methods may
+ * cross-linked and dependent code.  however, many methods may
  * require information about other parts of the application and
  * access via this global state is preferred over directly accessing
  * information in generally unrelated classes.
