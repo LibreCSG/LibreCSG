@@ -101,7 +101,7 @@ public class AvoMenuBar {
 				}				
 			});
 			MenuItem vsFront = new MenuItem(viewSub, SWT.PUSH);
-			vsFront.setText("&Font");
+			vsFront.setText("&Front");
 			vsFront.addSelectionListener(new SelectionListener(){
 				public void widgetDefaultSelected(SelectionEvent e) {
 				}
