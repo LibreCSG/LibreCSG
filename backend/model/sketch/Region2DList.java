@@ -323,41 +323,4 @@ public class Region2DList extends LinkedList<Region2D>{
 			//System.out.println("didn't add cycle: isValid=" + newCycle.isValidCycle() + ", isCCW=" + newCycle.isCCW());
 		}
 	}
-
-
-	/**
-	 * create a deep Copy of the prim2DCycle.
-	 * @param origList
-	 * @return
-	 */
-	Prim2DCycle copyCL(Prim2DCycle origList){
-		Prim2DCycle newList = new Prim2DCycle();
-		for(Prim2D prim : origList){
-			newList.add(prim);
-		}
-		return newList;
-	}
-
-
-	/**
-	 * check to see if two cycles contain the same prim2D.
-	 * @param cycleA
-	 * @param cycleB
-	 * @return true if cyles containt same prim2D.
-	 */
-	boolean hasSamePrim2D(Prim2DList cycleA, Prim2DList cycleB){
-		if(cycleA.size() != cycleB.size()){
-			// sizes are different, they can't be the same.
-			return false;
-		}
-		for(Prim2D aP2D : cycleA){
-			if(!cycleB.contains(aP2D)){
-				// cycleB does not contain an element of cycleA.
-				return false;
-			}
-		}
-		return true;
-	}
-
-
 }
