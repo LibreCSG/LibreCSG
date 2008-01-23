@@ -670,6 +670,7 @@ public class GLView {
 		gl.glEnable(GL.GL_COLOR_MATERIAL);	// override material properties, makes coloring easier & faster
 		gl.glEnable(GL.GL_LINE_SMOOTH); // smooth rendering of lines
 		gl.glClearDepth(1.0);
+		gl.glClearStencil(0);
 		gl.glLineWidth(2.0f);
 		gl.glEnable(GL.GL_DEPTH_TEST);
 		gl.glEnable(GL.GL_SHADE_MODEL);

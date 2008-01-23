@@ -38,12 +38,16 @@ import backend.model.CSG.CSG_Vertex;
  * @author  Adam Kumpf
  * @created Feb. 2007
  */
-public class Region2D implements Comparable{
+public class Region2D{
 
 	private Prim2DCycle prim2DCycle = new Prim2DCycle();
 	private CSG_Face csgFace = null;
-	private LinkedList<Region2D> regionsToSubtract = new LinkedList<Region2D>();
+	private LinkedList<Region2D> regionsToCut = new LinkedList<Region2D>();
 
+	/**
+	 * create a new 2D region defined by a valid Prim2DCycle.
+	 * @param cycle a valid prim2DCycle
+	 */
 	public Region2D(Prim2DCycle cycle){
 		if(cycle != null && cycle.isValidCycle()){
 			this.prim2DCycle = cycle;
@@ -54,11 +58,28 @@ public class Region2D implements Comparable{
 		}		
 	}
 
+	/**
+	 * get the total region area ("cut" regions are ignored).  
+	 * @return the area of this region.
+	 */
 	public double getRegionArea(){
 		if(csgFace == null){
 			return Double.MAX_VALUE;
 		}
 		return csgFace.getArea();
+	}
+	
+	/**
+	 * get the total area of the closed region minus the 
+	 * area of all "cut" regions.
+	 * @return the area of this region minus "cut" regions.
+	 */
+	public double getRegionAreaAfterCuts(){
+		double subArea = 0.0;
+		for(Region2D subReg : regionsToCut){
+			subArea += subReg.getRegionArea();
+		}
+		return getRegionArea() - subArea;
 	}
 
 	/**
@@ -75,7 +96,7 @@ public class Region2D implements Comparable{
 			return false;
 		}
 		// check if inside edges from cut operations.
-		Iterator<Region2D> iterReg = regionsToSubtract.iterator();
+		Iterator<Region2D> iterReg = regionsToCut.iterator();
 		while(iterReg.hasNext()){
 			// check each subtracted region
 			Region2D subtractedRegion = iterReg.next();
@@ -86,22 +107,6 @@ public class Region2D implements Comparable{
 		}	
 		//System.out.println("got to end of for loop without any continues... pt=" + pt);
 		return true; // point was inside face and not inside a cut region.. point is contained! :)
-	}
-
-
-
-
-	public int compareTo(Object o) {
-		if(o instanceof Region2D){
-			Region2D regionB = (Region2D)o;
-			if(regionB.getRegionArea() > this.getRegionArea()){
-				return -1;
-			}
-			if(regionB.getRegionArea() < this.getRegionArea()){
-				return 1;
-			}
-		}
-		return 0;
 	}
 
 	/**
@@ -133,11 +138,11 @@ public class Region2D implements Comparable{
 
 	/**
 	 * generate and return a list of point2D pairs that specify
-	 * the region's outline.
+	 * the region's outline. (no inner holes are represented here).
 	 * @return a point2DList of the regions defining points, in pairs.
 	 */
 	public Point2DList getPoint2DListEdges(){
-		// TODO: HACK, doesn't take into account faces that may be on the inside of an object (drilled hole)
+		// doesn't take into account faces that may be on the inside of an object (drilled hole)
 		Point2DList p2DList = new Point2DList();
 		Point2D conPt = new Point2D(0.0, 0.0);
 		if(prim2DCycle.size() > 0){
@@ -174,10 +179,22 @@ public class Region2D implements Comparable{
 		return p2DList;
 	}
 
+	/**
+	 * get the CSG_Face defined by this region.  Note that inner 
+	 * regions are not cut from the face. If you want them removed 
+	 * for a solid, construct a solid of the cut regions separately 
+	 * and do a CSG boolean subtract operation.
+	 * @return the CSG_Face defined by this region
+	 */
 	public CSG_Face getCSG_Face(){
 		return csgFace;
 	}
 
+	/**
+	 * get the list of points that defines the perimeter of this 
+	 * region.  <b> This is an approximation subject to rounding/precision error!</b>
+	 * @return
+	 */
 	public Point2DList getPeremeterPointList(){
 		Point2DList pointList = new Point2DList();
 		prim2DCycle.orientCycle();
@@ -187,9 +204,32 @@ public class Region2D implements Comparable{
 		}
 		return pointList;
 	}
+	
+	/**
+	 * get the list of point2Dlists defining the perimeter of each region to cut from this region.
+	 * @return the list of point2Dlists.  it may have a size==0 if there are no regions to cut.
+	 */
+	public LinkedList<Point2DList> getPeremeterPointListOfCutRegions(){
+		LinkedList<Point2DList> allCutRegionPoints = new LinkedList<Point2DList>();
+		for(Region2D cutReg : regionsToCut){
+			Point2DList newCutRegList = cutReg.getPeremeterPointList();
+			if(newCutRegList != null && newCutRegList.size() > 0){
+				allCutRegionPoints.add(newCutRegList);
+			}else{
+				System.out.println(" ### found invalid regionToCut perimeter points when building via getPeremeterPointListOfCutRegion() !!");
+			}
+		}
+		return allCutRegionPoints;
+	}
 
+	/**
+	 * test to see if a particular region has already been added to 
+	 * the list of "cut" regions for this region. (e.x., a drilled hole).
+	 * @param cutRegion
+	 * @return true iff region is in the list of regions to cut.
+	 */
 	public boolean regionHasBeenCut(Region2D cutRegion){
-		for(Region2D subReg : regionsToSubtract){
+		for(Region2D subReg : regionsToCut){
 			if(subReg.equals(cutRegion)){
 				return true;
 			}
@@ -283,7 +323,7 @@ public class Region2D implements Comparable{
 	 */
 	public void cutRegionFromRegion(Region2D regionB){
 		if(regionB != null){
-			regionsToSubtract.add(new Region2D(regionB.prim2DCycle));
+			regionsToCut.add(new Region2D(regionB.prim2DCycle));
 			this.csgFace = createCSG_Face();
 		}else{
 			System.out.println(" ### cutRegionFromRegion was passed a null region (not doing anything). ");
@@ -310,12 +350,16 @@ public class Region2D implements Comparable{
 		return distance;
 	}
 
-
+	/**
+	 * create the CSG_Face used for Constructive Solid Geometry. 
+	 * non-convex regions are "convexized." -- this can get a little tricky.
+	 * @return the CSG_Face created, or null if face could not be created.
+	 */
 	private CSG_Face createCSG_Face(){
 		CSG_Face face = null;
 
 		// create a list of 2D points.
-		LinkedList<Point2D> pointList = getPeremeterPointList();
+		Point2DList pointList = getPeremeterPointList();
 
 		//System.out.println("face size: " + pointList.size());
 
@@ -382,7 +426,7 @@ public class Region2D implements Comparable{
 		}
 
 		double TOL = 1e-10;
-		LinkedList<Point2D> polyPoints = new LinkedList<Point2D>();
+		Point2DList polyPoints = new Point2DList();
 		int index = 0;
 		while(pointList.size() >= 3 && index < pointList.size()){
 			polyPoints.clear();
@@ -460,8 +504,17 @@ public class Region2D implements Comparable{
 		return face;
 	}
 
-	// TODO: use point2DList instead of a linkedList<Point2D>
-	private boolean polygonContainsPoints(CSG_Polygon poly, LinkedList<Point2D> pointList, LinkedList<Point2D> invalidPoints){
+	/**
+	 * check to see if the polygon contains all of the points that 
+	 * are in the pointList AND not in the invalidPoints.  this is 
+	 * a specialized private method for helping out the "convexize" 
+	 * algorithm.
+	 * @param poly the CSG_Polygon
+	 * @param pointList 
+	 * @param invalidPoints
+	 * @return true iff polygon contains all points in (pointList && NOT in invalidPoints).
+	 */
+	private boolean polygonContainsPoints(CSG_Polygon poly, Point2DList pointList, Point2DList invalidPoints){
 		boolean polyOverlapsOtherPoints = false;
 		for(Point2D point : pointList){
 			boolean doNotTestPoint = false;
@@ -479,13 +532,17 @@ public class Region2D implements Comparable{
 		return polyOverlapsOtherPoints;
 	}
 
+	/**
+	 * render the region as "not selected".  If sencilCutRegions == true, then openGL 
+	 * stenciling will be used to not draw pixels in any "cut" region.
+	 * @param gl 
+	 * @param stencilCutRegions true if openGL stenciling should be used to allow holes in the region.
+	 */
 	public void glDrawUnselected(GL gl, boolean stencilCutRegions){
 		// TODO: put this in a GL lib of somekind..
-		gl.glColor4d(0.95, 0.5, 0.5, 0.5);
-		//
-		// -------------------------
-		//		
-		if(stencilCutRegions && regionsToSubtract.size() > 0){
+		gl.glColor4d(0.25, 0.95, 0.25, 0.25); // set the color.
+
+		if(stencilCutRegions && regionsToCut.size() > 0){
 			// stencil out "subtracted" regions
 
 			//Disable color and depth buffers
@@ -493,28 +550,21 @@ public class Region2D implements Comparable{
 			gl.glDepthMask(false);                                  //Disable writing in depth buffer
 
 			gl.glEnable(GL.GL_STENCIL_TEST);                        //Enable Stencil test
-			gl.glClearStencil(0);
 			gl.glClear(GL.GL_STENCIL_BUFFER_BIT);
 			gl.glStencilFunc(GL.GL_ALWAYS, 1, 1);                   //Test always success, value written 1
 			gl.glStencilOp(GL.GL_KEEP, GL.GL_KEEP, GL.GL_REPLACE);  //Stencil & Depth test passes => replace existing value
 
-			for(Region2D reg : regionsToSubtract){
+			for(Region2D reg : regionsToCut){
 				reg.glDrawUnselected(gl, false);
 			}
 
-			// turn back on everything.
+			// turn everything back on.
 			gl.glDepthMask(true);
 			gl.glColorMask(true, true, true, true); //Enable drawing of r, g, b & a
 
 			gl.glStencilFunc(GL.GL_NOTEQUAL, 1, 1);                //Draw only where stencil buffer is NOT 1
 			gl.glStencilOp(GL.GL_KEEP, GL.GL_KEEP, GL.GL_KEEP);    //Stencil buffer read only
-			gl.glColor4d(0.5, 0.95, 0.5, 0.5);
 		}
-
-
-		//
-		// -------------------------
-		//
 		if(csgFace != null){
 			Iterator<CSG_Polygon> polyIter = csgFace.getPolygonIterator();
 			while(polyIter.hasNext()){
@@ -522,25 +572,24 @@ public class Region2D implements Comparable{
 				poly.glDrawPolygon(gl);
 			}
 		}
-
-		//
-		//
-		if(regionsToSubtract.size() > 0){
+		if(regionsToCut.size() > 0){
 			gl.glDisable(GL.GL_STENCIL_TEST);                        //Disable Stencil test
 		}
 	}
 
+
+	/**
+	 * render the region as "not selected".  This is currently NOT USED...
+	 * @param gl
+	 */
 	public void glDrawSelected(GL gl){
-//		TODO: put this in a GL lib of somekind..
+		//		TODO: put this in a GL lib of somekind..
 		gl.glColor4d(0.7, 0.7, 0.9, 1.0);
+		System.out.println("Region2D.glDrawSelected is not meant to be used yet...");
 	}
 
 	public String toString(){
-		double subArea = 0.0;
-		for(Region2D subReg : regionsToSubtract){
-			subArea += subReg.getRegionArea();
-		}
-		return "Region2D: area=" + (getRegionArea()-subArea) + ", regions to cut: " + regionsToSubtract.size();
+		return "Region2D: area=" + getRegionAreaAfterCuts() + ", regions to cut: " + regionsToCut.size();
 	}
 
 }
