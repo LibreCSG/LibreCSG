@@ -128,10 +128,10 @@ public class CSG_Solid {
 		Iterator<CSG_Face> iter = faces.iterator();
 		while(iter.hasNext()){
 			CSG_Face f = iter.next();
-			f.glDrawFace(gl);
-			//f.drawFaceForDebug(gl);
-			//f.drawFaceLinesForDebug(gl);
-			//f.drawFaceNormalsForDebug(gl);
+		//	f.glDrawFace(gl);
+			f.drawFaceForDebug(gl);
+			f.drawFaceLinesForDebug(gl);
+			f.drawFaceNormalsForDebug(gl);
 		}	
 	}
 	

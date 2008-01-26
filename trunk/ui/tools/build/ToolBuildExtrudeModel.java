@@ -165,7 +165,7 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 							solid  = CSG_BooleanOperator.Union(solid, newSolid);
 							LinkedList<Region2D> cutRegions = includedRegion.getRegionsToCut();
 							for(Region2D cutReg : cutRegions){
-								CSG_Solid cutSolid = getSolidFromRegion(cutReg, height*1.5, feat2D3D.ID, faceCounter);
+								CSG_Solid cutSolid = getSolidFromRegion(cutReg, height, feat2D3D.ID, faceCounter);
 								solid = CSG_BooleanOperator.Subtraction(solid, cutSolid);
 							}							
 						}
@@ -187,6 +187,7 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 		// TODO: this is a bit of a hack.. just reconstruct the solid and find 
 		// what plane the selected face contains.. should always get it right, 
 		// but at the cost of being quite slow.
+		// CAN'T WE JUST GET IT DIRECTLY FROM THE MAIN PART SOLID! :)
 		CSG_Solid tempSolid = getBuiltSolid(feat2D3D);
 		Iterator<CSG_Face> faceIter = tempSolid.getFacesIter();
 		while(faceIter.hasNext()){
@@ -235,6 +236,9 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 				CSG_Vertex newVertExtrude = new CSG_Vertex(pt, height);
 				CSG_Polygon poly = new CSG_Polygon(newVert, lastVert, lastVertExtrude, newVertExtrude);
 				CSG_Face newFace = new CSG_Face(poly);
+				if(height < 0.0){
+					newFace.flipFaceDirection();
+				}
 				solid.addFace(newFace);
 				lastVert        = newVert;
 				lastVertExtrude = newVertExtrude;
@@ -244,6 +248,9 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 		CSG_Vertex newVertExtrude = new CSG_Vertex(ptList.getFirst(), height);
 		CSG_Polygon poly = new CSG_Polygon(newVert, lastVert, lastVertExtrude, newVertExtrude);
 		CSG_Face newFace = new CSG_Face(poly);
+		if(height < 0.0){
+			newFace.flipFaceDirection();
+		}
 		solid.addFace(newFace);		
 		return solid;
 	}
