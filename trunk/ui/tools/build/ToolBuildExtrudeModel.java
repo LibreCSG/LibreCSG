@@ -1,6 +1,7 @@
 package ui.tools.build;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 
 import javax.media.opengl.GL;
 
@@ -17,6 +18,7 @@ import backend.model.Build;
 import backend.model.Part;
 import backend.model.Sketch;
 import backend.model.CSG.BoolOp;
+import backend.model.CSG.CSG_BooleanOperator;
 import backend.model.CSG.CSG_Face;
 import backend.model.CSG.CSG_Polygon;
 import backend.model.CSG.CSG_Solid;
@@ -76,7 +78,7 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 	public boolean paramSetIsValid(ParamSet paramSet) {
 		//		 ParamSet:  "Extrude"
 		// --------------------------------
-		// # "h"        ->  "Hegith"    <Double>
+		// # "h"        ->  "Height"    <Double>
 		// # "regions"  ->  "Regions"   <SelectionList>
 		// --------------------------------		
 		boolean isValid = (	paramSet != null &&
@@ -102,7 +104,7 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 				sketch.isConsumed = true;
 				Part part = sketch.getParentPart();
 				
-				// Ttranslate/rotate the part to be position on the sketch plane.
+				// Translate/rotate the part to be position on the sketch plane.
 				SketchPlane sp = sketch.getSketchPlane();
 				Rotation3D rotation = new Rotation3D(sp.getRotationX(), sp.getRotationY(), sp.getRotationZ());
 				Translation3D trans = new Translation3D(sp.getOrigin().getX(), sp.getOrigin().getY(), sp.getOrigin().getZ());
@@ -159,46 +161,13 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 					for(int i=0; i<selectionList.getSelectionSize(); i++){
 						Region2D includedRegion = sketch.getRegAtIndex(Integer.parseInt(selectionList.getStringAtIndex(i)));
 						if(includedRegion != null){
-							
-							// top Face
-							CSG_Face topFace = includedRegion.getCSG_Face().getTranslatedCopy(new CSG_Vertex(0.0, 0.0, height));
-							if(height >= 0.0){ // make sure normal points correct way (outward).
-								topFace.flipFaceDirection();
-							}
-							topFace.setIsSelectable(new ModRef_Plane(feat2D3D.ID, faceCounter++));
-							solid.addFace(topFace);
-							
-							// bottom face
-							CSG_Face botFace = includedRegion.getCSG_Face();
-							if(height < 0.0){ // make sure normal points correct way (outward).
-								botFace.flipFaceDirection();										
-							}
-							botFace.setIsSelectable(new ModRef_Plane(feat2D3D.ID, faceCounter++));
-							solid.addFace(botFace);
-														
-							Point2DList ptList = includedRegion.getPeremeterPointList();
-							
-							CSG_Vertex lastVert        = null;
-							CSG_Vertex lastVertExtrude = null;
-							for(Point2D pt : ptList){
-								if(lastVert == null){
-									lastVert        = new CSG_Vertex(pt, 0.0);
-									lastVertExtrude = new CSG_Vertex(pt, height);
-								}else{
-									CSG_Vertex newVert        = new CSG_Vertex(pt, 0.0);
-									CSG_Vertex newVertExtrude = new CSG_Vertex(pt, height);
-									CSG_Polygon poly = new CSG_Polygon(newVert, lastVert, lastVertExtrude, newVertExtrude);
-									CSG_Face newFace = new CSG_Face(poly);
-									solid.addFace(newFace);
-									lastVert        = newVert;
-									lastVertExtrude = newVertExtrude;
-								}
-							}
-							CSG_Vertex newVert        = new CSG_Vertex(ptList.getFirst(), 0.0);
-							CSG_Vertex newVertExtrude = new CSG_Vertex(ptList.getFirst(), height);
-							CSG_Polygon poly = new CSG_Polygon(newVert, lastVert, lastVertExtrude, newVertExtrude);
-							CSG_Face newFace = new CSG_Face(poly);
-							solid.addFace(newFace);				
+							CSG_Solid newSolid =  getSolidFromRegion(includedRegion, height, feat2D3D.ID, faceCounter);
+							solid  = CSG_BooleanOperator.Union(solid, newSolid);
+							LinkedList<Region2D> cutRegions = includedRegion.getRegionsToCut();
+							for(Region2D cutReg : cutRegions){
+								CSG_Solid cutSolid = getSolidFromRegion(cutReg, height*1.5, feat2D3D.ID, faceCounter);
+								solid = CSG_BooleanOperator.Subtraction(solid, cutSolid);
+							}							
 						}
 					}
 				}
@@ -215,7 +184,7 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 	}
 
 	public SketchPlane getSketchPlaneByID(Build feat2D3D, int faceID) {
-		// TODO: this is a bit of a hack.. just recontruct the solid and find 
+		// TODO: this is a bit of a hack.. just reconstruct the solid and find 
 		// what plane the selected face contains.. should always get it right, 
 		// but at the cost of being quite slow.
 		CSG_Solid tempSolid = getBuiltSolid(feat2D3D);
@@ -234,4 +203,51 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 		// TODO: check for isWorthKeeping! 
 		return true;
 	}
+	
+	private CSG_Solid getSolidFromRegion(Region2D region, double height, int ID, int faceCounter){
+		CSG_Solid solid = new CSG_Solid();
+		// top Face
+		CSG_Face topFace = region.getCSG_Face().getTranslatedCopy(new CSG_Vertex(0.0, 0.0, height));
+		if(height >= 0.0){ // make sure normal points correct way (outward).
+			topFace.flipFaceDirection();
+		}
+		topFace.setIsSelectable(new ModRef_Plane(ID, faceCounter++));
+		solid.addFace(topFace);
+		
+		// bottom face
+		CSG_Face botFace = region.getCSG_Face();
+		if(height < 0.0){ // make sure normal points correct way (outward).
+			botFace.flipFaceDirection();										
+		}
+		botFace.setIsSelectable(new ModRef_Plane(ID, faceCounter++));
+		solid.addFace(botFace);
+									
+		Point2DList ptList = region.getPeremeterPointList();
+		
+		CSG_Vertex lastVert        = null;
+		CSG_Vertex lastVertExtrude = null;
+		for(Point2D pt : ptList){
+			if(lastVert == null){
+				lastVert        = new CSG_Vertex(pt, 0.0);
+				lastVertExtrude = new CSG_Vertex(pt, height);
+			}else{
+				CSG_Vertex newVert        = new CSG_Vertex(pt, 0.0);
+				CSG_Vertex newVertExtrude = new CSG_Vertex(pt, height);
+				CSG_Polygon poly = new CSG_Polygon(newVert, lastVert, lastVertExtrude, newVertExtrude);
+				CSG_Face newFace = new CSG_Face(poly);
+				solid.addFace(newFace);
+				lastVert        = newVert;
+				lastVertExtrude = newVertExtrude;
+			}
+		}
+		CSG_Vertex newVert        = new CSG_Vertex(ptList.getFirst(), 0.0);
+		CSG_Vertex newVertExtrude = new CSG_Vertex(ptList.getFirst(), height);
+		CSG_Polygon poly = new CSG_Polygon(newVert, lastVert, lastVertExtrude, newVertExtrude);
+		CSG_Face newFace = new CSG_Face(poly);
+		solid.addFace(newFace);		
+		return solid;
+	}
+	
+
+	
 }
