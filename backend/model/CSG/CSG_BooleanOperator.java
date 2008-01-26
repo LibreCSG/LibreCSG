@@ -173,7 +173,7 @@ public class CSG_BooleanOperator {
 											// (10) ** analize them as in "5. Do Two Polygons Intersect"
 											//System.out.println("considering polyA: " + polyA);
 											// performPolyIntersection handles lines (11-14)
-											CSG_FACE_INFO info = performPolyIntersection(polyA, faceA, polyB, faceB);
+											CSG_FACE_INFO info = performPolyIntersection(polyA, faceA, polyB, faceB, true);
 										}
 									}
 								}
@@ -189,7 +189,7 @@ public class CSG_BooleanOperator {
 	
 	
 	// returns the new version of polyA
-	public static CSG_FACE_INFO performPolyIntersection(CSG_Polygon polyA, CSG_Face faceA, CSG_Polygon polyB, CSG_Face faceB){
+	public static CSG_FACE_INFO performPolyIntersection(CSG_Polygon polyA, CSG_Face faceA, CSG_Polygon polyB, CSG_Face faceB, boolean tryCoplanarResolve){
 		// "5. Do Polygons Intersect?"
 		// Step 1: get dist from each vertex in faceA to plane of faceB
 		boolean gotPositive = false;
@@ -208,6 +208,34 @@ public class CSG_BooleanOperator {
 		}
 		if(!gotPositive && !gotNegative){
 			// all distances from faceA vertices to faceB were zero!
+			// TODO: This doesn't seem right... if faces are coplanar, they should still be split!??
+			// ----
+			if(tryCoplanarResolve){
+				System.out.println("TESTING: Trying Coplanar magic!!");
+				Iterator<CSG_Vertex> iter = polyB.getVertexIterator();
+				CSG_Vertex firstV = iter.next();
+				CSG_Vertex lastV = firstV;
+				CSG_Vertex faceBNormal = faceB.getPlaneNormal();
+				while(iter.hasNext()){
+					CSG_Vertex nextV = iter.next();
+					CSG_Polygon testPoly = new CSG_Polygon(lastV.addToVertex(faceBNormal), 
+							lastV.subFromVertex(faceBNormal), 
+							nextV.subFromVertex(faceBNormal), 
+							nextV.addToVertex(faceBNormal));
+					CSG_Face testFace = new CSG_Face(testPoly);
+					performPolyIntersection(polyA, faceA, testPoly, testFace, false);
+					//System.out.println("## " + performPolyIntersection(polyA, faceA, testPoly, testFace));
+					lastV = nextV;
+				}
+				CSG_Polygon testPoly = new CSG_Polygon(lastV.addToVertex(faceBNormal), 
+						lastV.subFromVertex(faceBNormal), 
+						firstV.subFromVertex(faceBNormal), 
+						firstV.addToVertex(faceBNormal));
+				CSG_Face testFace = new CSG_Face(testPoly);
+				performPolyIntersection(polyA, faceA, testPoly, testFace, false);
+				//System.out.println("## " + performPolyIntersection(polyA, faceA, testPoly, testFace));
+			}
+			// ----			
 			return CSG_FACE_INFO.FACE_COPLANAR;
 		}
 		if(gotPositive && !gotNegative){
@@ -645,7 +673,8 @@ public class CSG_BooleanOperator {
 										if(polyB.vertexIsInsidePolygon(intersectPolyBVert)){
 											// ray passes through polygon, and it's closer that what we have..
 											// keep this polyB.
-											// TODO: handle ray intersect polygon edge...
+											// TODO: handle ray intersect polygon edge... this should be rare, but it CAN happen.
+											// TODO: SEE SIGAPH 1986 CSG paper
 											closestPolyB = polyB;
 											closestDist = distance;
 										}
@@ -697,6 +726,7 @@ public class CSG_BooleanOperator {
 	 * @param inputSolid
 	 * @param type
 	 * @param solidToModify
+	 * @param reverseOrder
 	 */
 	private static void addPolygonsFromSolidToSolid(CSG_Solid inputSolid, CSG_Polygon.POLY_TYPE type, CSG_Solid solidToModify, boolean reverseOrder){
 		Iterator<CSG_Face> faceIter = inputSolid.getFacesIter();
