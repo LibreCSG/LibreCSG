@@ -165,14 +165,17 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 							solid  = CSG_BooleanOperator.Union(solid, newSolid);
 							LinkedList<Region2D> cutRegions = includedRegion.getRegionsToCut();
 							for(Region2D cutReg : cutRegions){
-								CSG_Solid cutSolid = getSolidFromRegion(cutReg, height, feat2D3D.ID, faceCounter);
-								solid = CSG_BooleanOperator.Subtraction(solid, cutSolid);
-							}							
+								if(cutReg != null){
+									CSG_Solid cutSolid = getSolidFromRegion(cutReg, height, feat2D3D.ID, faceCounter);
+									solid = CSG_BooleanOperator.Subtraction(solid, cutSolid);
+								}
+							}
 						}
 					}
 				}
 			}catch(Exception ex){
 				System.out.println("ToolBuildExtrudeModel(getBuiltSolid): " + ex.getClass().getName());
+				ex.printStackTrace();
 			}
 		}
 		if(!solid.isValidSolid()){

@@ -209,9 +209,11 @@ public class CSG_BooleanOperator {
 		if(!gotPositive && !gotNegative){
 			// all distances from faceA vertices to faceB were zero!
 			// TODO: This doesn't seem right... if faces are coplanar, they should still be split!??
+			// SIGRAPH 1986 CSG says to just continue without splitting. :(
+			// TODO: this is a HACK. (and slow).
 			// ----
 			if(tryCoplanarResolve){
-				System.out.println("TESTING: Trying Coplanar magic!!");
+				//System.out.println("TESTING: Trying Coplanar magic!!");
 				Iterator<CSG_Vertex> iter = polyB.getVertexIterator();
 				CSG_Vertex firstV = iter.next();
 				CSG_Vertex lastV = firstV;
@@ -224,7 +226,6 @@ public class CSG_BooleanOperator {
 							nextV.addToVertex(faceBNormal));
 					CSG_Face testFace = new CSG_Face(testPoly);
 					performPolyIntersection(polyA, faceA, testPoly, testFace, false);
-					//System.out.println("## " + performPolyIntersection(polyA, faceA, testPoly, testFace));
 					lastV = nextV;
 				}
 				CSG_Polygon testPoly = new CSG_Polygon(lastV.addToVertex(faceBNormal), 
@@ -233,7 +234,6 @@ public class CSG_BooleanOperator {
 						firstV.addToVertex(faceBNormal));
 				CSG_Face testFace = new CSG_Face(testPoly);
 				performPolyIntersection(polyA, faceA, testPoly, testFace, false);
-				//System.out.println("## " + performPolyIntersection(polyA, faceA, testPoly, testFace));
 			}
 			// ----			
 			return CSG_FACE_INFO.FACE_COPLANAR;
