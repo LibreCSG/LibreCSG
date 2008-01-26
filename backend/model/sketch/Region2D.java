@@ -57,6 +57,10 @@ public class Region2D{
 
 		}		
 	}
+	
+	public LinkedList<Region2D> getRegionsToCut(){
+		return regionsToCut;
+	}
 
 	/**
 	 * get the total region area ("cut" regions are ignored).  
