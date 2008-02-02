@@ -4,9 +4,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.media.opengl.GL;
-import javax.media.opengl.GLContext;
-
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)

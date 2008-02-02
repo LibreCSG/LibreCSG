@@ -43,11 +43,6 @@ import backend.model.sketch.SketchPlane;
 */
 public class ToolBuildRevolveModel implements ToolModelBuild{
 
-	public void draw3DFeature(GL gl, Build feat2D3D) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	public void finalize(ParamSet paramSet) {
 		// finalize revolve and return to main menu
 		Build feat2D3D = AvoGlobal.project.getActiveFeat2D3D();

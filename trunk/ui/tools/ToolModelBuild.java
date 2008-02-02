@@ -37,9 +37,6 @@ import backend.model.sketch.SketchPlane;
 */
 public interface ToolModelBuild extends ToolModel{
 
-	// TODO: should not actually do drawing! (I think?!?)
-	abstract public void draw3DFeature(GL gl, Build feat2D3D);
-	
 	/**
 	 * Construct a CSG_Solid from the feature2D3D and return it.
 	 * @param feat2D3D 

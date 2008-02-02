@@ -57,24 +57,6 @@ import backend.model.sketch.SketchPlane;
 */
 public class ToolBuildExtrudeModel implements ToolModelBuild{
 
-	public void draw3DFeature(GL gl, Build feat2D3D) {
-		// if sketch is not consumed... just draw face to be extruded
-		//System.out.println("trying to draw extrude");		
-		
-		Sketch sketch = feat2D3D.getPrimarySketch();
-		if(sketch != null){
-			sketch.getSketchPlane().glOrientToPlane(gl);
-			Iterator<Region2D> regIter = sketch.getRegion2DIterator();
-			while(regIter.hasNext()){
-				Region2D region = regIter.next();
-				region.glDrawUnselected(gl, true);				
-			}
-		}
-		
-		getBuiltSolid(feat2D3D).glDrawSolid(gl);
-	
-	}
-
 	public boolean paramSetIsValid(ParamSet paramSet) {
 		//		 ParamSet:  "Extrude"
 		// --------------------------------
