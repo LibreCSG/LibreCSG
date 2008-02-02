@@ -218,39 +218,6 @@ public class CSG_BooleanOperator {
 			// SIGRAPH 1986 CSG says to just continue without splitting. 
 			// this is OKAY since the polygon will still be split by the 
 			// walls that support this polygon in the water-tight solid.
-			
-			
-			// TODO: This doesn't seem right... if faces are coplanar, they should still be split!??
-			// TODO: this is a HACK. (and slow).
-			/*
-			// ----
-			if(tryCoplanarResolve){
-				System.out.println("TESTING: Trying Coplanar magic!! (Leaves extra Polygons..  :( )");
-				Iterator<CSG_Vertex> iter = polyB.getVertexIterator();
-				CSG_Vertex firstV = iter.next();
-				CSG_Vertex lastV = firstV;
-				CSG_Vertex faceBNormal = faceB.getPlaneNormal();
-				while(iter.hasNext()){
-					CSG_Vertex nextV = iter.next();
-					CSG_Polygon testPoly = new CSG_Polygon(lastV.addToVertex(faceBNormal), 
-							lastV.subFromVertex(faceBNormal), 
-							nextV.subFromVertex(faceBNormal), 
-							nextV.addToVertex(faceBNormal));
-					CSG_Face testFace = new CSG_Face(testPoly);
-					performPolyIntersection(polyA, faceA, testPoly, testFace, false);
-					faceA.cleanupMarkedForDeletionPolygons();
-					lastV = nextV;
-				}
-				CSG_Polygon testPoly = new CSG_Polygon(lastV.addToVertex(faceBNormal), 
-						lastV.subFromVertex(faceBNormal), 
-						firstV.subFromVertex(faceBNormal), 
-						firstV.addToVertex(faceBNormal));
-				CSG_Face testFace = new CSG_Face(testPoly);
-				performPolyIntersection(polyA, faceA, testPoly, testFace, false);
-				faceA.cleanupMarkedForDeletionPolygons();
-			}
-			// ----			
-			//*/
 			return CSG_FACE_INFO.FACE_COPLANAR;
 		}
 		if(gotPositive && !gotNegative){
@@ -395,8 +362,7 @@ public class CSG_BooleanOperator {
 				faceA.addPolygon(newPoly1);
 				faceA.addPolygon(newPoly2);	
 				polyA.markForDeletion();
-			}		
-			
+			}					
 		}
 		if(segmentA.VERT_DESC_is_VFV()){
 			// subdividing -- 	
@@ -411,8 +377,7 @@ public class CSG_BooleanOperator {
 			}
 			faceA.addPolygon(newPoly1);
 			faceA.addPolygon(newPoly2);
-			polyA.markForDeletion();
-			
+			polyA.markForDeletion();			
 		}
 		if(segmentA.VERT_DESC_is_VFE()){
 			// subdividing -- 	
@@ -427,8 +392,7 @@ public class CSG_BooleanOperator {
 			}
 			faceA.addPolygon(newPoly1);
 			faceA.addPolygon(newPoly2);
-			polyA.markForDeletion();
-			
+			polyA.markForDeletion();			
 		}
 		if(segmentA.VERT_DESC_is_VFF()){
 			// subdividing -- 	
@@ -462,8 +426,7 @@ public class CSG_BooleanOperator {
 			}
 			faceA.addPolygon(newPoly1);
 			faceA.addPolygon(newPoly2);	
-			polyA.markForDeletion();
-			
+			polyA.markForDeletion();			
 		}
 		if(segmentA.VERT_DESC_is_EEE()){
 			// subdividing --
@@ -481,8 +444,7 @@ public class CSG_BooleanOperator {
 			faceA.addPolygon(newPoly1);
 			faceA.addPolygon(newPoly2);
 			faceA.addPolygon(newPoly3);	
-			polyA.markForDeletion();
-			
+			polyA.markForDeletion();			
 		}
 		if(segmentA.VERT_DESC_is_EFV()){
 			// Symmetric to VFE
@@ -498,8 +460,7 @@ public class CSG_BooleanOperator {
 			}
 			faceA.addPolygon(newPoly1);
 			faceA.addPolygon(newPoly2);
-			polyA.markForDeletion();
-			
+			polyA.markForDeletion();			
 		}
 		if(segmentA.VERT_DESC_is_EFE()){
 			// subdividing -- 	
@@ -514,8 +475,7 @@ public class CSG_BooleanOperator {
 			}
 			faceA.addPolygon(newPoly1);
 			faceA.addPolygon(newPoly2);
-			polyA.markForDeletion();
-			
+			polyA.markForDeletion();			
 		}
 		if(segmentA.VERT_DESC_is_EFF()){			
 			// subdividing -- 	
@@ -536,8 +496,7 @@ public class CSG_BooleanOperator {
 			faceA.addPolygon(newPoly2);
 			faceA.addPolygon(newPoly3);
 			faceA.addPolygon(newPoly4);
-			polyA.markForDeletion();
-			
+			polyA.markForDeletion();			
 		}
 		if(segmentA.VERT_DESC_is_FFV()){
 			// Symmetric to VFF TODO
@@ -558,8 +517,7 @@ public class CSG_BooleanOperator {
 			faceA.addPolygon(newPoly2);
 			faceA.addPolygon(newPoly3);
 			faceA.addPolygon(newPoly4);		
-			polyA.markForDeletion();
-			
+			polyA.markForDeletion();			
 		}
 		if(segmentA.VERT_DESC_is_FFE()){
 			// Symmetric to EFF	TODO		
@@ -581,9 +539,6 @@ public class CSG_BooleanOperator {
 			faceA.addPolygon(newPoly3);
 			faceA.addPolygon(newPoly4);
 			polyA.markForDeletion();
-			
-			// marking	
-			
 		}
 		if(segmentA.VERT_DESC_is_FFF()){
 			// subdividing -- 	
@@ -609,8 +564,7 @@ public class CSG_BooleanOperator {
 			faceA.addPolygon(newPoly5);
 			faceA.addPolygon(newPoly6);
 			polyA.markForDeletion();
-		}
-	
+		}	
 	}
 	
 	
