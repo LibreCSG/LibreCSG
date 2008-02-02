@@ -112,7 +112,8 @@ public class CSG_BooleanOperator {
 		classifySolidAPolysInSolidB(solidBClone, solidAClone);
 		CSG_Solid newSolid = new CSG_Solid();
 		addPolygonsFromSolidToSolid(solidAClone, CSG_Polygon.POLY_TYPE.POLY_OUTSIDE, newSolid, false);
-		addPolygonsFromSolidToSolid(solidAClone, CSG_Polygon.POLY_TYPE.POLY_OPPOSITE, newSolid, false);
+		// the next line is commented so that no "paper-thin walls" are allowed.
+		//addPolygonsFromSolidToSolid(solidAClone, CSG_Polygon.POLY_TYPE.POLY_OPPOSITE, newSolid, false);
 		addPolygonsFromSolidToSolid(solidBClone, CSG_Polygon.POLY_TYPE.POLY_INSIDE, newSolid, true);
 		return newSolid;
 	}
