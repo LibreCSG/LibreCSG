@@ -206,9 +206,9 @@ public class DynParamDialog {
 		// add all parameters from the current feature to 
 		// the paramDialog for display/modification
 		//
-		Iterator iter = paramSet.getIterator();
+		Iterator<Param> iter = paramSet.getIterator();
 		while(iter.hasNext()){
-			Param p = (Param)iter.next();
+			Param p = iter.next();
 			switch(p.getType()){
 				case Boolean : {
 					new PCompBoolean(paramComp, SWT.BORDER, p, paramSet);
