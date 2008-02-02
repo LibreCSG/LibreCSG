@@ -27,6 +27,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
+import ui.event.ParamListener;
 import ui.menuet.Menuet;
 import backend.global.AvoColors;
 import backend.global.AvoGlobal;
@@ -35,7 +36,9 @@ import backend.model.Feature2D;
 import backend.model.Part;
 import backend.model.Sketch;
 import backend.model.SubPart;
+import backend.model.CSG.CSG_Solid;
 import backend.model.sketch.Prim2D;
+import backend.model.sketch.Region2D;
 
 
 //
@@ -104,6 +107,8 @@ public class GLView {
 	static int MOUSE_MIDDLE_CTRL  = 22; 
 	static int MOUSE_RIGHT  = 3;
 	
+	private CSG_Solid buildSolidFeat2D3D = null;
+	boolean buildSolidNeedsRebuilt = false;
 	
 	public GLView(Composite comp){
 		GLData data = new GLData ();
@@ -476,10 +481,24 @@ public class GLView {
 								Build feat2D3D = activeSubPart.getBuild();
 								if(feat2D3D != null && feat2D3D.paramSet != null && feat2D3D.paramSet.getToolModel2D3D() != null){
 									// request draw of feat2D3D if active
-									// TODO: why bother with sketch here?
 									sketch = feat2D3D.getPrimarySketch();
 									if(sketch != null && !sketch.isConsumed){
-										feat2D3D.paramSet.getToolModel2D3D().draw3DFeature(gl, feat2D3D);
+										// draw regions...
+										sketch.getSketchPlane().glOrientToPlane(gl);
+										Iterator<Region2D> regIter = sketch.getRegion2DIterator();
+										while(regIter.hasNext()){
+											Region2D region = regIter.next();
+											region.glDrawUnselected(gl, true);				
+										}
+										// only rebuild if necessary.
+										if(buildSolidNeedsRebuilt){
+											buildSolidFeat2D3D = feat2D3D.paramSet.getToolModel2D3D().getBuiltSolid(feat2D3D);
+											buildSolidNeedsRebuilt = false;
+										}
+										// draw solid constructed from build operation
+										if(buildSolidFeat2D3D != null){
+											buildSolidFeat2D3D.glDrawSolid(gl); //.draw3DFeature(gl, feat2D3D);
+										}
 										// TODO: HACK, selecting regions seems to break for non XY plane orientations.
 										feat2D3D.getPrimarySketch().getSketchPlane().glOrientToPlane(gl);
 										setMouseMatrixToModelview();
@@ -506,7 +525,20 @@ public class GLView {
 		        }				
 			}
 	    }.run();
-		
+	
+	    AvoGlobal.paramEventHandler.addParamListener(new ParamListener(){
+			@Override
+			public void paramModified() {
+				buildSolidNeedsRebuilt = true;
+				updateGLView = true;
+			}
+			@Override
+			public void paramSwitched() {
+				buildSolidNeedsRebuilt = true;
+				updateGLView = true;
+			}	    	
+	    });
+	    
 	}
 	
 	private void drawTransparentMouseLayer(){
