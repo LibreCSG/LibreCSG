@@ -4,6 +4,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.media.opengl.GL;
+import javax.media.opengl.GLContext;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -194,6 +197,7 @@ public class CSG_BooleanOperator {
 		// Step 1: get dist from each vertex in faceA to plane of faceB
 		boolean gotPositive = false;
 		boolean gotNegative = false;
+		boolean gotZero = false;
 		Iterator<CSG_Vertex> aVerts = polyA.getVertexIterator();
 		List<Double> distAsToBPlane = new LinkedList<Double>();
 		while(aVerts.hasNext()){
@@ -205,15 +209,23 @@ public class CSG_BooleanOperator {
 			if(dist < -TOL){
 				gotNegative = true;
 			}
+			if(dist <= TOL && dist >= -TOL){
+				gotZero = true;
+			}
 		}
 		if(!gotPositive && !gotNegative){
 			// all distances from faceA vertices to faceB were zero!
+			// SIGRAPH 1986 CSG says to just continue without splitting. 
+			// this is OKAY since the polygon will still be split by the 
+			// walls that support this polygon in the water-tight solid.
+			
+			
 			// TODO: This doesn't seem right... if faces are coplanar, they should still be split!??
-			// SIGRAPH 1986 CSG says to just continue without splitting. :(
 			// TODO: this is a HACK. (and slow).
+			/*
 			// ----
 			if(tryCoplanarResolve){
-				//System.out.println("TESTING: Trying Coplanar magic!!");
+				System.out.println("TESTING: Trying Coplanar magic!! (Leaves extra Polygons..  :( )");
 				Iterator<CSG_Vertex> iter = polyB.getVertexIterator();
 				CSG_Vertex firstV = iter.next();
 				CSG_Vertex lastV = firstV;
@@ -226,6 +238,7 @@ public class CSG_BooleanOperator {
 							nextV.addToVertex(faceBNormal));
 					CSG_Face testFace = new CSG_Face(testPoly);
 					performPolyIntersection(polyA, faceA, testPoly, testFace, false);
+					faceA.cleanupMarkedForDeletionPolygons();
 					lastV = nextV;
 				}
 				CSG_Polygon testPoly = new CSG_Polygon(lastV.addToVertex(faceBNormal), 
@@ -234,8 +247,10 @@ public class CSG_BooleanOperator {
 						firstV.addToVertex(faceBNormal));
 				CSG_Face testFace = new CSG_Face(testPoly);
 				performPolyIntersection(polyA, faceA, testPoly, testFace, false);
+				faceA.cleanupMarkedForDeletionPolygons();
 			}
 			// ----			
+			//*/
 			return CSG_FACE_INFO.FACE_COPLANAR;
 		}
 		if(gotPositive && !gotNegative){
@@ -251,6 +266,7 @@ public class CSG_BooleanOperator {
 		// get dist from each vertex in faceB to plane of faceA		
 		gotPositive = false;
 		gotNegative = false;
+		gotZero = false;
 		Iterator<CSG_Vertex> bVerts = polyB.getVertexIterator();
 		List<Double> distBsToAPlane = new LinkedList<Double>();
 		while(bVerts.hasNext()){
@@ -261,14 +277,17 @@ public class CSG_BooleanOperator {
 			}
 			if(dist < -TOL){
 				gotNegative = true;
-			}			
+			}		
+			if(dist <= TOL && dist >= -TOL){
+				gotZero = true;
+			}
 		}		
-		if(gotPositive && !gotNegative){
-			// faceB is completely on one side of faceA
+		if(gotPositive && !gotNegative && !gotZero){
+			// faceA is completely on one side of faceB
 			return CSG_FACE_INFO.FACE_NOT_INTERSECT;
 		}
-		if(!gotPositive && gotNegative){
-			// faceB is completely on the other side of faceA
+		if(!gotPositive && gotNegative && !gotZero){
+			// faceA is completely on the other side of faceB
 			return CSG_FACE_INFO.FACE_NOT_INTERSECT;
 		}
 		
@@ -521,9 +540,10 @@ public class CSG_BooleanOperator {
 			
 		}
 		if(segmentA.VERT_DESC_is_FFV()){
-			// Symmetric to VFF
+			// Symmetric to VFF TODO
 			// subdividing -- 	
 			// Fig 6.3, (g) case of split to 4 polygons	(assume all 4 needed)
+			System.out.println("FFV - may be overly subdivided");
 			CSG_Polygon newPoly1 = new CSG_Polygon(startVert, origStartVert, startNextVert);
 			CSG_Polygon newPoly2 = new CSG_Polygon(startVert, startPrevVert, origStartVert);
 			CSG_Polygon newPoly3 = new CSG_Polygon(endVert, startVert, startNextVert);
@@ -542,9 +562,10 @@ public class CSG_BooleanOperator {
 			
 		}
 		if(segmentA.VERT_DESC_is_FFE()){
-			// Symmetric to EFF			
+			// Symmetric to EFF	TODO		
 			// subdividing -- 	
 			// for simplicity, always do the Fig 6.3, (l) case of split to 4 polygons
+			System.out.println("FFE - may be overly subdivided");
 			CSG_Polygon newPoly1 = new CSG_Polygon(startVert, origStartVert, startNextVert);
 			CSG_Polygon newPoly2 = new CSG_Polygon(startVert, startPrevVert, origStartVert);
 			CSG_Polygon newPoly3 = new CSG_Polygon(endVert, startVert, startNextVert);
@@ -589,15 +610,6 @@ public class CSG_BooleanOperator {
 			faceA.addPolygon(newPoly6);
 			polyA.markForDeletion();
 		}
-		
-		
-		
-		
-				
-		//GLContext glc = GLContext.getCurrent();
-		//GL gl = glc.getGL();
-		//segmentA.drawSegmentForDebug(gl);
-		//segmentB.drawSegmentForDebug(gl);
 	
 	}
 	

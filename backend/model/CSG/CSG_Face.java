@@ -306,19 +306,19 @@ public class CSG_Face {
 	public void drawFaceForDebug(GL gl){		
 		for(CSG_Polygon poly : polygons){
 			if(poly.type == CSG_Polygon.POLY_TYPE.POLY_INSIDE){ 	// red
-				gl.glColor3d(0.9, 0.4, 0.4);
+				gl.glColor4d(0.9, 0.4, 0.4, 0.5);
 			}
 			if(poly.type == CSG_Polygon.POLY_TYPE.POLY_OUTSIDE){ 	// green
-				gl.glColor3d(0.4, 0.9, 0.4);
+				gl.glColor4d(0.4, 0.9, 0.4, 0.5);
 			}
 			if(poly.type == CSG_Polygon.POLY_TYPE.POLY_OPPOSITE){	// blue
-				gl.glColor3d(0.4, 0.4, 0.9);
+				gl.glColor4d(0.4, 0.4, 0.9, 0.5);
 			}
 			if(poly.type == CSG_Polygon.POLY_TYPE.POLY_SAME){		// purple
-				gl.glColor3d(0.8, 0.4, 0.8);
+				gl.glColor4d(0.8, 0.4, 0.8, 0.5);
 			}
 			if(poly.type == CSG_Polygon.POLY_TYPE.POLY_UNKNOWN){	// gray
-				gl.glColor3d(0.5, 0.5, 0.5);
+				gl.glColor4d(0.5, 0.5, 0.5, 0.5);
 			}
 			Iterator<CSG_Vertex> iterV = poly.getVertexIterator();
 			gl.glBegin(GL.GL_POLYGON);
