@@ -1,8 +1,6 @@
 package backend.model;
 
-import ui.tools.ToolModelBuild;
 import backend.adt.ParamSet;
-import backend.model.sketch.SketchPlane;
 
 
 //
