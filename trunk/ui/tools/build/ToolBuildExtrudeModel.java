@@ -167,6 +167,8 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 
 	public boolean isWorthKeeping(ParamSet paramSet) {
 		// TODO: check for isWorthKeeping! 
+		
+		// if there is at least on region selected and the height != zero, then it is worth keeping.
 		return true;
 	}
 	
