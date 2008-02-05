@@ -1,7 +1,5 @@
 package backend.model.ref;
 
-import backend.model.Build;
-import backend.model.Modify;
 import backend.model.Part;
 import backend.model.sketch.SketchPlane;
 
@@ -37,6 +35,7 @@ public class ModRef_Plane extends ModelReference{
 
 	private final int uniqueSubPartID;
 	private final int uniqueFaceID;
+	private final SketchPlane sketchPlane;
 	
 	// planes are built with reference to a particular part, feat2D3D, and faceID within that feature.
 	
@@ -46,26 +45,18 @@ public class ModRef_Plane extends ModelReference{
 	 * @param uniqueSubPartID the unique ID of the SubPart to use
 	 * @param uniqueFaceID the unique ID of the face created by the SubPart.
 	 */
-	public ModRef_Plane(int uniqueSubPartID, int uniqueFaceID){
+	public ModRef_Plane(int uniqueSubPartID, int uniqueFaceID, SketchPlane sketchPlane){
 		super(ModRefType.Plane);
 		this.uniqueSubPartID = uniqueSubPartID;
 		this.uniqueFaceID    = uniqueFaceID;
+		this.sketchPlane = sketchPlane;
+		if(sketchPlane == null){
+			System.out.println("You passed in a NULL sketchplane to ModRef_Plane.. BAD IDEA!!");
+		}
 	}
 	
 	public SketchPlane getSketchPlane(Part part){
-		Build feat2D3D = part.getFeat2D3DByID(uniqueSubPartID);
-		if(feat2D3D != null){
-			// get the sketch plane from the feature2D3D
-			return feat2D3D.getPlaneByFaceID(uniqueFaceID);
-		}else{
-			Modify feat3D3D = part.getFeat3D3DByID(uniqueSubPartID);
-			if(feat3D3D != null){
-				// get the sketch plane from the feature3D3D
-				return feat3D3D.getPlaneByFaceID(uniqueFaceID);
-			}
-		}
-		System.out.println("ModRef_Plane(getSketchPlane): Could not get feat2D3D/feat3D3D for sketch plane! FIX THIS NOW!");
-		return null;
+		return sketchPlane;
 	}
 	
 	public int getUniqueFaceID(){

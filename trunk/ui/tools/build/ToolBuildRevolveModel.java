@@ -1,7 +1,5 @@
 package ui.tools.build;
 
-import javax.media.opengl.GL;
-
 import ui.tools.ToolModelBuild;
 import backend.adt.Param;
 import backend.adt.ParamSet;
@@ -12,7 +10,6 @@ import backend.model.Build;
 import backend.model.Sketch;
 import backend.model.CSG.BoolOp;
 import backend.model.CSG.CSG_Solid;
-import backend.model.sketch.SketchPlane;
 
 
 //
@@ -99,11 +96,6 @@ public class ToolBuildRevolveModel implements ToolModelBuild{
 	}
 
 	public CSG_Solid getBuiltSolid(Build feat2D3D) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public SketchPlane getSketchPlaneByID(Build feat2D3D, int faceID) {
 		// TODO Auto-generated method stub
 		return null;
 	}

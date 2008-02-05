@@ -1,9 +1,6 @@
 package ui.tools.build;
 
-import java.util.Iterator;
 import java.util.LinkedList;
-
-import javax.media.opengl.GL;
 
 import ui.tools.ToolModelBuild;
 import backend.adt.Param;
@@ -168,23 +165,6 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 		return solid;
 	}
 
-	public SketchPlane getSketchPlaneByID(Build feat2D3D, int faceID) {
-		// TODO: this is a bit of a hack.. just reconstruct the solid and find 
-		// what plane the selected face contains.. should always get it right, 
-		// but at the cost of being quite slow.
-		// CAN'T WE JUST GET IT DIRECTLY FROM THE MAIN PART SOLID! :)
-		CSG_Solid tempSolid = getBuiltSolid(feat2D3D);
-		Iterator<CSG_Face> faceIter = tempSolid.getFacesIter();
-		while(faceIter.hasNext()){
-			CSG_Face face = faceIter.next();
-			if(face.isSelectable() && face.getModRefPlane().getUniqueFaceID() == faceID){
-				return new SketchPlane(face.getPlane());
-			}
-		}
-		System.out.println("ToolBuildExtrude(getSketchPlaneByID): No face existed with that ID.  faceID=" + faceID);
-		return null;
-	}
-	
 	public boolean isWorthKeeping(ParamSet paramSet) {
 		// TODO: check for isWorthKeeping! 
 		return true;
@@ -197,7 +177,7 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 		if(height >= 0.0){ // make sure normal points correct way (outward).
 			topFace.flipFaceDirection();
 		}
-		topFace.setIsSelectable(new ModRef_Plane(ID, faceCounter++));
+		topFace.setIsSelectable(new ModRef_Plane(ID, faceCounter++, new SketchPlane(topFace.getPlane())));
 		solid.addFace(topFace);
 		
 		// bottom face
@@ -205,7 +185,7 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 		if(height < 0.0){ // make sure normal points correct way (outward).
 			botFace.flipFaceDirection();										
 		}
-		botFace.setIsSelectable(new ModRef_Plane(ID, faceCounter++));
+		botFace.setIsSelectable(new ModRef_Plane(ID, faceCounter++, new SketchPlane(botFace.getPlane())));
 		solid.addFace(botFace);
 									
 		Point2DList ptList = region.getPeremeterPointList();
