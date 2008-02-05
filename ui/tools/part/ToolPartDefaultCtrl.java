@@ -47,28 +47,38 @@ import backend.model.CSG.CSG_Vertex;
  */
 public class ToolPartDefaultCtrl implements ToolCtrlPart{
 
-	private final double MIN_DIST_FROM_FACE = 0.1;
+	private final double MAX_DIST_FROM_FACE = 0.1;
 	
 	public void glMouseDown(double x, double y, double z, MouseEvent e, ParamSet paramSet) {
+		long startTime = System.nanoTime();
 		Part part = AvoGlobal.project.getActivePart();
 		if(part != null){
 			CSG_Vertex clickedVert = new CSG_Vertex(x, y, z);
 			Iterator<CSG_Face> faceIter = part.getSolid().getFacesIter();
+			double closestDistSoFar = MAX_DIST_FROM_FACE;
+			CSG_Face faceToSelect = null;
 			while(faceIter.hasNext()){
 				CSG_Face face = faceIter.next();
+				face.setSelected(false);
 				if(face.isSelectable() && 
-						Math.abs(face.distFromVertexToFacePlane(clickedVert)) < MIN_DIST_FROM_FACE &&
+						Math.abs(face.distFromVertexToFacePlane(clickedVert)) < closestDistSoFar &&
 						face.vertexIsInsideFace(clickedVert)){
 					// a selectable face was clicked!
-					System.out.println("You selected a selectable face! " + face.getModRefPlane());
-					face.setSelected(true);
-					part.setSelectedPlane(face.getModRefPlane());
+					faceToSelect = face;					
+					closestDistSoFar = Math.abs(face.distFromVertexToFacePlane(clickedVert));
 				}else{
 					face.setSelected(false);
 				}
 			}
+			if(faceToSelect != null){
+				System.out.println("You selected a selectable face! " + faceToSelect.getModRefPlane());
+				faceToSelect.setSelected(true);
+				part.setSelectedPlane(faceToSelect.getModRefPlane());
+			}
 			AvoGlobal.glView.updateGLView = true;			
 		}
+		long endTime = System.nanoTime();
+		System.out.println("Time to search for clicked face: " + (endTime-startTime)/1e6 + "mSec");
 	}
 
 	public void glMouseDrag(double x, double y, double z, MouseEvent e, ParamSet paramSet) {

@@ -1,5 +1,8 @@
 package ui.utilities;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -40,7 +43,9 @@ public class NumUtils {
 	 * @return
 	 */
 	public static String doubleToAtLeastString(double d, int length){
-		String s = String.valueOf(d);
+		//String s = String.valueOf(d);
+		NumberFormat formatter = new DecimalFormat ( "0.000" ) ; 
+	    String s = formatter.format ( d ) ;
 		for(int i=s.length(); i<length; i++){
 			s += "0";
 		}
