@@ -53,6 +53,8 @@ import backend.model.Project;
  */
 public class AvoGlobal {
 
+	public static boolean DEBUG_MODE = false;
+	
 	/**
 	 * The main interaction menu.
 	 * Mode-based and dynamically displayed with

@@ -8,6 +8,7 @@ import javax.media.opengl.GL;
 
 import backend.adt.Rotation3D;
 import backend.adt.Translation3D;
+import backend.global.AvoGlobal;
 import backend.model.ref.ModRef_Cylinder;
 import backend.model.ref.ModRef_Plane;
 
@@ -369,27 +370,36 @@ public class CSG_Face {
 	
 	
 	public void glDrawFace(GL gl){
-		for(CSG_Polygon poly : polygons){
-			if(selectable && isSelected){
-				gl.glColor3d(0.4, 0.9, 0.7);
-			}else{
-				gl.glColor3d(0.4, 0.9, 0.4);
+		if(AvoGlobal.DEBUG_MODE){
+			drawFaceForDebug(gl);
+			drawFaceLinesForDebug(gl);
+			drawFaceNormalsForDebug(gl);
+		}else{
+			// Main drawing routine.  
+			for(CSG_Polygon poly : polygons){
+				if(selectable && isSelected){
+					gl.glColor3d(0.4, 0.9, 0.7);
+				}else{
+					gl.glColor3d(0.4, 0.9, 0.4);
+				}
+				Iterator<CSG_Vertex> iterV = poly.getVertexIterator();
+				gl.glBegin(GL.GL_POLYGON);
+				while(iterV.hasNext()){
+					gl.glVertex3dv(iterV.next().getXYZ(), 0);
+				}
+				gl.glEnd();
 			}
-			Iterator<CSG_Vertex> iterV = poly.getVertexIterator();
-			gl.glBegin(GL.GL_POLYGON);
-			while(iterV.hasNext()){
-				gl.glVertex3dv(iterV.next().getXYZ(), 0);
+			if(this.isSelectable()){
+				// draw perimeter if face is selectable.. :)
+				gl.glColor3d(0.25, 0.25, 0.25);
+				Iterator<CSG_Vertex> iterPerim = this.getPerimeterVertices().iterator();
+				gl.glBegin(GL.GL_LINE_LOOP);
+					while(iterPerim.hasNext()){
+						gl.glVertex3dv(iterPerim.next().getXYZ(), 0);
+					}
+				gl.glEnd();
 			}
-			gl.glEnd();
-		}
-		// draw perimeter.. :)
-		gl.glColor3d(0.25, 0.25, 0.25);
-		Iterator<CSG_Vertex> iterPerim = this.getPerimeterVertices().iterator();
-		gl.glBegin(GL.GL_LINE_LOOP);
-			while(iterPerim.hasNext()){
-				gl.glVertex3dv(iterPerim.next().getXYZ(), 0);
-			}
-		gl.glEnd();
+		}		
 	}
 	
 	

@@ -10,6 +10,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
+import ui.opengl.GLView;
 import backend.global.AvoGlobal;
 
 
@@ -42,6 +43,7 @@ import backend.global.AvoGlobal;
 public class QuickSettings extends Composite{
 
 	static Combo cSnap;
+	static Combo dSnap;
 	
 	public QuickSettings(Composite parent, int style){
 		super(parent, style); 
@@ -64,7 +66,7 @@ public class QuickSettings extends Composite{
 		
 		
 		Label lSnap = new Label(this, SWT.BOLD);
-		lSnap.setText("Snap:");
+		lSnap.setText(" Snap:");
 		cSnap = new Combo(this, SWT.READ_ONLY);
 		cSnap.setItems(new String[] {"off", "0.25x", "0.5x", "1.0x"});
 		cSnap.setFont(f);
@@ -98,6 +100,39 @@ public class QuickSettings extends Composite{
 					default:{
 						// do nothing. no snap has been selected.
 						System.out.println("no snap selected in quickSettings?? ignoring change.");
+						break;
+					}
+				}				
+			}			
+		});
+		
+		
+		Label lDebug = new Label(this, SWT.BOLD);
+		lDebug.setText(" View:");
+		dSnap = new Combo(this, SWT.READ_ONLY);
+		dSnap.setItems(new String[] {"normal", "debug"});
+		dSnap.setFont(f);
+		dSnap.select(0);
+		dSnap.setBackground(this.getBackground());
+		dSnap.addSelectionListener(new SelectionListener(){
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+			public void widgetSelected(SelectionEvent e) {
+				int selIndex = dSnap.getSelectionIndex();
+				switch(selIndex){
+					case(0):{
+						AvoGlobal.DEBUG_MODE = false;
+						AvoGlobal.glView.updateGLView = true;
+						break;
+					}
+					case(1):{
+						AvoGlobal.DEBUG_MODE = true;
+						AvoGlobal.glView.updateGLView = true;
+						break;
+					}			
+					default:{
+						// do nothing. no snap has been selected.
+						System.out.println("no view selected in quickSettings?? ignoring change.");
 						break;
 					}
 				}				
