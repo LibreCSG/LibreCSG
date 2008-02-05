@@ -1,7 +1,6 @@
 package backend.model.ref;
 
-import backend.model.sketch.SketchPlane;
-
+import backend.model.CSG.CSG_Vertex;
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -27,35 +26,47 @@ import backend.model.sketch.SketchPlane;
 
 /*
 * @author  Adam Kumpf
-* @created Apr. 2007
+* @created Feb. 2008
 */
 
-public class ModRef_Plane extends ModelReference{
+public class ModRef_Cylinder extends ModelReference{
 
 	private final int uniqueSubPartID;
 	private final int uniqueFaceID;
-	private final SketchPlane sketchPlane;
+	private final CSG_Vertex centerPoint;
+	private final CSG_Vertex normal;
+	private final double radius;
 	
 	// planes are built with reference to a particular part, feat2D3D, and faceID within that feature.
 	
 	/**
-	 * a plane reference is build upon an existing SubPart 
+	 * a cylinder reference is built upon an existing SubPart 
 	 * that has a unique face associated with it.
 	 * @param uniqueSubPartID the unique ID of the SubPart to use
 	 * @param uniqueFaceID the unique ID of the face created by the SubPart.
+	 * @param centerPoint the center of the circle/cylinder
+	 * @param normal the normal along which the axis of the cylinder is situated
+	 * @param radius the radius of the cylinder
 	 */
-	public ModRef_Plane(int uniqueSubPartID, int uniqueFaceID, SketchPlane sketchPlane){
+	public ModRef_Cylinder(int uniqueSubPartID, int uniqueFaceID, CSG_Vertex centerPoint, CSG_Vertex normal, double radius){
 		super(ModRefType.Plane);
 		this.uniqueSubPartID = uniqueSubPartID;
 		this.uniqueFaceID    = uniqueFaceID;
-		this.sketchPlane = sketchPlane;
-		if(sketchPlane == null){
-			System.out.println("You passed in a NULL sketchplane to ModRef_Plane.. BAD IDEA!!");
-		}
+		this.centerPoint = centerPoint;
+		this.normal = normal;
+		this.radius = radius;
 	}
 	
-	public SketchPlane getSketchPlane(){
-		return sketchPlane;
+	public CSG_Vertex getCenterPoint(){
+		return centerPoint;
+	}
+	
+	public CSG_Vertex getNormal(){
+		return normal;
+	}
+	
+	public double getRadius(){
+		return radius;
 	}
 	
 	public int getUniqueFaceID(){
@@ -66,5 +77,5 @@ public class ModRef_Plane extends ModelReference{
 	public String getStringReferenceInfo() {
 		return "SubPartID:" + uniqueSubPartID + ", FaceID:" + uniqueFaceID;
 	}
-	
+
 }

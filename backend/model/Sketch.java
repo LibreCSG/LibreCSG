@@ -85,7 +85,7 @@ public class Sketch implements SubPart{
 	 * @return the actual plane on which to sketch.
 	 */
 	public SketchPlane getSketchPlane(){
-		return sketchPlaneRef.getSketchPlane(part);
+		return sketchPlaneRef.getSketchPlane();
 	}
 	
 	/**
