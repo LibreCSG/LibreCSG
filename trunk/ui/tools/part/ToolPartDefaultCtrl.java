@@ -75,10 +75,32 @@ public class ToolPartDefaultCtrl implements ToolCtrlPart{
 				faceToSelect.setSelected(true);
 				part.setSelectedPlane(faceToSelect.getModRefPlane());
 			}
+			
+			// TODO: this belong in constraint/mating code, not here...
+			// -------- TEST
+			faceIter = part.getSolid().getFacesIter();
+			closestDistSoFar = MAX_DIST_FROM_FACE;
+			CSG_Face faceWithArc = null;
+			while(faceIter.hasNext()){
+				CSG_Face face = faceIter.next();
+				if(face.getModRefCylinder() != null && 
+						Math.abs(face.distFromVertexToFacePlane(clickedVert)) < closestDistSoFar &&
+						face.vertexIsInsideFace(clickedVert)){
+					// a selectable face was clicked!
+					System.out.println("*");
+					faceWithArc = face;					
+					closestDistSoFar = Math.abs(face.distFromVertexToFacePlane(clickedVert));
+				}
+			}
+			if(faceWithArc != null){
+				System.out.println("You selected a selectable ARC face! " + faceWithArc.getModRefCylinder());
+			}
+			// -----
+			
 			AvoGlobal.glView.updateGLView = true;			
 		}
 		long endTime = System.nanoTime();
-		System.out.println("Time to search for clicked face: " + (endTime-startTime)/1e6 + "mSec");
+		//System.out.println("Time to search for clicked face: " + (endTime-startTime)/1e6 + "mSec");
 	}
 
 	public void glMouseDrag(double x, double y, double z, MouseEvent e, ParamSet paramSet) {

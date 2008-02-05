@@ -711,6 +711,9 @@ public class CSG_BooleanOperator {
 						if(face.isSelectable()){
 							newFace.setIsSelectable(face.getModRefPlane());
 						}
+						if(face.getModRefCylinder() != null){
+							newFace.setCylindricalReference(face.getModRefCylinder());
+						}
 					}else{
 						newFace.addPolygon(newPoly);
 					}

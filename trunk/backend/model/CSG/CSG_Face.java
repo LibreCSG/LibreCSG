@@ -8,6 +8,7 @@ import javax.media.opengl.GL;
 
 import backend.adt.Rotation3D;
 import backend.adt.Translation3D;
+import backend.model.ref.ModRef_Cylinder;
 import backend.model.ref.ModRef_Plane;
 
 
@@ -61,6 +62,7 @@ public class CSG_Face {
 	private boolean isSelected = false;
 	
 	private ModRef_Plane relativePlane = null;
+	private ModRef_Cylinder cylinderReference = null;
 	
 	private boolean perimNeedsUpdated = true;
 	private LinkedList<CSG_Vertex> perimVertices = null;
@@ -247,6 +249,7 @@ public class CSG_Face {
 		clone.selectable = this.selectable;
 		clone.isSelected = this.isSelected;
 		clone.relativePlane = this.relativePlane;
+		clone.cylinderReference = this.cylinderReference;
 		return clone;
 	}
 	
@@ -259,7 +262,7 @@ public class CSG_Face {
 	
 	/**
 	 * Set whether or not this CSG_Face should be selectable
-	 * by the user for creating subsequent sketchs.
+	 * by the user for creating subsequent sketches.
 	 * @param planeReference A ModRef_Plane specifying the relative
 	 * plane upon which a subsequent sketch could be built.
 	 */
@@ -270,6 +273,14 @@ public class CSG_Face {
 		}else{
 			System.out.println("CSG_Face(setIsSelectable): a NULL ModRef_Plane was used! FIX THIS!");
 		}
+	}
+	
+	public void setCylindricalReference(ModRef_Cylinder cylinderReference){
+		this.cylinderReference = cylinderReference;
+	}
+	
+	public ModRef_Cylinder getModRefCylinder(){
+		return this.cylinderReference;
 	}
 	
 	public ModRef_Plane getModRefPlane(){
