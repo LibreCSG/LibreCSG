@@ -61,6 +61,10 @@ public class Region2D{
 	public LinkedList<Region2D> getRegionsToCut(){
 		return regionsToCut;
 	}
+	
+	public Prim2DCycle getPrims(){
+		return prim2DCycle;
+	}
 
 	/**
 	 * get the total region area ("cut" regions are ignored).  

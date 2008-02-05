@@ -74,6 +74,14 @@ public class Prim2DArc extends Prim2D{
 		return new Point2D(x,y);
 	}
 	
+	public Point2D getArcCenterPoint(){
+		return this.center.deepCopy();
+	}
+	
+	public double getArcRadius(){
+		return this.radius;
+	}
+	
 	public void glDraw(GL gl) {
 		GLDynPrim.arc2D(gl, center, radius, startAngle, arcAngle, 0.0);
 		GLDynPrim.point(gl, center.getX(), center.getY(), 0.0, 3.0);

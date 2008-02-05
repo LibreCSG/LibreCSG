@@ -1,5 +1,6 @@
 package ui.tools.build;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import ui.tools.ToolModelBuild;
@@ -20,8 +21,12 @@ import backend.model.CSG.CSG_Face;
 import backend.model.CSG.CSG_Polygon;
 import backend.model.CSG.CSG_Solid;
 import backend.model.CSG.CSG_Vertex;
+import backend.model.ref.ModRef_Cylinder;
 import backend.model.ref.ModRef_Plane;
 import backend.model.sketch.Point2DList;
+import backend.model.sketch.Prim2D;
+import backend.model.sketch.Prim2DArc;
+import backend.model.sketch.Prim2DLine;
 import backend.model.sketch.Region2D;
 import backend.model.sketch.SketchPlane;
 
@@ -194,6 +199,47 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 		
 		CSG_Vertex lastVert        = null;
 		CSG_Vertex lastVertExtrude = null;
+		region.getPrims().orientCycle();
+		Iterator<Prim2D> iter = region.getPrims().iterator();
+		while(iter.hasNext()){
+			Prim2D prim2D = iter.next();
+			if(prim2D instanceof Prim2DArc){
+				Prim2DArc arc = (Prim2DArc)prim2D;
+				CSG_Vertex arcCenterPt = new CSG_Vertex(arc.getArcCenterPoint(), 0.0);
+				ModRef_Cylinder cylRef = new ModRef_Cylinder(ID, faceCounter++, arcCenterPt, topFace.getPlaneNormal(), arc.getArcRadius());
+				for(Point2D pt : arc.getVertexList(25)){
+					if(lastVert == null){
+						lastVert        = new CSG_Vertex(pt, 0.0);
+						lastVertExtrude = new CSG_Vertex(pt, height);
+					}else{
+						CSG_Vertex newVert        = new CSG_Vertex(pt, 0.0);
+						CSG_Vertex newVertExtrude = new CSG_Vertex(pt, height);
+						CSG_Polygon poly = new CSG_Polygon(newVert, lastVert, lastVertExtrude, newVertExtrude);
+						CSG_Face newFace = new CSG_Face(poly);
+						if(height < 0.0){
+							newFace.flipFaceDirection();
+						}
+						newFace.setCylindricalReference(cylRef);
+						solid.addFace(newFace);
+						lastVert        = newVert;
+						lastVertExtrude = newVertExtrude;
+					}
+				}
+			}
+			if(prim2D instanceof Prim2DLine){
+				Prim2DLine line = (Prim2DLine)prim2D;
+				CSG_Polygon poly = new CSG_Polygon(new CSG_Vertex(line.getPtA(), 0.0), new CSG_Vertex(line.getPtA(), height), 
+													new CSG_Vertex(line.getPtB(), height), new CSG_Vertex(line.getPtB(), 0.0));
+				CSG_Face newFace = new CSG_Face(poly);
+				if(height < 0.0){
+					newFace.flipFaceDirection();
+				}
+				newFace.setIsSelectable(new ModRef_Plane(ID, faceCounter++, new SketchPlane(newFace.getPlane())));
+				solid.addFace(newFace);
+			}
+		}
+		
+		/*
 		for(Point2D pt : ptList){
 			if(lastVert == null){
 				lastVert        = new CSG_Vertex(pt, 0.0);
@@ -218,7 +264,8 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 		if(height < 0.0){
 			newFace.flipFaceDirection();
 		}
-		solid.addFace(newFace);		
+		solid.addFace(newFace);
+		*/		
 		return solid;
 	}
 	
