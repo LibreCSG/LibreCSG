@@ -73,21 +73,4 @@ public class Build implements SubPart{
 		return null;
 	}
 	
-	public SketchPlane getPlaneByFaceID(int uniqueFaceID){
-		if(paramSet == null){
-			// paramSet was null, can't find a plane
-			System.out.println("Feature2D3D(getPlaneByFaceID): paramSet was NULL, can't return a sketch!");
-			return null;
-		}
-		ToolModelBuild toolModelBuild = paramSet.getToolModel2D3D();
-		if(toolModelBuild != null){
-			// get sketchPlane by the ID of the assocaited face.
-			return toolModelBuild.getSketchPlaneByID(this, uniqueFaceID);
-		}else{
-			// toolModel was null, can't find a plane
-			System.out.println("Feature2D3D(getPlaneByFaceID): Tool Model was NULL, can't return a sketch!");
-			return null;
-		}
-	}
-	
 }
