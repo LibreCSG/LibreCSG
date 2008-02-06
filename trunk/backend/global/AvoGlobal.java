@@ -53,6 +53,11 @@ import backend.model.Project;
  */
 public class AvoGlobal {
 
+	/**
+	 * this flag is looked at by many parts of the code to determine 
+	 * if debug information should be displayed (both in the console 
+	 * and in the 3D viewport).
+	 */
 	public static boolean DEBUG_MODE = false;
 	
 	/**

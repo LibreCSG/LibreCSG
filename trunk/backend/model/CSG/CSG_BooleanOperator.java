@@ -575,7 +575,7 @@ public class CSG_BooleanOperator {
 				CSG_Polygon polyA = polyIterA.next();
 				if(polyA == null || polyA.getPlane() == null){
 					// TODO: correct CSG over-divide in the first place!
-					System.out.println("Over-divide cause NULL POLYGON: HACK -- removing excess before it breaks something.");
+					System.out.println("Over-divide caused a NULL POLYGON: HACK -- removing excess before it breaks something.");
 					polyA.markForDeletion();
 				}else{
 					classifyPolygonAInSolidB(polyA, sB);
