@@ -152,6 +152,7 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 								if(cutReg != null){
 									CSG_Solid cutSolid = getSolidFromRegion(cutReg, height, feat2D3D.ID, faceCounter);
 									solid = CSG_BooleanOperator.Subtraction(solid, cutSolid);
+									
 								}
 							}
 						}
@@ -195,10 +196,6 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 		botFace.setIsSelectable(new ModRef_Plane(ID, faceCounter++, new SketchPlane(botFace.getPlane())));
 		solid.addFace(botFace);
 									
-		Point2DList ptList = region.getPeremeterPointList();
-		
-		CSG_Vertex lastVert        = null;
-		CSG_Vertex lastVertExtrude = null;
 		region.getPrims().orientCycle();
 		Iterator<Prim2D> iter = region.getPrims().iterator();
 		while(iter.hasNext()){
@@ -207,40 +204,32 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 				Prim2DArc arc = (Prim2DArc)prim2D;
 				CSG_Vertex arcCenterPt = new CSG_Vertex(arc.getArcCenterPoint(), 0.0);
 				ModRef_Cylinder cylRef = new ModRef_Cylinder(ID, faceCounter++, arcCenterPt, topFace.getPlaneNormal(), arc.getArcRadius());
-				for(Point2D pt : arc.getVertexList(25)){
-					if(lastVert == null){
-						lastVert        = new CSG_Vertex(pt, 0.0);
-						lastVertExtrude = new CSG_Vertex(pt, height);
-					}else{
-						CSG_Vertex newVert        = new CSG_Vertex(pt, 0.0);
-						CSG_Vertex newVertExtrude = new CSG_Vertex(pt, height);
-						CSG_Polygon poly = new CSG_Polygon(newVert, lastVert, lastVertExtrude, newVertExtrude);
-						CSG_Face newFace = new CSG_Face(poly);
-						if(height < 0.0){
-							newFace.flipFaceDirection();
-						}
-						newFace.setCylindricalReference(cylRef);
-						solid.addFace(newFace);
-						lastVert        = newVert;
-						lastVertExtrude = newVertExtrude;
+				addSimilarFacesByPointList(arc.getVertexList(25), null, cylRef, height, solid);
+			}else{
+				if(prim2D instanceof Prim2DLine){
+					Prim2DLine line = (Prim2DLine)prim2D;
+					CSG_Polygon poly = new CSG_Polygon(new CSG_Vertex(line.getPtA(), 0.0), new CSG_Vertex(line.getPtA(), height), 
+														new CSG_Vertex(line.getPtB(), height), new CSG_Vertex(line.getPtB(), 0.0));
+					CSG_Face newFace = new CSG_Face(poly);
+					if(height < 0.0){
+						newFace.flipFaceDirection();
 					}
+					newFace.setIsSelectable(new ModRef_Plane(ID, faceCounter++, new SketchPlane(newFace.getPlane())));
+					solid.addFace(newFace);
+				}else{
+					addSimilarFacesByPointList(prim2D.getVertexList(25), null, null, height, solid);
 				}
 			}
-			if(prim2D instanceof Prim2DLine){
-				Prim2DLine line = (Prim2DLine)prim2D;
-				CSG_Polygon poly = new CSG_Polygon(new CSG_Vertex(line.getPtA(), 0.0), new CSG_Vertex(line.getPtA(), height), 
-													new CSG_Vertex(line.getPtB(), height), new CSG_Vertex(line.getPtB(), 0.0));
-				CSG_Face newFace = new CSG_Face(poly);
-				if(height < 0.0){
-					newFace.flipFaceDirection();
-				}
-				newFace.setIsSelectable(new ModRef_Plane(ID, faceCounter++, new SketchPlane(newFace.getPlane())));
-				solid.addFace(newFace);
-			}
+			
 		}
-		
-		/*
-		for(Point2D pt : ptList){
+		return solid;
+	}
+	
+
+	private void addSimilarFacesByPointList(LinkedList<Point2D> pointList, ModRef_Plane planeRef, ModRef_Cylinder cylRef, double height, CSG_Solid solid){
+		CSG_Vertex lastVert        = null;
+		CSG_Vertex lastVertExtrude = null;
+		for(Point2D pt : pointList){
 			if(lastVert == null){
 				lastVert        = new CSG_Vertex(pt, 0.0);
 				lastVertExtrude = new CSG_Vertex(pt, height);
@@ -252,23 +241,18 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 				if(height < 0.0){
 					newFace.flipFaceDirection();
 				}
+				if(cylRef != null){
+					newFace.setCylindricalReference(cylRef);
+				}
+				if(planeRef != null){
+					newFace.setIsSelectable(planeRef);
+				}
 				solid.addFace(newFace);
 				lastVert        = newVert;
 				lastVertExtrude = newVertExtrude;
 			}
 		}
-		CSG_Vertex newVert        = new CSG_Vertex(ptList.getFirst(), 0.0);
-		CSG_Vertex newVertExtrude = new CSG_Vertex(ptList.getFirst(), height);
-		CSG_Polygon poly = new CSG_Polygon(newVert, lastVert, lastVertExtrude, newVertExtrude);
-		CSG_Face newFace = new CSG_Face(poly);
-		if(height < 0.0){
-			newFace.flipFaceDirection();
-		}
-		solid.addFace(newFace);
-		*/		
-		return solid;
 	}
 	
-
 	
 }

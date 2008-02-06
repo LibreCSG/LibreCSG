@@ -573,8 +573,15 @@ public class CSG_BooleanOperator {
 			Iterator<CSG_Polygon> polyIterA = faceA.getPolygonIterator();
 			while(polyIterA.hasNext()){
 				CSG_Polygon polyA = polyIterA.next();
-				classifyPolygonAInSolidB(polyA, sB);
+				if(polyA == null || polyA.getPlane() == null){
+					// TODO: correct CSG over-divide in the first place!
+					System.out.println("Over-divide cause NULL POLYGON: HACK -- removing excess before it breaks something.");
+					polyA.markForDeletion();
+				}else{
+					classifyPolygonAInSolidB(polyA, sB);
+				}
 			}
+			faceA.cleanupMarkedForDeletionPolygons();
 		}
 	}
 	
