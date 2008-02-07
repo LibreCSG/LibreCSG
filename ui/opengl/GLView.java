@@ -377,6 +377,7 @@ public class GLView {
 						//  TEST Constructive Solid Geometry!
 						//
 						//GLTests.testCSG(gl);
+						//GLTests.testCSG_Flush(gl);
 						//
 						//  TEST Convexize! (make arbitrary face into convex polygons)
 						//
