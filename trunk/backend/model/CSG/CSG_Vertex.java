@@ -192,30 +192,47 @@ public class CSG_Vertex {
 		double newZ = z;
 		
 		//System.out.println("Rotation: (" + rotation.getX() + "," + rotation.getY() + "," + rotation.getZ() + ")");
-		
-		double rotX = rotation.getXRot();
-		double rotY = rotation.getYRot();
-		double rotZ = rotation.getZRot();		
-		
-		// rotate about Z axis
-		double newX2 = newX*Math.cos(rotZ) - newY*Math.sin(rotZ);
-		double newY2 = newX*Math.sin(rotZ) + newY*Math.cos(rotZ);
-		double newZ2 = newZ;
-		
-		// rotate about Y axis	
-		double newZ3 = newZ2*Math.cos(rotY) - newX2*Math.sin(rotY);
-		double newX3 = newZ2*Math.sin(rotY) + newX2*Math.cos(rotY);
-		double newY3 = newY2;
-		
-		// rotate about X axis		
-		double newY4 = newY3*Math.cos(rotX) - newZ3*Math.sin(rotX);
-		double newZ4 = newY3*Math.sin(rotX) + newZ3*Math.cos(rotX);
-		double newX4 = newX3;	
-		
-		return new CSG_Vertex(	newX4 + translation.getXTrans(), 
-								newY4 + translation.getYTrans(), 
-								newZ4 + translation.getZTrans());
+		if(rotation != null){
+			double rotX = rotation.getXRot();
+			double rotY = rotation.getYRot();
+			double rotZ = rotation.getZRot();		
+
+			// rotate about Z axis
+			double newX2 = newX*Math.cos(rotZ) - newY*Math.sin(rotZ);
+			double newY2 = newX*Math.sin(rotZ) + newY*Math.cos(rotZ);
+			double newZ2 = newZ;
+
+			// rotate about Y axis	
+			double newZ3 = newZ2*Math.cos(rotY) - newX2*Math.sin(rotY);
+			double newX3 = newZ2*Math.sin(rotY) + newX2*Math.cos(rotY);
+			double newY3 = newY2;
+
+			// rotate about X axis		
+			double newY4 = newY3*Math.cos(rotX) - newZ3*Math.sin(rotX);
+			double newZ4 = newY3*Math.sin(rotX) + newZ3*Math.cos(rotX);
+			double newX4 = newX3;
+			
+			newX = newX4;
+			newY = newY4;
+			newZ = newZ4;
+		}
+		if(translation != null){
+			return new CSG_Vertex(	newX + translation.getXTrans(), 
+									newY + translation.getYTrans(), 
+									newZ + translation.getZTrans());
+		}else{
+			return new CSG_Vertex(newX, newY, newZ);
+		}
 	}
 	
+	public boolean equalsVertex(CSG_Vertex v2){
+		double dX = this.x-v2.x;
+		double dY = this.y-v2.y;
+		double dZ = this.z-v2.z;
+		if(dX <= TOL && dX >= -TOL && dY <= TOL && dY >= -TOL && dZ <= TOL && dZ >= -TOL){
+			return true;
+		}
+		return false;
+	}
 	
 }

@@ -135,6 +135,18 @@ public class CSG_Solid {
 		}	
 	}
 	
+	public void printAllPolygonClassification(){
+		Iterator<CSG_Face> fIter = this.getFacesIter();
+		while(fIter.hasNext()){
+			CSG_Face f = fIter.next();
+			System.out.println(f + " with area " + f.getArea());
+			Iterator<CSG_Polygon> pIter = f.getPolygonIterator();
+			while(pIter.hasNext()){
+				CSG_Polygon p = pIter.next();
+				System.out.println("  " + p.type + " -- " + p);
+			}
+		}
+	}
 	
 	/**
 	 * apply rotation in X, Y, Z order, then translation.

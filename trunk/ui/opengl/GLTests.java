@@ -176,6 +176,7 @@ public class GLTests {
 		s2.addFace(f5b);
 		s2.addFace(f6b);
 				
+		
 		//
 		//  2 solids to play with now!
 		//
@@ -199,10 +200,105 @@ public class GLTests {
 			gl.glTranslated(2.0,0.0,0.0);
 			glDrawSolid(s3s, 0.4f, 0.8f, 0.4f, gl);
 		}
-				
+		
+		
 		gl.glLoadIdentity();
 		
 	}
+	
+	
+	/**
+	 * test Constructive Solid Geometry.  Two cubes are 
+	 * overlapped with flush faces and then tested by performing 
+	 * intersection, union, and subtraction operations.
+	 * @param gl
+	 */
+	public static void testCSG_Flush(GL gl){
+		
+		System.out.println(" ------  Constructive Solid Geometry Test -------- ");
+		
+		gl.glLoadIdentity();
+		gl.glLineWidth(2.0f);
+		gl.glPointSize(5.0f);
+		
+		// solid 1
+		CSG_Vertex v1 = new CSG_Vertex(0.0, 0.0, 0.0);
+		CSG_Vertex v2 = new CSG_Vertex(1.0, 0.0, 0.0);
+		CSG_Vertex v3 = new CSG_Vertex(1.0, 1.0, 0.0);
+		CSG_Vertex v4 = new CSG_Vertex(0.0, 1.0, 0.0);
+		CSG_Vertex v5 = new CSG_Vertex(0.0, 0.0, 1.0);
+		CSG_Vertex v6 = new CSG_Vertex(1.0, 0.0, 1.0);
+		CSG_Vertex v7 = new CSG_Vertex(1.0, 1.0, 1.0);
+		CSG_Vertex v8 = new CSG_Vertex(0.0, 1.0, 1.0);
+		
+		CSG_Face f1 = new CSG_Face(new CSG_Polygon(v1, v2, v3, v4));
+		CSG_Face f2 = new CSG_Face(new CSG_Polygon(v1, v5, v6, v2));
+		CSG_Face f3 = new CSG_Face(new CSG_Polygon(v2, v6, v7, v3));
+		CSG_Face f4 = new CSG_Face(new CSG_Polygon(v3, v7, v8, v4));
+		CSG_Face f5 = new CSG_Face(new CSG_Polygon(v4, v8, v5, v1));
+		CSG_Face f6 = new CSG_Face(new CSG_Polygon(v8, v7, v6, v5));
+		
+		CSG_Solid s1 = new CSG_Solid(f1);
+		s1.addFace(f2);
+		s1.addFace(f3);
+		s1.addFace(f4);
+		s1.addFace(f5);
+		s1.addFace(f6);
+
+		// solid 2
+		CSG_Vertex v1b = new CSG_Vertex(0.75, 0.75, 0.75).addToVertex(new CSG_Vertex(0,0,-0.75));
+		CSG_Vertex v2b = new CSG_Vertex(1.75, 0.75, 0.75).addToVertex(new CSG_Vertex(0,0,-0.75));
+		CSG_Vertex v3b = new CSG_Vertex(1.75, 1.75, 0.75).addToVertex(new CSG_Vertex(0,0,-0.75));
+		CSG_Vertex v4b = new CSG_Vertex(0.75, 1.75, 0.75).addToVertex(new CSG_Vertex(0,0,-0.75));
+		CSG_Vertex v5b = new CSG_Vertex(0.75, 0.75, 1.75).addToVertex(new CSG_Vertex(0,0,-0.75));
+		CSG_Vertex v6b = new CSG_Vertex(1.75, 0.75, 1.75).addToVertex(new CSG_Vertex(0,0,-0.75));
+		CSG_Vertex v7b = new CSG_Vertex(1.75, 1.75, 1.75).addToVertex(new CSG_Vertex(0,0,-0.75));
+		CSG_Vertex v8b = new CSG_Vertex(0.75, 1.75, 1.75).addToVertex(new CSG_Vertex(0,0,-0.75));
+		
+		CSG_Face f1b = new CSG_Face(new CSG_Polygon(v1b, v2b, v3b, v4b));
+		CSG_Face f2b = new CSG_Face(new CSG_Polygon(v1b, v5b, v6b, v2b));
+		CSG_Face f3b = new CSG_Face(new CSG_Polygon(v2b, v6b, v7b, v3b));
+		CSG_Face f4b = new CSG_Face(new CSG_Polygon(v3b, v7b, v8b, v4b));
+		CSG_Face f5b = new CSG_Face(new CSG_Polygon(v4b, v8b, v5b, v1b));
+		CSG_Face f6b = new CSG_Face(new CSG_Polygon(v8b, v7b, v6b, v5b));
+		
+		CSG_Solid s2 = new CSG_Solid(f1b);
+		s2.addFace(f2b);
+		s2.addFace(f3b);
+		s2.addFace(f4b);
+		s2.addFace(f5b);
+		s2.addFace(f6b);
+						
+		//
+		//  2 solids to play with now!
+		//
+		s1.applyTranslationRotation(new Translation3D(0.0, -3.0, 0.0), null);
+		s2.applyTranslationRotation(new Translation3D(0.0, -3.0, 0.0), null);
+		
+		glDrawSolid(s1, 0.4f, 0.5f, 0.8f, gl);
+		glDrawSolid(s2, 0.4f, 0.5f, 0.8f, gl);
+		
+		
+		CSG_Solid s3i = CSG_BooleanOperator.Intersection(s1, s2);
+		CSG_Solid s3u = CSG_BooleanOperator.Union(s1, s2);
+		CSG_Solid s3s = CSG_BooleanOperator.Subtraction(s1, s2);
+		
+		if(s3i != null){
+			gl.glTranslated(2.0,0.0,0.0);
+			glDrawSolid(s3i, 0.4f, 0.8f, 0.4f, gl);
+		}
+		if(s3u != null){
+			gl.glTranslated(2.0,0.0,0.0);
+			glDrawSolid(s3u, 0.4f, 0.8f, 0.4f, gl);
+		}
+		if(s3s != null){
+			gl.glTranslated(2.0,0.0,0.0);
+			glDrawSolid(s3s, 0.4f, 0.8f, 0.4f, gl);
+		}
+		
+		gl.glLoadIdentity();
+	}
+	
 	
 	/**
 	 * draw solid with coloring and normals for debugging.
