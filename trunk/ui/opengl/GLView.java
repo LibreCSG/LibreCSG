@@ -339,7 +339,7 @@ public class GLView {
 		});
 		
 		glInit();
-		initLights(gl);
+		turnGLLightsOff(gl);
 		
 		// -----------------------------------------------------------
 		// >>>>>>>>>>>>>>>> MAIN OPEN GL DRAWING LOOP <<<<<<<<<<<<<<<<
@@ -394,7 +394,8 @@ public class GLView {
 						gl.glColor4f(0.7f, 0.7f, 0.7f, 1.0f);
 						gl.glLineWidth(2.5f);
 
-						gl.glColor3f(1.0f,0.0f,0.0f);
+						gl.glColor3f(1.0f,0.0f,0.0f);					
+						
 						
 						//
 						// Main Drawing routine for the active part
@@ -498,6 +499,7 @@ public class GLView {
 										}
 										// draw solid constructed from build operation
 										if(buildSolidFeat2D3D != null){
+											turnGLLightsOn(gl);
 											buildSolidFeat2D3D.glDrawSolid(gl); //.draw3DFeature(gl, feat2D3D);
 										}
 										// TODO: HACK, selecting regions seems to break for non XY plane orientations.
@@ -716,11 +718,46 @@ public class GLView {
 	}
 	
 	
-	private void initLights(GL gl)
-	  {
-    	gl.glDisable(GL.GL_LIGHTING);
-	    gl.glDisable(GL.GL_LIGHT0);
-	  }
+	private void turnGLLightsOn(GL gl)
+	{
+		gl.glEnable(GL.GL_LIGHTING);
+		
+		float global_ambient[] = { 0.5f, 0.5f, 0.5f, 1.0f };
+		gl.glLightModelfv(GL.GL_LIGHT_MODEL_AMBIENT, global_ambient, 0);
+		
+		gl.glEnable(GL.GL_LIGHT0);
+		
+		// Create light components
+		float ambientLight[] = { 0.2f, 0.2f, 0.2f, 1.0f };
+		float diffuseLight[] = { 0.8f, 0.8f, 0.8f, 1.0f };
+		float specularLight[] = { 0.5f, 0.5f, 0.5f, 1.0f };
+		float position[] = { -5.0f, 5.0f, 5.0f, 1.0f };
+
+		// Assign created components to GL_LIGHT0
+		gl.glLightfv(GL.GL_LIGHT0, GL.GL_AMBIENT, ambientLight, 0);
+		gl.glLightfv(GL.GL_LIGHT0, GL.GL_DIFFUSE, diffuseLight, 0);
+		gl.glLightfv(GL.GL_LIGHT0, GL.GL_SPECULAR, specularLight, 0);
+		gl.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, position, 0);
+
+		gl.glEnable(GL.GL_COLOR_MATERIAL);
+		gl.glColorMaterial(GL.GL_FRONT, GL.GL_AMBIENT_AND_DIFFUSE); 
+		// now all subsequent glColor commands will also effect the lighting colors.
+		
+		/*
+		//light attenuation in function of the vertex distance
+		float constantAttenuation = 1.0f;
+		float linearAttenuation = 0.2f;
+		float quadraticAttenuation = 0.08f;
+	    gl.glLightf(GL.GL_LIGHT0, GL.GL_CONSTANT_ATTENUATION, constantAttenuation);
+	    gl.glLightf(GL.GL_LIGHT0, GL.GL_LINEAR_ATTENUATION, linearAttenuation);
+	    gl.glLightf(GL.GL_LIGHT0, GL.GL_QUADRATIC_ATTENUATION, quadraticAttenuation);
+		*/
+	}
+
+	private void turnGLLightsOff(GL gl){
+		gl.glDisable(GL.GL_LIGHTING);
+		gl.glDisable(GL.GL_LIGHT0);
+	}
 	
 	private void setMouseMatrixToModelview(){
 		gl.glGetDoublev( GL.GL_MODELVIEW_MATRIX, mouseModelview, 0 );
