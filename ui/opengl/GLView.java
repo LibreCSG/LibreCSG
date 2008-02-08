@@ -40,6 +40,8 @@ import backend.model.CSG.CSG_Solid;
 import backend.model.sketch.Prim2D;
 import backend.model.sketch.Region2D;
 
+import com.sun.opengl.util.GLUT;
+
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -779,15 +781,15 @@ public class GLView {
 		gl.glBindProgramARB(GL.GL_FRAGMENT_PROGRAM_ARB, fragProg);
 		
 		String string = "!!ARBfp1.0\n\n" + 
-			"ATTRIB tex0 = fragment.texcoord[0]; \n" +
 			"ATTRIB col0 = fragment.color; \n" +
-			"PARAM pink = { 1.0, 0.4, 0.4, 1.0}; \n" + 
+			"PARAM pink = { 1.0, 0.4, 0.8, 1.0}; \n" + 
 			"OUTPUT out = result.color; \n" +
-			"MUL out, col0, pink; \n";
+			"MUL out, col0, pink; \n" + 
+			"END";
 		int length = string.length();
 		gl.glProgramStringARB(GL.GL_FRAGMENT_PROGRAM_ARB, GL.GL_PROGRAM_FORMAT_ASCII_ARB, length, string);
-		
-		gl.glDisable(GL.GL_FRAGMENT_PROGRAM_ARB);
+		gl.glUseProgramObjectARB(fragProg);
+		//gl.glDisable(GL.GL_FRAGMENT_PROGRAM_ARB);
 	}
 	
 	private void setMouseMatrixToModelview(){
