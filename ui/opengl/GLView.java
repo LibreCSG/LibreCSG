@@ -766,12 +766,14 @@ public class GLView {
 	private void doProceduralShading(GL gl){
 
 		String extensions = gl.glGetString(GL.GL_EXTENSIONS);
+		/*
 		if(extensions.indexOf("GL_ARB_fragment_program") != -1){
 			System.out.println("Fragment Program Supported! :)");
 		}else{
 			System.out.println("Fragment Program NOT supported.. aborting. :(");
 			return;
-		}		
+		}	
+		
 		gl.glEnable(GL.GL_FRAGMENT_PROGRAM_ARB);
 		int[] shaderArray = {0};
 		gl.glGenProgramsARB(1, shaderArray, 0);
@@ -784,12 +786,76 @@ public class GLView {
 			"ATTRIB col0 = fragment.color; \n" +
 			"PARAM pink = { 1.0, 0.4, 0.8, 1.0}; \n" + 
 			"OUTPUT out = result.color; \n" +
-			"MUL out, col0, pink; \n" + 
+			"MUL out, col0, pink; \n" +
+			//"TEMP t0, t1, t2; \n" + 
+			//"MUL t0, fragment.position, {0.01}\n" + 
+			//"SUB result.color.x, 0.5 fragment.position.x; \n" +
+			//"SUB result.color.y, 0.5, fragment.position.y; \n" +
+			//"SUB result.color.z, 0.5, fragment.position.z; \n" +
 			"END";
 		int length = string.length();
 		gl.glProgramStringARB(GL.GL_FRAGMENT_PROGRAM_ARB, GL.GL_PROGRAM_FORMAT_ASCII_ARB, length, string);
 		gl.glUseProgramObjectARB(fragProg);
 		//gl.glDisable(GL.GL_FRAGMENT_PROGRAM_ARB);
+		*/
+		//
+		// -----------------------
+		//
+		if(extensions.indexOf("GL_ARB_vertex_program") != -1){
+			System.out.println("Vertex Program Supported! :)");
+		}else{
+			System.out.println("Vertex Program NOT supported.. aborting. :(");
+			return;
+		}
+		
+		gl.glEnable(GL.GL_VERTEX_PROGRAM_ARB);
+		int[] vertShaderArray = {0};
+		gl.glGenProgramsARB(1, vertShaderArray, 0);
+		int vertProg = vertShaderArray[0];
+		
+		System.out.println("Vertex Program id: " + vertProg);
+		
+		//int fragProg = gl.glCreateProgramObjectARB();
+		gl.glBindProgramARB(GL.GL_VERTEX_PROGRAM_ARB, vertProg);
+		
+		String vertString = "!!ARBvp1.0\n\n" + 
+		
+			"TEMP vertexClip, temp; \n" +
+			"DP4 vertexClip.x, state.matrix.mvp.row[0], vertex.position; \n" +
+			"DP4 vertexClip.y, state.matrix.mvp.row[1], vertex.position; \n" +
+			"DP4 vertexClip.z, state.matrix.mvp.row[2], vertex.position; \n" +
+			"DP4 vertexClip.w, state.matrix.mvp.row[3], vertex.position; \n" + 
+			"MOV result.position, vertexClip; \n" +
+			"MOV result.color, vertex.color; \n" + 
+		//	"MOV result.texcoord[0], vertex.texcoord; \n" +
+			"MUL result.color.x, vertex.color.x, vertex.position.x; \n" +
+			"MUL temp, vertex.position.y, 1.0; \n" + 
+			"MOV result.color.y, temp; \n" +
+		
+		
+		//	"ATTRIB col0 = vertex.color; \n" +
+		//	"PARAM pink = { 1.0, 0.4, 0.8, 1.0}; \n" + 
+		//	"OUTPUT out = result.color; \n" +
+			//"MUL out, col0, pink; \n" +
+		//	"MOV out, pink; \n" +
+			//"TEMP t0, t1, t2; \n" + 
+			//"MUL t0, fragment.position, {0.01}\n" + 
+			//"SUB result.color.x, 0.5 fragment.position.x; \n" +
+			//"SUB result.color.y, 0.5, fragment.position.y; \n" +
+			//"SUB result.color.z, 0.5, fragment.position.z; \n" +
+			"END";
+		int vertLength = vertString.length();
+		gl.glProgramStringARB(GL.GL_VERTEX_PROGRAM_ARB, GL.GL_PROGRAM_FORMAT_ASCII_ARB, vertLength, vertString);
+		if ( GL.GL_INVALID_OPERATION == gl.glGetError() )
+		{
+		    // Find the error position
+		    int err = gl.glGetError();
+		    String s = gl.glGetString(err);
+		    System.out.println("ERROR: " + s);
+		}else{
+			gl.glUseProgramObjectARB(vertProg);
+		}
+		
 	}
 	
 	private void setMouseMatrixToModelview(){
