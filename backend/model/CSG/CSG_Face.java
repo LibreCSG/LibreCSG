@@ -388,7 +388,7 @@ public class CSG_Face {
 					gl.glVertex3dv(iterV.next().getXYZ(), 0);
 				}
 				gl.glEnd();
-			}
+			}			
 			if(this.isSelectable()){
 				// draw perimeter if face is selectable.. :)
 				gl.glColor3d(0.25, 0.25, 0.25);
@@ -399,6 +399,7 @@ public class CSG_Face {
 					}
 				gl.glEnd();
 			}
+			
 		}		
 	}
 	
