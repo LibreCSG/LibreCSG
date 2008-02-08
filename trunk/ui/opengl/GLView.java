@@ -499,7 +499,7 @@ public class GLView {
 										}
 										// draw solid constructed from build operation
 										if(buildSolidFeat2D3D != null){
-											turnGLLightsOn(gl);
+											//turnGLLightsOn(gl);
 											buildSolidFeat2D3D.glDrawSolid(gl); //.draw3DFeature(gl, feat2D3D);
 										}
 										// TODO: HACK, selecting regions seems to break for non XY plane orientations.
@@ -712,6 +712,8 @@ public class GLView {
 		gl.glShadeModel(GL.GL_SMOOTH);
 		gl.glDepthFunc(GL.GL_LEQUAL);
 		
+		doProceduralShading(gl);
+		
 		glContext.release();
 	
 		Device.DEBUG = true;
@@ -757,6 +759,35 @@ public class GLView {
 	private void turnGLLightsOff(GL gl){
 		gl.glDisable(GL.GL_LIGHTING);
 		gl.glDisable(GL.GL_LIGHT0);
+	}
+	
+	private void doProceduralShading(GL gl){
+
+		String extensions = gl.glGetString(GL.GL_EXTENSIONS);
+		if(extensions.indexOf("GL_ARB_fragment_program") != -1){
+			System.out.println("Fragment Program Supported! :)");
+		}else{
+			System.out.println("Fragment Program NOT supported.. aborting. :(");
+			return;
+		}		
+		gl.glEnable(GL.GL_FRAGMENT_PROGRAM_ARB);
+		int[] shaderArray = {0};
+		gl.glGenProgramsARB(1, shaderArray, 0);
+		int fragProg = shaderArray[0];
+		
+		//int fragProg = gl.glCreateProgramObjectARB();
+		gl.glBindProgramARB(GL.GL_FRAGMENT_PROGRAM_ARB, fragProg);
+		
+		String string = "!!ARBfp1.0\n\n" + 
+			"ATTRIB tex0 = fragment.texcoord[0]; \n" +
+			"ATTRIB col0 = fragment.color; \n" +
+			"PARAM pink = { 1.0, 0.4, 0.4, 1.0}; \n" + 
+			"OUTPUT out = result.color; \n" +
+			"MUL out, col0, pink; \n";
+		int length = string.length();
+		gl.glProgramStringARB(GL.GL_FRAGMENT_PROGRAM_ARB, GL.GL_PROGRAM_FORMAT_ASCII_ARB, length, string);
+		
+		gl.glDisable(GL.GL_FRAGMENT_PROGRAM_ARB);
 	}
 	
 	private void setMouseMatrixToModelview(){
