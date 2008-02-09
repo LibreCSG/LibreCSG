@@ -765,8 +765,10 @@ public class GLView {
 	
 	private void doProceduralShading(GL gl){
 
+		// TODO: use FRAGMENT shading for pixel-by-pixel rendering of textures (procedural textures).
+		
 		String extensions = gl.glGetString(GL.GL_EXTENSIONS);
-		/*
+		///*
 		if(extensions.indexOf("GL_ARB_fragment_program") != -1){
 			System.out.println("Fragment Program Supported! :)");
 		}else{
@@ -782,32 +784,36 @@ public class GLView {
 		//int fragProg = gl.glCreateProgramObjectARB();
 		gl.glBindProgramARB(GL.GL_FRAGMENT_PROGRAM_ARB, fragProg);
 		
-		String string = "!!ARBfp1.0\n\n" + 
-			"ATTRIB col0 = fragment.color; \n" +
-			"PARAM pink = { 1.0, 0.4, 0.8, 1.0}; \n" + 
-			"OUTPUT out = result.color; \n" +
-			"MUL out, col0, pink; \n" +
-			//"TEMP t0, t1, t2; \n" + 
-			//"MUL t0, fragment.position, {0.01}\n" + 
-			//"SUB result.color.x, 0.5 fragment.position.x; \n" +
-			//"SUB result.color.y, 0.5, fragment.position.y; \n" +
-			//"SUB result.color.z, 0.5, fragment.position.z; \n" +
+		//
+		// super simple Fragment Shader.  
+		// just place RGB based on XYZ of texture coordinate. :)
+		//
+		String fragmentAsmString = "!!ARBfp1.0\n\n" + 
+			"OUTPUT out_color = result.color; \n" +
+			"TEMP t0, t1, t2, t3; \n" +
+			"ATTRIB texcoord = fragment.texcoord[0]; \n" +
+			"MOV out_color, fragment.color; \n" + 
+			"MOV out_color.r, texcoord.x; \n" +
+			"MOV out_color.g, texcoord.y; \n" +
+			"MOV out_color.b, texcoord.z; \n" +
 			"END";
-		int length = string.length();
-		gl.glProgramStringARB(GL.GL_FRAGMENT_PROGRAM_ARB, GL.GL_PROGRAM_FORMAT_ASCII_ARB, length, string);
+		
+		gl.glProgramStringARB(GL.GL_FRAGMENT_PROGRAM_ARB, GL.GL_PROGRAM_FORMAT_ASCII_ARB, fragmentAsmString.length(), fragmentAsmString);
 		gl.glUseProgramObjectARB(fragProg);
 		//gl.glDisable(GL.GL_FRAGMENT_PROGRAM_ARB);
-		*/
+		//*/
+		
+		/*
 		//
-		// -----------------------
+		// ----------------- Sample Vertex Program ------------------
+		// (don't use unless you handle all lighting/perspective/etc.)
 		//
 		if(extensions.indexOf("GL_ARB_vertex_program") != -1){
 			System.out.println("Vertex Program Supported! :)");
 		}else{
 			System.out.println("Vertex Program NOT supported.. aborting. :(");
 			return;
-		}
-		
+		}		
 		gl.glEnable(GL.GL_VERTEX_PROGRAM_ARB);
 		int[] vertShaderArray = {0};
 		gl.glGenProgramsARB(1, vertShaderArray, 0);
@@ -820,18 +826,19 @@ public class GLView {
 		
 		String vertString = "!!ARBvp1.0\n\n" + 
 		
-			"TEMP vertexClip, temp; \n" +
-			"DP4 vertexClip.x, state.matrix.mvp.row[0], vertex.position; \n" +
-			"DP4 vertexClip.y, state.matrix.mvp.row[1], vertex.position; \n" +
-			"DP4 vertexClip.z, state.matrix.mvp.row[2], vertex.position; \n" +
-			"DP4 vertexClip.w, state.matrix.mvp.row[3], vertex.position; \n" + 
-			"MOV result.position, vertexClip; \n" +
-			"MOV result.color, vertex.color; \n" + 
+		//	"TEMP vertexClip, temp; \n" +
+		//	"DP4 vertexClip.x, state.matrix.mvp.row[0], vertex.position; \n" +
+		//	"DP4 vertexClip.y, state.matrix.mvp.row[1], vertex.position; \n" +
+		//	"DP4 vertexClip.z, state.matrix.mvp.row[2], vertex.position; \n" +
+		//	"DP4 vertexClip.w, state.matrix.mvp.row[3], vertex.position; \n" + 
+		//	"MOV result.position, vertexClip; \n" +
+		//	"MOV result.color, vertex.color; \n" + 
 		//	"MOV result.texcoord[0], vertex.texcoord; \n" +
-			"MUL result.color.x, vertex.color.x, vertex.position.x; \n" +
-			"MUL temp, vertex.position.y, 1.0; \n" + 
-			"MOV result.color.y, temp; \n" +
-		
+		//	"MUL result.color.x, vertex.color.x, vertex.position.x; \n" +
+		//	"MUL temp, vertex.position.y, 1.0; \n" + 
+		//	"MOV result.color.y, temp; \n" +
+			"MOV result.color, vertex.color; \n" +
+			"MOV result.texcoord[0], vertex.position; \n" +
 		
 		//	"ATTRIB col0 = vertex.color; \n" +
 		//	"PARAM pink = { 1.0, 0.4, 0.8, 1.0}; \n" + 
@@ -855,6 +862,7 @@ public class GLView {
 		}else{
 			gl.glUseProgramObjectARB(vertProg);
 		}
+		//*/
 		
 	}
 	

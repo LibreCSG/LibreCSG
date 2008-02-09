@@ -385,7 +385,9 @@ public class CSG_Face {
 				Iterator<CSG_Vertex> iterV = poly.getVertexIterator();
 				gl.glBegin(GL.GL_POLYGON);
 				while(iterV.hasNext()){
-					gl.glVertex3dv(iterV.next().getXYZ(), 0);
+					CSG_Vertex v = iterV.next();
+					gl.glTexCoord3dv(v.getXYZ(), 0); // must call before you place the vertex! :)
+					gl.glVertex3dv(v.getXYZ(), 0);					
 				}
 				gl.glEnd();
 			}			
@@ -395,7 +397,9 @@ public class CSG_Face {
 				Iterator<CSG_Vertex> iterPerim = this.getPerimeterVertices().iterator();
 				gl.glBegin(GL.GL_LINE_LOOP);
 					while(iterPerim.hasNext()){
-						gl.glVertex3dv(iterPerim.next().getXYZ(), 0);
+						CSG_Vertex v = iterPerim.next();
+						gl.glTexCoord3dv(v.getXYZ(), 0); // must call before you place the vertex! :)
+						gl.glVertex3dv(v.getXYZ(), 0);						
 					}
 				gl.glEnd();
 			}
