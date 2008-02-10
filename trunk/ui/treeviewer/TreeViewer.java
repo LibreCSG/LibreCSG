@@ -101,7 +101,7 @@ public class TreeViewer {
 						// handle special cases on subpart for properties and root planes
 						if(indxs[2] == 0){
 							// properties for part
-							System.out.println("Tree viewer.. Should open a Part Properties dialog, but not implemented yet.");
+							System.out.println("Tree viewer.. Should open a Part Material dialog, but not implemented yet.");
 							return;
 						}
 						if(indxs[2] == 1 || indxs[2] == 2 || indxs[2] == 3){
@@ -216,7 +216,7 @@ public class TreeViewer {
 					tiPart.setExpanded(true);
 				}
 				tiPartProp.setData(new int[] {iGroup, iPart, 0});
-				tiPartProp.setText("Properties");
+				tiPartProp.setText("Material");
 				
 				TreeItem tiPartXY;
 				if(tiPart.getItemCount() > 1){
