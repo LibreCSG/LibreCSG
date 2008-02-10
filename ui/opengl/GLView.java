@@ -112,6 +112,20 @@ public class GLView {
 	private CSG_Solid buildSolidFeat2D3D = null;
 	boolean buildSolidNeedsRebuilt = false;
 	
+	/**
+	 * this shader is a GLSL shader used to apply post 
+	 * processing rendering effects (procedural textures) on 
+	 * modern graphics hardware (openGL 2.0 or greater).
+	 */
+	public final boolean OPENGL_FRAGMENT_SHADER_GLSL_ENABLED;
+	
+	/**
+	 * this shader is a ARB program used to apply post 
+	 * processing rendering effects (procedural textures) on 
+	 * legacy graphics hardware (openGL 1.5).
+	 */
+	public final boolean OPENGL_FRAGMENT_PROGRAM_ARB_ENABLED;
+	
 	public GLView(Composite comp){
 		GLData data = new GLData ();
 		data.doubleBuffer = true;
@@ -128,7 +142,7 @@ public class GLView {
 				"; StencilBits:" + glc.getStencilBits() +
 				"; FloatPBuf:" + glc.getPbufferFloatingPointBuffers());
 		glCanvas.setCurrent();
-		glContext = GLDrawableFactory.getFactory().createExternalGLContext();
+		glContext = GLDrawableFactory.getFactory().createExternalGLContext();		
 		
 		glCanvas.addControlListener(new ControlListener(){
 			public void controlMoved(ControlEvent e) {
@@ -342,6 +356,23 @@ public class GLView {
 		
 		glInit();
 		turnGLLightsOff(gl);
+		
+		if (gl.isExtensionAvailable("GL_ARB_fragment_shader")){
+            System.out.println("ARB_fragment_shader supported (openGL 2.0) --  Materials can look: Excellent!  :)");
+            OPENGL_FRAGMENT_SHADER_GLSL_ENABLED = true;
+        }else{
+        	OPENGL_FRAGMENT_SHADER_GLSL_ENABLED = false;
+        }
+		if (gl.isExtensionAvailable("GL_ARB_fragment_program")){
+            System.out.println("ARB_fragment_program supported (openGL 1.5) --  Materials can look: Okay.");
+            OPENGL_FRAGMENT_PROGRAM_ARB_ENABLED = true;
+        }else{
+        	OPENGL_FRAGMENT_PROGRAM_ARB_ENABLED = false;
+        }
+		if(!OPENGL_FRAGMENT_SHADER_GLSL_ENABLED && !OPENGL_FRAGMENT_PROGRAM_ARB_ENABLED){
+			System.out.println("NO Fragment Shader supported with your hardware (openGL < 1.5) --  Materials will look: Bad. :(");
+		}
+		
 		
 		// -----------------------------------------------------------
 		// >>>>>>>>>>>>>>>> MAIN OPEN GL DRAWING LOOP <<<<<<<<<<<<<<<<
@@ -770,7 +801,7 @@ public class GLView {
 		// TODO: use FRAGMENT shading for pixel-by-pixel rendering of textures (procedural textures).
 		
 		String extensions = gl.glGetString(GL.GL_EXTENSIONS);
-		///*
+		/*
 		if(extensions.indexOf("GL_ARB_fragment_program") != -1){
 			System.out.println("Fragment Program Supported! :)");
 		}else{
@@ -786,6 +817,8 @@ public class GLView {
             System.out.println("ARB_vertex_shader extension is supported continuing!");
             System.out.println("ARB_fragment_shader extension is supported continuing!");
         }
+        //*/
+        
 		/*
 		//
 		// try to make the shader from Cg :)
