@@ -1,5 +1,7 @@
 package ui.opengl;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.nio.FloatBuffer;
 import java.util.Iterator;
 
@@ -39,8 +41,6 @@ import backend.model.SubPart;
 import backend.model.CSG.CSG_Solid;
 import backend.model.sketch.Prim2D;
 import backend.model.sketch.Region2D;
-
-import com.sun.opengl.util.GLUT;
 
 
 //
@@ -407,7 +407,9 @@ public class GLView {
 							Part part = AvoGlobal.project.getActivePart();							
 							gl.glLoadIdentity();	// ensure back at identity orientation.
 							setMouseMatrixToModelview(); // mouse is at identity unless overridden later by sketch.
-							part.glDrawSolid(gl);
+							part.glDrawSolid(gl); // draw entire part first...
+							part.glDrawSelectedElements(gl); // overlay drawing of seleted elements.
+							part.glDrawImportantEdges(gl); // now draw outlines to emphasize important areas. 
 							
 							gl.glLoadIdentity();	// ensure back at identity orientation.							
 							SubPart activeSubPart = AvoGlobal.project.getActiveSubPart();
@@ -776,6 +778,44 @@ public class GLView {
 			return;
 		}	
 		
+        if ( !gl.isExtensionAvailable("GL_ARB_vertex_shader") && !gl.isExtensionAvailable("GL_ARB_fragment_shader") ) {
+            System.out.println("ARB_vertex_shader extension is not supported.");
+            System.out.println("ARB_fragment_shader extension is not supported.");
+            //System.exit(-1);
+        } else if ( gl.isExtensionAvailable("GL_ARB_vertex_shader") && gl.isExtensionAvailable("GL_ARB_vertex_shader") ) {
+            System.out.println("ARB_vertex_shader extension is supported continuing!");
+            System.out.println("ARB_fragment_shader extension is supported continuing!");
+        }
+		/*
+		//
+		// try to make the shader from Cg :)
+		//
+		System.out.println("from GLSL source? ");
+		int fragGLSLProg = gl.glCreateShader(GL.GL_FRAGMENT_SHADER);
+		try{
+			BufferedReader brf = new BufferedReader(new FileReader("fragmentshader.glsl"));
+			String fsrc = "";
+			String line;
+			while ((line=brf.readLine()) != null) {
+				fsrc += line + "\n";
+			}
+			gl.glShaderSource(fragGLSLProg, 1, new String[] {fsrc}, (int[])null, 0);
+			gl.glCompileShader(fragGLSLProg);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		int shaderprogram = gl.glCreateProgram();
+		gl.glAttachShader(shaderprogram, fragGLSLProg);
+		gl.glLinkProgram(shaderprogram);
+		gl.glValidateProgram(shaderprogram);
+
+		gl.glUseProgram(shaderprogram);
+		
+		System.out.println("done with test.");
+		// --------
+		//*/
+		/*
 		gl.glEnable(GL.GL_FRAGMENT_PROGRAM_ARB);
 		int[] shaderArray = {0};
 		gl.glGenProgramsARB(1, shaderArray, 0);
@@ -796,8 +836,7 @@ public class GLView {
 			"MOV out_color.r, texcoord.x; \n" +
 			"MOV out_color.g, texcoord.y; \n" +
 			"MOV out_color.b, texcoord.z; \n" +
-			"END";
-		
+			"END";		
 		gl.glProgramStringARB(GL.GL_FRAGMENT_PROGRAM_ARB, GL.GL_PROGRAM_FORMAT_ASCII_ARB, fragmentAsmString.length(), fragmentAsmString);
 		gl.glUseProgramObjectARB(fragProg);
 		//gl.glDisable(GL.GL_FRAGMENT_PROGRAM_ARB);

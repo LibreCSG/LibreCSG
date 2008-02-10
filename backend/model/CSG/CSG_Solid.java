@@ -135,6 +135,24 @@ public class CSG_Solid {
 		}	
 	}
 	
+	public void glDrawSelectedElements(GL gl){
+		Iterator<CSG_Face> iter = faces.iterator();
+		while(iter.hasNext()){
+			CSG_Face f = iter.next();
+			if(f.isSelected()){
+				f.glDrawFace(gl);
+			}
+		}	
+	}
+	
+	public void glDrawImportantEdges(GL gl){
+		Iterator<CSG_Face> iter = faces.iterator();
+		while(iter.hasNext()){
+			CSG_Face f = iter.next();
+			f.glDrawImportantEdges(gl);
+		}	
+	}
+	
 	public void printAllPolygonClassification(){
 		Iterator<CSG_Face> fIter = this.getFacesIter();
 		while(fIter.hasNext()){

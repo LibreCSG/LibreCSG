@@ -368,6 +368,21 @@ public class CSG_Face {
 	}
 	
 	
+	public void glDrawImportantEdges(GL gl){		
+		if(this.isSelectable()){
+			// draw perimeter if face is selectable.. :)
+			//gl.glColor3d(0.25, 0.25, 0.25);
+			Iterator<CSG_Vertex> iterPerim = this.getPerimeterVertices().iterator();
+			gl.glBegin(GL.GL_LINE_LOOP);
+				while(iterPerim.hasNext()){
+					CSG_Vertex v = iterPerim.next();
+					gl.glTexCoord3dv(v.getXYZ(), 0); // must call before you place the vertex! :)
+					gl.glVertex3dv(v.getXYZ(), 0);						
+				}
+			gl.glEnd();
+		}
+	}
+	
 	
 	public void glDrawFace(GL gl){
 		if(AvoGlobal.DEBUG_MODE){
@@ -377,11 +392,13 @@ public class CSG_Face {
 		}else{
 			// Main drawing routine.  
 			for(CSG_Polygon poly : polygons){
+				/*
 				if(selectable && isSelected){
 					gl.glColor3d(0.4, 0.9, 0.7);
 				}else{
-					gl.glColor3d(0.4, 0.9, 0.4);
+					 gl.glColor3d(0.4, 0.9, 0.4);
 				}
+				*/
 				Iterator<CSG_Vertex> iterV = poly.getVertexIterator();
 				gl.glBegin(GL.GL_POLYGON);
 				while(iterV.hasNext()){
@@ -390,7 +407,8 @@ public class CSG_Face {
 					gl.glVertex3dv(v.getXYZ(), 0);					
 				}
 				gl.glEnd();
-			}			
+			}
+			/*
 			if(this.isSelectable()){
 				// draw perimeter if face is selectable.. :)
 				gl.glColor3d(0.25, 0.25, 0.25);
@@ -403,6 +421,7 @@ public class CSG_Face {
 					}
 				gl.glEnd();
 			}
+			*/
 			
 		}		
 	}
