@@ -12,6 +12,7 @@ import backend.model.CSG.CSG_BooleanOperator;
 import backend.model.CSG.CSG_Plane;
 import backend.model.CSG.CSG_Solid;
 import backend.model.CSG.CSG_Vertex;
+import backend.model.material.PartMaterial;
 import backend.model.ref.ModRef_Plane;
 import backend.model.ref.ModRef_PlaneFixed;
 import backend.model.sketch.SketchPlane;
@@ -67,8 +68,9 @@ public class Part {
 	
 	private ModRef_Plane selectedPlane = null;
 	
-	private CSG_Solid partSolid = new CSG_Solid(); 
+	private PartMaterial partMaterial = new PartMaterial(0.6, 0.9, 0.6, 1.0);
 	
+	private CSG_Solid partSolid = new CSG_Solid(); 
 	
 	public Part(Group group, int ID){
 		this.group = group;
@@ -183,7 +185,19 @@ public class Part {
 	}
 	
 	public void glDrawSolid(GL gl){
+		partMaterial.loadMaterial(gl);
 		partSolid.glDrawSolid(gl);
+		partMaterial.disposeMaterial(gl);
+	}
+	
+	public void glDrawSelectedElements(GL gl){
+		gl.glColor4d(0.5, 0.5, 0.9, 0.7);
+		partSolid.glDrawSelectedElements(gl);		
+	}
+	
+	public void glDrawImportantEdges(GL gl){
+		gl.glColor4d(0.5, 0.5, 0.5, 0.5);
+		partSolid.glDrawImportantEdges(gl);
 	}
 	
 	// TODO: Hack!, don't actually pass the solid (but it's big so copying may be problematic...)
