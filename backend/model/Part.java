@@ -191,7 +191,7 @@ public class Part {
 	}
 	
 	public void glDrawSelectedElements(GL gl){
-		gl.glColor4d(0.5, 0.5, 0.9, 0.7);
+		gl.glColor4d(0.5, 0.5, 0.9, 0.5);
 		partSolid.glDrawSelectedElements(gl);		
 	}
 	
