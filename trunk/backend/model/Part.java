@@ -219,6 +219,14 @@ public class Part {
 		AvoGlobal.modelEventHandler.notifyActiveElementChanged();
 	}
 	
+	public PartMaterial getPartMaterial(){
+		return partMaterial;
+	}
+	
+	public void setPartMaterial(PartMaterial newPartMaterial){
+		partMaterial = newPartMaterial;
+	}
+	
 	/**
 	 * set the active SubPart to none
 	 */

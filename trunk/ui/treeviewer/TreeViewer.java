@@ -4,7 +4,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.ColorDialog;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Tree;
@@ -13,14 +15,15 @@ import org.eclipse.swt.widgets.TreeItem;
 import ui.event.ModelListener;
 import ui.menuet.Menuet;
 import backend.global.AvoGlobal;
-import backend.model.Feature2D;
 import backend.model.Build;
-import backend.model.Modify;
+import backend.model.Feature2D;
 import backend.model.Group;
+import backend.model.Modify;
 import backend.model.Part;
 import backend.model.Project;
 import backend.model.Sketch;
 import backend.model.SubPart;
+import backend.model.material.PartMaterial;
 
 
 //
@@ -101,7 +104,18 @@ public class TreeViewer {
 						// handle special cases on subpart for properties and root planes
 						if(indxs[2] == 0){
 							// properties for part
-							System.out.println("Tree viewer.. Should open a Part Material dialog, but not implemented yet.");
+							ColorDialog cd = new ColorDialog(treeComp.getShell());
+							cd.setText("Select Material Color");
+							PartMaterial m = AvoGlobal.project.getActivePart().getPartMaterial();
+							cd.setRGB(new RGB((int)(m.getR()*255),  (int)(m.getG()*255),  (int)(m.getB()*255)));
+							RGB newColor = cd.open();
+							if(newColor != null){
+								m.setR(newColor.red/255.0);
+								m.setG(newColor.green/255.0);
+								m.setB(newColor.blue/255.0);
+								AvoGlobal.glView.updateGLView = true;
+								System.out.println("###### SET COLOR!");
+							}
 							return;
 						}
 						if(indxs[2] == 1 || indxs[2] == 2 || indxs[2] == 3){
