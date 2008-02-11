@@ -114,7 +114,6 @@ public class TreeViewer {
 								m.setG(newColor.green/255.0);
 								m.setB(newColor.blue/255.0);
 								AvoGlobal.glView.updateGLView = true;
-								System.out.println("###### SET COLOR!");
 							}
 							return;
 						}
@@ -185,9 +184,6 @@ public class TreeViewer {
 	void buildTreeFromAssembly(){
 		Project project = AvoGlobal.project;
 		
-		// TODO: HACK! don't build the tree from scratch every time!!
-		//tree.removeAll();
-		
 		if(project == null){
 			return;
 		}
@@ -196,6 +192,7 @@ public class TreeViewer {
 			// remove groups that no longer exist
 			tree.getItem(i).dispose();
 		}
+		// only add things that have changed.
 		for(int iGroup=0; iGroup < project.getGroupListSize(); iGroup++){
 			Group group = project.getAtIndex(iGroup);
 			TreeItem tiGroup;
