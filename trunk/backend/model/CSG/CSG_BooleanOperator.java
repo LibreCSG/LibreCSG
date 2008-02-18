@@ -186,6 +186,7 @@ public class CSG_BooleanOperator {
 								}
 								// (15) clean up markedForDeletion Polygons in faceA
 								faceA.cleanupMarkedForDeletionPolygons();
+								faceA.cleanupBogusPolygons(); // HACK, cleans up polys with null plane or zero area.
 							}							
 						}						
 					}

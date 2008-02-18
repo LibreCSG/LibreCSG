@@ -201,6 +201,17 @@ public class CSG_Face {
 		perimNeedsUpdated = true;
 	}
 	
+	public void cleanupBogusPolygons(){
+		for(int i=polygons.size()-1; i>= 0; i--){
+			CSG_Polygon poly = polygons.get(i);
+			if( poly.getPlane() == null || poly.getArea() <= 1e-15){
+				System.out.println("cleaned up bogus poly!");
+				polygons.remove(i);
+			}
+		}
+		perimNeedsUpdated = true;
+	}
+	
 	/**
 	 * @return a copy of the normal defined by the Face's plane.
 	 */
