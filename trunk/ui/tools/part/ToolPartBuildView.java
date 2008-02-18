@@ -73,7 +73,7 @@ public class ToolPartBuildView extends ToolViewPart{
 			// TODO: Building should not be done in the view!!
 			sketch.buildRegions();
 			
-			int i = AvoGlobal.project.getActivePart().addNewFeat2D3D(sketch.getID());
+			int i = AvoGlobal.project.getActivePart().addNewFeat2D3D(sketch.getUniqueID());
 			AvoGlobal.project.getActivePart().setActiveSubPart(i);
 			
 		}

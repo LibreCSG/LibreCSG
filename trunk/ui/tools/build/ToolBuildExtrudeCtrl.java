@@ -71,10 +71,11 @@ public class ToolBuildExtrudeCtrl implements ToolCtrlBuild{
 					}					
 					
 					Point2D clickedPoint = new Point2D(x,y);
+					System.out.println("looking at point: " + clickedPoint);
 					for(int i=0; i < sketch.getRegion2DListSize(); i++){
 						Region2D reg  = sketch.getRegAtIndex(i);
 						if(reg.regionContainsPoint2D(clickedPoint) && !selectionList.contains(String.valueOf(i))){
-							selectionList.add(String.valueOf(i));
+							selectionList.add(String.valueOf(i));							
 						}
 					}
 					if(selectionList.getSelectionSize() > 0){

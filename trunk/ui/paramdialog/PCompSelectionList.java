@@ -1,5 +1,7 @@
 package ui.paramdialog;
 
+import java.util.Iterator;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
@@ -15,10 +17,10 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 
 import ui.event.ParamListener;
-import backend.adt.ParamType;
 import backend.adt.Param;
 import backend.adt.ParamNotCorrectTypeException;
 import backend.adt.ParamSet;
+import backend.adt.ParamType;
 import backend.adt.SelectionList;
 import backend.global.AvoColors;
 import backend.global.AvoGlobal;
@@ -134,13 +136,27 @@ public class PCompSelectionList extends ParamComp{
 		lSL.addFocusListener(new FocusListener(){
 			public void focusGained(FocusEvent e) {
 				SelectionList sl = getParamData();
-				System.out.println(param.getLabel() + " just got focus!");
+				//System.out.println(param.getLabel() + " just got focus!");
 				sl.hasFocus = true;
+				Iterator<Param> pIter = PCompSelectionList.this.paramSet.getIterator();
+				while(pIter.hasNext()){
+					Param p = pIter.next();
+					if(!p.equals(param) && p.getType() == ParamType.SelectionList){
+						try{
+						SelectionList selList = p.getDataSelectionList();
+						if(selList != null){
+							selList.hasFocus = false;
+						}
+						}catch(Exception ex){
+							ex.printStackTrace();
+						}
+					}
+				}
 			}
 			public void focusLost(FocusEvent e) {
-				SelectionList sl = getParamData();
-				System.out.println(param.getLabel() + " just lost focus!");
-				sl.hasFocus = false;
+				//SelectionList sl = getParamData();
+				//System.out.println(param.getLabel() + " just lost focus!");
+				//sl.hasFocus = false;
 			}			
 		});
 		

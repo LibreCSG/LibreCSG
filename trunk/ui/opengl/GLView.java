@@ -452,7 +452,9 @@ public class GLView {
 									Sketch sketch = subPart.getSketch();
 									if(sketch != null && !sketch.isConsumed){
 										// draw the sketch, it is not consumed.
-										gl.glPushMatrix();
+										gl.glPushMatrix();			
+										// TODO: incorporate offset of all previous coordinate 
+										// transformations from SubParts on which the sketch is built. ??
 										sketch.getSketchPlane().glOrientToPlane(gl);
 										gl.glLineWidth(2.0f);
 										for(int i=0; i < sketch.getFeat2DListSize(); i++){
@@ -538,6 +540,7 @@ public class GLView {
 											buildSolidFeat2D3D.glDrawSolid(gl); //.draw3DFeature(gl, feat2D3D);
 										}
 										// TODO: HACK, selecting regions seems to break for non XY plane orientations.
+										gl.glLoadIdentity();
 										feat2D3D.getPrimarySketch().getSketchPlane().glOrientToPlane(gl);
 										setMouseMatrixToModelview();
 									}	

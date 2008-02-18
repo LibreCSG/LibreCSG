@@ -30,6 +30,12 @@ package backend.model;
 public interface SubPart {
 
 	/**
+	 * @return the unique ID of this SubPart.
+	 */
+	abstract int getUniqueID();
+	
+	
+	/**
 	 * @return the Sketch if this SubPart is one, or null otherwise.
 	 */
 	abstract Sketch getSketch();
@@ -49,4 +55,5 @@ public interface SubPart {
 	 */
 	abstract public Part getParentPart();
 	
+
 }

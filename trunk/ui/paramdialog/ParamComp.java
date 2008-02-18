@@ -37,7 +37,7 @@ import backend.global.AvoGlobal;
 public class ParamComp extends Composite{
 
 	protected Param    param;
-	private   ParamSet paramSet;
+	protected ParamSet paramSet;
 	
 	public ParamComp(Composite parent, int style, ParamSet paramSet){
 		super(parent, style);

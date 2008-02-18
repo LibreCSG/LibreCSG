@@ -116,6 +116,10 @@ public class Modify implements SubPart{
 	public Sketch getSketch() {
 		return null;
 	}
+	
+	public int getUniqueID(){
+		return ID;
+	}
 
 	// TODO: implement ability to get sketch plane!
 	public SketchPlane getPlaneByFaceID(int uniqueFaceID){

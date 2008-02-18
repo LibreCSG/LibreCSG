@@ -85,8 +85,9 @@ public class Sketch implements SubPart{
 	 * @return the actual plane on which to sketch.
 	 */
 	public SketchPlane getSketchPlane(){
-		return sketchPlaneRef.getSketchPlane();
+		return sketchPlaneRef.getSketchPlane(part);
 	}
+	
 	
 	/**
 	 * @return a reference to the sketch plane.
@@ -99,9 +100,8 @@ public class Sketch implements SubPart{
 		return this.part;
 	}
 	
-	public int getID(){
-		int newInt = ID;
-		return newInt;
+	public int getUniqueID(){
+		return ID;
 	}
 	
 	/**

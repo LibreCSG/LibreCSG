@@ -47,6 +47,9 @@ public class Build implements SubPart{
 		this.part = part;
 		this.primarySketchID = primarySketchID;
 		this.ID = ID;
+		if(part.getSketchByID(primarySketchID) == null){
+			System.out.println("Tried to create a BUILD on an invalid primarySketch ID!!! :(");
+		}
 	}	
 	
 	public Part getParentPart(){
@@ -55,6 +58,10 @@ public class Build implements SubPart{
 	
 	public Sketch getPrimarySketch(){
 		return part.getSketchByID(primarySketchID);
+	}
+	
+	public int getUniqueID(){
+		return ID;
 	}
 	
 	//TODO: handle how sketches are linked to the Feature2D3D (sketch by number?)
