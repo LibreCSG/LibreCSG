@@ -61,20 +61,29 @@ public class ToolBuildRevolveCtrl implements ToolCtrlBuild{
 					SelectionList regions    = paramSet.getParam("regions").getDataSelectionList();
 					SelectionList centerline = paramSet.getParam("centerline").getDataSelectionList();
 					if(centerline.hasFocus){
+						System.out.println("looking for centerline.");
 						// try to select a 2D line for the centerline if clicked...
 						for(int i = 0; i < sketch.getFeat2DListSize(); i++){
 							Feature2D f2D = sketch.getAtIndex(i);
-							for(Prim2D prim2D : f2D.prim2DList){
+							for(int j=0; j< f2D.prim2DList.size(); j++){
+								Prim2D prim2D = f2D.prim2DList.get(j);
+							//for(Prim2D prim2D : f2D.prim2DList){
 								// TODO: hack (hardcoded distance from line for selection.
 								if(prim2D instanceof Prim2DLine && prim2D.distFromPrim(new Point2D(x,y)) < 0.2){
-									// TODO: somehow store index of the primative...(int feat2d, int prim2D)
-									System.out.println("you selected a line.. I am just ignorant and don't know how to select it. :[");
+									centerline.clearList();
+									centerline.add(String.valueOf(i) + "." + String.valueOf(j));
 									centerline.isSatisfied = true;
 								}
 							}
 						}
+						if(centerline.getSelectionSize() == 1){
+							centerline.isSatisfied = true;
+						}else{
+							centerline.isSatisfied = false;
+						}
 					}else{
-						// selectiong regions...
+						System.out.println("looking for region.");
+						// selecting regions...
 						if((e.stateMask & SWT.SHIFT) != 0){
 							// shift is down
 						}else{

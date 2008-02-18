@@ -11,6 +11,7 @@ import backend.adt.Translation3D;
 import backend.global.AvoGlobal;
 import backend.model.ref.ModRef_Cylinder;
 import backend.model.ref.ModRef_Plane;
+import backend.model.sketch.SketchPlane;
 
 
 //
@@ -58,7 +59,7 @@ public class CSG_Face {
 	
 	private CSG_Bounds bounds;
 	private CSG_Plane facePlane;	
-	private List<CSG_Polygon> polygons = new LinkedList<CSG_Polygon>();
+	private LinkedList<CSG_Polygon> polygons = new LinkedList<CSG_Polygon>();
 	private boolean selectable = false;
 	private boolean isSelected = false;
 	
@@ -106,6 +107,10 @@ public class CSG_Face {
 			area += poly.getArea();
 		}
 		return area;
+	}
+	
+	public SketchPlane getSketchPlane(){
+		return new SketchPlane(polygons.getFirst().getPlane());
 	}
 	
 	/**

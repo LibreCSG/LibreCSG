@@ -185,7 +185,7 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 		if(height >= 0.0){ // make sure normal points correct way (outward).
 			topFace.flipFaceDirection();
 		}
-		topFace.setIsSelectable(new ModRef_Plane(ID, faceCounter++, new SketchPlane(topFace.getPlane())));
+		topFace.setIsSelectable(new ModRef_Plane(ID, faceCounter++));
 		solid.addFace(topFace);
 		
 		// bottom face
@@ -193,7 +193,7 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 		if(height < 0.0){ // make sure normal points correct way (outward).
 			botFace.flipFaceDirection();										
 		}
-		botFace.setIsSelectable(new ModRef_Plane(ID, faceCounter++, new SketchPlane(botFace.getPlane())));
+		botFace.setIsSelectable(new ModRef_Plane(ID, faceCounter++));
 		solid.addFace(botFace);
 									
 		region.getPrims().orientCycle();
@@ -214,7 +214,7 @@ public class ToolBuildExtrudeModel implements ToolModelBuild{
 					if(height < 0.0){
 						newFace.flipFaceDirection();
 					}
-					newFace.setIsSelectable(new ModRef_Plane(ID, faceCounter++, new SketchPlane(newFace.getPlane())));
+					newFace.setIsSelectable(new ModRef_Plane(ID, faceCounter++));
 					solid.addFace(newFace);
 				}else{
 					addSimilarFacesByPointList(prim2D.getVertexList(25), null, null, height, solid);

@@ -196,7 +196,7 @@ public class SketchPlane {
 	 * @param gl
 	 */
 	public void glOrientToPlane(GL gl){
-		gl.glLoadIdentity();
+		//gl.glLoadIdentity();
 		// align to origin
 		gl.glTranslated(origin.getX(), origin.getY(), origin.getZ());
 		

@@ -1,5 +1,6 @@
 package backend.model.ref;
 
+import backend.model.Part;
 import backend.model.sketch.SketchPlane;
 
 
@@ -36,12 +37,17 @@ import backend.model.sketch.SketchPlane;
  */
 public class ModRef_PlaneFixed extends ModRef_Plane{
 
+	private final SketchPlane fixedSketchPlane; 
+	
 	public ModRef_PlaneFixed(SketchPlane fixedSketchPlane) {
-		super(-1, -1, fixedSketchPlane);
+		super(-1, -1);
+		this.fixedSketchPlane = fixedSketchPlane;
 		if(fixedSketchPlane == null){
 			System.out.println("ModRef_PlaneRoot(getSketchPlane): rootPlaneType was NULL! whah?!?");
 		}
 	}
 	
-	
+	public SketchPlane getSketchPlane(Part part){
+		return fixedSketchPlane;
+	}
 }

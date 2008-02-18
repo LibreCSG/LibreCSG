@@ -2,6 +2,7 @@ package ui.menuet;
 
 import ui.tools.build.ToolBuildDoneView;
 import ui.tools.build.ToolBuildExtrudeView;
+import ui.tools.build.ToolBuildRevolveView;
 import ui.tools.group.ToolGroupDoneView;
 import ui.tools.group.ToolGroupPartView;
 import ui.tools.modify.ToolModifyDoneView;
@@ -92,7 +93,7 @@ public class MenuetBuilder extends ClassLoader{
 		
 		new ToolBuildExtrudeView(menuet);
 		// TODO: put revolve back in.. just removed for alpha release.
-		//new ToolBuildRevolveView(menuet);
+		new ToolBuildRevolveView(menuet);
 		
 		new METoolbox(menuet,Menuet.MENUET_MODE_BUILD);
 		

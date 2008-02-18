@@ -272,9 +272,9 @@ public class TreeViewer {
 					tiSubPart.setData(new int[] {iGroup, iPart, iSubPart+4});
 					Sketch sketch = subPart.getSketch();					
 					if(sketch != null){
-						tiSubPart.setText("Sketch " + sketch.getID());
+						tiSubPart.setText("Sketch " + sketch.getUniqueID());
 						if(sketch.isConsumed){
-							tiSubPart.setText("Sketch(c) " + sketch.getID());
+							tiSubPart.setText("Sketch(c) " + sketch.getUniqueID());
 							tiSubPart.setBackground(new Color(Display.getCurrent(), 240, 200, 200));
 						}
 						

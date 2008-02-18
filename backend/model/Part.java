@@ -58,9 +58,9 @@ public class Part {
 	private CSG_Vertex xAxis  = new CSG_Vertex(1.0, 0.0, 0.0);
 	private CSG_Vertex yAxis  = new CSG_Vertex(0.0, 1.0, 0.0);
 	private CSG_Vertex zAxis  = new CSG_Vertex(0.0, 0.0, 1.0);
-	private final SketchPlane sketchPlaneXY = new SketchPlane(new CSG_Plane(zAxis, 0.0));
-	private final SketchPlane sketchPlaneYZ = new SketchPlane(new CSG_Plane(xAxis, 0.0));
-	private final SketchPlane sketchPlaneZX = new SketchPlane(new CSG_Plane(yAxis, 0.0));
+	public final SketchPlane sketchPlaneXY = new SketchPlane(new CSG_Plane(zAxis, 0.0));
+	public final SketchPlane sketchPlaneYZ = new SketchPlane(new CSG_Plane(xAxis, 0.0));
+	public final SketchPlane sketchPlaneZX = new SketchPlane(new CSG_Plane(yAxis, 0.0));
 
 	public final ModRef_Plane planeXY = new ModRef_PlaneFixed(sketchPlaneXY);
 	public final ModRef_Plane planeYZ = new ModRef_PlaneFixed(sketchPlaneYZ);
@@ -105,6 +105,11 @@ public class Part {
 		return newIndex;
 	}
 	
+	/**
+	 * add a new feature2D3D (build) to the part by referencing the ID of the sketch to use.
+	 * @param sketchID
+	 * @return
+	 */
 	public int addNewFeat2D3D(int sketchID){
 		if(sketchID > 0 && sketchID < subPartCounter && getSketchByID(sketchID) != null){
 			subPartList.add(new Build(this, sketchID, subPartCounter++));
@@ -257,6 +262,16 @@ public class Part {
 		AvoGlobal.modelEventHandler.notifyElementRemoved();
 	}
 	
+	public SubPart getSubpartByUniqueID(int ID){
+		for(SubPart sp : subPartList){
+			if(sp.getUniqueID() == ID){
+				return sp;
+			}
+		}
+		System.out.println("tried to get a subpart with a bogus unique ID!! requested: " + ID);
+		return null; // no SubPart was found with that ID!
+	}
+	
 	/**
 	 * remove the active SubPart from the list.
 	 */
@@ -274,7 +289,7 @@ public class Part {
 	public Sketch getSketchByID(int id){
 		for(SubPart subPart : subPartList){
 			Sketch sketch = subPart.getSketch();
-			if(sketch != null && sketch.getID() == id){
+			if(sketch != null && sketch.getUniqueID() == id){
 				return sketch;
 			}
 		}

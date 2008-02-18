@@ -1,5 +1,9 @@
 package backend.model.ref;
 
+import java.util.Iterator;
+
+import backend.model.Part;
+import backend.model.CSG.CSG_Face;
 import backend.model.sketch.SketchPlane;
 
 
@@ -34,7 +38,6 @@ public class ModRef_Plane extends ModelReference{
 
 	private final int uniqueSubPartID;
 	private final int uniqueFaceID;
-	private final SketchPlane sketchPlane;
 	
 	// planes are built with reference to a particular part, feat2D3D, and faceID within that feature.
 	
@@ -44,18 +47,10 @@ public class ModRef_Plane extends ModelReference{
 	 * @param uniqueSubPartID the unique ID of the SubPart to use
 	 * @param uniqueFaceID the unique ID of the face created by the SubPart.
 	 */
-	public ModRef_Plane(int uniqueSubPartID, int uniqueFaceID, SketchPlane sketchPlane){
+	public ModRef_Plane(int uniqueSubPartID, int uniqueFaceID){
 		super(ModRefType.Plane);
 		this.uniqueSubPartID = uniqueSubPartID;
 		this.uniqueFaceID    = uniqueFaceID;
-		this.sketchPlane = sketchPlane;
-		if(sketchPlane == null){
-			System.out.println("You passed in a NULL sketchplane to ModRef_Plane.. BAD IDEA!!");
-		}
-	}
-	
-	public SketchPlane getSketchPlane(){
-		return sketchPlane;
 	}
 	
 	public int getUniqueFaceID(){
@@ -65,6 +60,20 @@ public class ModRef_Plane extends ModelReference{
 	@Override
 	public String getStringReferenceInfo() {
 		return "SubPartID:" + uniqueSubPartID + ", FaceID:" + uniqueFaceID;
+	}
+	
+	public SketchPlane getSketchPlane(Part part){
+		Iterator<CSG_Face> fIter = part.getSolid().getFacesIter();
+		while(fIter.hasNext()){
+			CSG_Face face = fIter.next();
+			if(face.isSelectable()){
+				if(face.getModRefPlane().uniqueSubPartID == this.uniqueSubPartID &&
+						face.getModRefPlane().uniqueFaceID == this.uniqueFaceID){
+					return face.getSketchPlane();
+				}
+			}
+		}
+		return null;
 	}
 	
 }

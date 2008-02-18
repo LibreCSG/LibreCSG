@@ -49,11 +49,11 @@ public class SelectionList {
 	 * if the user is wanting to alter a particular selection.
 	 */
 	public boolean hasFocus = false;
-	
+
 	/**
 	 * A list of selected items, used for construction
 	 * and display of features that require references to
-	 * others. (sketchs, lines, regions, etc.)<br/><br/>
+	 * others. (sketches, lines, regions, etc.)<br/><br/>
 	 * 
 	 * There are 4 main parts to the SelectionList.<br/>
 	 * (1) String for each selection (human-readable, but can simply be a number)<br/>
@@ -61,9 +61,8 @@ public class SelectionList {
 	 * (3) boolean hasFocus -- indicator that the selection has focus in the UI.<br/>
 	 * (4) boolean isSatisfied -- indicates whether or not the current selection is sufficient.
 	 */
-	public SelectionList(){		
+	public SelectionList(){
 	}
-	
 	
 	public void add(String string){
 		if(string != null){
