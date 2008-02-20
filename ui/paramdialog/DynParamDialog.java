@@ -292,7 +292,9 @@ public class DynParamDialog {
 	 * set of parameters is properly finalized.
 	 */
 	public void finalizeCurrentParams(){
+		System.out.println("finalizing current params");
 		if(paramSet != null){
+			System.out.println("so far so good.");
 			paramSet.tryToFinalize();
 		}
 		animator.animateBackwards(0);

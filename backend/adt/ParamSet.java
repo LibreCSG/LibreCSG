@@ -82,6 +82,7 @@ public class ParamSet {
 	 */
 	public void tryToFinalize(){
 		if(toolModel != null){
+			System.out.println("still going");
 			toolModel.finalize(this);
 		}
 	}
