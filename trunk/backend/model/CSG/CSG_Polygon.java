@@ -73,6 +73,7 @@ public class CSG_Polygon {
 		vertices.add(v2);
 		vertices.add(v3);
 		vertices.add(v4);
+		removeAdjacentDuplicates();
 		bounds = new CSG_Bounds(v1);
 		bounds.includeVertex(v2);
 		bounds.includeVertex(v3);
@@ -94,10 +95,29 @@ public class CSG_Polygon {
 		vertices.add(v1);
 		vertices.add(v2);
 		vertices.add(v3);
+		removeAdjacentDuplicates();
 		bounds = new CSG_Bounds(v1);
 		bounds.includeVertex(v2);
 		bounds.includeVertex(v3);
 		polygonPlane = computePlane();
+	}
+	
+	private void removeAdjacentDuplicates(){
+		CSG_Vertex lastV = vertices.getLast();
+		for(int i=0; i<vertices.size(); i++){
+			CSG_Vertex v = vertices.get(i);
+			if(lastV.equalsVertex(v)){
+				System.out.println("found adjacent duplicate in CSG_Polygon!  removing, but you should keep this from happening in the first place!");
+				//System.out.println(v);
+				vertices.remove(i);
+				i--; // since we just pulled out the current one.
+			}
+			lastV = v;
+		}
+		if(vertices.size() < 3){
+			System.out.println("There is going to be trouble!! Polygon now has less than 3 vertices! *sad face*");
+			this.markForDeletion();
+		}
 	}
 	
 	/**

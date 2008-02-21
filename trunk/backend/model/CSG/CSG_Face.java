@@ -528,7 +528,10 @@ public class CSG_Face {
 	public boolean isValidFace(){
 		// TODO: check to see if this is a valid face! 
 		// (all polygons same plane and all polygons valid)
-		return true;
+		if(polygons.size() > 0 && this.getPlane() != null){
+			return true;
+		}
+		return false;
 	}
 	
 	public CSG_Face getTranslatedCopy(CSG_Vertex translation){
