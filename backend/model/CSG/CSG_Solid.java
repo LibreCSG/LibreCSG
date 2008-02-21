@@ -106,6 +106,24 @@ public class CSG_Solid {
 		return clone;
 	}
 	
+	/**
+	 * cleanup the solid.  This may be kind of computationally expensive...
+	 */
+	public void clean(){
+		Iterator<CSG_Face> fIter = faces.iterator();
+		while(fIter.hasNext()){
+			CSG_Face f = fIter.next();
+			f.cleanupMarkedForDeletionPolygons();
+			f.cleanupBogusPolygons();
+		}
+		for(int i=faces.size()-1; i >= 0; i--){
+			if(!faces.get(i).isValidFace()){
+				System.out.println("CSG_Solid: Clean() is removing a face because it is not valid.");
+				faces.remove(i);
+			}
+		}
+	}
+	
 	public void setAllPolygonsToUnknownType(){
 		for(CSG_Face face : faces){
 			Iterator<CSG_Polygon> polyIter = face.getPolygonIterator();

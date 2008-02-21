@@ -129,6 +129,11 @@ public class ToolBuildRevolveCtrl implements ToolCtrlBuild{
 	}
 
 	public void menuetElementSelected() {
+		Build feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
+		if(feat2D3D != null){
+			feat2D3D.paramSet = (new ToolBuildRevolveModel()).constructNewParamSet();
+			AvoGlobal.glView.updateGLView = true;
+		}
 	}
 
 	public void glKeyPressed(KeyEvent e, boolean ctrlIsDown, boolean shiftIsDown, ParamSet paramSet) {

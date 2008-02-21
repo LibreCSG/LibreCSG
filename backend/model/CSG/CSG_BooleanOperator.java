@@ -56,6 +56,8 @@ public class CSG_BooleanOperator {
 	public static CSG_Solid Intersection(CSG_Solid solidA, CSG_Solid solidB){
 		// CSG Intersection
 		System.out.println("CSG: Intersecting solids");
+		solidA.clean();
+		solidB.clean();
 		CSG_Solid solidAClone = solidA.deepCopy();
 		CSG_Solid solidBClone = solidB.deepCopy();
 		splitSolidABySolidB(solidAClone, solidB);
@@ -80,6 +82,8 @@ public class CSG_BooleanOperator {
 	public static CSG_Solid Union(CSG_Solid solidA, CSG_Solid solidB){
 		// CSG Union
 		System.out.println("CSG: Finding Union of solids");
+		solidA.clean();
+		solidB.clean();
 		CSG_Solid solidAClone = solidA.deepCopy();
 		CSG_Solid solidBClone = solidB.deepCopy();
 		splitSolidABySolidB(solidAClone, solidB);
@@ -104,6 +108,8 @@ public class CSG_BooleanOperator {
 	public static CSG_Solid Subtraction(CSG_Solid solidA, CSG_Solid solidB){
 		// CSG Subtraction
 		System.out.println("CSG: Subtracting solids");
+		solidA.clean();
+		solidB.clean();
 		CSG_Solid solidAClone = solidA.deepCopy();
 		CSG_Solid solidBClone = solidB.deepCopy();
 		splitSolidABySolidB(solidAClone, solidB);
