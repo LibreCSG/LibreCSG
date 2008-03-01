@@ -42,7 +42,7 @@ public class ToolProjectGroupView extends ToolViewProject{
 		mElement = new MEButton(menuet, this.getToolMode(), this, false);
 		mElement.mePreferredHeight = 100;
 		mElement.meLabel = "Group";
-		mElement.meIcon = ImageUtils.getIcon("menuet/Project_Group.png", 24, 24);
+		mElement.meIcon = ImageUtils.getIcon("menuet/Project_Group_Add.png", 24, 24);
 		mElement.setToolTipText("Add a new Group to the project.");
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
 		
