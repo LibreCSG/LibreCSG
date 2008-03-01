@@ -43,7 +43,7 @@ public class ToolGroupPartView extends ToolViewGroup{
 		mElement = new MEButton(menuet, this.getToolMode(), this, false);
 		mElement.mePreferredHeight = 100;
 		mElement.meLabel = "Part";
-		mElement.meIcon = ImageUtils.getIcon("menuet/Group_Part.png", 24, 24);
+		mElement.meIcon = ImageUtils.getIcon("menuet/Group_Part_Add.png", 24, 24);
 		mElement.setToolTipText("Add a new Part to the group.");
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
 		

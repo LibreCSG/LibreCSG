@@ -43,8 +43,8 @@ public class ToolPartSketchView extends ToolViewPart{
 		mElement = new MEButton(menuet, this.getToolMode(), this, false);
 		mElement.mePreferredHeight = 100;
 		mElement.meLabel = "Sketch";
-		mElement.meIcon = ImageUtils.getIcon("menuet/Part_Sketch.png", 24, 24);
-		mElement.setToolTipText("2D Sketch Mode");
+		mElement.meIcon = ImageUtils.getIcon("menuet/Part_Sketch_Add.png", 24, 24);
+		mElement.setToolTipText("Add a 2D Sketch");
 		mElement.meDispOptions = MenuetElement.ME_TRY_TEXT;
 		
 		this.applyToolGroupSettings();	// APPLY MAIN GROUP SETTINGS
