@@ -41,6 +41,8 @@ public abstract class Prim2D {
 	protected Point2D ptA;
 	protected Point2D ptB;
 	
+	public boolean isSelected = false;
+	
 	/**
 	 * Each prim2D can only be a part of two regions.
 	 * Regions consume the prim2D either in the AB

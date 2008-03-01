@@ -2,6 +2,7 @@ package backend.model;
 
 import ui.tools.ToolModelSketch;
 import backend.adt.ParamSet;
+import backend.model.sketch.Prim2D;
 import backend.model.sketch.Prim2DList;
 
 
@@ -37,7 +38,7 @@ import backend.model.sketch.Prim2DList;
  */
 public class Feature2D {
 
-	public boolean		      isSelected = true;
+	private boolean		      isSelected = true;
 	public ParamSet           paramSet   = null;
 	
 	/**
@@ -58,12 +59,24 @@ public class Feature2D {
 		return this.sketch;
 	}
 	
+	public void setSelected(boolean isSelected){
+		this.isSelected = isSelected;
+		for(Prim2D prim : prim2DList){
+			prim.isSelected = isSelected;
+		}
+	}
+	
+	public boolean isSelected(){
+		return this.isSelected;
+	}
+	
 	public void buildPrim2DList(){
 		if(paramSet != null){
 			ToolModelSketch toolModel2D = paramSet.getToolModel2D();
 			if(toolModel2D != null){
 				prim2DList = toolModel2D.buildPrim2DList(paramSet);
 			}
+			setSelected(this.isSelected);
 		}
 	}
 	

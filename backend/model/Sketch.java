@@ -202,7 +202,7 @@ public class Sketch implements SubPart{
 	public void deselectAllFeat2D(){
 		if(feat2DList.size() > 0){
 			for(Feature2D f2D : feat2DList){
-				f2D.isSelected = false;
+				f2D.setSelected(false);
 			}
 		}
 	}
