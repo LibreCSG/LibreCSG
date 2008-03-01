@@ -525,7 +525,7 @@ public class GLView {
 										// draw solid constructed from build operation
 										if(buildSolidFeat2D3D != null){
 											gl.glColor4f(0.5f, 0.5f, 0.5f, 0.3f);
-											buildSolidFeat2D3D.glDrawWireframe(gl); //.glDrawSolid(gl);
+											buildSolidFeat2D3D.glDrawWireframe(gl); 
 										}
 										// TODO: HACK, selecting regions seems to break for non XY plane orientations.
 										gl.glLoadIdentity();

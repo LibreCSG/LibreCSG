@@ -95,8 +95,12 @@ public class ToolBuildRevolveCtrl implements ToolCtrlBuild{
 						Point2D clickedPoint = new Point2D(x,y);
 						for(int i=0; i < sketch.getRegion2DListSize(); i++){
 							Region2D reg  = sketch.getRegAtIndex(i);
+							reg.setSelected(false);
 							if(reg.regionContainsPoint2D(clickedPoint) && !regions.contains(String.valueOf(i))){
 								regions.add(String.valueOf(i));
+							}
+							if(regions.contains(String.valueOf(i))){
+								reg.setSelected(true);	// set region as selected
 							}
 						}
 						if(regions.getSelectionSize() > 0){
