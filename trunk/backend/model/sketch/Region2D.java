@@ -7,6 +7,7 @@ import javax.media.opengl.GL;
 
 import backend.adt.Point2D;
 import backend.geometry.Geometry2D;
+import backend.global.AvoColors;
 import backend.model.CSG.CSG_Face;
 import backend.model.CSG.CSG_Polygon;
 import backend.model.CSG.CSG_Vertex;
@@ -44,6 +45,9 @@ public class Region2D{
 	private CSG_Face csgFace = null;
 	private LinkedList<Region2D> regionsToCut = new LinkedList<Region2D>();
 
+	private boolean isSelected = false;
+	private boolean isMousedOver = false;
+	
 	/**
 	 * create a new 2D region defined by a valid Prim2DCycle.
 	 * @param cycle a valid prim2DCycle
@@ -66,6 +70,14 @@ public class Region2D{
 		return prim2DCycle;
 	}
 
+	public void setSelected(boolean isSelected){
+		this.isSelected = isSelected;
+	}
+	
+	public void setMousedOver(boolean mouseIsOver){
+		this.isMousedOver = mouseIsOver;
+	}
+	
 	/**
 	 * get the total region area ("cut" regions are ignored).  
 	 * @return the area of this region.
@@ -541,11 +553,46 @@ public class Region2D{
 	}
 
 	/**
+	 * draw the region. the state of selection, mouseover, 
+	 * etc. will be handled automatically.
+	 * @param gl
+	 */
+	public void glDrawRegion(GL gl){
+		if(isSelected){
+			// selected
+			if(isMousedOver){
+				float[] color = AvoColors.GL_COLOR4_2D_REG_SELMO;
+				gl.glColor4f(color[0], color[1], color[2], color[3]);
+			}else{
+				float[] color = AvoColors.GL_COLOR4_2D_REG_SEL;
+				gl.glColor4f(color[0], color[1], color[2], color[3]);
+			}
+		}else{
+			// not selected
+			if(isMousedOver){
+				float[] color = AvoColors.GL_COLOR4_2D_REG_UNSELMO;
+				gl.glColor4f(color[0], color[1], color[2], color[3]);
+			}else{
+				float[] color = AvoColors.GL_COLOR4_2D_REG_UNSEL;
+				gl.glColor4f(color[0], color[1], color[2], color[3]);
+			}
+		}
+		if(csgFace != null){
+			Iterator<CSG_Polygon> polyIter = csgFace.getPolygonIterator();
+			while(polyIter.hasNext()){
+				CSG_Polygon poly = polyIter.next();
+				poly.glDrawPolygon(gl);
+			}
+		}		
+	}
+	
+	/**
 	 * render the region as "not selected".  If sencilCutRegions == true, then openGL 
 	 * stenciling will be used to not draw pixels in any "cut" region.
 	 * @param gl 
 	 * @param stencilCutRegions true if openGL stenciling should be used to allow holes in the region.
 	 */
+	/*
 	public void glDrawUnselected(GL gl, boolean stencilCutRegions){
 		// TODO: put this in a GL lib of somekind..
 		gl.glColor4d(0.25, 0.95, 0.25, 0.25); // set the color.
@@ -584,17 +631,20 @@ public class Region2D{
 			gl.glDisable(GL.GL_STENCIL_TEST);                        //Disable Stencil test
 		}
 	}
+	*/
 
 
 	/**
 	 * render the region as "not selected".  This is currently NOT USED...
 	 * @param gl
 	 */
+	/*
 	public void glDrawSelected(GL gl){
 		//		TODO: put this in a GL lib of somekind..
 		gl.glColor4d(0.7, 0.7, 0.9, 1.0);
 		System.out.println("Region2D.glDrawSelected is not meant to be used yet...");
 	}
+	*/
 
 	public String toString(){
 		return "Region2D: area=" + getRegionAreaAfterCuts() + ", regions to cut: " + regionsToCut.size();

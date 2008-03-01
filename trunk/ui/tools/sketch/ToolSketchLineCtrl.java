@@ -1,5 +1,7 @@
 package ui.tools.sketch;
 
+import javax.media.opengl.GL;
+
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseEvent;
 
@@ -146,8 +148,5 @@ public class ToolSketchLineCtrl implements ToolCtrlSketch {
 	public void glKeyPressed(KeyEvent e, boolean ctrlIsDown, boolean shiftIsDown, ParamSet paramSet) {
 		// TODO Auto-generated method stub
 	}
-
-
-
 
 }

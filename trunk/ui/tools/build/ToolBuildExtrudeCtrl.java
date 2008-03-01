@@ -1,5 +1,7 @@
 package ui.tools.build;
 
+import javax.media.opengl.GL;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseEvent;
@@ -67,17 +69,22 @@ public class ToolBuildExtrudeCtrl implements ToolCtrlBuild{
 						// shift is down
 					}else{
 						// shift is not down
-						selectionList.clearList();
+						selectionList.clearList();						
 					}					
 					
 					Point2D clickedPoint = new Point2D(x,y);
 					//System.out.println("looking at point: " + clickedPoint);
 					for(int i=0; i < sketch.getRegion2DListSize(); i++){
 						Region2D reg  = sketch.getRegAtIndex(i);
+						reg.setSelected(false); // assume all unselected first.
 						if(reg.regionContainsPoint2D(clickedPoint) && !selectionList.contains(String.valueOf(i))){
 							selectionList.add(String.valueOf(i));							
 						}
-					}
+						if(selectionList.contains(String.valueOf(i))){
+							reg.setSelected(true);	// set region as selected
+						}						
+					}				
+					
 					if(selectionList.getSelectionSize() > 0){
 						selectionList.isSatisfied = true;
 					}else{
@@ -105,6 +112,23 @@ public class ToolBuildExtrudeCtrl implements ToolCtrlBuild{
 	}
 
 	public void glMouseMovedUp(double x, double y, double z, MouseEvent e, ParamSet paramSet) {
+		Build feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
+		if(feat2D3D != null){	
+			Sketch sketch = feat2D3D.getPrimarySketch();
+			if(sketch != null){
+				Point2D clickedPoint = new Point2D(x,y);
+				for(int i=0; i < sketch.getRegion2DListSize(); i++){
+					Region2D reg  = sketch.getRegAtIndex(i);
+					reg.setMousedOver(false);					
+				}	
+				for(int i=0; i < sketch.getRegion2DListSize(); i++){
+					Region2D reg  = sketch.getRegAtIndex(i);
+					if(reg.regionContainsPoint2D(clickedPoint)){
+						reg.setMousedOver(true);							
+					}
+				}				
+			}
+		}
 	}
 
 	public void menuetElementDeselected() {
@@ -114,6 +138,7 @@ public class ToolBuildExtrudeCtrl implements ToolCtrlBuild{
 		Build feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
 		if(feat2D3D != null){
 			feat2D3D.paramSet = (new ToolBuildExtrudeModel()).constructNewParamSet();
+			AvoGlobal.paramDialog.setParamSet(feat2D3D.paramSet);
 			AvoGlobal.glView.updateGLView = true;
 		}
 	}
@@ -121,7 +146,5 @@ public class ToolBuildExtrudeCtrl implements ToolCtrlBuild{
 	public void glKeyPressed(KeyEvent e, boolean ctrlIsDown, boolean shiftIsDown, ParamSet paramSet) {
 		// TODO Auto-generated method stub
 	}
-
-
 
 }

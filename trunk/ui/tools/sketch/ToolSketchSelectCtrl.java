@@ -1,5 +1,7 @@
 package ui.tools.sketch;
 
+import javax.media.opengl.GL;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseEvent;
@@ -71,8 +73,9 @@ public class ToolSketchSelectCtrl implements ToolCtrlSketch {
 			for(int i = 0; i < sketch.getFeat2DListSize(); i++){
 				Feature2D f2D = sketch.getAtIndex(i);
 				for(Prim2D prim2D : f2D.prim2DList){
+					// TODO: HACK do not hardcode the distance!
 					if(prim2D.distFromPrim(new Point2D(x,y)) < 0.2){
-						f2D.isSelected = true;
+						f2D.setSelected(true);
 						//
 						// give paramDialog the paramSet so that it can
 						// be displayed to the user for manual parameter
@@ -107,7 +110,7 @@ public class ToolSketchSelectCtrl implements ToolCtrlSketch {
 			if(e.character == SWT.DEL){
 				for(int i = sketch.getFeat2DListSize()-1; i >= 0; i--){
 					Feature2D f2D = sketch.getAtIndex(i);
-					if(f2D.isSelected){
+					if(f2D.isSelected()){
 						sketch.removeFeat2DAtIndex(i);
 					}
 				}
@@ -115,7 +118,5 @@ public class ToolSketchSelectCtrl implements ToolCtrlSketch {
 			AvoGlobal.glView.updateGLView = true;
 		}
 	}
-
-
 
 }

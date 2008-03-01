@@ -2,6 +2,8 @@ package ui.tools.part;
 
 import java.util.Iterator;
 
+import javax.media.opengl.GL;
+
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseEvent;
 

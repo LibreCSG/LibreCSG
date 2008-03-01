@@ -1,5 +1,7 @@
 package ui.tools.build;
 
+import javax.media.opengl.GL;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseEvent;
@@ -67,7 +69,6 @@ public class ToolBuildRevolveCtrl implements ToolCtrlBuild{
 							Feature2D f2D = sketch.getAtIndex(i);
 							for(int j=0; j< f2D.prim2DList.size(); j++){
 								Prim2D prim2D = f2D.prim2DList.get(j);
-							//for(Prim2D prim2D : f2D.prim2DList){
 								// TODO: hack (hardcoded distance from line for selection.
 								if(prim2D instanceof Prim2DLine && prim2D.distFromPrim(new Point2D(x,y)) < 0.2){
 									centerline.clearList();
@@ -120,6 +121,46 @@ public class ToolBuildRevolveCtrl implements ToolCtrlBuild{
 	}
 
 	public void glMouseMovedUp(double x, double y, double z, MouseEvent e, ParamSet paramSet) {
+		Build feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
+		if(feat2D3D != null){	
+			Sketch sketch = feat2D3D.getPrimarySketch();
+			if(sketch != null){			
+				try{
+					SelectionList regions    = paramSet.getParam("regions").getDataSelectionList();
+					SelectionList centerline = paramSet.getParam("centerline").getDataSelectionList();
+					Point2D clickedPoint = new Point2D(x,y);
+					if(centerline.hasFocus){
+						// centerline has focus
+						for(int i=0; i<sketch.getFeat2DListSize(); i++){
+							Feature2D feat2D = sketch.getAtIndex(i);
+							for(int j=0; j< feat2D.prim2DList.size(); j++){
+								Prim2D prim2D = feat2D.prim2DList.get(j);
+								prim2D.isSelected = false;
+								// TODO: hack (hardcoded distance from line for selection.
+								if(prim2D instanceof Prim2DLine && prim2D.distFromPrim(new Point2D(x,y)) < 0.2){
+									prim2D.isSelected = true;
+								}
+							}
+						}
+						
+					}else{
+						// region has focus						
+						for(int i=0; i < sketch.getRegion2DListSize(); i++){
+							Region2D reg  = sketch.getRegAtIndex(i);
+							reg.setMousedOver(false);					
+						}	
+						for(int i=0; i < sketch.getRegion2DListSize(); i++){
+							Region2D reg  = sketch.getRegAtIndex(i);
+							if(reg.regionContainsPoint2D(clickedPoint)){
+								reg.setMousedOver(true);							
+							}
+						}
+					}
+				}catch(Exception ex){
+					System.out.println("Revolve(mousemovedup): " + ex.getClass().getName());
+				}
+			}
+		}
 	}
 
 	public void glMouseUp(double x, double y, double z, MouseEvent e, ParamSet paramSet) {
@@ -131,7 +172,9 @@ public class ToolBuildRevolveCtrl implements ToolCtrlBuild{
 	public void menuetElementSelected() {
 		Build feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
 		if(feat2D3D != null){
+			System.out.println("constructing new param set!");
 			feat2D3D.paramSet = (new ToolBuildRevolveModel()).constructNewParamSet();
+			AvoGlobal.paramDialog.setParamSet(feat2D3D.paramSet);
 			AvoGlobal.glView.updateGLView = true;
 		}
 	}

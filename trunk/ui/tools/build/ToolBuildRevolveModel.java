@@ -132,7 +132,7 @@ public class ToolBuildRevolveModel implements ToolModelBuild{
 				Double offset = paramSet.getParam("offset").getDataDouble();
 				SelectionList centerLineSel = paramSet.getParam("centerline").getDataSelectionList();
 				int faceCounter = 1;
-				if(selectionList != null && angle != null && offset != null && centerLineSel != null){
+				if(selectionList != null && angle != null && offset != null && centerLineSel != null && selectionList.getSelectionSize() > 0 && centerLineSel.getSelectionSize()  > 0){
 					//System.out.println("drawing extrude at height=" + height + " and selection: " + selectionList.toString());
 					for(int i=0; i<selectionList.getSelectionSize(); i++){
 						Region2D includedRegion = sketch.getRegAtIndex(Integer.parseInt(selectionList.getStringAtIndex(i)));
