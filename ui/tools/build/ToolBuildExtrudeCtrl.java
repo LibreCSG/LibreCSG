@@ -51,16 +51,16 @@ public class ToolBuildExtrudeCtrl implements ToolCtrlBuild{
 
 	public void glMouseDown(double x, double y, double z, MouseEvent e, ParamSet paramSet) {
 		
-		Build feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
-		if(feat2D3D != null){	
-			Sketch sketch = feat2D3D.getPrimarySketch();
+		Build build = AvoGlobal.project.getActiveFeat2D3D();
+		if(build != null){	
+			Sketch sketch = build.getPrimarySketch();
 			if(sketch != null){
 				//ParamSet paramSet = feat2D3D.paramSet;
 				if(!(new ToolBuildExtrudeModel()).paramSetIsValid(paramSet)){
 					//System.out.println("%% making new extrude paramSet");
 					// paramSet is not valid for this feature, create a new one.
 					paramSet = (new ToolBuildExtrudeModel()).constructNewParamSet();
-					feat2D3D.paramSet = paramSet;
+					build.paramSet = paramSet;
 				}
 				
 				try{
@@ -97,7 +97,7 @@ public class ToolBuildExtrudeCtrl implements ToolCtrlBuild{
 					System.out.println("Extrude(mousedown): " + ex.getClass().getName());
 				}
 				
-				AvoGlobal.paramDialog.setParamSet(feat2D3D.paramSet);				
+				AvoGlobal.paramDialog.setParamSet(build.paramSet);				
 			}
 		}
 		
@@ -112,9 +112,9 @@ public class ToolBuildExtrudeCtrl implements ToolCtrlBuild{
 	}
 
 	public void glMouseMovedUp(double x, double y, double z, MouseEvent e, ParamSet paramSet) {
-		Build feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
-		if(feat2D3D != null){	
-			Sketch sketch = feat2D3D.getPrimarySketch();
+		Build build = AvoGlobal.project.getActiveFeat2D3D();
+		if(build != null){	
+			Sketch sketch = build.getPrimarySketch();
 			if(sketch != null){
 				Point2D clickedPoint = new Point2D(x,y);
 				for(int i=0; i < sketch.getRegion2DListSize(); i++){
@@ -135,10 +135,10 @@ public class ToolBuildExtrudeCtrl implements ToolCtrlBuild{
 	}
 
 	public void menuetElementSelected() {
-		Build feat2D3D = AvoGlobal.project.getActiveFeat2D3D();
-		if(feat2D3D != null){
-			feat2D3D.paramSet = (new ToolBuildExtrudeModel()).constructNewParamSet();
-			AvoGlobal.paramDialog.setParamSet(feat2D3D.paramSet);
+		Build build = AvoGlobal.project.getActiveFeat2D3D();
+		if(build != null){
+			build.paramSet = (new ToolBuildExtrudeModel()).constructNewParamSet();
+			AvoGlobal.paramDialog.setParamSet(build.paramSet);
 			AvoGlobal.glView.updateGLView = true;
 		}
 	}
