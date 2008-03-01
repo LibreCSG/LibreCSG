@@ -153,6 +153,14 @@ public class CSG_Solid {
 		}	
 	}
 	
+	public void glDrawWireframe(GL gl){
+		Iterator<CSG_Face> iter = faces.iterator();
+		while(iter.hasNext()){
+			CSG_Face f = iter.next();
+			f.drawFaceWireframe(gl);
+		}
+	}
+	
 	public void glDrawSelectedElements(GL gl){
 		Iterator<CSG_Face> iter = faces.iterator();
 		while(iter.hasNext()){
