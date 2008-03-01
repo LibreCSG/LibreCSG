@@ -477,36 +477,38 @@ public class GLView {
 								if(sketch != null && !sketch.isConsumed){
 									// draw active sketch if not consumed
 									gl.glPushMatrix();
-									sketch.getSketchPlane().glOrientToPlane(gl);
-									drawSketchGrid();
-									gl.glLineWidth(2.0f);
-									for(int i=0; i < sketch.getFeat2DListSize(); i++){
-										Feature2D f2D = sketch.getAtIndex(i);
-
-										// TODO: HACK, don't build primitives here.. build when created/modified!
-										if(f2D.isSelected()){
-											f2D.buildPrim2DList();
+									{
+										sketch.getSketchPlane().glOrientToPlane(gl);
+										drawSketchGrid();
+										gl.glLineWidth(2.0f);
+										for(int i=0; i < sketch.getFeat2DListSize(); i++){
+											Feature2D f2D = sketch.getAtIndex(i);
+	
+											// TODO: HACK, don't build primitives here.. build when created/modified!
+											if(f2D.isSelected()){
+												f2D.buildPrim2DList();
+											}
+											for(Prim2D prim : f2D.prim2DList){
+												prim.glDraw(gl);
+											}
+										}									
+										if(AvoGlobal.menuet.getCurrentToolMode() == Menuet.MENUET_MODE_SKETCH){
+											drawTransparentMouseLayer();
+											setMouseMatrixToModelview();
 										}
-										for(Prim2D prim : f2D.prim2DList){
-											prim.glDraw(gl);
+										if(mouse_down_button != MOUSE_MIDDLE && 
+												mouse_down_button != MOUSE_MIDDLE_SHIFT && 
+												mouse_down_button != MOUSE_MIDDLE_CTRL &&
+												AvoGlobal.activeToolController != null){
+											drawToolEndPos();
 										}
-									}									
-									if(AvoGlobal.menuet.getCurrentToolMode() == Menuet.MENUET_MODE_SKETCH){
-										drawTransparentMouseLayer();
-										setMouseMatrixToModelview();
-									}
-									if(mouse_down_button != MOUSE_MIDDLE && 
-											mouse_down_button != MOUSE_MIDDLE_SHIFT && 
-											mouse_down_button != MOUSE_MIDDLE_CTRL &&
-											AvoGlobal.activeToolController != null){
-										drawToolEndPos();
 									}
 									gl.glPopMatrix();
 								}
-								Build feat2D3D = activeSubPart.getBuild();
-								if(feat2D3D != null && feat2D3D.paramSet != null && feat2D3D.paramSet.getToolModel2D3D() != null){
+								Build build = activeSubPart.getBuild();
+								if(build != null && build.paramSet != null && build.paramSet.getToolModel2D3D() != null){
 									// request draw of feat2D3D if active
-									sketch = feat2D3D.getPrimarySketch();
+									sketch = build.getPrimarySketch();
 									if(sketch != null && !sketch.isConsumed){
 										// draw regions...
 										sketch.getSketchPlane().glOrientToPlane(gl);
@@ -517,25 +519,23 @@ public class GLView {
 										}
 										// only rebuild if necessary.
 										if(buildSolidNeedsRebuilt){
-											buildSolidFeat2D3D = feat2D3D.paramSet.getToolModel2D3D().getBuiltSolid(feat2D3D);
+											buildSolidFeat2D3D = build.paramSet.getToolModel2D3D().getBuiltSolid(build);
 											buildSolidNeedsRebuilt = false;
 										}
 										// draw solid constructed from build operation
 										if(buildSolidFeat2D3D != null){
-											//turnGLLightsOn(gl);
-											buildSolidFeat2D3D.glDrawSolid(gl); //.draw3DFeature(gl, feat2D3D);
+											gl.glColor4f(0.5f, 0.5f, 0.5f, 0.3f);
+											buildSolidFeat2D3D.glDrawWireframe(gl); //.glDrawSolid(gl);
 										}
 										// TODO: HACK, selecting regions seems to break for non XY plane orientations.
 										gl.glLoadIdentity();
-										feat2D3D.getPrimarySketch().getSketchPlane().glOrientToPlane(gl);
+										build.getPrimarySketch().getSketchPlane().glOrientToPlane(gl);
 										setMouseMatrixToModelview();
 									}	
 								}
 							}
 						}
-
-
-
+						
 						glCanvas.swapBuffers(); // double buffering excitement!
 						glContext.release();	// go ahead, you can have it back.
 
@@ -545,7 +545,6 @@ public class GLView {
 						}
 						// TODO: dynamically change RenderLevel based on time to render!
 						//System.out.println("Time to render: " + timeDiff);
-
 						updateGLView = false;
 					}
 					Display.getCurrent().timerExec(50, this); // run "this" again in 50mSec.
