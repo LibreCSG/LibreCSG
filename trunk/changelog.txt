@@ -1,6 +1,16 @@
 avoCADo changelog, from newest to oldest.
 -----------------------------------------
 
+2008-03-01: avoCADo 08.03 preAlpha Released
+ - holes can now exist within a region 
+ - added revolve tool to the Build menu
+ - material selection (color only for now)
+ - arcs can also be references now by unique ID
+ - lots of CSG debugging (still more is needed)
+ - debugged sketch orientation problems past 2nd gen.
+ - added feedback for selecting regions and 2D elements
+ - updated graphics (startup, fonts, some icons)
+
 2007-05-01: avoCADo 07.05 preAlpha Released
  - new 2D region formation algorithm (much faster)
  - ability to reference faces by a unique ID
