@@ -70,6 +70,8 @@ public class CSG_BooleanOperator {
 		addPolygonsFromSolidToSolid(solidAClone, CSG_Polygon.POLY_TYPE.POLY_INSIDE, newSolid, false);
 		addPolygonsFromSolidToSolid(solidAClone, CSG_Polygon.POLY_TYPE.POLY_SAME, newSolid, false);
 		addPolygonsFromSolidToSolid(solidBClone, CSG_Polygon.POLY_TYPE.POLY_INSIDE, newSolid, false);
+		System.out.println("Computing Mating Edges!");
+		newSolid.computeAllMatingEdgeLines();
 		return newSolid;
 	}
 	
@@ -96,6 +98,8 @@ public class CSG_BooleanOperator {
 		addPolygonsFromSolidToSolid(solidAClone, CSG_Polygon.POLY_TYPE.POLY_OUTSIDE, newSolid, false);
 		addPolygonsFromSolidToSolid(solidAClone, CSG_Polygon.POLY_TYPE.POLY_SAME, newSolid, false);
 		addPolygonsFromSolidToSolid(solidBClone, CSG_Polygon.POLY_TYPE.POLY_OUTSIDE, newSolid, false);
+		System.out.println("Computing Mating Edges!");
+		newSolid.computeAllMatingEdgeLines();
 		return newSolid;
 	}
 	
@@ -124,6 +128,8 @@ public class CSG_BooleanOperator {
 		// (things are OK after the second round of splitting -- it's back in now.)
 		//addPolygonsFromSolidToSolid(solidAClone, CSG_Polygon.POLY_TYPE.POLY_OPPOSITE, newSolid, false);
 		addPolygonsFromSolidToSolid(solidBClone, CSG_Polygon.POLY_TYPE.POLY_INSIDE, newSolid, true);
+		System.out.println("Computing Mating Edges!");
+		newSolid.computeAllMatingEdgeLines();
 		return newSolid;
 	}
 	
