@@ -215,6 +215,7 @@ public class ToolBuildRevolveModel implements ToolModelBuild{
 			double xoffset = 0.0;
 			double yoffset = 0.0;
 			double zrot = 0.0;
+			boolean flipAll = false;
 			if(ydiff == 0.0){
 				// line is parallel to x-axis, just run a yoffset!
 				yoffset = -centerline.getPtA().getY();
@@ -244,6 +245,13 @@ public class ToolBuildRevolveModel implements ToolModelBuild{
 			Translation3D postTrans = new Translation3D(-xoffset, -yoffset, 0.0);
 			Rotation3D postRot = new Rotation3D(0.0, 0.0, -zrot);
 			Translation3D noTrans3D = new Translation3D(0.0, 0.0, 0.0);
+			
+			// test vertex to see if the normals need to be flipped.
+			CSG_Vertex bary = region.getCSG_Face().getFaceBarycenter();
+			bary = bary.addToVertex(preTrans).getTranslatedRotatedCopy(noTrans3D, preRot);
+			if(bary.getY() < 0.0){
+				flipAll = true;
+			}			
 			
 			// add first face...
 			CSG_Face startFace = region.getCSG_Face().getTranslatedCopy(preTrans);
@@ -290,8 +298,18 @@ public class ToolBuildRevolveModel implements ToolModelBuild{
 				endFace.flipFaceDirection();
 			}
 			solid.addFace(endFace);
+			
+			// check for a "flip all" case where region is on other side of the centerline.
+			if(flipAll){
+				Iterator<CSG_Face> fIter = solid.getFacesIter();
+				while(fIter.hasNext()){
+					CSG_Face f = fIter.next();
+					f.flipFaceDirection();
+				}
+			}
+			System.out.println("FlipAll: " + flipAll);
 		}
-
+		
 		
 
 		return solid;
