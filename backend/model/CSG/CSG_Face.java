@@ -69,6 +69,8 @@ public class CSG_Face {
 	private boolean perimNeedsUpdated = true;
 	private LinkedList<CSG_Vertex> perimVertices = null;
 	
+	public LinkedList<CSG_Vertex> matingEdgeLines = new LinkedList<CSG_Vertex>();
+	
 	/**
 	 * create a new Face (convex, planar, noncollinear polygons)<br/><br/>
 	 * <b>More polygons may be added to this face, but they must remain coplanar!</b><br/>
@@ -228,6 +230,36 @@ public class CSG_Face {
 	
 	public CSG_Plane getPlane(){
 		return facePlane;
+	}
+	
+	/**
+	 * check to see if this face contains a pair of adjacent vertices.
+	 * this is meant to be helpful when "edge-finding" between faces.
+	 * @param v1
+	 * @param v2
+	 * @return true iff adjacent vertices are found.
+	 */
+	public boolean containsAdjacentVertexPair(CSG_Vertex v1, CSG_Vertex v2){
+		for(CSG_Polygon poly : polygons){
+			Iterator<CSG_Vertex> vIter = poly.getVertexIterator();
+			while(vIter.hasNext()){
+				if(vIter.next().equalsVertex(v1)){
+					if(vIter.hasNext()){
+						if(vIter.next().equalsVertex(v2)){
+							return true; // HIT!
+						}
+						break; // not this polygon
+					}else{
+						if(poly.getVertAtModIndex(0).equalsVertex(v2)){
+							return true; // HIT!
+						}
+						break; // not this polygon
+					}
+				}
+			}
+		}
+		// made it through all polygons without a hit. 
+		return false;
 	}
 	
 	/**
@@ -395,7 +427,8 @@ public class CSG_Face {
 	}
 	
 	
-	public void glDrawImportantEdges(GL gl){		
+	public void glDrawImportantEdges(GL gl){
+		/*
 		if(this.isSelectable()){
 			// draw perimeter if face is selectable.. :)
 			//gl.glColor3d(0.25, 0.25, 0.25);
@@ -408,6 +441,15 @@ public class CSG_Face {
 				}
 			gl.glEnd();
 		}
+		*/
+		
+		// alternatively, just draw the mating edge lines
+		gl.glBegin(GL.GL_LINES);
+			for(CSG_Vertex v : matingEdgeLines){
+				gl.glTexCoord3dv(v.getXYZ(), 0); // must call before you place the vertex! :)
+				gl.glVertex3dv(v.getXYZ(), 0);			
+			}
+		gl.glEnd();
 	}
 	
 	

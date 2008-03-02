@@ -171,6 +171,45 @@ public class CSG_Solid {
 		}	
 	}
 	
+	/**
+	 * find boundaries between faces.  store vertices in a list for rendering later.
+	 */
+	public void computeAllMatingEdgeLines(){
+		// TODO: this does not find edges that are split on one side 
+		// (i.e., one face is of a box is a rect. while another face 
+		//  is split in many triangles.)
+		Iterator<CSG_Face> fIter = faces.iterator();
+		while(fIter.hasNext()){
+			CSG_Face f = fIter.next();
+			f.matingEdgeLines = new LinkedList<CSG_Vertex>(); // start with empty list.
+			Iterator<CSG_Polygon> pIter = f.getPolygonIterator();
+			while(pIter.hasNext()){
+				CSG_Polygon p = pIter.next();
+				// now check for each pair of points in the polygon.
+				Iterator<CSG_Vertex> vIter = p.getVertexIterator();
+				CSG_Vertex v1 = null;
+				CSG_Vertex v2 = p.getVertAtModIndex(p.getNumberVertices()-1);
+				while(vIter.hasNext()){
+					v1 = vIter.next();
+					Iterator<CSG_Face> fIter2 = faces.iterator();
+					while(fIter2.hasNext()){
+						CSG_Face f2 = fIter2.next();
+						boolean hasSamePlane = false; //f.isSelectable() && f2.isSelectable() && f.getModRefPlane() == f2.getModRefPlane();
+						boolean hasSameCyl = false; //f.getModRefCylinder() != null && f.getModRefCylinder() == f2.getModRefCylinder();
+						if(f2 != f && !hasSamePlane && !hasSameCyl && f2.containsAdjacentVertexPair(v1, v2)){
+							f.matingEdgeLines.add(v1);
+							f.matingEdgeLines.add(v2);
+							//System.out.println("Mating Edge Hit!");
+							break; // HIT! no need to keep checking other faces.
+						}
+					}					
+					v2 = v1; 
+				}
+			}
+		}
+	
+	}
+	
 	public void glDrawImportantEdges(GL gl){
 		Iterator<CSG_Face> iter = faces.iterator();
 		while(iter.hasNext()){
