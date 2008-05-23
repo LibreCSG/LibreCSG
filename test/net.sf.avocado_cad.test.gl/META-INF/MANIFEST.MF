@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Gl Plug-in
+Bundle-SymbolicName: net.sf.avocado_cad.test.gl
+Bundle-Version: 1.0.0
