@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ToolSketchExample Plug-in
+Bundle-SymbolicName: net.sf.avocado_cad.example.toolsketch;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: net.sf.avocado_cad.example.toolsketch.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.swt,
+ net.sf.avocado_cad.model.api,
+ net.sf.avocado_cad.model,
+ net.sf.avocado_cad.eclipse.ui
+Eclipse-LazyStart: true
