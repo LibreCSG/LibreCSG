@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Gl Plug-in
+Bundle-SymbolicName: net.sf.avocado_cad.gl.mac;singleton:=true
+Bundle-Version: 1.0.0
+Require-Bundle: org.eclipse.ui,
+ net.sf.avocado_cad.model.api,
+ net.sf.avocado_cad.eclipse.ui
+Bundle-ClassPath: lib/gluegen-rt.jar,
+ lib/jogl.jar,
+ .
+Export-Package: ui.opengl
