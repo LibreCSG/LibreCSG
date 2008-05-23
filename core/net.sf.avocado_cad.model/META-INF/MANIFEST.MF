@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Core Plug-in
+Bundle-SymbolicName: net.sf.avocado_cad.model
+Bundle-Version: 1.0.0
+Export-Package: backend.adt,
+ backend.geometry,
+ backend.model,
+ backend.model.CSG,
+ backend.model.material,
+ backend.model.ref,
+ backend.model.sketch
+Require-Bundle: net.sf.avocado_cad.model.api
+Bundle-ClassPath: .
