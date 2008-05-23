@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         id="application"
+         point="org.eclipse.core.runtime.applications">
+      <application>
+         <run
+               class="net.sf.avocado_cad.eclipse.rcp.Application">
+         </run>
+      </application>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="net.sf.avocado_cad.eclipse.rcp.AvoCADo"
+            name="AvoCADo">
+      </product>
+   </extension>
+   <extension
+         id="net_sf_avocado_cad_eclipse_rcp_AvoCADo"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="net.sf.avocado_cad.eclipse.rcp.application"
+            name="AvoCADo">
+         <property
+               name="appName"
+               value="AvoCADo">
+         </property>
+      </product>
+   </extension>
+
+</plugin>

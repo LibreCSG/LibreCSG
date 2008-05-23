@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Rcp Plug-in
+Bundle-SymbolicName: net.sf.avocado_cad.eclipse.rcp;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: net.sf.avocado_cad.eclipse.rcp.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ net.sf.avocado_cad.model.api,
+ net.sf.avocado_cad.model,
+ net.sf.avocado_cad.eclipse.ui,
+ net.sf.avocado_cad.example.toolsketch,
+ net.sf.avocado_cad.gl.mac
+Eclipse-LazyStart: true
+Bundle-ClassPath: .
