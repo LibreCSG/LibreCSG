@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension-point id="ViewContributor" name="ViewContributor" schema="schema/ViewContributor.exsd"/>
+   <extension-point id="ToolContributor" name="Tool Contributor" schema="schema/ToolContributor.exsd"/>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="net.sf.avocado_cad.eclipse.ui.Perspective"
+            id="net.sf.avocado_cad.eclipse.ui.Perspective"
+            name="AvoCADo">
+      </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu">
+         <menu
+               id="net.sf.avacado_cad.eclipse.ui.filemenu"
+               label="File"
+               tooltip="File Menu">
+            <command
+                  commandId="net.sf.avocado_cad.eclipse.ui.commands.NewCommand"
+                  id="net.sf.avocado_cad.eclipse.ui.menu.New"
+                  label="New">
+            </command>
+            <command
+                  commandId="net.sf.avocado_cad.eclipse.ui.commands.QuitCommand"
+                  id="net.sf.avocado_cad.eclipse.ui.menu.Quit"
+                  label="Quit">
+            </command>
+         </menu>
+         <menu
+               id="net.sf.avacado_cad.eclipse.ui.viewmenu"
+               label="View"
+               tooltip="View Menu">
+         </menu>
+         <menu
+               id="net.sf.avacado_cad.eclipse.ui.helpmenu"
+               label="Help"
+               tooltip="Help Menu">
+            <command
+                  commandId="net.sf.avocado_cad.eclipse.ui.commands.VWCommand"
+                  id="net.sf.avocado_cad.eclipse.ui.menu.VW"
+                  label="Visit Website">
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            allowMultiple="true"
+            class="net.sf.avocado_cad.eclipse.ui.views.MainView"
+            id="net.sf.avocado_cad.eclipse.ui.MainView"
+            name="name">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="net.sf.avocado_cad.eclipse.ui.command.AvoCommandHandler"
+            id="net.sf.avocado_cad.eclipse.ui.commands.NewCommand"
+            name="NewCommand">
+      </command>
+      <command
+            defaultHandler="net.sf.avocado_cad.eclipse.ui.command.AvoCommandHandler"
+            id="net.sf.avocado_cad.eclipse.ui.commands.QuitCommand"
+            name="QuitCommand">
+      </command>
+      <command
+            defaultHandler="net.sf.avocado_cad.eclipse.ui.command.AvoCommandHandler"
+            id="net.sf.avocado_cad.eclipse.ui.commands.VWCommand"
+            name="VisitWebsite">
+      </command>
+   </extension>
+
+</plugin>
