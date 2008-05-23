@@ -3,3 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Gl Plug-in
 Bundle-SymbolicName: net.sf.avocado_cad.test.gl
 Bundle-Version: 1.0.0
+Require-Bundle: net.sf.avocado_cad.model.api,
+ net.sf.avocado_cad.model,
+ net.sf.avocado_cad.eclipse.ui,
+ net.sf.avocado_cad.gl.mac
