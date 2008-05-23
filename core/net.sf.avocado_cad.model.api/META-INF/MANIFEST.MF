@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Api Plug-in
+Bundle-SymbolicName: net.sf.avocado_cad.model.api
+Bundle-Version: 1.0.0
+Export-Package: net.sf.avocado_cad.model.api,
+ net.sf.avocado_cad.model.api.adt,
+ net.sf.avocado_cad.model.api.csg,
+ net.sf.avocado_cad.model.api.event,
+ net.sf.avocado_cad.model.api.sketch
+Bundle-ClassPath: .
