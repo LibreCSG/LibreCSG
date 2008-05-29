@@ -70,7 +70,7 @@ public class ToolSketchExampleCtrl implements ToolCtrlSketch{
 			//
 			// add the new feature to the end of the feature set
 			// and set it as the active feature2D.		
-			int indx = sketch.add(new Feature2D(sketch, pSet));
+			int indx = sketch.add(new Feature2D(sketch, pSet,"Example" + sketch.getFeat2DListSize()));
 			sketch.setActiveFeat2D(indx);
 			
 			//

@@ -40,6 +40,8 @@ public abstract class Prim2D {
 	 */
 	protected Point2D ptA;
 	protected Point2D ptB;
+	protected String descriptor;
+	protected String id;
 	
 	public boolean isSelected = false;
 	
@@ -164,8 +166,20 @@ public abstract class Prim2D {
 		return ptB;
 	}
 	
+	public String getDescriptor(){
+		return descriptor;
+	}
+	
+	public String getID(){
+		return id;
+	}
+	
+	public String setID(String newID){
+		return id=newID;
+	}
+	
 	public String toString(){
-		return "Prim2D: ptA=" + ptA + ", ptB=" + ptB;
+		return "Prim2D (ID=" + this.id + "): ptA=" + ptA + ", ptB=" + ptB;
 	}
 	
 }

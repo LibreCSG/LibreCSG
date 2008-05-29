@@ -63,11 +63,10 @@ public class ToolPartDefaultCtrl implements ToolCtrlPart{
 				CSG_Face face = faceIter.next();
 				face.setSelected(false);
 				if(face.isSelectable() && 
-						Math.abs(face.distFromVertexToFacePlane(clickedVert)) < closestDistSoFar &&
-						face.vertexIsInsideFace(clickedVert)){
-					// a selectable face was clicked!
-					faceToSelect = face;					
-					closestDistSoFar = Math.abs(face.distFromVertexToFacePlane(clickedVert));
+						Math.abs(face.distFromVertexToFacePlane(clickedVert)) < closestDistSoFar && face.vertexIsInsideFace(clickedVert)){
+						// a selectable face was clicked!
+						faceToSelect = face;					
+						closestDistSoFar = Math.abs(face.distFromVertexToFacePlane(clickedVert));
 				}else{
 					face.setSelected(false);
 				}

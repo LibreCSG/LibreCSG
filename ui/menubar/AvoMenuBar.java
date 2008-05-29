@@ -5,11 +5,14 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.program.Program;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
-
+import org.eclipse.swt.widgets.ColorDialog;
+import org.eclipse.swt.graphics.RGB;
 import ui.shells.AboutAvoCADoGPLShell;
 import backend.global.AvoGlobal;
+import backend.global.AvoColors;
 import backend.model.Project;
 
 
@@ -45,7 +48,12 @@ public class AvoMenuBar {
 	 * add items to the shell's top menubar.
 	 * @param menu 
 	 */
+	
+	static Shell shell;
+	
 	public static void populateMenuBar(Menu menu){
+		shell=menu.getShell();
+		
 		// TODO: fully populate menubar
 		MenuItem miFile = new MenuItem(menu, SWT.CASCADE);
 		miFile.setText("&File");
@@ -74,7 +82,7 @@ public class AvoMenuBar {
 				public void widgetDefaultSelected(SelectionEvent e) {
 				}
 				public void widgetSelected(SelectionEvent e) {
-					// quit, but not direrctly so that closing
+					// quit, but not directly so that closing
 					// tasks can still be performed.
 					Display.getCurrent().dispose();
 				}				
@@ -136,6 +144,24 @@ public class AvoMenuBar {
 					AvoGlobal.glView.setViewSketch();
 				}				
 			});
+		}
+		
+		MenuItem miTools = new MenuItem(menu, SWT.CASCADE);
+		miTools.setText("&Tools");
+		{
+			// View Menu
+			Menu viewSub = new Menu(menu.getShell(), SWT.DROP_DOWN);
+			miTools.setMenu(viewSub);
+			MenuItem vsSettings = new MenuItem(viewSub, SWT.PUSH);
+			vsSettings.setText("&Settings");
+			vsSettings.addSelectionListener(new SelectionListener(){
+				public void widgetDefaultSelected(SelectionEvent e) {
+				}
+				public void widgetSelected(SelectionEvent e) {
+					//AvoGlobal.comp2topSash.
+				}				
+			});
+			
 		}
 		
 		MenuItem miHelp = new MenuItem(menu, SWT.CASCADE);

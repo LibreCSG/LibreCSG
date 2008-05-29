@@ -6,6 +6,7 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolCtrlSketch;
+import ui.navigation.*;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
 import backend.global.AvoGlobal;
@@ -47,7 +48,12 @@ public class ToolSketchLineCtrl implements ToolCtrlSketch {
 	 * parameter storage, etc.
 	 *
 	 */
-	public ToolSketchLineCtrl(){		
+	
+	protected NavigationToolbar navigationToolbar;
+	
+	public ToolSketchLineCtrl(){
+		navigationToolbar=AvoGlobal.navigationToolbar;
+		navigationToolbar.showMessage("Left click on sketch (hold) to set first point. Drag to set direction and length.");
 	}
 	
 	public void glMouseDown(double x, double y, double z,  MouseEvent e, ParamSet paramSet) {
@@ -72,7 +78,9 @@ public class ToolSketchLineCtrl implements ToolCtrlSketch {
 			//
 			// add the new feature to the end of the feature set
 			// and set it as the active feature2D.		
-			int indx = sketch.add(new Feature2D(sketch, pSet));
+			Feature2D f2D = new Feature2D(sketch, pSet,"Line" + sketch.getFeat2DListSize());
+			f2D.setDescriptor("Line");
+			int indx = sketch.add(f2D);
 			sketch.setActiveFeat2D(indx);
 			
 			//
@@ -80,7 +88,9 @@ public class ToolSketchLineCtrl implements ToolCtrlSketch {
 			// be displayed to the user for manual parameter
 			// input.
 			//
-			AvoGlobal.paramDialog.setParamSet(pSet);			
+			AvoGlobal.paramDialog.setParamSet(pSet);
+			
+			
 		}
 	}
 
@@ -98,6 +108,7 @@ public class ToolSketchLineCtrl implements ToolCtrlSketch {
 			try{
 				paramSet.changeParam("b", new Point2D(x,y));
 				(new ToolSketchLineModel()).updateDerivedParams(paramSet);
+				navigationToolbar.showMessage("Release to finish line.");
 			}catch(Exception ex){
 				System.out.println(this.getClass().getCanonicalName() + " :: " + ex.getClass());
 			}
@@ -128,6 +139,9 @@ public class ToolSketchLineCtrl implements ToolCtrlSketch {
 					// remove feature2D from the set
 					AvoGlobal.project.getActiveSketch().removeActiveFeat2D();
 					AvoGlobal.paramDialog.setParamSet(null);
+					navigationToolbar.showMessage("Left click on sketch (hold) to set first point. Drag to set direction and length.");
+				}else{					
+					navigationToolbar.showMessage("Line done. Left click on sketch to deselect it.");
 				}
 				
 			}catch(Exception ex){

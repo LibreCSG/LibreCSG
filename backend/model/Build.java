@@ -31,7 +31,7 @@ import backend.adt.ParamSet;
 */
 
 /**
- * model componet that represents "Build" tools.
+ * model component that represents "Build" tools.
  */
 public class Build implements SubPart{
 	

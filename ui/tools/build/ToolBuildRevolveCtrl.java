@@ -67,8 +67,8 @@ public class ToolBuildRevolveCtrl implements ToolCtrlBuild{
 						// try to select a 2D line for the centerline if clicked...
 						for(int i = 0; i < sketch.getFeat2DListSize(); i++){
 							Feature2D f2D = sketch.getAtIndex(i);
-							for(int j=0; j< f2D.prim2DList.size(); j++){
-								Prim2D prim2D = f2D.prim2DList.get(j);
+							for(int j=0; j< f2D.getPrim2DList().size(); j++){
+								Prim2D prim2D = f2D.getPrim2DList().get(j);
 								// TODO: hack (hardcoded distance from line for selection.
 								if(prim2D instanceof Prim2DLine && prim2D.distFromPrim(new Point2D(x,y)) < 0.2){
 									centerline.clearList();
@@ -137,8 +137,8 @@ public class ToolBuildRevolveCtrl implements ToolCtrlBuild{
 						// centerline has focus
 						for(int i=0; i<sketch.getFeat2DListSize(); i++){
 							Feature2D feat2D = sketch.getAtIndex(i);
-							for(int j=0; j< feat2D.prim2DList.size(); j++){
-								Prim2D prim2D = feat2D.prim2DList.get(j);
+							for(int j=0; j< feat2D.getPrim2DList().size(); j++){
+								Prim2D prim2D = feat2D.getPrim2DList().get(j);
 								prim2D.isSelected = false;
 								// TODO: hack (hardcoded distance from line for selection.
 								if(prim2D instanceof Prim2DLine && prim2D.distFromPrim(new Point2D(x,y)) < 0.2){

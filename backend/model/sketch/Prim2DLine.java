@@ -46,6 +46,7 @@ public class Prim2DLine extends Prim2D{
 		}
 		this.ptA = ptA;
 		this.ptB = ptB;
+		this.descriptor="Line";
 	}
 	
 	public void glDraw(GL gl) {

@@ -6,6 +6,7 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolCtrlSketch;
+import ui.navigation.*;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
 import backend.global.AvoGlobal;
@@ -47,7 +48,11 @@ public class ToolSketchCircleCtrl implements ToolCtrlSketch  {
 	 * parameter storage, etc.
 	 *
 	 */
+	protected NavigationToolbar navigationToolbar;
+	
 	public ToolSketchCircleCtrl(){
+		navigationToolbar=AvoGlobal.navigationToolbar;
+		navigationToolbar.showMessage("Left click (hold) to set center, then drag to set radius.");
 	}
 	
 	
@@ -71,7 +76,9 @@ public class ToolSketchCircleCtrl implements ToolCtrlSketch  {
 			//
 			// add the new feature to the end of the feature set
 			// and set it as the active feature2D.		
-			int indx = sketch.add(new Feature2D(sketch, pSet));
+			Feature2D f2D = new Feature2D(sketch, pSet, "Circle" + sketch.getFeat2DListSize());
+			f2D.setDescriptor("Circle");
+			int indx = sketch.add(f2D);
 			sketch.setActiveFeat2D(indx);
 			
 			//
@@ -80,6 +87,8 @@ public class ToolSketchCircleCtrl implements ToolCtrlSketch  {
 			// input.
 			//
 			AvoGlobal.paramDialog.setParamSet(pSet);
+			
+			navigationToolbar.showMessage("Drag to set radius. Release to finish circle.");
 		}
 	}
 
@@ -125,6 +134,10 @@ public class ToolSketchCircleCtrl implements ToolCtrlSketch  {
 					// remove feature2D from the set!
 					AvoGlobal.project.getActiveSketch().removeActiveFeat2D();
 					AvoGlobal.paramDialog.setParamSet(null);
+					navigationToolbar.showMessage("Left click (hold) to set center, then drag to set radius.");
+				}else{
+					navigationToolbar.showMessage("Circle done. Left click on sketch to deselect it.");
+				
 				}
 			}catch(Exception ex){
 				System.out.println("Tool2DCircle(mouseup): " + ex.getClass());

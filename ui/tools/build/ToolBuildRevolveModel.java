@@ -142,8 +142,8 @@ public class ToolBuildRevolveModel implements ToolModelBuild{
 					String[] regNum = centerLineSel.getStringAtIndex(0).split("\\.");
 					if(regNum.length == 2 && sketch.getFeat2DListSize() > Integer.parseInt(regNum[0])){
 						Feature2D feat2D = sketch.getAtIndex(Integer.parseInt(regNum[0]));
-						if(feat2D != null && feat2D.prim2DList.size() > Integer.parseInt(regNum[1])){
-							Prim2D prim2DCLMaybe = feat2D.prim2DList.get(Integer.parseInt(regNum[1]));
+						if(feat2D != null && feat2D.getPrim2DList().size() > Integer.parseInt(regNum[1])){
+							Prim2D prim2DCLMaybe = feat2D.getPrim2DList().get(Integer.parseInt(regNum[1]));
 							if(prim2DCLMaybe instanceof Prim2DLine){
 								Prim2DLine prim2DCenterLine = (Prim2DLine)prim2DCLMaybe;
 								for(int i=0; i<selectionList.getSelectionSize(); i++){

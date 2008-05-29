@@ -7,6 +7,7 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseEvent;
 
 import ui.tools.ToolCtrlSketch;
+import ui.navigation.*;
 import backend.adt.ParamSet;
 import backend.adt.Point2D;
 import backend.global.AvoGlobal;
@@ -51,7 +52,10 @@ public class ToolSketchSelectCtrl implements ToolCtrlSketch {
 	 * parameter storage, etc.
 	 *
 	 */
-	public ToolSketchSelectCtrl(){		
+	protected NavigationToolbar navigationToolbar;
+	public ToolSketchSelectCtrl(){
+		navigationToolbar=AvoGlobal.navigationToolbar;
+		navigationToolbar.showMessage("Select element by clicking on it.");
 	}
 	
 	public void glMouseDown(double x, double y, double z,  MouseEvent e, ParamSet paramSet) {
@@ -72,7 +76,7 @@ public class ToolSketchSelectCtrl implements ToolCtrlSketch {
 			//
 			for(int i = 0; i < sketch.getFeat2DListSize(); i++){
 				Feature2D f2D = sketch.getAtIndex(i);
-				for(Prim2D prim2D : f2D.prim2DList){
+				for(Prim2D prim2D : f2D.getPrim2DList()){
 					// TODO: HACK do not hardcode the distance!
 					if(prim2D.distFromPrim(new Point2D(x,y)) < 0.2){
 						f2D.setSelected(true);
@@ -82,6 +86,7 @@ public class ToolSketchSelectCtrl implements ToolCtrlSketch {
 						// input.
 						//
 						AvoGlobal.paramDialog.setParamSet(f2D.paramSet);
+						navigationToolbar.showMessage("Feature " +  f2D.ID + " selected");			
 					}
 				}
 			}

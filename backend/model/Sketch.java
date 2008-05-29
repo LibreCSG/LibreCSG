@@ -115,6 +115,7 @@ public class Sketch implements SubPart{
 		}
 		if(f2D != null){
 			feat2DList.add(f2D);
+			
 			AvoGlobal.modelEventHandler.notifyElementAdded();
 			return feat2DList.size()-1;
 		}
@@ -249,7 +250,6 @@ public class Sketch implements SubPart{
 		regionList.buildRegionsFromPrim2D(allPrims);
 	}
 
-	
 	public Build getBuild() {
 		return null;
 	}
@@ -260,6 +260,17 @@ public class Sketch implements SubPart{
 
 	public Sketch getSketch() {
 		return this;
+	}
+
+	/**
+	 * This procedure sets a unique ID for 2D feature
+	 * @param feature2D
+	 * @return unique id for feature
+	 */
+	public String CalculateFeatureUniqueID(Feature2D feature2D){
+		String id="0";
+		id=feature2D.getDescriptor() + feat2DList.size();
+		return id;
 	}
 	
 }

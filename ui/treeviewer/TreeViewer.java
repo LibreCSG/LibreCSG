@@ -8,9 +8,12 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.ColorDialog;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.CTabItem;
 
 import ui.event.ModelListener;
 import ui.menuet.Menuet;
@@ -52,13 +55,14 @@ import backend.model.material.PartMaterial;
 * @author  Adam Kumpf
 * @created Feb. 2007
 */
-public class TreeViewer {
+public class TreeViewer  {
 
-	private static Composite treeComp;
+	public static Composite treeComp;
 	private static Tree tree;
 	
-	public TreeViewer(Composite comp, int style){
-		treeComp = new Composite(comp, style);
+	public TreeViewer(Composite parent, int style){
+		//super(parent, style); 
+		treeComp = new Composite(parent, style);
 		treeComp.setBackground(new Color(Display.getCurrent(), 200, 200, 240));
 		treeComp.setLayout(new FillLayout());
 		
@@ -87,6 +91,7 @@ public class TreeViewer {
 					if(indxs.length == 1){
 						// group selected
 						AvoGlobal.project.setActiveGroup(indxs[0]);
+						AvoGlobal.project.getAtIndex(indxs[0]).setActiveToNone();
 						AvoGlobal.menuet.setCurrentToolMode(Menuet.MENUET_MODE_GROUP);
 						AvoGlobal.glView.updateGLView = true;
 					}
@@ -107,12 +112,12 @@ public class TreeViewer {
 							ColorDialog cd = new ColorDialog(treeComp.getShell());
 							cd.setText("Select Material Color");
 							PartMaterial m = AvoGlobal.project.getActivePart().getPartMaterial();
-							cd.setRGB(new RGB((int)(m.getR()*255),  (int)(m.getG()*255),  (int)(m.getB()*255)));
+							cd.setRGB(new RGB((int)(m.diffuse[0]*255),  (int)(m.diffuse[1]*255),  (int)(m.diffuse[2]*255)));
 							RGB newColor = cd.open();
 							if(newColor != null){
-								m.setR(newColor.red/255.0);
-								m.setG(newColor.green/255.0);
-								m.setB(newColor.blue/255.0);
+								m.diffuse[0]=(newColor.red/255.0f);
+								m.diffuse[1]=(newColor.green/255.0f);
+								m.diffuse[2]=(newColor.blue/255.0f);
 								AvoGlobal.glView.updateGLView = true;
 							}
 							return;
@@ -175,7 +180,25 @@ public class TreeViewer {
 			}
 			public void mouseDown(MouseEvent e) {			
 			}
-			public void mouseUp(MouseEvent e) {			
+			public void mouseUp(MouseEvent e) {	
+				if(tree.getSelection().length > 0){
+					TreeItem ti = tree.getSelection()[0];
+					int[] indxs = (int[])ti.getData();
+					if(indxs.length == 1){
+						// group selected
+						AvoGlobal.project.setActiveGroup(indxs[0]);
+						AvoGlobal.project.getAtIndex(indxs[0]).setActiveToNone();
+						AvoGlobal.menuet.setCurrentToolMode(Menuet.MENUET_MODE_GROUP);
+						AvoGlobal.glView.updateGLView = true;
+					}
+					if(indxs.length == 2){
+						// part selected
+						AvoGlobal.project.setActiveGroup(indxs[0]);
+						AvoGlobal.project.getActiveGroup().setActivePart(indxs[1]);
+						AvoGlobal.menuet.setCurrentToolMode(Menuet.MENUET_MODE_PART);
+						AvoGlobal.glView.updateGLView = true;
+					}
+				}
 			}			
 		});
 	}
@@ -216,7 +239,12 @@ public class TreeViewer {
 					tiPart = new TreeItem(tiGroup, SWT.NONE, iPart);
 					tiGroup.setExpanded(true);
 				}
-				tiPart.setText("Part " + part.ID);
+				if (part.PartName!=null){
+					tiPart.setText("Part " + part.PartName + " [" + part.ID +"]");	
+				}else{
+					tiPart.setText("Part [" + part.ID +"]");
+				}
+				
 				tiPart.setData(new int[] {iGroup, iPart});
 				
 				TreeItem tiPartProp;
@@ -291,7 +319,7 @@ public class TreeViewer {
 								tiFeat2D = new TreeItem(tiSubPart, SWT.NONE, iSketch);
 							}
 							tiFeat2D.setData(new int[] {iGroup, iPart, iSubPart, iSketch});
-							tiFeat2D.setText(feat2D.paramSet.label);
+							tiFeat2D.setText(feat2D.ID);
 						}						
 					}
 					Build feat2D3D = subPart.getBuild();
@@ -313,5 +341,5 @@ public class TreeViewer {
 
 		
 	}
-	
+		
 }

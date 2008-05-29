@@ -473,7 +473,7 @@ public class CSG_Face {
 				while(iterV.hasNext()){
 					CSG_Vertex v = iterV.next();
 					gl.glTexCoord3dv(v.getXYZ(), 0); // must call before you place the vertex! :)
-					gl.glVertex3dv(v.getXYZ(), 0);					
+					gl.glVertex3dv(v.getXYZ(), 0);
 				}
 				gl.glEnd();
 			}

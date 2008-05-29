@@ -153,7 +153,7 @@ public class DynParamDialog {
 	}
 	
 	/**
-	 * move the paramDialog to it's appropriate position
+	 * move the paramDialog to its appropriate position
 	 * on the screen.. this only should need to be done
 	 * if the window is resized.
 	 */
