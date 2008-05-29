@@ -60,7 +60,7 @@ public class Group {
 	 * @return the index of the newly added part, or -1 if part was null.
 	 */
 	public int addNewPart(){
-		partList.add(new Part(this, partCounter++));
+		partList.add(new Part(this, "Part" + partCounter++));
 		AvoGlobal.modelEventHandler.notifyElementAdded();
 		int newIndex = partList.size()-1;
 		activePart = newIndex;
@@ -138,7 +138,7 @@ public class Group {
 	}
 	
 	
-	public Part getPartByUniqueID(int uniqueID){
+	public Part getPartByUniqueID(String uniqueID){
 		for(Part part : partList){
 			if(part.ID == uniqueID){
 				return part;

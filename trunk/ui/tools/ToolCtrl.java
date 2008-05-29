@@ -42,7 +42,7 @@ import backend.adt.ParamSet;
 public interface ToolCtrl {
 	
 	/**
-	 * glView calls this when it recieved a <em>mousedown</em> event.
+	 * glView calls this when it received a <em>mousedown</em> event.
 	 * Both mouse (screen) coordinates and absolute x,y,z 
 	 * coordinates are provided.
 	 * @param x x-position
@@ -53,7 +53,7 @@ public interface ToolCtrl {
 	abstract public void glMouseDown(double x, double y, double z, MouseEvent e, ParamSet paramSet);
 	
 	/**
-	 * glView calls this when it recieved a <em>mousemove</em> 
+	 * glView calls this when it received a <em>mousemove</em> 
 	 * event with the mouse button held down.
 	 * Both mouse (screen) coordinates and absolute x,y,z 
 	 * coordinates are provided.
@@ -77,7 +77,7 @@ public interface ToolCtrl {
 	abstract public void glMouseMovedUp(double x, double y, double z,  MouseEvent e, ParamSet paramSet);
 	
 	/**
-	 * glView calls this when it recieved a <em>mouseup</em> event.
+	 * glView calls this when it received a <em>mouseup</em> event.
 	 * Both mouse (screen) coordinates and absolute x,y,z 
 	 * coordinates are provided.
 	 * @param x x-position
@@ -101,5 +101,7 @@ public interface ToolCtrl {
 	 * The tool should finalize the activeParamSet if necessary.
 	 */
 	abstract public void menuetElementDeselected();
+	
+
 }
 

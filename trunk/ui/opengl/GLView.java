@@ -21,6 +21,8 @@ import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.opengl.GLCanvas;
 import org.eclipse.swt.opengl.GLData;
@@ -28,14 +30,22 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
+
+import ui.navigation.*;
+
 
 import ui.event.ParamListener;
+import ui.event.NavigationListener;
+import ui.navigation.*;
 import ui.menuet.Menuet;
 import backend.global.AvoColors;
 import backend.global.AvoGlobal;
 import backend.model.Build;
 import backend.model.Feature2D;
 import backend.model.Part;
+import backend.model.Project;
 import backend.model.Sketch;
 import backend.model.SubPart;
 import backend.model.CSG.CSG_Solid;
@@ -221,6 +231,16 @@ public class GLView {
 							rotation_x -= 5.0;
 							updateGLView = true;					
 						}
+						if(e.character==' '){
+							CanvasPopup cp = new CanvasPopup(glCanvas.getShell());
+					        cp.popUp.setVisible(true);
+					        while (!cp.popUp.isDisposed() && cp.popUp.isVisible()) {
+					          if (!glCanvas.getDisplay().readAndDispatch())
+					        	  glCanvas.getDisplay().sleep();
+					        }
+					        cp.popUp.dispose();
+					        cp=null;
+						}
 					}
 				}
 
@@ -391,21 +411,29 @@ public class GLView {
 						int height= glCanvas.getBounds().height;
 						gl.glViewport(0, 0, width, height);
 						aspect = (float) width / (float) height;
+						
+						gl.glClearColor(AvoColors.GL_COLOR4_BACKGND[0],AvoColors.GL_COLOR4_BACKGND[1],
+								AvoColors.GL_COLOR4_BACKGND[2],AvoColors.GL_COLOR4_BACKGND[3]);
 						// -------------------------------							
 						gl.glMatrixMode(GL.GL_PROJECTION);
 						gl.glLoadIdentity();
 						glu.gluPerspective(viewing_angle, aspect, 1.0f, 1000.0f); // Perspective view
-
+																	
 						gl.glTranslatef(translation_x, translation_y, dist_from_center);	    
 						gl.glRotatef(rotation_x, 1.0f, 0.0f, 0.0f);
 						gl.glRotatef(rotation_y, 0.0f, 1.0f, 0.0f);
 						gl.glRotatef(rotation_z, 0.0f, 0.0f, 1.0f);
+						
 						// -------------------------------						    
 						gl.glMatrixMode(GL.GL_MODELVIEW);						
 						gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 						gl.glLoadIdentity();
+						
+						cad_3DXYZ(0.0f,0.0f,0.0f,0.25f,false);
+						
 						gl.glPolygonMode(GL.GL_FRONT, GL.GL_FILL);
-
+						
+						
 						//
 						//  TEST Constructive Solid Geometry!
 						//
@@ -428,19 +456,21 @@ public class GLView {
 						gl.glLineWidth(2.5f);
 
 						gl.glColor3f(1.0f,0.0f,0.0f);							
-
+						
 						//
 						// Main Drawing routine for the active part
 						//
 						if(AvoGlobal.project.getActivePart() != null){
-
 							Part part = AvoGlobal.project.getActivePart();							
 							gl.glLoadIdentity();				// ensure back at identity orientation.
 							setMouseMatrixToModelview(); 		// mouse is at identity unless overridden later by sketch.
+							gl.glPushMatrix();
+							gl.glTranslated(part.position[0],part.position[1],part.position[2]);
 							part.glDrawSolid(gl); 				// draw entire part first...
-							part.glDrawSelectedElements(gl); 	// overlay drawing of seleted elements.
+							part.glDrawSelectedElements(gl); 	// overlay drawing of selected elements.
 							part.glDrawImportantEdges(gl); 		// now draw outlines to emphasize important areas. 
-
+							gl.glPopMatrix();
+							
 							gl.glLoadIdentity();	// ensure back at identity orientation.							
 							SubPart activeSubPart = AvoGlobal.project.getActiveSubPart();
 							// TODO: draw sketches if not consumed and not active
@@ -461,7 +491,7 @@ public class GLView {
 												if(f2D.isSelected()){
 													f2D.buildPrim2DList();
 												}
-												for(Prim2D prim : f2D.prim2DList){
+												for(Prim2D prim : f2D.getPrim2DList()){
 													prim.glDraw(gl);
 												}
 											}		
@@ -469,7 +499,9 @@ public class GLView {
 										gl.glPopMatrix();										
 									}
 								}
-							}							
+							 
+							}
+						
 
 							// only call glDraw if feat2D3D or feat3D3D is active
 							if(activeSubPart != null){
@@ -488,7 +520,7 @@ public class GLView {
 											if(f2D.isSelected()){
 												f2D.buildPrim2DList();
 											}
-											for(Prim2D prim : f2D.prim2DList){
+											for(Prim2D prim : f2D.getPrim2DList()){
 												prim.glDraw(gl);
 											}
 										}									
@@ -511,7 +543,7 @@ public class GLView {
 									sketch = build.getPrimarySketch();
 									if(sketch != null && !sketch.isConsumed){
 										// draw regions...
-										sketch.getSketchPlane().glOrientToPlane(gl);
+										sketch.getSketchPlane().glOrientToPlane(gl);										
 										Iterator<Region2D> regIter = sketch.getRegion2DIterator();
 										while(regIter.hasNext()){
 											Region2D region = regIter.next();
@@ -539,7 +571,27 @@ public class GLView {
 								}
 							}
 						}
-						
+						else{							
+							Part part;
+							int k;
+							try{
+								for(k=0;k<AvoGlobal.project.getActiveGroup().getPartListSize();k++){
+									part=AvoGlobal.project.getActiveGroup().getAtIndex(k);
+									if(part!=null){
+										gl.glLoadIdentity();				// ensure back at identity orientation.
+										setMouseMatrixToModelview(); 		// mouse is at identity unless overridden later by sketch.
+										part.glDrawSolid(gl); 				// draw entire part first...
+										part.glDrawSelectedElements(gl); 	// overlay drawing of seleted elements.
+										part.glDrawImportantEdges(gl); 		// now draw outlines to emphasize important areas.
+									}
+								}
+							}catch(Exception e){
+																
+							}
+							
+								
+												
+						}
 						glCanvas.swapBuffers(); // double buffering excitement!
 						glContext.release();	// go ahead, you can have it back.
 
@@ -568,6 +620,25 @@ public class GLView {
 				updateGLView = true;
 			}	    	
 		});
+		
+		AvoGlobal.navigationEventHandler.addNavigationListener(new NavigationListener(){
+			public void viewChangeRequested(NavigationViews view){
+				switch(view){
+				case Top:
+					setViewTop();
+					break;				
+				case Left:
+					setViewLeft();
+					break;			
+				case Front:
+					setViewFront();
+					break;			
+				case Iso:
+					setViewIso();
+					break;
+				}
+			}
+		});
 
 	}
 
@@ -595,7 +666,7 @@ public class GLView {
 			// disable depth test so that overlapped items at
 			// the same depth (in particular, 0.0) still get drawn.
 
-			cad_3DXYZ(0.0f,0.0f,0.0f,0.25f);
+			cad_3DXYZ(0.0f,0.0f,0.0f,0.25f,true);
 
 			// gl.glDisable(GL.GL_DEPTH_TEST);
 			// set grid color						
@@ -607,18 +678,22 @@ public class GLView {
 			gl.glDisable(GL.GL_LINE_SMOOTH);
 			GLDynPrim.mesh(gl, -10.0, 10.0, -10.0, 10.0, 20, 20);
 
+			gl.glLineWidth(2);	//makes x and y axes thicker
 			gl.glBegin(GL.GL_LINES);
+			//draw X axis
+			
 			gl.glColor4f(	AvoColors.GL_COLOR4_2D_X_AXIS[0], AvoColors.GL_COLOR4_2D_X_AXIS[1], 
 					AvoColors.GL_COLOR4_2D_X_AXIS[2], AvoColors.GL_COLOR4_2D_X_AXIS[3]);
 			gl.glVertex3d(-10.0, 0.0, 0.0);
 			gl.glVertex3d( 10.0, 0.0, 0.0);
+			//draw Y axis
 			gl.glColor4f(	AvoColors.GL_COLOR4_2D_Y_AXIS[0], AvoColors.GL_COLOR4_2D_Y_AXIS[1], 
 					AvoColors.GL_COLOR4_2D_Y_AXIS[2], AvoColors.GL_COLOR4_2D_Y_AXIS[3]);
 			gl.glVertex3d(0.0, -10.0, 0.0);
 			gl.glVertex3d(0.0,  10.0, 0.0);
 			gl.glEnd();
 
-
+			gl.glLineWidth(1);
 			gl.glEnable(GL.GL_LINE_SMOOTH);
 			gl.glEnable(GL.GL_DEPTH_TEST);
 		}
@@ -644,7 +719,14 @@ public class GLView {
 		gl.glEnd();		
 	}
 
-	public void cad_3DXYZ(float x, float y, float z, float size){
+	/**
+	 * Draws 3-axis reference (x, y and z arrows)
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param size
+	 */
+	public void cad_3DXYZ(float x, float y, float z, float size, boolean drawOrigin){
 		float a = 0.85f;
 		float b = 1.0f-a;
 		float c = b*0.5f;
@@ -673,40 +755,43 @@ public class GLView {
 		gl.glVertex3f(x+b*size, y, z+a*size);	
 		gl.glVertex3f(x, y, z+size);
 		gl.glVertex3f(x-b*size, y, z+a*size);
-		gl.glColor4f(	AvoColors.GL_COLOR4_2D_ORIGIN[0], AvoColors.GL_COLOR4_2D_ORIGIN[1], 
-				AvoColors.GL_COLOR4_2D_ORIGIN[2], AvoColors.GL_COLOR4_2D_ORIGIN[3]);
-		gl.glVertex3f(x+c*size, y+c*size, z+c*size);
-		gl.glVertex3f(x-c*size, y+c*size, z+c*size);
-		gl.glVertex3f(x-c*size, y+c*size, z+c*size);
-		gl.glVertex3f(x-c*size, y-c*size, z+c*size);
-		gl.glVertex3f(x-c*size, y-c*size, z+c*size);
-		gl.glVertex3f(x+c*size, y-c*size, z+c*size);
-		gl.glVertex3f(x+c*size, y-c*size, z+c*size);
-		gl.glVertex3f(x+c*size, y+c*size, z+c*size);
-
-		gl.glVertex3f(x+c*size, y+c*size, z-c*size);
-		gl.glVertex3f(x-c*size, y+c*size, z-c*size);
-		gl.glVertex3f(x-c*size, y+c*size, z-c*size);
-		gl.glVertex3f(x-c*size, y-c*size, z-c*size);
-		gl.glVertex3f(x-c*size, y-c*size, z-c*size);
-		gl.glVertex3f(x+c*size, y-c*size, z-c*size);
-		gl.glVertex3f(x+c*size, y-c*size, z-c*size);
-		gl.glVertex3f(x+c*size, y+c*size, z-c*size);
-
-		gl.glVertex3f(x+c*size, y+c*size, z+c*size);
-		gl.glVertex3f(x+c*size, y+c*size, z-c*size);
-		gl.glVertex3f(x-c*size, y+c*size, z+c*size);
-		gl.glVertex3f(x-c*size, y+c*size, z-c*size);
-		gl.glVertex3f(x-c*size, y-c*size, z+c*size);
-		gl.glVertex3f(x-c*size, y-c*size, z-c*size);
-		gl.glVertex3f(x+c*size, y-c*size, z+c*size);
-		gl.glVertex3f(x+c*size, y-c*size, z-c*size);
+		
+		if(drawOrigin){
+			gl.glColor4f(	AvoColors.GL_COLOR4_2D_ORIGIN[0], AvoColors.GL_COLOR4_2D_ORIGIN[1], 
+					AvoColors.GL_COLOR4_2D_ORIGIN[2], AvoColors.GL_COLOR4_2D_ORIGIN[3]);
+			gl.glVertex3f(x+c*size, y+c*size, z+c*size);
+			gl.glVertex3f(x-c*size, y+c*size, z+c*size);
+			gl.glVertex3f(x-c*size, y+c*size, z+c*size);
+			gl.glVertex3f(x-c*size, y-c*size, z+c*size);
+			gl.glVertex3f(x-c*size, y-c*size, z+c*size);
+			gl.glVertex3f(x+c*size, y-c*size, z+c*size);
+			gl.glVertex3f(x+c*size, y-c*size, z+c*size);
+			gl.glVertex3f(x+c*size, y+c*size, z+c*size);
+	
+			gl.glVertex3f(x+c*size, y+c*size, z-c*size);
+			gl.glVertex3f(x-c*size, y+c*size, z-c*size);
+			gl.glVertex3f(x-c*size, y+c*size, z-c*size);
+			gl.glVertex3f(x-c*size, y-c*size, z-c*size);
+			gl.glVertex3f(x-c*size, y-c*size, z-c*size);
+			gl.glVertex3f(x+c*size, y-c*size, z-c*size);
+			gl.glVertex3f(x+c*size, y-c*size, z-c*size);
+			gl.glVertex3f(x+c*size, y+c*size, z-c*size);
+	
+			gl.glVertex3f(x+c*size, y+c*size, z+c*size);
+			gl.glVertex3f(x+c*size, y+c*size, z-c*size);
+			gl.glVertex3f(x-c*size, y+c*size, z+c*size);
+			gl.glVertex3f(x-c*size, y+c*size, z-c*size);
+			gl.glVertex3f(x-c*size, y-c*size, z+c*size);
+			gl.glVertex3f(x-c*size, y-c*size, z-c*size);
+			gl.glVertex3f(x+c*size, y-c*size, z+c*size);
+			gl.glVertex3f(x+c*size, y-c*size, z-c*size);
+		}
 		gl.glEnd();
 	}
 
 	public void cad_2DCross(float x, float y, float z, float size){
 		float sizeB = size*0.7f;
-		gl.glLineWidth(1.0f);
+		gl.glLineWidth(2.0f);
 		gl.glBegin(GL.GL_LINES);
 		gl.glVertex3f(x+sizeB, y+sizeB, z);
 		gl.glVertex3f(x-sizeB, y-sizeB, z);
@@ -728,7 +813,7 @@ public class GLView {
 		gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);		
 		gl.glEnable(GL.GL_BLEND);
 		gl.glEnable(GL.GL_AUTO_NORMAL);
-		gl.glColorMaterial(GL.GL_FRONT, GL.GL_DIFFUSE);
+		gl.glColorMaterial(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT_AND_DIFFUSE);
 		gl.glEnable(GL.GL_COLOR_MATERIAL);	// override material properties, makes coloring easier & faster
 		gl.glEnable(GL.GL_LINE_SMOOTH); // smooth rendering of lines
 		gl.glClearDepth(1.0);
@@ -740,26 +825,25 @@ public class GLView {
 		gl.glDepthFunc(GL.GL_LEQUAL);
 
 		doProceduralShading(gl);
-
+		
+		
+		turnGLLightsOn(gl);
+		
 		glContext.release();
-
+		
 		Device.DEBUG = true;
 	}
 
 
 	private void turnGLLightsOn(GL gl)
 	{
-		gl.glEnable(GL.GL_LIGHTING);
-
 		float global_ambient[] = { 0.5f, 0.5f, 0.5f, 1.0f };
 		gl.glLightModelfv(GL.GL_LIGHT_MODEL_AMBIENT, global_ambient, 0);
 
-		gl.glEnable(GL.GL_LIGHT0);
-
 		// Create light components
-		float ambientLight[] = { 0.2f, 0.2f, 0.2f, 1.0f };
-		float diffuseLight[] = { 0.8f, 0.8f, 0.8f, 1.0f };
-		float specularLight[] = { 0.5f, 0.5f, 0.5f, 1.0f };
+		float ambientLight[] = { 0f, 0f, 0f, 1.0f };
+		float diffuseLight[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+		float specularLight[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 		float position[] = { -5.0f, 5.0f, 5.0f, 1.0f };
 
 		// Assign created components to GL_LIGHT0
@@ -767,9 +851,12 @@ public class GLView {
 		gl.glLightfv(GL.GL_LIGHT0, GL.GL_DIFFUSE, diffuseLight, 0);
 		gl.glLightfv(GL.GL_LIGHT0, GL.GL_SPECULAR, specularLight, 0);
 		gl.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, position, 0);
-
+		
+		gl.glEnable(GL.GL_LIGHT0);
+		gl.glEnable(GL.GL_LIGHTING);
+				
 		gl.glEnable(GL.GL_COLOR_MATERIAL);
-		gl.glColorMaterial(GL.GL_FRONT, GL.GL_AMBIENT_AND_DIFFUSE); 
+		gl.glColorMaterial(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT_AND_DIFFUSE); 
 		// now all subsequent glColor commands will also effect the lighting colors.
 
 		/*

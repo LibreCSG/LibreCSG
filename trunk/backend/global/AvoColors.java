@@ -78,19 +78,22 @@ public class AvoColors {
 	/**
 	 * colors for GLView
 	 */
-	public static final float[] GL_COLOR4_BACKGND    = new float[] {0.95f, 0.95f, 1.0f, 1.0f};
-	public static final float[] GL_COLOR4_GRID_DARK  = new float[] {0.6f, 0.6f, 0.6f, 1.0f}; 
-	public static final float[] GL_COLOR4_GRID_LIGHT = new float[] {0.8f, 0.8f, 0.8f, 1.0f}; 
-	public static final float[] GL_COLOR4_2D_NONACT  = new float[] {0.23f, 0.18f, 0.90f, 1.0f}; // non-active 2D primitives
-	public static final float[] GL_COLOR4_2D_ACTIVE  = new float[] {0.94f, 0.60f, 0.10f, 1.0f}; // active 2D primitives
-	public static final float[] GL_COLOR4_2D_X_AXIS  = new float[] {1.0f, 0.2f, 0.2f, 1.0f}; // red
-	public static final float[] GL_COLOR4_2D_Y_AXIS  = new float[] {0.2f, 1.0f, 0.2f, 1.0f}; // green
-	public static final float[] GL_COLOR4_2D_Z_AXIS  = new float[] {0.2f, 0.2f, 1.0f, 1.0f}; // blue
-	public static final float[] GL_COLOR4_2D_ORIGIN  = new float[] {0.6f, 0.6f, 0.6f, 0.6f}; // grey
-	public static final float[] GL_COLOR4_2D_REG_UNSEL   = new float[] {0.55f, 0.91f, 0.42f, 0.5f}; // region unselected
-	public static final float[] GL_COLOR4_2D_REG_SEL     = new float[] {0.55f, 0.53f, 0.90f, 1.0f}; // region selected
-	public static final float[] GL_COLOR4_2D_REG_SELMO   = new float[] {0.68f, 0.49f, 0.90f, 1.0f}; // region selected mouseover
-	public static final float[] GL_COLOR4_2D_REG_UNSELMO = new float[] {0.55f, 0.91f, 0.74f, 0.5f}; // region unselected mouseover
+	public static float[] GL_COLOR4_BACKGND    = new float[] {0.95f, 0.95f, 1.0f, 1.0f};
+	public static float[] GL_COLOR4_GRID_DARK  = new float[] {0.6f, 0.6f, 0.6f, 1.0f}; 
+	public static float[] GL_COLOR4_GRID_LIGHT = new float[] {0.8f, 0.8f, 0.8f, 1.0f}; 
+	public static float[] GL_COLOR4_2D_NONACT  = new float[] {0.23f, 0.18f, 0.90f, 1.0f}; // non-active 2D primitives
+	public static float[] GL_COLOR4_2D_ACTIVE  = new float[] {0.94f, 0.60f, 0.10f, 1.0f}; // active 2D primitives
+	public static float[] GL_COLOR4_2D_X_AXIS  = new float[] {1.0f, 0.2f, 0.2f, 1.0f}; // red
+	public static float[] GL_COLOR4_2D_Y_AXIS  = new float[] {0.2f, 1.0f, 0.2f, 1.0f}; // green
+	public static float[] GL_COLOR4_2D_Z_AXIS  = new float[] {0.2f, 0.2f, 1.0f, 1.0f}; // blue
+	public static float[] GL_COLOR4_2D_ORIGIN  = new float[] {0.6f, 0.6f, 0.6f, 0.6f}; // grey
+	public static float[] GL_COLOR4_2D_REG_UNSEL   = new float[] {0.55f, 0.91f, 0.42f, 0.5f}; // region unselected
+	public static float[] GL_COLOR4_2D_REG_SEL     = new float[] {0.55f, 0.53f, 0.90f, 1.0f}; // region selected
+	public static float[] GL_COLOR4_2D_REG_SELMO   = new float[] {0.68f, 0.49f, 0.90f, 1.0f}; // region selected mouseover
+	public static float[] GL_COLOR4_2D_REG_UNSELMO = new float[] {0.55f, 0.91f, 0.74f, 0.5f}; // region unselected mouseover
+	
+	public static float[] GL_COLOR4_3D_NONACT  = new float[] {0.23f, 0.18f, 0.90f, 1.0f}; // non-active 2D primitives
+	public static float[] GL_COLOR4_3D_ACTIVE  = new float[] {0.94f, 0.60f, 0.10f, 1.0f}; // active 2D primitives
 }
 
 

@@ -48,7 +48,7 @@ public class Prim2DArc extends Prim2D{
 	private boolean reversed = false;
 	
 	/**
-	 * Construct a new Prim2DArc sketch primative that handles 
+	 * Construct a new Prim2DArc sketch primitive that handles 
 	 * intersections, drawing, and manipulation.
 	 * @param center the center of the arc
 	 * @param radius the radius of the arc (360.0 = full circle)
@@ -67,6 +67,7 @@ public class Prim2DArc extends Prim2D{
 		// set ptA, and ptB based on center, radius, startAngle, and arcAngle
 		this.ptA = getPtAtAngle(startAngle);
 		this.ptB = getPtAtAngle(startAngle+arcAngle);
+		this.descriptor="Arc";
 	}
 	
 	private Point2D getPtAtAngle(double angle){
@@ -212,7 +213,6 @@ public class Prim2DArc extends Prim2D{
 		// closest point is arc endpoint, return the closest one.
 		return Math.min(ptA.computeDist(pt), ptB.computeDist(pt));
 	}
-
 	
 	public Point2D intersect(Prim2D anyPrim2D) {
 		if(anyPrim2D instanceof Prim2DLine){

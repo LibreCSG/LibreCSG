@@ -33,9 +33,9 @@ import backend.model.Part;
 
 public class ModRef_Part extends ModelReference{
 
-	private final int uniquePartID;
+	private final String uniquePartID;
 	
-	public ModRef_Part(int uniquePartID){
+	public ModRef_Part(String uniquePartID){
 		super(ModRefType.Part);
 		this.uniquePartID = uniquePartID;
 	}

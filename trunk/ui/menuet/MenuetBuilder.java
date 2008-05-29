@@ -6,6 +6,7 @@ import ui.tools.build.ToolBuildRevolveView;
 import ui.tools.group.ToolGroupDoneView;
 import ui.tools.group.ToolGroupPartView;
 import ui.tools.modify.ToolModifyDoneView;
+import ui.tools.modify.ToolModifyTranslateView;
 import ui.tools.part.ToolPartBuildView;
 import ui.tools.part.ToolPartDefaultCtrl;
 import ui.tools.part.ToolPartDoneView;
@@ -21,6 +22,7 @@ import ui.tools.sketch.ToolSketchExampleView;
 import ui.tools.sketch.ToolSketchLineView;
 import ui.tools.sketch.ToolSketchRectView;
 import ui.tools.sketch.ToolSketchSelectView;
+import ui.tools.sketch.ToolSketchArcView;
 import backend.global.AvoGlobal;
 
 
@@ -74,6 +76,7 @@ public class MenuetBuilder extends ClassLoader{
 		new ToolSketchCircleView(menuet);
 		new ToolSketchRectView(menuet);
 		new ToolSketchExampleView(menuet);
+		new ToolSketchArcView(menuet);
 		
 		new METoolbox(menuet,Menuet.MENUET_MODE_SKETCH);
 		
@@ -102,11 +105,13 @@ public class MenuetBuilder extends ClassLoader{
 		// TOOL MODE: Modify
 		//
 		new ToolModifyDoneView(menuet);
+		
 		MESpacer spacerModifyCancel = new MESpacer(menuet, Menuet.MENUET_MODE_MODIFY);
 		spacerModifyCancel.mePreferredHeight = MEButtonCancel.preferredHeight;
 		MELabel labelModify = new MELabel(menuet,Menuet.MENUET_MODE_MODIFY);
 		labelModify.meLabel = "Modify";
 		labelModify.textIsBold = true;
+		new ToolModifyTranslateView(menuet);
 		
 		new METoolbox(menuet,Menuet.MENUET_MODE_MODIFY);
 		

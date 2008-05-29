@@ -3,6 +3,7 @@ package backend.global;
 import ui.event.GLViewEventHandler;
 import ui.event.ModelEventHandler;
 import ui.event.ParamEventHandler;
+import ui.event.NavigationEventHandler;
 import ui.menuet.Menuet;
 import ui.menuet.MenuetToolboxDialog;
 import ui.opengl.GLView;
@@ -10,6 +11,8 @@ import ui.opengl.RenderLevel;
 import ui.paramdialog.DynParamDialog;
 import ui.tools.ToolCtrl;
 import ui.treeviewer.TreeViewer;
+import ui.navigation.NavigationToolbar;
+import org.eclipse.swt.custom.SashForm;
 import backend.adt.ParamSet;
 import backend.model.Group;
 import backend.model.Part;
@@ -75,6 +78,11 @@ public class AvoGlobal {
 	//	 TODO: make GLView private
 	
 	/**
+	 * 
+	 */
+	public static SashForm comp2topSash;
+	
+	/**
 	 * The dynamically displayed parameter Dialog
 	 */
 	public static DynParamDialog paramDialog;
@@ -97,6 +105,13 @@ public class AvoGlobal {
 	 * The tree view of the current Project
 	 */
 	public static TreeViewer treeViewer;
+	//	 TODO: make TreeViewer private	
+	
+	/**
+	 * The navigation toolbar of the current Project
+	 * dm 20080523
+	 */
+	public static NavigationToolbar navigationToolbar;
 	//	 TODO: make TreeViewer private	
 	
 	/**
@@ -123,7 +138,7 @@ public class AvoGlobal {
 	public static ParamEventHandler  paramEventHandler  = new ParamEventHandler();
 	public static GLViewEventHandler glViewEventHandler = new GLViewEventHandler(); 
 	public static ModelEventHandler  modelEventHandler  = new ModelEventHandler();
-
+	public static NavigationEventHandler navigationEventHandler = new NavigationEventHandler();
 	
 	public static double[] glCursor3DPos = new double[] {0.0, 0.0, 0.0}; 
 	

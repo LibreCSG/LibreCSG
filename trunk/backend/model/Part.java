@@ -7,6 +7,7 @@ import java.util.List;
 import javax.media.opengl.GL;
 
 import backend.global.AvoGlobal;
+import backend.global.AvoColors;
 import backend.model.CSG.BoolOp;
 import backend.model.CSG.CSG_BooleanOperator;
 import backend.model.CSG.CSG_Plane;
@@ -51,8 +52,11 @@ public class Part {
 	protected int activeSubPart = -1;
 	
 	protected Group group;
-	public final int ID;
+	public final String ID;
+	public String PartName="";
 	private int subPartCounter = 1;
+	
+	public double position[]=new double[]{0,0,0};
 	
 	private CSG_Vertex origin = new CSG_Vertex(0.0, 0.0, 0.0);
 	private CSG_Vertex xAxis  = new CSG_Vertex(1.0, 0.0, 0.0);
@@ -68,11 +72,11 @@ public class Part {
 	
 	private ModRef_Plane selectedPlane = null;
 	
-	private PartMaterial partMaterial = new PartMaterial(0.6, 0.9, 0.6, 1.0);
+	public PartMaterial partMaterial = new PartMaterial(new float[]{0.6f, 0.9f, 0.6f, 1.0f},new float[]{0.6f, 0.9f, 0.6f, 1.0f},new float[]{0.6f, 0.9f, 0.6f, 1.0f},new float[]{0.6f, 0.9f, 0.6f, 1.0f},new float[]{0.5f});
 	
 	private CSG_Solid partSolid = new CSG_Solid(); 
 	
-	public Part(Group group, int ID){
+	public Part(Group group, String ID){
 		this.group = group;
 		this.ID = ID;
 	}
@@ -111,7 +115,7 @@ public class Part {
 	 * @return
 	 */
 	public int addNewFeat2D3D(int sketchID){
-		if(sketchID > 0 && sketchID < subPartCounter && getSketchByID(sketchID) != null){
+		if(getSketchByID(sketchID) != null){
 			subPartList.add(new Build(this, sketchID, subPartCounter++));
 			AvoGlobal.modelEventHandler.notifyElementAdded();
 			return subPartList.size()-1;
@@ -196,12 +200,12 @@ public class Part {
 	}
 	
 	public void glDrawSelectedElements(GL gl){
-		gl.glColor4d(0.5, 0.5, 0.9, 0.5);
+		gl.glColor4d(AvoColors.GL_COLOR4_3D_NONACT[0],AvoColors.GL_COLOR4_3D_NONACT[1],AvoColors.GL_COLOR4_3D_NONACT[2],AvoColors.GL_COLOR4_3D_NONACT[3]);
 		partSolid.glDrawSelectedElements(gl);		
 	}
 	
 	public void glDrawImportantEdges(GL gl){
-		gl.glColor4d(0.5, 0.5, 0.5, 0.5);
+		gl.glColor4d(AvoColors.GL_COLOR4_3D_NONACT[0],AvoColors.GL_COLOR4_3D_NONACT[1],AvoColors.GL_COLOR4_3D_NONACT[2],AvoColors.GL_COLOR4_3D_NONACT[3]);
 		partSolid.glDrawImportantEdges(gl);
 	}
 	

@@ -1,4 +1,4 @@
-package ui.quicksettings;
+package ui.navigation;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
@@ -55,7 +55,7 @@ public class XYZDisplayComp extends Composite{
 		FontData fd = new FontData();
 		fd.setHeight(10);
 		fd.setStyle(SWT.BOLD);
-		fd.setName("courier");
+		fd.setName("Verdana");
 		Font f = new Font(this.getDisplay(), fd);		
 		
 		Label llx = new Label(this, SWT.NO_BACKGROUND);

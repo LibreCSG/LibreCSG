@@ -6,12 +6,18 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.CTabItem;
+import javax.swing.JTabbedPane;
+import javax.swing.JComponent;
+
 
 import ui.menubar.AvoMenuBar;
 import ui.menuet.Menuet;
@@ -20,7 +26,10 @@ import ui.menuet.MenuetToolboxDialog;
 import ui.opengl.GLView;
 import ui.paramdialog.DynParamDialog;
 import ui.quicksettings.QuickSettings;
+import ui.navigation.NavigationToolbar;
 import ui.treeviewer.TreeViewer;
+import ui.settings.GraphicSettings;
+import ui.settings.PartSettings;
 import backend.data.utilities.ImageUtils;
 import backend.global.AvoColors;
 import backend.global.AvoGlobal;
@@ -154,7 +163,7 @@ public class MainAvoCADoShell{
 		//
 		comp2topSash = new SashForm(comp2, SWT.NONE);
 		comp2topSash.setBackground(new Color(shell.getDisplay(), 200, 100, 100));
-		comp2topSash.SASH_WIDTH = 5;		
+		comp2topSash.SASH_WIDTH = 5;
 		GridData gd2top = new GridData(GridData.FILL_BOTH);
 		gd2top.grabExcessHorizontalSpace = true;
 		gd2top.grabExcessVerticalSpace = true;
@@ -196,9 +205,32 @@ public class MainAvoCADoShell{
 		
 		
 		//
-		// right piece is treeviewer
+		// right piece is a tab folder
 		//
-		AvoGlobal.treeViewer = new TreeViewer(comp2topSash, SWT.NONE);
+		CTabFolder ctf = new CTabFolder(comp2topSash,SWT.NONE);
+		
+		// first tab is "Design" --> it shows the current design structure by a treeview
+		CTabItem cti = new CTabItem(ctf,SWT.NONE);		
+		SashForm designSash =new SashForm(ctf,SWT.NONE);
+		designSash.setOrientation(SWT.VERTICAL);
+			
+		cti.setControl(designSash);
+		cti.setText("Design");
+		ctf.setSimple(false);
+		ctf.setSelection(cti);		
+		AvoGlobal.treeViewer = new TreeViewer(designSash, SWT.NONE);
+		PartSettings ps = new PartSettings(designSash,SWT.NONE);
+		
+		// first tab is "Settings" --> allows the user to set some environment parameter
+		cti = new CTabItem(ctf,SWT.NONE);		
+		Composite tvc =new Composite(ctf,SWT.NONE);
+		tvc.setLayout(new FillLayout());
+		cti.setControl(tvc);
+		cti.setText("Settings");
+		ctf.setSimple(false);	
+		GraphicSettings gs = new GraphicSettings(tvc,SWT.NONE);
+		
+		
 		//Composite comp3right = new Composite(comp2topSash, SWT.NONE);
 		//comp3right.setBackground(new Color(shell.getDisplay(), 200, 200, 200));
 		
@@ -207,17 +239,29 @@ public class MainAvoCADoShell{
 		// TODO: intelligently set sash weights
 		comp2topSash.setWeights(new int[] {5, 1});
 		
-		//
-		// remaining little section on the bottom is quicksetting bar
+		
+		// dm 20080523
+		// bottom hosts quicksetting bar and navigation bar
 		//
 		// TODO: use quicksetting instead of dummy composite
-		QuickSettings comp2bot = new QuickSettings(comp2, SWT.NONE);
+		QuickSettings comp3bot = new QuickSettings(comp2, SWT.NONE);
+		//NavigationToolbar comp2bot = new NavigationToolbar(comp2, SWT.NONE);
+		//comp2bot.setBackground(new Color(shell.getDisplay(), 150, 50, 150));
+		GridData gd3bot = new GridData(GridData.FILL_HORIZONTAL);
+		gd3bot.grabExcessHorizontalSpace = true;
+		gd3bot.heightHint = 30;
+		gd3bot.minimumHeight = 30;
+		comp3bot.setLayoutData(gd3bot);
+
+		NavigationToolbar comp2bot = new NavigationToolbar(comp2, SWT.NONE);
 		//comp2bot.setBackground(new Color(shell.getDisplay(), 150, 50, 150));
 		GridData gd2bot = new GridData(GridData.FILL_HORIZONTAL);
 		gd2bot.grabExcessHorizontalSpace = true;
 		gd2bot.heightHint = 30;
 		gd2bot.minimumHeight = 30;
 		comp2bot.setLayoutData(gd2bot);
+		//set the reference to the navigation toolbar, so that it is globally accessible
+		AvoGlobal.navigationToolbar=comp2bot;
 		
 	}
 	
