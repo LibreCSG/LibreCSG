@@ -4,6 +4,7 @@ import ui.event.GLViewEventHandler;
 import ui.event.ModelEventHandler;
 import ui.event.ParamEventHandler;
 import ui.event.NavigationEventHandler;
+import ui.event.GraphicSettingsEventHandler;
 import ui.menuet.Menuet;
 import ui.menuet.MenuetToolboxDialog;
 import ui.opengl.GLView;
@@ -121,7 +122,7 @@ public class AvoGlobal {
 	
 	/**
 	 * precision of rendering... higher levels take longs,
-	 * but more accurately follow shapes, cureves, etc.
+	 * but more accurately follow shapes, curves, etc.
 	 */
 	public static RenderLevel renderLevel = RenderLevel.Medium;
 	
@@ -133,12 +134,13 @@ public class AvoGlobal {
 	public static double  snapSize    = 0.5;
 	public static boolean snapEnabled = true;
 	
-
+	
 	// TODO: perhaps move event handler just into their own static selves instead of AvoGlobal?
 	public static ParamEventHandler  paramEventHandler  = new ParamEventHandler();
 	public static GLViewEventHandler glViewEventHandler = new GLViewEventHandler(); 
 	public static ModelEventHandler  modelEventHandler  = new ModelEventHandler();
 	public static NavigationEventHandler navigationEventHandler = new NavigationEventHandler();
+	public static GraphicSettingsEventHandler graphicSettingsEventHandler = new GraphicSettingsEventHandler();
 	
 	public static double[] glCursor3DPos = new double[] {0.0, 0.0, 0.0}; 
 	

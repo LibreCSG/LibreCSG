@@ -374,16 +374,19 @@ public class CSG_Polygon {
 	}
 	
 	public void drawPolygonNormalsForDebug(GL gl){
+		float[] currentColor=new float[]{0,0,0,0};
+		gl.glGetFloatv(GL.GL_CURRENT_COLOR, currentColor, 0);
 		gl.glColor3d(1.0, 0.0, 0.0);
 		CSG_Vertex fCenter = getBarycenterVertex();
 		CSG_Vertex norm = getPlane().getNormal();
-		double scale = 0.10;
+		double scale = 10;
 		fCenter.addToVertex(norm.getScaledCopy(scale));
 		CSG_Vertex nShifted = fCenter.addToVertex(norm.getScaledCopy(scale));
 		gl.glBegin(GL.GL_LINES);
 			gl.glVertex3dv(fCenter.getXYZ(), 0);
 			gl.glVertex3dv(nShifted.getXYZ(), 0);
 		gl.glEnd();
+		gl.glColor3d(currentColor[0], currentColor[1], currentColor[2]);
 	}
 	
 	public CSG_Polygon deepCopy(){
@@ -473,5 +476,5 @@ public class CSG_Polygon {
 		}
 		return polyJoin;
 	}
-	
+		
 }

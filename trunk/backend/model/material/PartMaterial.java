@@ -1,7 +1,7 @@
 package backend.model.material;
 
 import javax.media.opengl.GL;
-
+import org.eclipse.swt.graphics.Color;
 import backend.global.AvoGlobal;
 
 public class PartMaterial {
@@ -36,9 +36,7 @@ public class PartMaterial {
 		this.emission=emission;
 		this.shininess=shininess;		
 	}
-	
-	
-	
+		
 	/**
 	 * setup the GL drawing configuration to correctly apply material in subsequent operations.
 	 * @param gl
