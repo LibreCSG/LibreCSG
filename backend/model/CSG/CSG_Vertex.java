@@ -235,4 +235,15 @@ public class CSG_Vertex {
 		return false;
 	}
 	
+	
+	public float[] toFloatArray(){
+		float[] floatArray=new float[]{(float)this.x,(float)this.y,(float)this.z};
+		return floatArray;
+	}
+	
+	public double[] toDoubleArray(){
+		double[] doubleArray = new double[]{(double)this.x,(double)this.y,(double)this.z};
+		return doubleArray;
+	}
+	
 }

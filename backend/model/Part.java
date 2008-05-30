@@ -55,6 +55,8 @@ public class Part {
 	public final String ID;
 	public String PartName="";
 	private int subPartCounter = 1;
+	public boolean isNormalVisible=false;
+	public boolean isFaceCenterVisible=false;
 	
 	public double position[]=new double[]{0,0,0};
 	
@@ -72,7 +74,7 @@ public class Part {
 	
 	private ModRef_Plane selectedPlane = null;
 	
-	public PartMaterial partMaterial = new PartMaterial(new float[]{0.6f, 0.9f, 0.6f, 1.0f},new float[]{0.6f, 0.9f, 0.6f, 1.0f},new float[]{0.6f, 0.9f, 0.6f, 1.0f},new float[]{0.6f, 0.9f, 0.6f, 1.0f},new float[]{0.5f});
+	public PartMaterial partMaterial = new PartMaterial(new float[]{0.6f, 0.9f, 0.6f, 1.0f},new float[]{0.6f, 0.9f, 0.6f, 1.0f},new float[]{0.9f, 0.9f, 0.9f, 1.0f},new float[]{0.1f, 0.1f, 0.1f, 1.0f},new float[]{0.85f});
 	
 	private CSG_Solid partSolid = new CSG_Solid(); 
 	

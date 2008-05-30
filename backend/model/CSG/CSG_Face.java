@@ -470,9 +470,11 @@ public class CSG_Face {
 				*/
 				Iterator<CSG_Vertex> iterV = poly.getVertexIterator();
 				gl.glBegin(GL.GL_POLYGON);
+				
 				while(iterV.hasNext()){
-					CSG_Vertex v = iterV.next();
+					CSG_Vertex v = iterV.next();					
 					gl.glTexCoord3dv(v.getXYZ(), 0); // must call before you place the vertex! :)
+					gl.glNormal3fv(poly.getPlane().getNormal().toFloatArray(),0);
 					gl.glVertex3dv(v.getXYZ(), 0);
 				}
 				gl.glEnd();

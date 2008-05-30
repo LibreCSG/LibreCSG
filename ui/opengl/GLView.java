@@ -38,7 +38,7 @@ import ui.navigation.*;
 
 import ui.event.ParamListener;
 import ui.event.NavigationListener;
-import ui.navigation.*;
+import ui.event.GraphicSettingsListener;
 import ui.menuet.Menuet;
 import backend.global.AvoColors;
 import backend.global.AvoGlobal;
@@ -98,6 +98,8 @@ public class GLView {
 	static float translation_y = 0.0f;
 	static float dist_from_center = -30.0f;
 	static float viewing_angle = 45.0f;
+	
+	static boolean lightsOn=false;
 
 	//double lastMousePos3D[] = new double[] {0.0, 0.0, 0.0};
 
@@ -375,8 +377,7 @@ public class GLView {
 		});
 
 		glInit();
-		turnGLLightsOff(gl);
-
+		
 		if (gl.isExtensionAvailable("GL_ARB_fragment_shader")){
 			System.out.println("ARB_fragment_shader supported (openGL 2.0) --  Materials can look: Excellent!  :)");
 			OPENGL_FRAGMENT_SHADER_GLSL_ENABLED = true;
@@ -433,7 +434,15 @@ public class GLView {
 						
 						gl.glPolygonMode(GL.GL_FRONT, GL.GL_FILL);
 						
-						
+						gl.glColor4f(0.7f, 0.7f, 0.7f, 1.0f);
+						gl.glLineWidth(2.5f);
+						gl.glColor3f(1.0f,0.0f,0.0f);							
+
+						if(lightsOn){
+							turnGLLightsOn(gl);
+						}else{
+							turnGLLightsOff(gl);
+						}
 						//
 						//  TEST Constructive Solid Geometry!
 						//
@@ -452,10 +461,18 @@ public class GLView {
 						//
 						//GLTests.testPerimeterFormation(gl);
 
-						gl.glColor4f(0.7f, 0.7f, 0.7f, 1.0f);
-						gl.glLineWidth(2.5f);
-
-						gl.glColor3f(1.0f,0.0f,0.0f);							
+						
+						int v[]=new int[]{0,0,0,0};
+						gl.glGetIntegerv(GL.GL_SHADE_MODEL,v,0);
+						switch(v[0]){
+							case GL.GL_SMOOTH:
+								System.out.println("Shade model GL_SMOOTH");
+								break;
+							default:
+								System.out.println("Shade model " + v[0]);
+						}
+						System.out.println("Lighting " + gl.glIsEnabled(GL.GL_LIGHTING));
+												
 						
 						//
 						// Main Drawing routine for the active part
@@ -640,6 +657,12 @@ public class GLView {
 			}
 		});
 
+		AvoGlobal.graphicSettingsEventHandler .addGraphicSettingsListener(new GraphicSettingsListener(){
+			public void lightsSwitched(boolean on){
+				lightsOn=on;
+				updateGLView = true;
+			}
+		});
 	}
 
 	private void drawTransparentMouseLayer(){
@@ -825,9 +848,8 @@ public class GLView {
 		gl.glDepthFunc(GL.GL_LEQUAL);
 
 		doProceduralShading(gl);
-		
-		
-		turnGLLightsOn(gl);
+				
+		configureGLLighting(gl);			
 		
 		glContext.release();
 		
@@ -835,25 +857,25 @@ public class GLView {
 	}
 
 
-	private void turnGLLightsOn(GL gl)
+	private void configureGLLighting(GL gl)
 	{
 		float global_ambient[] = { 0.5f, 0.5f, 0.5f, 1.0f };
 		gl.glLightModelfv(GL.GL_LIGHT_MODEL_AMBIENT, global_ambient, 0);
 
 		// Create light components
-		float ambientLight[] = { 0f, 0f, 0f, 1.0f };
-		float diffuseLight[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-		float specularLight[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-		float position[] = { -5.0f, 5.0f, 5.0f, 1.0f };
+		float ambientLight[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+		float diffuseLight[] = { 0.8f, 0.8f, 0.8f, 1.0f };
+		float specularLight[] = { 0.5f, 0.5f, 0.5f, 1.0f };
+		float position[] = { -50.0f, 50.0f, 50.0f, 0.0f };
+		float direction[] = { 50.0f, -50.0f, -50.0f, 0.0f };
 
 		// Assign created components to GL_LIGHT0
 		gl.glLightfv(GL.GL_LIGHT0, GL.GL_AMBIENT, ambientLight, 0);
 		gl.glLightfv(GL.GL_LIGHT0, GL.GL_DIFFUSE, diffuseLight, 0);
 		gl.glLightfv(GL.GL_LIGHT0, GL.GL_SPECULAR, specularLight, 0);
 		gl.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, position, 0);
-		
-		gl.glEnable(GL.GL_LIGHT0);
-		gl.glEnable(GL.GL_LIGHTING);
+		gl.glLightfv(GL.GL_LIGHT0, GL.GL_SPOT_DIRECTION, direction, 0);
+		gl.glLightf(GL.GL_LIGHT0, GL.GL_SPOT_CUTOFF, 30);
 				
 		gl.glEnable(GL.GL_COLOR_MATERIAL);
 		gl.glColorMaterial(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT_AND_DIFFUSE); 
@@ -868,8 +890,14 @@ public class GLView {
 	    gl.glLightf(GL.GL_LIGHT0, GL.GL_LINEAR_ATTENUATION, linearAttenuation);
 	    gl.glLightf(GL.GL_LIGHT0, GL.GL_QUADRATIC_ATTENUATION, quadraticAttenuation);
 		 */
+		gl.glLightf(GL.GL_LIGHT0, GL.GL_QUADRATIC_ATTENUATION, 0.08f);
 	}
 
+	private void turnGLLightsOn(GL gl){
+		gl.glEnable(GL.GL_LIGHT0);
+		gl.glEnable(GL.GL_LIGHTING);
+	}
+	
 	private void turnGLLightsOff(GL gl){
 		gl.glDisable(GL.GL_LIGHTING);
 		gl.glDisable(GL.GL_LIGHT0);
