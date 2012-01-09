@@ -48,11 +48,11 @@ public class ToolSketchCircleCtrl implements ToolCtrlSketch  {
 	 * parameter storage, etc.
 	 *
 	 */
-	protected NavigationToolbar navigationToolbar;
+	//protected NavigationToolbar navigationToolbar;
 	
 	public ToolSketchCircleCtrl(){
-		navigationToolbar=AvoGlobal.navigationToolbar;
-		navigationToolbar.showMessage("Left click (hold) to set center, then drag to set radius.");
+		//navigationToolbar=AvoGlobal.navigationToolbar;
+		//navigationToolbar.showMessage("Left click (hold) to set center, then drag to set radius.");
 	}
 	
 	
@@ -88,7 +88,7 @@ public class ToolSketchCircleCtrl implements ToolCtrlSketch  {
 			//
 			AvoGlobal.paramDialog.setParamSet(pSet);
 			
-			navigationToolbar.showMessage("Drag to set radius. Release to finish circle.");
+			//navigationToolbar.showMessage("Drag to set radius. Release to finish circle.");
 		}
 	}
 
@@ -134,9 +134,9 @@ public class ToolSketchCircleCtrl implements ToolCtrlSketch  {
 					// remove feature2D from the set!
 					AvoGlobal.project.getActiveSketch().removeActiveFeat2D();
 					AvoGlobal.paramDialog.setParamSet(null);
-					navigationToolbar.showMessage("Left click (hold) to set center, then drag to set radius.");
+					//navigationToolbar.showMessage("Left click (hold) to set center, then drag to set radius.");
 				}else{
-					navigationToolbar.showMessage("Circle done. Left click on sketch to deselect it.");
+					//navigationToolbar.showMessage("Circle done. Left click on sketch to deselect it.");
 				
 				}
 			}catch(Exception ex){

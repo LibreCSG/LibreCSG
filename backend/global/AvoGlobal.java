@@ -3,8 +3,8 @@ package backend.global;
 import ui.event.GLViewEventHandler;
 import ui.event.ModelEventHandler;
 import ui.event.ParamEventHandler;
-import ui.event.NavigationEventHandler;
-import ui.event.GraphicSettingsEventHandler;
+//import ui.event.NavigationEventHandler;
+//import ui.event.GraphicSettingsEventHandler;
 import ui.menuet.Menuet;
 import ui.menuet.MenuetToolboxDialog;
 import ui.opengl.GLView;
@@ -12,7 +12,7 @@ import ui.opengl.RenderLevel;
 import ui.paramdialog.DynParamDialog;
 import ui.tools.ToolCtrl;
 import ui.treeviewer.TreeViewer;
-import ui.navigation.NavigationToolbar;
+//import ui.navigation.NavigationToolbar;
 import org.eclipse.swt.custom.SashForm;
 import backend.adt.ParamSet;
 import backend.model.Group;
@@ -112,7 +112,7 @@ public class AvoGlobal {
 	 * The navigation toolbar of the current Project
 	 * dm 20080523
 	 */
-	public static NavigationToolbar navigationToolbar;
+	//public static NavigationToolbar navigationToolbar;
 	//	 TODO: make TreeViewer private	
 	
 	/**
@@ -139,8 +139,8 @@ public class AvoGlobal {
 	public static ParamEventHandler  paramEventHandler  = new ParamEventHandler();
 	public static GLViewEventHandler glViewEventHandler = new GLViewEventHandler(); 
 	public static ModelEventHandler  modelEventHandler  = new ModelEventHandler();
-	public static NavigationEventHandler navigationEventHandler = new NavigationEventHandler();
-	public static GraphicSettingsEventHandler graphicSettingsEventHandler = new GraphicSettingsEventHandler();
+	//public static NavigationEventHandler navigationEventHandler = new NavigationEventHandler();
+	//public static GraphicSettingsEventHandler graphicSettingsEventHandler = new GraphicSettingsEventHandler();
 	
 	public static double[] glCursor3DPos = new double[] {0.0, 0.0, 0.0}; 
 	

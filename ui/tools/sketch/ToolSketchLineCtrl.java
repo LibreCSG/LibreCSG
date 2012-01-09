@@ -49,11 +49,11 @@ public class ToolSketchLineCtrl implements ToolCtrlSketch {
 	 *
 	 */
 	
-	protected NavigationToolbar navigationToolbar;
+	//protected NavigationToolbar navigationToolbar;
 	
 	public ToolSketchLineCtrl(){
-		navigationToolbar=AvoGlobal.navigationToolbar;
-		navigationToolbar.showMessage("Left click on sketch (hold) to set first point. Drag to set direction and length.");
+		//navigationToolbar=AvoGlobal.navigationToolbar;
+		//navigationToolbar.showMessage("Left click on sketch (hold) to set first point. Drag to set direction and length.");
 	}
 	
 	public void glMouseDown(double x, double y, double z,  MouseEvent e, ParamSet paramSet) {
@@ -108,7 +108,7 @@ public class ToolSketchLineCtrl implements ToolCtrlSketch {
 			try{
 				paramSet.changeParam("b", new Point2D(x,y));
 				(new ToolSketchLineModel()).updateDerivedParams(paramSet);
-				navigationToolbar.showMessage("Release to finish line.");
+				//navigationToolbar.showMessage("Release to finish line.");
 			}catch(Exception ex){
 				System.out.println(this.getClass().getCanonicalName() + " :: " + ex.getClass());
 			}
@@ -139,9 +139,9 @@ public class ToolSketchLineCtrl implements ToolCtrlSketch {
 					// remove feature2D from the set
 					AvoGlobal.project.getActiveSketch().removeActiveFeat2D();
 					AvoGlobal.paramDialog.setParamSet(null);
-					navigationToolbar.showMessage("Left click on sketch (hold) to set first point. Drag to set direction and length.");
+					//navigationToolbar.showMessage("Left click on sketch (hold) to set first point. Drag to set direction and length.");
 				}else{					
-					navigationToolbar.showMessage("Line done. Left click on sketch to deselect it.");
+					//navigationToolbar.showMessage("Line done. Left click on sketch to deselect it.");
 				}
 				
 			}catch(Exception ex){

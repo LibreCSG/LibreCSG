@@ -48,11 +48,11 @@ public class ToolSketchRectCtrl implements ToolCtrlSketch {
 	 * parameter storage, etc.
 	 *
 	 */
-	protected NavigationToolbar navigationToolbar;
+	//protected NavigationToolbar navigationToolbar;
 	
 	public ToolSketchRectCtrl(){
-		navigationToolbar = AvoGlobal.navigationToolbar;
-		navigationToolbar.showMessage("Left click on sketch (hold) to set first corner. Drag to set size.");
+		//navigationToolbar = AvoGlobal.navigationToolbar;
+		//navigationToolbar.showMessage("Left click on sketch (hold) to set first corner. Drag to set size.");
 	}
 	
 	public void glMouseDown(double x, double y, double z,  MouseEvent e, ParamSet paramSet) {
@@ -87,7 +87,7 @@ public class ToolSketchRectCtrl implements ToolCtrlSketch {
 			// input.
 			//
 			AvoGlobal.paramDialog.setParamSet(pSet);
-			navigationToolbar.showMessage("Drag to set size.");
+			//navigationToolbar.showMessage("Drag to set size.");
 		}
 	}
 
@@ -106,7 +106,7 @@ public class ToolSketchRectCtrl implements ToolCtrlSketch {
 			try{
 				paramSet.changeParam("b", new Point2D(x,y));
 				(new ToolSketchRectModel()).updateDerivedParams(paramSet);
-				navigationToolbar.showMessage("Release to finish rectangle.");
+				//navigationToolbar.showMessage("Release to finish rectangle.");
 			}catch(Exception ex){
 				System.out.println(ex.getClass());
 			}		
@@ -137,9 +137,9 @@ public class ToolSketchRectCtrl implements ToolCtrlSketch {
 					// remove feature2D from the set
 					AvoGlobal.project.getActiveSketch().removeActiveFeat2D();
 					AvoGlobal.paramDialog.setParamSet(null);
-					navigationToolbar.showMessage("Left click on sketch (hold) to set first corner. Drag to set size.");
+					//navigationToolbar.showMessage("Left click on sketch (hold) to set first corner. Drag to set size.");
 				}else{
-					navigationToolbar.showMessage("Rectangle done. Left click on sketch to deselect it.");
+					//navigationToolbar.showMessage("Rectangle done. Left click on sketch to deselect it.");
 				}
 				
 			}catch(Exception ex){
