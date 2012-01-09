@@ -26,10 +26,10 @@ import ui.menuet.MenuetToolboxDialog;
 import ui.opengl.GLView;
 import ui.paramdialog.DynParamDialog;
 import ui.quicksettings.QuickSettings;
-import ui.navigation.NavigationToolbar;
+//import ui.navigation.NavigationToolbar;
 import ui.treeviewer.TreeViewer;
-import ui.settings.GraphicSettings;
-import ui.settings.PartSettings;
+//import ui.settings.GraphicSettings;
+//import ui.settings.PartSettings;
 import backend.data.utilities.ImageUtils;
 import backend.global.AvoColors;
 import backend.global.AvoGlobal;
@@ -219,7 +219,7 @@ public class MainAvoCADoShell{
 		ctf.setSimple(false);
 		ctf.setSelection(cti);		
 		AvoGlobal.treeViewer = new TreeViewer(designSash, SWT.NONE);
-		PartSettings ps = new PartSettings(designSash,SWT.NONE);
+		//PartSettings ps = new PartSettings(designSash,SWT.NONE);
 		
 		// first tab is "Settings" --> allows the user to set some environment parameter
 		cti = new CTabItem(ctf,SWT.NONE);		
@@ -228,7 +228,7 @@ public class MainAvoCADoShell{
 		cti.setControl(tvc);
 		cti.setText("Settings");
 		ctf.setSimple(false);	
-		GraphicSettings gs = new GraphicSettings(tvc,SWT.NONE);
+		//GraphicSettings gs = new GraphicSettings(tvc,SWT.NONE);
 		
 		
 		//Composite comp3right = new Composite(comp2topSash, SWT.NONE);
@@ -253,15 +253,15 @@ public class MainAvoCADoShell{
 		gd3bot.minimumHeight = 30;
 		comp3bot.setLayoutData(gd3bot);
 
-		NavigationToolbar comp2bot = new NavigationToolbar(comp2, SWT.NONE);
+		//NavigationToolbar comp2bot = new NavigationToolbar(comp2, SWT.NONE);
 		//comp2bot.setBackground(new Color(shell.getDisplay(), 150, 50, 150));
 		GridData gd2bot = new GridData(GridData.FILL_HORIZONTAL);
 		gd2bot.grabExcessHorizontalSpace = true;
 		gd2bot.heightHint = 30;
 		gd2bot.minimumHeight = 30;
-		comp2bot.setLayoutData(gd2bot);
+		//comp2bot.setLayoutData(gd2bot);
 		//set the reference to the navigation toolbar, so that it is globally accessible
-		AvoGlobal.navigationToolbar=comp2bot;
+		//AvoGlobal.navigationToolbar=comp2bot;
 		
 	}
 	
