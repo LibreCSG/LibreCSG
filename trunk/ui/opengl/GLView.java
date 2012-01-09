@@ -10,6 +10,7 @@ import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLContext;
 import javax.media.opengl.GLDrawableFactory;
 import javax.media.opengl.glu.GLU;
+import javax.swing.JOptionPane;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlEvent;
@@ -37,8 +38,8 @@ import ui.navigation.*;
 
 
 import ui.event.ParamListener;
-import ui.event.NavigationListener;
-import ui.event.GraphicSettingsListener;
+//import ui.event.NavigationListener;
+//import ui.event.GraphicSettingsListener;
 import ui.menuet.Menuet;
 import backend.global.AvoColors;
 import backend.global.AvoGlobal;
@@ -234,14 +235,16 @@ public class GLView {
 							updateGLView = true;					
 						}
 						if(e.character==' '){
-							CanvasPopup cp = new CanvasPopup(glCanvas.getShell());
+							// aparently a popup is supposed to come up when the user presses the space bar.
+							JOptionPane.showMessageDialog(null, (Object) "This option has been disabled.");
+							/*CanvasPopup cp = new CanvasPopup(glCanvas.getShell());
 					        cp.popUp.setVisible(true);
 					        while (!cp.popUp.isDisposed() && cp.popUp.isVisible()) {
 					          if (!glCanvas.getDisplay().readAndDispatch())
 					        	  glCanvas.getDisplay().sleep();
 					        }
 					        cp.popUp.dispose();
-					        cp=null;
+					        cp=null;*/
 						}
 					}
 				}
@@ -638,6 +641,7 @@ public class GLView {
 			}	    	
 		});
 		
+		/*
 		AvoGlobal.navigationEventHandler.addNavigationListener(new NavigationListener(){
 			public void viewChangeRequested(NavigationViews view){
 				switch(view){
@@ -656,13 +660,14 @@ public class GLView {
 				}
 			}
 		});
+		*/
 
-		AvoGlobal.graphicSettingsEventHandler .addGraphicSettingsListener(new GraphicSettingsListener(){
+		/*AvoGlobal.graphicSettingsEventHandler .addGraphicSettingsListener(new GraphicSettingsListener(){
 			public void lightsSwitched(boolean on){
 				lightsOn=on;
 				updateGLView = true;
 			}
-		});
+		});*/
 	}
 
 	private void drawTransparentMouseLayer(){

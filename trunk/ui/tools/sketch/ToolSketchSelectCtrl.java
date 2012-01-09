@@ -52,10 +52,10 @@ public class ToolSketchSelectCtrl implements ToolCtrlSketch {
 	 * parameter storage, etc.
 	 *
 	 */
-	protected NavigationToolbar navigationToolbar;
+	//protected NavigationToolbar navigationToolbar;
 	public ToolSketchSelectCtrl(){
-		navigationToolbar=AvoGlobal.navigationToolbar;
-		navigationToolbar.showMessage("Select element by clicking on it.");
+		//navigationToolbar=AvoGlobal.navigationToolbar;
+		//navigationToolbar.showMessage("Select element by clicking on it.");
 	}
 	
 	public void glMouseDown(double x, double y, double z,  MouseEvent e, ParamSet paramSet) {
@@ -86,7 +86,7 @@ public class ToolSketchSelectCtrl implements ToolCtrlSketch {
 						// input.
 						//
 						AvoGlobal.paramDialog.setParamSet(f2D.paramSet);
-						navigationToolbar.showMessage("Feature " +  f2D.ID + " selected");			
+						//navigationToolbar.showMessage("Feature " +  f2D.ID + " selected");			
 					}
 				}
 			}
