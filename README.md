@@ -42,7 +42,7 @@ In task lists in this document, tasks are marked as complete by a date of comple
 * added this file (README.md)
 * corrected spelling of contributors in filename and contents of Contributors.txt
 * renamed "GNU GPLv2.txt" to LICENSE.txt
-* Changed to Semantic Versioning 2.0 ("Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.") as per [http://semver.org/](semver.org)
+* Changed to Semantic Versioning 2.0 ("Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.") as per [http://www.semver.org](http://www.semver.org)
   * MAJOR version when you make incompatible API changes,
   * MINOR version when you add functionality in a backwards-compatible manner, and
   * PATCH version when you make backwards-compatible bug fixes.
