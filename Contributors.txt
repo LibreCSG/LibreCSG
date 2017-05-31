@@ -1,4 +1,5 @@
 # Contributors
+see also https://github.com/expertmm/avoCADo/import/authors
 ## Main Contributors to avoCADo:
 
 ### Contributors to expertmm/avoCADo
