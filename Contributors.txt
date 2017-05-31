@@ -1,10 +1,39 @@
-Main Contributers to avoCADo:
+# Contributors
+## Main Contributors to avoCADo:
 
+### Contributors to expertmm/avoCADo
+
+#### expertmm
+Jacob Gustafson
+2017 - present
+lead developer for this period in development (imported the project from SourceForge to GitHub, contacted all contributors)
+
+
+### Authors of avoCADo original master on SourceForge
+(the authors below participated in the original SourceForge master, which was developed only in  Jan 2007 - Jan 2012)
+Usernames and full names below are via sourceforge.net or via searching for username.
+(all notified of fork if found some type of contact info)
+
+#### (original admin on original sourceforge master)
 Adam Kumpf
-  * Cambridge, MA, USA
-  * kumpf@mit.edu
-  * Jan.2007 - present
-  * main project developer and administrator 
+https://github.com/akumpf
+
+#### cstroe
+Cosmin Stroe
+https://github.com/cstroe
+
+#### danielemusiani
+Daniele Musiani
+(no contact info)
+
+#### przcvkdn
+Andy Truong
+https://github.com/a7truong
+
+#### ndsherman
+Nicholas
+(no contact info)
+
 
 
   
