@@ -22,13 +22,15 @@ I took over this project primarily to get the program running on newer computers
 In task lists in this document, tasks are marked as complete by a date of completion in parenthesis before the task(s).
 
 ### 0.8.3
-* The discontinued 2012 sourceforge master is considered retrospectively as this version number under the new versioning scheme (Semantic Versioning).
+* The discontinued January 2012 sourceforge master is considered retrospectively as this version number under the new versioning scheme (Semantic Versioning).
+* The latest version of Java that was released at this time was Java SE 6 Update 30 (2011-12-12) according to https://en.wikipedia.org/wiki/Java_version_history#Java_SE_6
 
-### Planned for version 0.8.4
+### Planned for version 0.9.1
 * (2017-05-31) Import into GitHub, add README.md, clean up file naming and Contributors list
 * Binary release that runs on Java 1.8 (especially Windows 10 and various GNU/Linux distros)
+* Bump version since plans to break compatibility with older Java versions
 
-### Planned for version 0.8.5
+### Planned for version 0.9.2
 * Import all information from "Old info to import into GitHub" below.
 * Add priorities for this version to this list, based on that information.
 
