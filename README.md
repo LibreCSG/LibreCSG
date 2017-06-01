@@ -1,5 +1,5 @@
 # avoCADo
-avoCADo is a 3D design and modeling program (CAD) which aims to be a collaborative tool with an intuitive user interface for both engineers and artists alike, with community plugins.
+avoCADo is a 3D design and modeling program (CAD) which aims to be a collaborative tool with an intuitive user interface for both engineers and artists alike, with community plugins. avoCADo is Open Source AND Free **Libre** Software since it is released under the [GNU GPL v2.1](https://raw.githubusercontent.com/expertmm/avoCADo/master/LICENSE.txt).
 
 ## Overview
 
