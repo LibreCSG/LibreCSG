@@ -22,7 +22,7 @@ I took over this project primarily to get the program running on newer computers
 In task lists in this document, tasks are marked as complete by a date of completion in parenthesis before the task(s).
 
 ### 0.8.3
-* The discontinued 2012 sourceforge master is considered retrospectively as this version number under the new versioning scheme (Semantic Versioning 2.0).
+* The discontinued 2012 sourceforge master is considered retrospectively as this version number under the new versioning scheme (Semantic Versioning).
 
 ### Planned for version 0.8.4
 * (2017-05-31) Import into GitHub, add README.md, clean up file naming and Contributors list
