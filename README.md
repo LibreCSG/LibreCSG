@@ -14,7 +14,7 @@ The key elements of avoCADo:
 * Careful attention to usability
 * Minimal restrictions to creative thinking
 
-Like any good Open Source project, there will also be a very big emphasis on community. 
+Like any good Open Source project, there will also be a very big emphasis on community.
 
 ## Roadmap
 I took over this project primarily to get the program running on newer computers and to encourage the community to help me make a production-ready feature set. However, I took over this project in 2017 after it was discontinued in 2012, so I will have to get familiar with the code before adding new features myself. Please be advised of the following roadmap (especially that the amount of detail in it directly reveals my level of familiarity with the project, which I didn't create) before submitting requests, bugs, or other issues. Until 0.8.5 is listed under releases, there is a development freeze since old issues aren't imported from SourceForge yet, so don't submit issues yet--until 0.8.5 is listed in releases tab at top of GitHub.com/expertmm/avoCADo, you have to fix it yourself: find or become a Java developer, login to GitHub, fork the project, add the features and fixes you want, then submit a pull request. Rest assured that additional known issues will be copied from the old project issue tracker to this one. Thank you for your understanding.
@@ -72,7 +72,12 @@ In task lists in this document, tasks are marked as complete by a date of comple
 * https://sourceforge.net/p/avocado-cad/mailman/avocado-cad-announce/
 * All pages of website http://avocado-cad.sourceforge.net/
 
-## Pre-fork Research
+## Compiling
+* Install System Dependencies
+  * Fedora: `sudo dnf -y install eclipse-jdt java-1.8.0-openjdk-devel`
+  # eclipse-jdt pulls in large sets of dependencies such as: ant, maven, jetty, felix, glassfish, plexus
+* Install jar dependencies
+(requires JOGL--specifically, jogl-1.1.1-rc8-windows-i586/lib/jogl.jar according to version 0.8.3's .classpath file which also specifies jogl-1.1.1-rc8-windows-i586/lib/gluegen-rt.jar)
 
 ### Possible alternate names
 * NaturalCAD
