@@ -38,6 +38,10 @@ In task lists in this document, tasks are marked as complete by a date of comple
 * Add priorities for this version to this list, based on that information.
 
 ## Changes
+(2018-08-01)
+* switched to maven (for why, see http://maven.apache.org/background/
+  philosophy-of-maven.html and https://jogamp.org/wiki/index.php/Maven)
+(2017-05-31)
 * see also "Changes specific to forking" below
 
 ### Changes specific to forking
@@ -63,6 +67,9 @@ In task lists in this document, tasks are marked as complete by a date of comple
 * https://sourceforge.net/projects/avocado-cad/
 * http://avocado-cad.sourceforge.net/
 * https://sourceforge.net/p/avocado-cad/discussion/656395/
+#### external sites
+* http://jogamp.org/jogl/www/
+* http://ossandcad.blogspot.com/2006/10/open-source-software-in-mechanical.html
 
 ### Old info to import into GitHub
 * https://sourceforge.net/p/avocado-cad/wiki/Home/
@@ -82,10 +89,7 @@ In task lists in this document, tasks are marked as complete by a date of comple
 ### Getting 0.8.3 to compile in maven (transitioning to 0.9.1)
 * creating maven project:
     #see also <https://maven.apache.org/guides/getting-started/index.html#How_do_I_make_my_first_Maven_project>
-    mvn -B archetype:generate \
-      -DarchetypeGroupId=org.apache.maven.archetypes \
-      -DgroupId=org.poikilos.app \
-      -DartifactId=librecsg
+    mvn -B archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -DgroupId=org.poikilos.app -DartifactId=librecsg
 * Fedora packages not tried yet:
   maven-jar-plugin maven-eclipse-plugin maven-dependency-plugin maven-dependency-tree
 
@@ -96,3 +100,4 @@ In task lists in this document, tasks are marked as complete by a date of comple
 * FernCAD
 * CriolloCAD (criollo is undomesticated avocado)
 * LibreCSG
+* LibreSolid
