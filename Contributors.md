@@ -1,10 +1,10 @@
 # Contributors
-see also https://github.com/expertmm/avoCADo/import/authors
-## Main Contributors to avoCADo:
+see also https://github.com/poikilos/avoCADo/import/authors
+## Main Contributors to LibreCSG formerly avoCADo:
 
-### Contributors to expertmm/avoCADo
+### Contributors to https://github.com/avoCADo-3d/avoCADo
 
-#### expertmm
+#### poikilos
 Jacob Gustafson
 2017 - present
 lead developer for this period in development (imported the project from SourceForge to GitHub, contacted all contributors)
@@ -44,5 +44,5 @@ https://github.com/a7truong
 
 
 
-  
-  
+
+

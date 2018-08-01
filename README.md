@@ -1,11 +1,11 @@
-# avoCADo
-avoCADo is a 3D design and modeling program (CAD) which aims to be a collaborative tool with an intuitive user interface for both engineers and artists alike, with community plugins. avoCADo is Open Source AND Free **Libre** Software since it is released under the [GNU GPL v2.1](https://raw.githubusercontent.com/expertmm/avoCADo/master/LICENSE.txt).
+# LibreCSG
+LibreCSG (fork of discontinued avoCADo) is a 3D design and modeling program (CAD) which aims to be a collaborative tool with an intuitive user interface for both engineers and artists alike, with community plugins. avoCADo is Open Source AND Free **Libre** Software since it is released under the [GNU GPL v2.1](https://github.com/avoCADo-3d/avoCADo/blob/master/LICENSE.txt).
 
 ## Overview
 
-avoCADo (often referenced as avoCADo-CAD to distinguish it from the fruit) is an Open Source 3D CAD design/modeling program released under the GPL. It is an attempt to offer a real alternative to commercial mechanical CAD and 3D modeling software. Many Open Source CAD programs have been developed over the years, but all seem to fall short in some form or another. By starting from a solid foundation and allowing for rapid expansion of both functionality and collaboration via plugins, avoCADo aims to be an indispensable tool with an intuitive interface for both engineers and artists alike.
+LibreCSG formerly avoCADo (often referenced as avoCADo-CAD to distinguish it from the fruit) is an Open Source 3D CAD design/modeling program released under the GPL. It is an attempt to offer a real alternative to commercial mechanical CAD and 3D modeling software. Many Open Source CAD programs have been developed over the years, but all seem to fall short in some form or another. By starting from a solid foundation and allowing for rapid expansion of both functionality and collaboration via plugins, avoCADo aims to be an indispensable tool with an intuitive interface for both engineers and artists alike.
 
-The key elements of avoCADo:
+The key elements of LibreCSG formerly avoCADo:
 * Simple 3D object design environment
 * Expandable plugin framework (tools, conversion, elements, materials, etc.)
 * Collaboration and sharing with others
@@ -17,7 +17,7 @@ The key elements of avoCADo:
 Like any good Open Source project, there will also be a very big emphasis on community.
 
 ## Roadmap
-I took over this project primarily to get the program running on newer computers and to encourage the community to help me make a production-ready feature set. However, I took over this project in 2017 after it was discontinued in 2012, so I will have to get familiar with the code before adding new features myself. Please be advised of the following roadmap (especially that the amount of detail in it directly reveals my level of familiarity with the project, which I didn't create) before submitting requests, bugs, or other issues. Until 0.8.5 is listed under releases, there is a development freeze since old issues aren't imported from SourceForge yet, so don't submit issues yet--until 0.8.5 is listed in releases tab at top of GitHub.com/expertmm/avoCADo, you have to fix it yourself: find or become a Java developer, login to GitHub, fork the project, add the features and fixes you want, then submit a pull request. Rest assured that additional known issues will be copied from the old project issue tracker to this one. Thank you for your understanding.
+I took over this project primarily to get the program running on newer computers and to encourage the community to help me make a production-ready feature set. However, I took over this project in 2017 after it was discontinued in 2012, so I will have to get familiar with the code before adding new features myself. Please be advised of the following roadmap (especially that the amount of detail in it directly reveals my level of familiarity with the project, which I didn't create) before submitting requests, bugs, or other issues. Until 0.8.5 is listed under releases, there is a development freeze since old issues aren't imported from SourceForge yet, so don't submit issues yet--until 0.8.5 is listed in releases tab at top of https://github.com/avoCADo-3d/avoCADo, you have to fix it yourself: find or become a Java developer, login to GitHub, fork the project, add the features and fixes you want, then submit a pull request. Rest assured that additional known issues will be copied from the old project issue tracker to this one. Thank you for your understanding.
     -poikilos
 
 In task lists in this document, tasks are marked as complete by a date of completion in parenthesis before the task(s).
@@ -40,7 +40,14 @@ In task lists in this document, tasks are marked as complete by a date of comple
 ## Changes
 (2018-08-01)
 * switched to maven (for why, see http://maven.apache.org/background/
-  philosophy-of-maven.html and https://jogamp.org/wiki/index.php/Maven)
+  philosophy-of-maven.html and https://jogamp.org/wiki/index.php/Maven).
+  Formerly, there was no build process other than Eclipse project file
+  which manually imports JOGL (jogamp) jars from a Windows path on "C:".
+* Rename to LibreCSG to avoid naming conflicts with many projects
+* Add Maven default .gitignore lines from github.com/github/gitignore
+  to existing Java gitignore
+* add to .gitignore: `.directory`  from Dolphin on KDE
+* mv main/AvoCADo.java
 (2017-05-31)
 * see also "Changes specific to forking" below
 
@@ -62,7 +69,7 @@ In task lists in this document, tasks are marked as complete by a date of comple
 * for more known issues, see also "Old info to import into GitHub" below
 
 ### Sites that should be updated
-(to link to github.com/expertmm/avoCADo)
+(to link to https://github.com/avoCADo-3d/avoCADo)
 * https://www.openhub.net/p/avoCADo-CAD
 * https://sourceforge.net/projects/avocado-cad/
 * http://avocado-cad.sourceforge.net/
@@ -90,6 +97,7 @@ In task lists in this document, tasks are marked as complete by a date of comple
 * creating maven project:
     #see also <https://maven.apache.org/guides/getting-started/index.html#How_do_I_make_my_first_Maven_project>
     mvn -B archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -DgroupId=org.poikilos.app -DartifactId=librecsg
+    # (output indicates that it maven applied -DarchetypeArtifactId=maven-archetype-quickstart by default)
 * Fedora packages not tried yet:
   maven-jar-plugin maven-eclipse-plugin maven-dependency-plugin maven-dependency-tree
 

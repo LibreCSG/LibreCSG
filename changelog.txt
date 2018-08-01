@@ -1,8 +1,8 @@
-avoCADo changelog, from newest to oldest.
+LibreCSG changelog, from newest to oldest.
 -----------------------------------------
 
 2008-03-01: avoCADo 08.03 preAlpha Released
- - holes can now exist within a region 
+ - holes can now exist within a region
  - added revolve tool to the Build menu
  - material selection (color only for now)
  - arcs can also be references now by unique ID
