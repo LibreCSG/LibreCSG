@@ -74,13 +74,25 @@ In task lists in this document, tasks are marked as complete by a date of comple
 
 ## Compiling
 * Install System Dependencies
-  * Fedora: `sudo dnf -y install eclipse-jdt java-1.8.0-openjdk-devel`
-  # eclipse-jdt pulls in large sets of dependencies such as: ant, maven, jetty, felix, glassfish, plexus
+  * Fedora: `sudo dnf -y install eclipse-jdt java-1.8.0-openjdk-devel maven`
+  #eclipse-jdt pulls in large sets of dependencies such as: ant, jetty, felix, glassfish, plexus, some parts of maven
 * Install jar dependencies
 (requires JOGL--specifically, jogl-1.1.1-rc8-windows-i586/lib/jogl.jar according to version 0.8.3's .classpath file which also specifies jogl-1.1.1-rc8-windows-i586/lib/gluegen-rt.jar)
 
+### Getting 0.8.3 to compile in maven (transitioning to 0.9.1)
+* creating maven project:
+    #see also <https://maven.apache.org/guides/getting-started/index.html#How_do_I_make_my_first_Maven_project>
+    mvn -B archetype:generate \
+      -DarchetypeGroupId=org.apache.maven.archetypes \
+      -DgroupId=org.poikilos.app \
+      -DartifactId=librecsg
+* Fedora packages not tried yet:
+  maven-jar-plugin maven-eclipse-plugin maven-dependency-plugin maven-dependency-tree
+
 ### Possible alternate names
+(originally avoCADo)
 * NaturalCAD
 * PerseaCAD (from Persea americana, genus & species of avocado; not to be confused with the avocado-persea by cha0s on GitHub which is a resource editor and staging framework for avocado game development framework by cha0s)
 * FernCAD
 * CriolloCAD (criollo is undomesticated avocado)
+* LibreCSG
