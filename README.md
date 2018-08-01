@@ -18,6 +18,7 @@ Like any good Open Source project, there will also be a very big emphasis on com
 
 ## Roadmap
 I took over this project primarily to get the program running on newer computers and to encourage the community to help me make a production-ready feature set. However, I took over this project in 2017 after it was discontinued in 2012, so I will have to get familiar with the code before adding new features myself. Please be advised of the following roadmap (especially that the amount of detail in it directly reveals my level of familiarity with the project, which I didn't create) before submitting requests, bugs, or other issues. Until 0.8.5 is listed under releases, there is a development freeze since old issues aren't imported from SourceForge yet, so don't submit issues yet--until 0.8.5 is listed in releases tab at top of GitHub.com/expertmm/avoCADo, you have to fix it yourself: find or become a Java developer, login to GitHub, fork the project, add the features and fixes you want, then submit a pull request. Rest assured that additional known issues will be copied from the old project issue tracker to this one. Thank you for your understanding.
+- poikilos
 
 In task lists in this document, tasks are marked as complete by a date of completion in parenthesis before the task(s).
 
