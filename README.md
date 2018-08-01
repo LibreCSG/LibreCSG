@@ -39,15 +39,57 @@ In task lists in this document, tasks are marked as complete by a date of comple
 
 ## Changes
 (2018-08-01)
-* switched to maven (for why, see http://maven.apache.org/background/
+* Rename to LibreCSG to avoid naming conflicts with many projects
+* add maven project (for why, see http://maven.apache.org/background/
   philosophy-of-maven.html and https://jogamp.org/wiki/index.php/Maven).
   Formerly, there was no build process other than Eclipse project file
   which manually imports JOGL (jogamp) jars from a Windows path on "C:".
-* Rename to LibreCSG to avoid naming conflicts with many projects
 * Add Maven default .gitignore lines from github.com/github/gitignore
   to existing Java gitignore
 * add to .gitignore: `.directory`  from Dolphin on KDE
-* mv main/AvoCADo.java
+* mv -f main/AvoCADo.java librecsg/src/main/java/org/poikilos/app/App.java
+* rename class AvoCADo to App in App.java
+* replace "package main" with "package org.poikilos.app"
+* mv ui librecsg/src/main/java/org/poikilos/
+* replace "package  backend" with "package org.poikilos.librecsg.backend"
+* replace "package  ui" with "package org.poikilos.librecsg.ui"
+* replace "import  ui" with "import org.poikilos.librecsg.ui"
+* replace "import org.poikilos.librecsg.backend" with "import org.poikilos.librecsg.backend"
+* add maven index lookup using Eclipse
+  (see https://stackoverflow.com/questions/24252256/how-do-i-enable-index-downloads-in-eclipse-for-maven-dependency-search)
+  * Windows, Preferences, Maven, then check:
+    * Download repository index updates on startup
+    * Download Artifact Sources (optional)
+    * Download Artifact JavaDoc (optional)
+    * restart Eclipses
+* optionally update maven index from central manually (not tried)
+  * Window, Show View, Other
+    * Maven, Maven Repositories, Open
+  * In the Maven Repositories view, open Global Repositories, right-click central, Rebuild Index
+    * wait for index download to complete
+* add swt Maven dependency via Eclipse (see <https://stackoverflow.com/questions/9164893/how-do-i-add-a-maven-dependency-in-eclipse>):
+  * (skip this step, didn't work:) right-click the project, Maven, Add Dependency, search for swt in search box then click just plain "swt" in "org.eclipse" -- this will automatically fill in groupId: org.eclipse and artifactId: swt, version something like 3.3.0-v3346 (excluding version will break things), OK
+  * close Eclipse
+  * manually add the dependency to pom.xml also unless experimental feature of Eclipse to update pom.xml is enabled.
+## not done yet:
+* replace "org.eclipse.swt.widgets.Display" with ""
+* replace "org.eclipse.swt.graphics.Color" with ""
+* replace "org.eclipse.swt.graphics.Image" with ""
+  * mostly used by org.poikilos.librecsg.backend.data.utilities.ImageUtils
+    (getIcon method returns icon for tool)
+* replace "org.eclipse.swt.graphics.ImageData" with ""
+* replace "org.eclipse.swt.custom.SashForm" with ""
+* replace "javax.media.opengl.GL" with ""
+* replace "org.eclipse.swt.SWT" with ""
+* replace "org.eclipse.swt.events.KeyEvent" with ""
+* replace "org.eclipse.swt.events.MouseEvent" with ""
+* replace "org.eclipse.swt.widgets.MessageBox" with ""
+* see org.poikilos.librecsg.ui.utilities.SWTUtils for:
+  * replace "org.eclipse.swt.graphics.Cursor" with ""
+  * replace "org.eclipse.swt.graphics.Rectangle" with ""
+  * replace "org.eclipse.swt.widgets.Composite" with ""
+  * replace "org.eclipse.swt.widgets.Shell" with ""
+* replace "" with ""
 (2017-05-31)
 * see also "Changes specific to forking" below
 
@@ -96,7 +138,10 @@ In task lists in this document, tasks are marked as complete by a date of comple
 ### Getting 0.8.3 to compile in maven (transitioning to 0.9.1)
 * creating maven project:
     #see also <https://maven.apache.org/guides/getting-started/index.html#How_do_I_make_my_first_Maven_project>
-    mvn -B archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -DgroupId=org.poikilos.app -DartifactId=librecsg
+    mvn -B archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes \
+        -DarchetypeArtifactId=maven-archetype-quickstart \
+        -DgroupId=org.poikilos.librecsg \
+        -DartifactId=librecsg
     # (output indicates that it maven applied -DarchetypeArtifactId=maven-archetype-quickstart by default)
 * Fedora packages not tried yet:
   maven-jar-plugin maven-eclipse-plugin maven-dependency-plugin maven-dependency-tree
