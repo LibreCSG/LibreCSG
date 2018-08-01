@@ -75,4 +75,5 @@ In task lists in this document, tasks are marked as complete by a date of comple
 ### Possible alternate names
 * NaturalCAD
 * PerseaCAD (from Persea americana, genus & species of avocado; not to be confused with the avocado-persea by cha0s on GitHub which is a resource editor and staging framework for avocado game development framework by cha0s)
-
+* FernCAD
+* CriolloCAD (criollo is undomesticated avocado)
