@@ -27,7 +27,9 @@ In task lists in this document, tasks are marked as complete by a date of comple
 * The latest version of Java that was released at this time was Java SE 6 Update 30 (2011-12-12) according to https://en.wikipedia.org/wiki/Java_version_history#Java_SE_6
 
 ### Planned for version 0.9.1
-* (2017-05-31) Import into GitHub, add README.md, clean up file naming and Contributors list
+(2017-05-31)
+* Import into GitHub, add README.md, clean up file naming and Contributors list
+(ToDo)
 * Binary release that runs on Java 1.8 (especially Windows 10 and various GNU/Linux distros)
 * Bump version since plans to break compatibility with older Java versions
 
