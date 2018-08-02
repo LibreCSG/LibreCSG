@@ -76,6 +76,16 @@ In task lists in this document, tasks are marked as complete by a date of comple
 * replace "import  javax.media.opengl.GLCapabilities" with "import com.jogamp.opengl.GLCapabilities"
 * replace "import  javax.media.opengl.GL" with "import com.jogamp.opengl.GL"
 * replace "import  org.eclipse.swt.opengl.GLCanvas" with "import com.jogamp.opengl.swt.GLCanvas"
+* for org.eclipse.swt.widgets.Shell new version:
+  * (StartupSplashShell) replace "shell.setBackgroundImage" with "label.setImage" and make requisite Label, FormData, and FormLayout
+  * (AboutAvoCADoGPL) comment out call to setBackgroundImage (can no longer use "avoCADo-license-bg.jpg" unless can be reimplemented differently)
+  * replace "setMinimumSize" with "setSize"
+* replace "minimumWidth" with "widthHint" (remove line if widthHint already specified; for org.eclipse.swt.layout.GridData new version)
+* for org.eclipse.swt.widgets.Tree new version:
+  * (TreeViewer) change getItem(int) to
+* "import com.jogamp.opengl.GL2" wherever GL is used and replace GL with GL2
+* specify type for Iterator (and remove explicit typecasting from iter.next())
+* (Menuet.java) improve syntax declaring array of linked lists
 ## not done yet:
 * replace "org.eclipse.swt.opengl.GLData" ..
 * replace "" with ""
@@ -105,6 +115,10 @@ In task lists in this document, tasks are marked as complete by a date of comple
 * https://sourceforge.net/projects/avocado-cad/
 * http://avocado-cad.sourceforge.net/
 * https://sourceforge.net/p/avocado-cad/discussion/656395/
+* https://www.programcreek.com/java-api-examples/?class=org.eclipse.swt.widgets.Shell&method=setBackgroundImage
+  (shows deprecated example of org.eclipse.swt.widgets.Shell.setBackgroundImage() from avoCADo;
+  however, eclipse API reference states that setBackgroundImage hint may be overridden by platform,
+  "For example, on Windows the background of a Button cannot be changed.")
 #### external sites
 * http://jogamp.org/jogl/www/
 * http://ossandcad.blogspot.com/2006/10/open-source-software-in-mechanical.html

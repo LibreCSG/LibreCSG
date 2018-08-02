@@ -3,8 +3,7 @@ package org.poikilos.librecsg.ui.opengl;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import com.jogamp.opengl.GLContext;
-
+import com.jogamp.opengl.GL2;
 import org.poikilos.librecsg.backend.adt.Point2D;
 import org.poikilos.librecsg.backend.adt.Rotation3D;
 import org.poikilos.librecsg.backend.adt.Translation3D;
@@ -59,7 +58,7 @@ public class GLTests {
 	 * into a set of convex polygons for rendering in openGL.
 	 * @param gl
 	 */
-	public static void testConvexize(GL gl){
+	public static void testConvexize(GL2 gl){
 		gl.glLoadIdentity();
 		gl.glTranslated(-5.0, 0.0, 0.0);
 		Point2D ptA = new Point2D(0.0, 0.0);
@@ -120,7 +119,7 @@ public class GLTests {
 	 * union, and subtraction operations.
 	 * @param gl
 	 */
-	public static void testCSG(GL gl){
+	public static void testCSG(GL2 gl){
 
 		System.out.println(" ------  Constructive Solid Geometry Test -------- ");
 
@@ -213,7 +212,7 @@ public class GLTests {
 	 * intersection, union, and subtraction operations.
 	 * @param gl
 	 */
-	public static void testCSG_Flush(GL gl){
+	public static void testCSG_Flush(GL2 gl){
 
 		System.out.println(" ------  Constructive Solid Geometry Test -------- ");
 
@@ -308,7 +307,7 @@ public class GLTests {
 	 * @param b
 	 * @param gl
 	 */
-	private static void glDrawSolid(CSG_Solid s, float r, float g, float b, GL gl){
+	private static void glDrawSolid(CSG_Solid s, float r, float g, float b, GL2 gl){
 		Iterator<CSG_Face> iter = s.getFacesIter();
 		while(iter.hasNext()){
 			CSG_Face f = iter.next();
@@ -325,7 +324,7 @@ public class GLTests {
 	 * orange lines -> orange/green points).S
 	 * @param gl
 	 */
-	public static void testRotation(GL gl){
+	public static void testRotation(GL2 gl){
 
 		System.out.println(" ------  GL Rotation Test -------- ");
 
@@ -385,7 +384,7 @@ public class GLTests {
 			    gl.glColor3d(0.9, 0.7, 0.3);
 			    gl.glPointSize(5.0f);
 			    //vZ.glDrawVertex(gl);
-			    gl.glBegin(GL.GL_LINES);
+			    gl.glBegin(GL2.GL_LINES);
 			    	gl.glColor3d(0.9, 0.7, 0.3); // normal
 			    	gl.glVertex3d(0.0, 0.0, 0.0);
 			    	gl.glVertex3d(vZ.getX(), vZ.getY(), vZ.getZ());
@@ -408,7 +407,7 @@ public class GLTests {
 	 * purposes in open GL.
 	 * @param gl
 	 */
-	public static void testPerimeterFormation(GL gl){
+	public static void testPerimeterFormation(GL2 gl){
 		gl.glLoadIdentity();
 		gl.glTranslated(-5.0, 0.0, 0.0);
 		Point2D ptA = new Point2D(0.0, 0.0);
@@ -469,7 +468,7 @@ public class GLTests {
 		for(int i=0; i<perim.size(); i++){
 			CSG_Vertex vA = perim.get(i);
 			CSG_Vertex vB = perim.get((i+1)%perim.size());
-			gl.glBegin(GL.GL_LINE_LOOP);
+			gl.glBegin(GL2.GL_LINE_LOOP);
 				gl.glVertex3d(vA.getX(), vA.getY(), vA.getZ());
 				gl.glVertex3d(vB.getX(), vB.getY(), vB.getZ());
 			gl.glEnd();

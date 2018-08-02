@@ -8,11 +8,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.widgets.ColorDialog;
-import org.eclipse.swt.graphics.RGB;
 import org.poikilos.librecsg.ui.shells.AboutAvoCADoGPLShell;
 import org.poikilos.librecsg.backend.global.AvoGlobal;
-import org.poikilos.librecsg.backend.global.AvoColors;
 import org.poikilos.librecsg.backend.model.Project;
 
 

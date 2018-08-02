@@ -3,7 +3,7 @@ package org.poikilos.librecsg.backend.model.CSG;
 import java.util.Iterator;
 import java.util.List;
 
-import com.jogamp.opengl.GLContext;
+import com.jogamp.opengl.GL2;
 
 
 //
@@ -260,13 +260,13 @@ public class CSG_Segment {
 	}
 
 
-	public void drawSegmentForDebug(GL gl){
-		gl.glBegin(GL.GL_LINES);
+	public void drawSegmentForDebug(GL2 gl){
+		gl.glBegin(GL2.GL_LINES);
 			gl.glColor3f(0.5f,0.5f,0.5f);
 			gl.glVertex3d(startVert.getX(), startVert.getY(), startVert.getZ());
 			gl.glVertex3d(endVert.getX(), endVert.getY(), endVert.getZ());
 		gl.glEnd();
-		gl.glBegin(GL.GL_POINTS);
+		gl.glBegin(GL2.GL_POINTS);
 			gl.glColor3f(0.0f,1.0f,0.0f);
 			gl.glVertex3d(startVert.getX(), startVert.getY(), startVert.getZ());
 			gl.glColor3f(1.0f,0.0f,0.0f);

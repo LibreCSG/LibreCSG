@@ -1,9 +1,5 @@
 package org.poikilos.librecsg.ui.tools;
 
-import com.jogamp.opengl.GLContext;
-
-import org.poikilos.librecsg.backend.adt.ParamSet;
-
 
 
 //

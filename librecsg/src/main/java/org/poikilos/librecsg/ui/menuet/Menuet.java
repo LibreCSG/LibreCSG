@@ -65,7 +65,7 @@ public class Menuet extends Composite{
 	 * Array of LinkedLists, each containing all of
 	 * the button/label/etc. for a particular mode.
 	 */
-	LinkedList <MenuetElement>menuetElements[] = new LinkedList[MENUET_TOTAL_MODES];
+	LinkedList <MenuetElement>[] menuetElements = new LinkedList[MENUET_TOTAL_MODES];
 
 	int[] defaultTool = new int[MENUET_TOTAL_MODES];
 	ToolCtrl[] defaultCtrl = new ToolCtrl[MENUET_TOTAL_MODES];
@@ -80,7 +80,7 @@ public class Menuet extends Composite{
 		for(int i=0; i<MENUET_TOTAL_MODES; i++){
 			menuetElements[i] = new LinkedList<MenuetElement>();
 		}
-		// initialize defautl selected menuet element for each mode
+		// initialize default selected menuet element for each mode
 		for(int i=0; i<defaultTool.length; i++){
 			defaultTool[i] = -1;
 		};
@@ -123,7 +123,7 @@ public class Menuet extends Composite{
 	 * set the default Tool to select when the meneut's mode is
 	 * changed.  (i.e., switching to the sketch mode may automatically
 	 * select a commonly used tool, like the Line or Select tools).
-	 * @param defaultToolIndx the index of the meneuet element to select
+	 * @param defaultToolIndx the index of the menuet element to select
 	 * @param toolMode the menuet mode to attach the default selection to
 	 */
 	public void setDefaultTool(int defaultToolIndx, int toolMode){
@@ -190,9 +190,9 @@ public class Menuet extends Composite{
 
 	private void disableAllTools(){
 		for(int i=0; i<MENUET_TOTAL_MODES; i++){
-			Iterator iter = menuetElements[i].iterator();
+			Iterator<MenuetElement> iter = menuetElements[i].iterator();
 			while(iter.hasNext()){
-				MenuetElement mElement = (MenuetElement)iter.next();
+				MenuetElement mElement = iter.next();
 				mElement.setVisible(false);
 				mElement.isSelected = false;
 			}
@@ -211,9 +211,9 @@ public class Menuet extends Composite{
 			currentToolMode = newToolMode;
 			updateToolModeDisplayed();
 		}
-		Iterator iter = menuetElements[currentToolMode].iterator();
+		Iterator<MenuetElement> iter = menuetElements[currentToolMode].iterator();
 		while(iter.hasNext()){
-			MenuetElement mElement = (MenuetElement)iter.next();
+			MenuetElement mElement = iter.next();
 			if(mElement.equals(me)){
 				mElement.isSelected = true;
 				mElement.redraw();
@@ -293,7 +293,7 @@ public class Menuet extends Composite{
 		}
 
 		unconstrainedElements -= constrainedElements;
-		float unusedPixels3 = 0.0f;
+		//float unusedPixels3 = 0.0f;
 		// iteration (3)
 		if(unusedPixels2 >= 1.0f && unconstrainedElements > 0){
 			for(MenuetElement mElement : menuetElements[currentToolMode]){
@@ -302,7 +302,7 @@ public class Menuet extends Composite{
 					int newHeight = (int)Math.floor(newHeightF);
 					int newHeightB = Math.max(mElement.getMinDisplayHeight(totalWidth), Math.min(newHeight, mElement.mePreferredHeight));
 					mElement.setBounds(0,0,0,newHeightB);
-					unusedPixels3 += newHeight - (float)newHeightB;
+					//unusedPixels3 += newHeight - (float)newHeightB;
 				}
 			}
 		}

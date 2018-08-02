@@ -1,7 +1,6 @@
 package org.poikilos.librecsg.ui.opengl;
 
-import com.jogamp.opengl.GLContext;
-
+import com.jogamp.opengl.GL2;
 import org.poikilos.librecsg.backend.adt.Point2D;
 import org.poikilos.librecsg.backend.adt.Point3D;
 import org.poikilos.librecsg.backend.global.AvoGlobal;
@@ -36,21 +35,21 @@ import org.poikilos.librecsg.backend.global.AvoGlobal;
 public class GLDynPrim {
 
 
-	public static void line3D(GL gl, Point3D ptA, Point3D ptB){
-		gl.glBegin(GL.GL_LINES);
+	public static void line3D(GL2 gl, Point3D ptA, Point3D ptB){
+		gl.glBegin(GL2.GL_LINES);
 			gl.glVertex3d(ptA.getX(), ptA.getY(), ptA.getZ());
 			gl.glVertex3d(ptB.getX(), ptB.getY(), ptB.getZ());
 		gl.glEnd();
 	}
 
-	public static void line2D(GL gl, Point2D ptA, Point2D ptB, double zOffset){
-		gl.glBegin(GL.GL_LINES);
+	public static void line2D(GL2 gl, Point2D ptA, Point2D ptB, double zOffset){
+		gl.glBegin(GL2.GL_LINES);
 			gl.glVertex3d(ptA.getX(), ptA.getY(), zOffset);
 			gl.glVertex3d(ptB.getX(), ptB.getY(), zOffset);
 		gl.glEnd();
 	}
 
-	private static void circle2D(GL gl, Point2D center, double radius, double zOffset){
+	private static void circle2D(GL2 gl, Point2D center, double radius, double zOffset){
 		gl.glPushMatrix();
 			gl.glTranslatef((float)center.getX(), (float)center.getY(), (float)zOffset);
 			float w = (float)Math.cos(Math.PI / 4);
@@ -70,7 +69,7 @@ public class GLDynPrim {
 	}
 
 
-	public static void arc2D(GL gl, Point2D center, double radius, double startAngle, double arcAngle, double zOffset){
+	public static void arc2D(GL2 gl, Point2D center, double radius, double startAngle, double arcAngle, double zOffset){
 		if(arcAngle == 360.0){
 			circle2D(gl, center, radius, zOffset);
 		}else{
@@ -105,7 +104,7 @@ public class GLDynPrim {
 	}
 
 
-	public static void cad_NURBS(GL gl,	double x1, double y1, double z1, double w1,
+	public static void cad_NURBS(GL2 gl,	double x1, double y1, double z1, double w1,
 										double x2, double y2, double z2, double w2,
 										double x3, double y3, double z3, double w3){
 
@@ -143,20 +142,20 @@ public class GLDynPrim {
 		double [] ctrlPoints = {x1*w1,y1*w1,z1*w1,w1,
 								x2*w2,y2*w2,z2*w2,w2,
 								x3*w3,y3*w3,z3*w3,w3 };
-		gl.glEnable(GL.GL_MAP1_VERTEX_4);
-		gl.glEnable(GL.GL_AUTO_NORMAL);
-		gl.glMap1d(GL.GL_MAP1_VERTEX_4, 0.0, 1.0, 4, 3, ctrlPoints, 0);
+		gl.glEnable(GL2.GL_MAP1_VERTEX_4);
+		gl.glEnable(GL2.GL_AUTO_NORMAL);
+		gl.glMap1d(GL2.GL_MAP1_VERTEX_4, 0.0, 1.0, 4, 3, ctrlPoints, 0);
 		gl.glMapGrid1d(segments, 0.0, 1.0);
-		gl.glEvalMesh1(GL.GL_LINE, 0, segments);
+		gl.glEvalMesh1(GL2.GL_LINE, 0, segments);
 
 	}
 
-	public static void mesh(GL gl, double xstart, double xend, double ystart, double yend, int xsteps, int ysteps){
+	public static void mesh(GL2 gl, double xstart, double xend, double ystart, double yend, int xsteps, int ysteps){
 		double grid[] =  new double[] {xstart, ystart, 0.0, xstart, yend, 0.0, xend, ystart, 0.0, xend, yend, 0.0};
 
-		gl.glEnable(GL.GL_MAP2_VERTEX_3);
+		gl.glEnable(GL2.GL_MAP2_VERTEX_3);
 		gl.glLineWidth(1.0f);
-		gl.glMap2d(GL.GL_MAP2_VERTEX_3,
+		gl.glMap2d(GL2.GL_MAP2_VERTEX_3,
 				0.0, 1.0,  /* U ranges 0..1 */
 				3,         /* U stride, 3 floats per coord */
 				2,         /* U is 2nd order, ie. linear */
@@ -169,12 +168,12 @@ public class GLDynPrim {
 			    ysteps, 0.0, 1.0,
 			    xsteps, 0.0, 1.0);
 
-		gl.glEvalMesh2(GL.GL_LINE, 0, ysteps, 0, xsteps);
+		gl.glEvalMesh2(GL2.GL_LINE, 0, ysteps, 0, xsteps);
 	}
 
-	public static void point(GL gl, double x, double y, double z, double size){
+	public static void point(GL2 gl, double x, double y, double z, double size){
 		gl.glPointSize((float)size);
-		gl.glBegin(GL.GL_POINTS);
+		gl.glBegin(GL2.GL_POINTS);
 			gl.glVertex3d(x, y, z);
 		gl.glEnd();
 	}

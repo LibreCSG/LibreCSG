@@ -4,8 +4,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.poikilos.librecsg.backend.model.ref.ModRef_Plane;
-
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -189,10 +187,11 @@ public class CSG_BooleanOperator {
 										CSG_Polygon polyA = faceA.getPolygonAtIndex(iPolyA);
 										// ( 9) if(extent of polygonA overlaps polygonB)
 										if(polyA.getBounds().overlapsBounds(polyB.getBounds())){
-											// (10) ** analize them as in "5. Do Two Polygons Intersect"
+											// (10) ** analyze them as in "5. Do Two Polygons Intersect"
 											//System.out.println("considering polyA: " + polyA);
 											// performPolyIntersection handles lines (11-14)
 											CSG_FACE_INFO info = performPolyIntersection(polyA, faceA, polyB, faceB, true);
+											//TODO: is something missing here?
 										}
 									}
 								}

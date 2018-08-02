@@ -210,7 +210,6 @@ public class TreeViewer  {
 		if(project == null){
 			return;
 		}
-
 		for(int i=project.getGroupListSize(); i<tree.getItemCount(); i++){
 			// remove groups that no longer exist
 			tree.getItem(i).dispose();

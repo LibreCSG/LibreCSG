@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.media.opengl.GL;
+import com.jogamp.opengl.GL2;
 
 import org.poikilos.librecsg.backend.global.AvoGlobal;
 import org.poikilos.librecsg.backend.global.AvoColors;
@@ -195,18 +195,18 @@ public class Part {
 		AvoGlobal.glView.updateGLView = true;
 	}
 
-	public void glDrawSolid(GL gl){
+	public void glDrawSolid(GL2 gl){
 		partMaterial.loadMaterial(gl);
 		partSolid.glDrawSolid(gl);
 		partMaterial.disposeMaterial(gl);
 	}
 
-	public void glDrawSelectedElements(GL gl){
+	public void glDrawSelectedElements(GL2 gl){
 		gl.glColor4d(AvoColors.GL_COLOR4_3D_NONACT[0],AvoColors.GL_COLOR4_3D_NONACT[1],AvoColors.GL_COLOR4_3D_NONACT[2],AvoColors.GL_COLOR4_3D_NONACT[3]);
 		partSolid.glDrawSelectedElements(gl);
 	}
 
-	public void glDrawImportantEdges(GL gl){
+	public void glDrawImportantEdges(GL2 gl){
 		gl.glColor4d(AvoColors.GL_COLOR4_3D_NONACT[0],AvoColors.GL_COLOR4_3D_NONACT[1],AvoColors.GL_COLOR4_3D_NONACT[2],AvoColors.GL_COLOR4_3D_NONACT[3]);
 		partSolid.glDrawImportantEdges(gl);
 	}

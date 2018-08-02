@@ -15,10 +15,6 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
-import javax.swing.JTabbedPane;
-import javax.swing.JComponent;
-
-
 import org.poikilos.librecsg.ui.menubar.AvoMenuBar;
 import org.poikilos.librecsg.ui.menuet.Menuet;
 import org.poikilos.librecsg.ui.menuet.MenuetBuilder;
@@ -78,7 +74,7 @@ public class MainAvoCADoShell{
 
 		shell.setText("avoCADo");
 		shell.setSize(800, 600);	//TODO: set intial size to last known size
-		shell.setMinimumSize(640, 480);
+		shell.setSize(640, 480);
 		Rectangle b = display.getBounds();
 		int xPos = Math.max(0, (b.width-800)/2);
 		int yPos = Math.max(0, (b.height-600)/2);
@@ -135,7 +131,6 @@ public class MainAvoCADoShell{
 		GridData gd0 = new GridData(GridData.FILL_VERTICAL);
 		gd0.grabExcessVerticalSpace = true;
 		gd0.widthHint = Menuet.MENUET_WIDTH;
-		gd0.minimumWidth = Menuet.MENUET_WIDTH;
 		AvoGlobal.menuet.setLayoutData(gd0);
 
 
@@ -250,7 +245,6 @@ public class MainAvoCADoShell{
 		GridData gd3bot = new GridData(GridData.FILL_HORIZONTAL);
 		gd3bot.grabExcessHorizontalSpace = true;
 		gd3bot.heightHint = 30;
-		gd3bot.minimumHeight = 30;
 		comp3bot.setLayoutData(gd3bot);
 
 		//NavigationToolbar comp2bot = new NavigationToolbar(comp2, SWT.NONE);
@@ -258,7 +252,6 @@ public class MainAvoCADoShell{
 		GridData gd2bot = new GridData(GridData.FILL_HORIZONTAL);
 		gd2bot.grabExcessHorizontalSpace = true;
 		gd2bot.heightHint = 30;
-		gd2bot.minimumHeight = 30;
 		//comp2bot.setLayoutData(gd2bot);
 		//set the reference to the navigation toolbar, so that it is globally accessible
 		//AvoGlobal.navigationToolbar=comp2bot;

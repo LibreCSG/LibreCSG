@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.nio.FloatBuffer;
 import java.util.Iterator;
 
-import com.jogamp.opengl.GL;
+import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLContext;
 import com.jogamp.opengl.GLDrawableFactory;
@@ -26,7 +26,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Device;
 import com.jogamp.opengl.swt.GLCanvas;
-import com.jogamp.opengl.GLUniformData;
+import com.jogamp.opengl.GLUniformData; //TODO: use this instead of GLData?? -poikilos
 import org.eclipse.swt.opengl.GLData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -83,7 +83,7 @@ import org.poikilos.librecsg.backend.model.sketch.Region2D;
  */
 public class GLView {
 
-	static GL  gl;
+	static GL2  gl;
 	static GLU glu;
 	public final  GLCanvas  glCanvas;
 	final  GLContext glContext;

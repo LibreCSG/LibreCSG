@@ -1,7 +1,5 @@
 package org.poikilos.librecsg.ui.tools.build;
 
-import com.jogamp.opengl.GLContext;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseEvent;
@@ -130,7 +128,7 @@ public class ToolBuildRevolveCtrl implements ToolCtrlBuild{
 			Sketch sketch = build.getPrimarySketch();
 			if(sketch != null){
 				try{
-					SelectionList regions    = paramSet.getParam("regions").getDataSelectionList();
+					// SelectionList regions    = paramSet.getParam("regions").getDataSelectionList();
 					SelectionList centerline = paramSet.getParam("centerline").getDataSelectionList();
 					Point2D clickedPoint = new Point2D(x,y);
 					if(centerline.hasFocus){

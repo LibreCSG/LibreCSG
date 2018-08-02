@@ -23,7 +23,6 @@ import org.poikilos.librecsg.backend.model.CSG.CSG_Solid;
 import org.poikilos.librecsg.backend.model.CSG.CSG_Vertex;
 import org.poikilos.librecsg.backend.model.ref.ModRef_Cylinder;
 import org.poikilos.librecsg.backend.model.ref.ModRef_Plane;
-import org.poikilos.librecsg.backend.model.sketch.Point2DList;
 import org.poikilos.librecsg.backend.model.sketch.Prim2D;
 import org.poikilos.librecsg.backend.model.sketch.Prim2DArc;
 import org.poikilos.librecsg.backend.model.sketch.Prim2DLine;

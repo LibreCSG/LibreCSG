@@ -13,8 +13,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import org.poikilos.librecsg.backend.data.utilities.ImageUtils;
-
 
 //
 //Copyright (C) 2007 avoCADo (Adam Kumpf creator)
@@ -75,7 +73,7 @@ public class AboutAvoCADoGPLShell {
 	void setupShell(){
 		// --populate the shell--
 
-		shell.setBackgroundImage(ImageUtils.getIcon("./avoCADo-license-bg.jpg", 583, 350));
+		//shell.setBackgroundImage(ImageUtils.getIcon("./avoCADo-license-bg.jpg", 583, 350));
 
 		GridLayout gl = new GridLayout();
 		shell.setLayout(gl);

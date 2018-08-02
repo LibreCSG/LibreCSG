@@ -4,8 +4,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.jogamp.opengl.GLContext;
-
+import com.jogamp.opengl.GL2;
 import org.poikilos.librecsg.backend.adt.Rotation3D;
 import org.poikilos.librecsg.backend.adt.Translation3D;
 
@@ -142,7 +141,7 @@ public class CSG_Solid {
 		return true;
 	}
 
-	public void glDrawSolid(GL gl){
+	public void glDrawSolid(GL2 gl){
 		Iterator<CSG_Face> iter = faces.iterator();
 		while(iter.hasNext()){
 			CSG_Face f = iter.next();
@@ -153,7 +152,7 @@ public class CSG_Solid {
 		}
 	}
 
-	public void glDrawWireframe(GL gl){
+	public void glDrawWireframe(GL2 gl){
 		Iterator<CSG_Face> iter = faces.iterator();
 		while(iter.hasNext()){
 			CSG_Face f = iter.next();
@@ -161,7 +160,7 @@ public class CSG_Solid {
 		}
 	}
 
-	public void glDrawSelectedElements(GL gl){
+	public void glDrawSelectedElements(GL2 gl){
 		Iterator<CSG_Face> iter = faces.iterator();
 		while(iter.hasNext()){
 			CSG_Face f = iter.next();
@@ -210,7 +209,7 @@ public class CSG_Solid {
 
 	}
 
-	public void glDrawImportantEdges(GL gl){
+	public void glDrawImportantEdges(GL2 gl){
 		Iterator<CSG_Face> iter = faces.iterator();
 		while(iter.hasNext()){
 			CSG_Face f = iter.next();

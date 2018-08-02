@@ -224,7 +224,7 @@ public class Region2DList extends LinkedList<Region2D>{
 		LinkedList<LinkedList<Integer>> regionsContained = new LinkedList<LinkedList<Integer>>();
 
 		// find regions contained within regions.
-		int k = 0;
+		//int k = 0;
 		for(Region2D regA : this){
 			LinkedList<Integer> llRegionIndexes = new LinkedList<Integer>();
 			for(int i=0; i<this.size(); i++){
@@ -234,7 +234,7 @@ public class Region2DList extends LinkedList<Region2D>{
 				}
 			}
 			regionsContained.add(llRegionIndexes);
-			k++;
+			//k++;
 		}
 		// show the contain info for debug.
 		for(int j=0; j<this.size(); j++){

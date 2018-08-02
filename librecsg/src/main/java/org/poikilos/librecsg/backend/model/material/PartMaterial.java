@@ -1,7 +1,6 @@
 package org.poikilos.librecsg.backend.model.material;
 
-import com.jogamp.opengl.GLContext;
-import org.eclipse.swt.graphics.Color;
+import com.jogamp.opengl.GL2;
 import org.poikilos.librecsg.backend.global.AvoGlobal;
 
 public class PartMaterial {
@@ -41,13 +40,12 @@ public class PartMaterial {
 	 * setup the GL drawing configuration to correctly apply material in subsequent operations.
 	 * @param gl
 	 */
-	public void loadMaterial(GL gl){
-
-		gl.glMaterialfv(GL.GL_FRONT, GL.GL_AMBIENT, this.ambient, 0);
-	    gl.glMaterialfv(GL.GL_FRONT, GL.GL_DIFFUSE, this.diffuse, 0);
-	    gl.glMaterialfv(GL.GL_FRONT, GL.GL_SPECULAR, this.specular, 0);
-	    gl.glMaterialfv(GL.GL_FRONT, GL.GL_EMISSION, this.emission, 0);
-	    gl.glMaterialfv(GL.GL_FRONT, GL.GL_SHININESS, this.shininess, 0);
+	public void loadMaterial(GL2 gl){
+		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_AMBIENT, this.ambient, 0);
+	    gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_DIFFUSE, this.diffuse, 0);
+	    gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, this.specular, 0);
+	    gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_EMISSION, this.emission, 0);
+	    gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SHININESS, this.shininess, 0);
 
 	    System.out.println("Ambient: " + this.ambient[0] + " " + this.ambient[1] + " " + this.ambient[2]);
 	    System.out.println("Diffuse: " + this.diffuse[0] + " " + this.diffuse[1] + " " + this.diffuse[2]);
@@ -181,13 +179,13 @@ public class PartMaterial {
 	 * This should be called after the drawing of the part is complete.
 	 * @param gl
 	 */
-	public void disposeMaterial(GL gl){
+	public void disposeMaterial(GL2 gl){
 		if(AvoGlobal.glView.OPENGL_FRAGMENT_SHADER_GLSL_ENABLED){
 			// TODO: dispose material in GLSL
 		}else{
 			if(AvoGlobal.glView.OPENGL_FRAGMENT_PROGRAM_ARB_ENABLED){
 				// TODO: dispose material in ARB
-				gl.glDisable(GL.GL_FRAGMENT_PROGRAM_ARB);
+				gl.glDisable(GL2.GL_FRAGMENT_PROGRAM_ARB);
 			}else{
 				// dispose r,g,b,a for material.. (no action really needed here)
 				gl.glColor4d(0.5, 0.5, 0.5, 1.0);

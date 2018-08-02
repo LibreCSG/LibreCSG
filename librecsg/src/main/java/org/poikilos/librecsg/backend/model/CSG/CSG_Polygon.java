@@ -3,8 +3,7 @@ package org.poikilos.librecsg.backend.model.CSG;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import com.jogamp.opengl.GLContext;
-
+import com.jogamp.opengl.GL2;
 import org.poikilos.librecsg.backend.adt.Rotation3D;
 import org.poikilos.librecsg.backend.adt.Translation3D;
 
@@ -355,34 +354,34 @@ public class CSG_Polygon {
 		return true;
 	}
 
-	public void glDrawPolygon(GL gl){
+	public void glDrawPolygon(GL2 gl){
 		// TODO: put this in a GL lib of somekind..
-		gl.glBegin(GL.GL_POLYGON);
+		gl.glBegin(GL2.GL_POLYGON);
 		for(CSG_Vertex v : vertices){
 			gl.glVertex3dv(v.getXYZ(), 0);
 		}
 		gl.glEnd();
 	}
 
-	public void drawPolygonForDebug(GL gl){
+	public void drawPolygonForDebug(GL2 gl){
 		gl.glColor3f(0.5f, 0.7f, 0.7f);
-		gl.glBegin(GL.GL_POLYGON);
+		gl.glBegin(GL2.GL_POLYGON);
 		for(CSG_Vertex v : vertices){
 			gl.glVertex3dv(v.getXYZ(), 0);
 		}
 		gl.glEnd();
 	}
 
-	public void drawPolygonNormalsForDebug(GL gl){
+	public void drawPolygonNormalsForDebug(GL2 gl){
 		float[] currentColor=new float[]{0,0,0,0};
-		gl.glGetFloatv(GL.GL_CURRENT_COLOR, currentColor, 0);
+		gl.glGetFloatv(GL2.GL_CURRENT_COLOR, currentColor, 0);
 		gl.glColor3d(1.0, 0.0, 0.0);
 		CSG_Vertex fCenter = getBarycenterVertex();
 		CSG_Vertex norm = getPlane().getNormal();
 		double scale = 10;
 		fCenter.addToVertex(norm.getScaledCopy(scale));
 		CSG_Vertex nShifted = fCenter.addToVertex(norm.getScaledCopy(scale));
-		gl.glBegin(GL.GL_LINES);
+		gl.glBegin(GL2.GL_LINES);
 			gl.glVertex3dv(fCenter.getXYZ(), 0);
 			gl.glVertex3dv(nShifted.getXYZ(), 0);
 		gl.glEnd();

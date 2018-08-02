@@ -1,7 +1,6 @@
 package org.poikilos.librecsg.backend.model.sketch;
 
-import com.jogamp.opengl.GLContext;
-
+import com.jogamp.opengl.GL2;
 import org.poikilos.librecsg.backend.adt.Rotation3D;
 import org.poikilos.librecsg.backend.adt.Translation3D;
 import org.poikilos.librecsg.backend.model.CSG.CSG_Plane;
@@ -176,14 +175,14 @@ public class SketchPlane {
 		return xAxis.deepCopy();
 	}
 
-	public void drawPlaneForDebug(GL gl){
+	public void drawPlaneForDebug(GL2 gl){
 		// 3x5 rectangle (aligned along var 1);
 		CSG_Vertex a = origin.addToVertex(xAxis.getScaledCopy( 2.5)).addToVertex(yAxis.getScaledCopy( 1.5));
 		CSG_Vertex b = origin.addToVertex(xAxis.getScaledCopy(-2.5)).addToVertex(yAxis.getScaledCopy( 1.5));
 		CSG_Vertex c = origin.addToVertex(xAxis.getScaledCopy(-2.5)).addToVertex(yAxis.getScaledCopy(-1.5));
 		CSG_Vertex d = origin.addToVertex(xAxis.getScaledCopy( 2.5)).addToVertex(yAxis.getScaledCopy(-1.5));
 		gl.glColor3f(0.5f, 1.0f, 1.0f);
-		gl.glBegin(GL.GL_LINE_LOOP);
+		gl.glBegin(GL2.GL_LINE_LOOP);
 			gl.glVertex3dv(a.getXYZ(), 0);
 			gl.glVertex3dv(b.getXYZ(), 0);
 			gl.glVertex3dv(c.getXYZ(), 0);
@@ -195,7 +194,7 @@ public class SketchPlane {
 	 * orient the scene to the sketch plane.
 	 * @param gl
 	 */
-	public void glOrientToPlane(GL gl){
+	public void glOrientToPlane(GL2 gl){
 		//gl.glLoadIdentity();
 		// align to origin
 		gl.glTranslated(origin.getX(), origin.getY(), origin.getZ());

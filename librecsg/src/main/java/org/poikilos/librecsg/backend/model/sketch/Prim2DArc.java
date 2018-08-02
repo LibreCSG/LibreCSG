@@ -2,8 +2,7 @@ package org.poikilos.librecsg.backend.model.sketch;
 
 import java.util.LinkedList;
 
-import com.jogamp.opengl.GLContext;
-
+import com.jogamp.opengl.GL2;
 import org.poikilos.librecsg.ui.opengl.GLDynPrim;
 import org.poikilos.librecsg.backend.adt.Point2D;
 import org.poikilos.librecsg.backend.geometry.Geometry2D;
@@ -84,7 +83,7 @@ public class Prim2DArc extends Prim2D{
 		return this.radius;
 	}
 
-	public void glDraw(GL gl) {
+	public void glDraw(GL2 gl) {
 		if(this.isSelected){
 			float[] color = AvoColors.GL_COLOR4_2D_ACTIVE;
 			gl.glColor4f(color[0], color[1], color[2], color[3]);

@@ -1,13 +1,10 @@
 package org.poikilos.librecsg.ui.tools.sketch;
 
-import com.jogamp.opengl.GLContext;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseEvent;
 
 import org.poikilos.librecsg.ui.tools.ToolCtrlSketch;
-import org.poikilos.librecsg.ui.navigation.*;
 import org.poikilos.librecsg.backend.adt.ParamSet;
 import org.poikilos.librecsg.backend.adt.Point2D;
 import org.poikilos.librecsg.backend.global.AvoGlobal;

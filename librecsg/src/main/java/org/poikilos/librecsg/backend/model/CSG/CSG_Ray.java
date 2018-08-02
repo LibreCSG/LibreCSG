@@ -1,6 +1,6 @@
 package org.poikilos.librecsg.backend.model.CSG;
 
-import com.jogamp.opengl.GLContext;
+import com.jogamp.opengl.GL2;
 
 
 //
@@ -145,14 +145,14 @@ public class CSG_Ray {
 	 * @param gl the GL context on which to render
 	 * @param length the total length of the line
 	 */
-	public void drawLineForDebug(GL gl, double length){
+	public void drawLineForDebug(GL2 gl, double length){
 		CSG_Vertex begin = basePoint;
 		CSG_Vertex end   = basePoint.addToVertex(direction.getScaledCopy(length));
-		gl.glBegin(GL.GL_LINES);
+		gl.glBegin(GL2.GL_LINES);
 			gl.glVertex3d(begin.getX(), begin.getY(), begin.getZ());
 			gl.glVertex3d(end.getX(), end.getY(), end.getZ());
 		gl.glEnd();
-		gl.glBegin(GL.GL_POINTS);
+		gl.glBegin(GL2.GL_POINTS);
 			gl.glVertex3d(basePoint.getX(), basePoint.getY(), basePoint.getZ());
 		gl.glEnd();
 	}

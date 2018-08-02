@@ -3,8 +3,7 @@ package org.poikilos.librecsg.backend.model.sketch;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import com.jogamp.opengl.GLContext;
-
+import com.jogamp.opengl.GL2;
 import org.poikilos.librecsg.backend.adt.Point2D;
 import org.poikilos.librecsg.backend.geometry.Geometry2D;
 import org.poikilos.librecsg.backend.global.AvoColors;
@@ -557,7 +556,7 @@ public class Region2D{
 	 * etc. will be handled automatically.
 	 * @param gl
 	 */
-	public void glDrawRegion(GL gl){
+	public void glDrawRegion(GL2 gl){
 		if(isSelected){
 			// selected
 			if(isMousedOver){

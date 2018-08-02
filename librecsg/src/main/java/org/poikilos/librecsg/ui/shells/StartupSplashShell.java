@@ -2,7 +2,11 @@ package org.poikilos.librecsg.ui.shells;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 import org.poikilos.librecsg.backend.data.utilities.ImageUtils;
@@ -48,8 +52,15 @@ public class StartupSplashShell {
 		setupShell(); 				// place components in the main avoCADo shell
 
 		shell.setText("avoCADo");
-		shell.setBackgroundImage(ImageUtils.getIcon("./avoCADo-Splash.jpg", 360, 298));
-		shell.setSize(360, 298);	//TODO: set intial size to last known size
+		Label label = new Label(shell, SWT.NONE);
+		label.setImage(ImageUtils.getIcon("./avoCADo-Splash.jpg", 360, 298));
+		FormLayout layout = new FormLayout();
+		shell.setLayout(layout);
+		FormData labelData = new FormData();
+        labelData.right = new FormAttachment(100, 0);  // 100%
+        labelData.bottom = new FormAttachment(100, 0);  // 100%
+        label.setLayoutData(labelData);
+		shell.setSize(360, 298);	//TODO: set initial size to last known size
 		Rectangle b = display.getBounds();
 		int xPos = Math.max(0, (b.width-360)/2);
 		int yPos = Math.max(0, (b.height-298)/2);

@@ -1,7 +1,5 @@
 package org.poikilos.librecsg.ui.tools;
 
-import com.jogamp.opengl.GLContext;
-
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseEvent;
 

@@ -2,10 +2,7 @@ package org.poikilos.librecsg.backend.model.CSG;
 
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
-
-import com.jogamp.opengl.GLContext;
-
+import com.jogamp.opengl.GL2;
 import org.poikilos.librecsg.backend.adt.Rotation3D;
 import org.poikilos.librecsg.backend.adt.Translation3D;
 import org.poikilos.librecsg.backend.global.AvoGlobal;
@@ -363,7 +360,7 @@ public class CSG_Face {
 		this.isSelected = isSelected;
 	}
 
-	public void drawFaceForDebug(GL gl){
+	public void drawFaceForDebug(GL2 gl){
 		for(CSG_Polygon poly : polygons){
 			if(poly.type == CSG_Polygon.POLY_TYPE.POLY_INSIDE){ 	// red
 				gl.glColor4d(0.9, 0.4, 0.4, 0.5);
@@ -381,7 +378,7 @@ public class CSG_Face {
 				gl.glColor4d(0.5, 0.5, 0.5, 0.5);
 			}
 			Iterator<CSG_Vertex> iterV = poly.getVertexIterator();
-			gl.glBegin(GL.GL_POLYGON);
+			gl.glBegin(GL2.GL_POLYGON);
 			while(iterV.hasNext()){
 				gl.glVertex3dv(iterV.next().getXYZ(), 0);
 			}
@@ -389,10 +386,10 @@ public class CSG_Face {
 		}
 	}
 
-	public void drawFaceWireframe(GL gl){
+	public void drawFaceWireframe(GL2 gl){
 		for(CSG_Polygon poly : polygons){
 			Iterator<CSG_Vertex> iterV = poly.getVertexIterator();
-			gl.glBegin(GL.GL_LINE_LOOP);
+			gl.glBegin(GL2.GL_LINE_LOOP);
 			while(iterV.hasNext()){
 				gl.glVertex3dv(iterV.next().getXYZ(), 0);
 			}
@@ -400,7 +397,7 @@ public class CSG_Face {
 		}
 	}
 
-	public void drawFaceLinesForDebug(GL gl){
+	public void drawFaceLinesForDebug(GL2 gl){
 		for(CSG_Polygon poly : polygons){
 			if(poly.type == CSG_Polygon.POLY_TYPE.POLY_INSIDE){ 	// red
 				gl.glColor3d(0.5, 0.2, 0.2);
@@ -418,7 +415,7 @@ public class CSG_Face {
 				gl.glColor3d(0.25, 0.25, 0.25);
 			}
 			Iterator<CSG_Vertex> iterV = poly.getVertexIterator();
-			gl.glBegin(GL.GL_LINE_LOOP);
+			gl.glBegin(GL2.GL_LINE_LOOP);
 			while(iterV.hasNext()){
 				gl.glVertex3dv(iterV.next().getXYZ(), 0);
 			}
@@ -427,7 +424,7 @@ public class CSG_Face {
 	}
 
 
-	public void glDrawImportantEdges(GL gl){
+	public void glDrawImportantEdges(GL2 gl){
 		/*
 		if(this.isSelectable()){
 			// draw perimeter if face is selectable.. :)
@@ -444,7 +441,7 @@ public class CSG_Face {
 		*/
 
 		// alternatively, just draw the mating edge lines
-		gl.glBegin(GL.GL_LINES);
+		gl.glBegin(GL2.GL_LINES);
 			for(CSG_Vertex v : matingEdgeLines){
 				gl.glTexCoord3dv(v.getXYZ(), 0); // must call before you place the vertex! :)
 				gl.glVertex3dv(v.getXYZ(), 0);
@@ -453,7 +450,7 @@ public class CSG_Face {
 	}
 
 
-	public void glDrawFace(GL gl){
+	public void glDrawFace(GL2 gl){
 		if(AvoGlobal.DEBUG_MODE){
 			drawFaceForDebug(gl);
 			drawFaceLinesForDebug(gl);
@@ -469,7 +466,7 @@ public class CSG_Face {
 				}
 				*/
 				Iterator<CSG_Vertex> iterV = poly.getVertexIterator();
-				gl.glBegin(GL.GL_POLYGON);
+				gl.glBegin(GL2.GL_POLYGON);
 
 				while(iterV.hasNext()){
 					CSG_Vertex v = iterV.next();
@@ -570,7 +567,7 @@ public class CSG_Face {
 	}
 
 
-	public void drawFaceNormalsForDebug(GL gl){
+	public void drawFaceNormalsForDebug(GL2 gl){
 		for(CSG_Polygon poly : polygons){
 			poly.drawPolygonNormalsForDebug(gl);
 		}

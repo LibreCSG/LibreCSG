@@ -1,6 +1,6 @@
 package org.poikilos.librecsg.backend.model.CSG;
 
-import com.jogamp.opengl.GLContext;
+import com.jogamp.opengl.GL2;
 
 
 //
@@ -116,10 +116,10 @@ public class CSG_Plane {
 		return dist;
 	}
 
-	public void drawNormalFromOriginForDegug(GL gl){
+	public void drawNormalFromOriginForDegug(GL2 gl){
 		gl.glColor3d(1.0, 0.0, 0.0);
 		double scale = 1.0;
-		gl.glBegin(GL.GL_LINES);
+		gl.glBegin(GL2.GL_LINES);
 			gl.glVertex3dv(normal.getScaledCopy(scale).getXYZ(), 0);
 			gl.glVertex3d(0.0, 0.0, 0.0);
 		gl.glEnd();

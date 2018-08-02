@@ -105,8 +105,7 @@ public class PCompSelectionList extends ParamComp{
 
 		GridData gd = new GridData();
 		gd.heightHint = 50;
-		gd.minimumHeight = 50;
-		gd.minimumWidth = 50;
+		gd.widthHint = 50;
 		gd.grabExcessHorizontalSpace = true;
 		gd.grabExcessVerticalSpace = true;
 		lSL.setLayoutData(gd);

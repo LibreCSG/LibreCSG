@@ -2,8 +2,7 @@ package org.poikilos.librecsg.backend.model.sketch;
 
 import java.util.LinkedList;
 
-import com.jogamp.opengl.GLContext;
-
+import com.jogamp.opengl.GL2;
 import org.poikilos.librecsg.backend.adt.Point2D;
 
 
@@ -65,7 +64,7 @@ public abstract class Prim2D {
 	 * draw the Prim2D the screen
 	 * @param gl
 	 */
-	abstract public void glDraw(GL gl);
+	abstract public void glDraw(GL2 gl);
 
 	/**
 	 * return the point at which "this" prim2D intersects

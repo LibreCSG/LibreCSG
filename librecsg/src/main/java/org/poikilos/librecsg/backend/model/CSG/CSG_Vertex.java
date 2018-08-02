@@ -3,8 +3,7 @@ package org.poikilos.librecsg.backend.model.CSG;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.jogamp.opengl.GLContext;
-
+import com.jogamp.opengl.GL2;
 import org.poikilos.librecsg.backend.adt.Point2D;
 import org.poikilos.librecsg.backend.adt.Point3D;
 import org.poikilos.librecsg.backend.adt.Rotation3D;
@@ -163,15 +162,15 @@ public class CSG_Vertex {
 		}
 	}
 
-	public void drawPointForDebug(GL gl){
+	public void drawPointForDebug(GL2 gl){
 		gl.glColor3d(0.0, 1.0, 0.0);
-		gl.glBegin(GL.GL_POINTS);
+		gl.glBegin(GL2.GL_POINTS);
 			gl.glVertex3d(x, y, z);
 		gl.glEnd();
 	}
 
-	public void glDrawVertex(GL gl){
-		gl.glBegin(GL.GL_POINTS);
+	public void glDrawVertex(GL2 gl){
+		gl.glBegin(GL2.GL_POINTS);
 			gl.glVertex3d(x, y, z);
 		gl.glEnd();
 	}

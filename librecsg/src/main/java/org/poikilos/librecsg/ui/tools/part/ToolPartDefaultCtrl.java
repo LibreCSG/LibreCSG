@@ -2,8 +2,6 @@ package org.poikilos.librecsg.ui.tools.part;
 
 import java.util.Iterator;
 
-import com.jogamp.opengl.GLContext;
-
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseEvent;
 
@@ -52,7 +50,7 @@ public class ToolPartDefaultCtrl implements ToolCtrlPart{
 	private final double MAX_DIST_FROM_FACE = 0.1;
 
 	public void glMouseDown(double x, double y, double z, MouseEvent e, ParamSet paramSet) {
-		long startTime = System.nanoTime();
+		//long startTime = System.nanoTime();
 		Part part = AvoGlobal.project.getActivePart();
 		if(part != null){
 			CSG_Vertex clickedVert = new CSG_Vertex(x, y, z);
@@ -100,7 +98,7 @@ public class ToolPartDefaultCtrl implements ToolCtrlPart{
 
 			AvoGlobal.glView.updateGLView = true;
 		}
-		long endTime = System.nanoTime();
+		//long endTime = System.nanoTime();
 		//System.out.println("Time to search for clicked face: " + (endTime-startTime)/1e6 + "mSec");
 	}
 
