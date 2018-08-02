@@ -136,6 +136,9 @@ In task lists in this document, tasks are marked as complete by a date of comple
   * Fedora: `sudo dnf -y install eclipse-jdt java-1.8.0-openjdk-devel maven`
   #eclipse-jdt pulls in large sets of dependencies such as: ant, jetty, felix, glassfish, plexus, some parts of maven
   #may require (for autocomplete from Maven dependencies): sudo dnf -y install eclipse-m2e-sourcelookup
+  (seemed to make following error shorter...)
+  The 'org.eclipse.recommenders.completion.rcp.javaCompletionProposalComputer.intelligent' proposal computer from the 'org.eclipse.recommenders.completion.rcp' plug-in did not complete normally. Unable to instantiate the extension.
+  To avoid this message, disable the 'org.eclipse.recommenders.completion.rcp' plug-in or disable the 'Java Proposals (Code Recommenders)' category on the content assist preferences page.
 * Install jar dependencies
 (requires JOGL--specifically, jogl-1.1.1-rc8-windows-i586/lib/jogl.jar according to version 0.8.3's .classpath file which also specifies jogl-1.1.1-rc8-windows-i586/lib/gluegen-rt.jar)
 
