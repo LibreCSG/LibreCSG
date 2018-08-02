@@ -7,8 +7,10 @@ import java.util.Iterator;
 
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLCapabilities;
+import com.jogamp.opengl.GLCapabilitiesChooser;
 import com.jogamp.opengl.GLContext;
 import com.jogamp.opengl.GLDrawableFactory;
+import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.glu.GLU;
 import javax.swing.JOptionPane;
 
@@ -85,8 +87,8 @@ public class GLView {
 
 	static GL2  gl;
 	static GLU glu;
-	public final  GLCanvas  glCanvas;
-	final  GLContext glContext;
+	public final GLCanvas  glCanvas;
+	final GLContext glContext;
 
 	boolean mouseIsDown = false;
 
@@ -141,22 +143,30 @@ public class GLView {
 	public final boolean OPENGL_FRAGMENT_PROGRAM_ARB_ENABLED;
 
 	public GLView(Composite comp){
-		GLData data = new GLData ();
-		data.doubleBuffer = true;
-		data.depthSize = 16;
-		data.stencilSize = 1;
-		glCanvas = new GLCanvas(comp, SWT.NONE, data);
+		//GLData data = new GLData();
+		//data.doubleBuffer = true;
+		//data.depthSize = 16;
+		//data.stencilSize = 1;
+		//glCanvas = new GLCanvas(comp, SWT.NONE, data);
+		GLProfile glProfile = GLProfile.get(GLProfile.GL2);
+		//GLCapabilitiesChooser
+		glCanvas = new GLCanvas(comp, SWT.NONE, null, null);
+		//if null, parent and default are used respectively for last to args:
+		//    GLCanvas(comp, int, GLCapabilitiesImmutable capsReqUser, GLCapabilitiesChooser chooser)
+		// OR GLCanvas(GLCapabilitiesImmutable capsReqUser, GLCapabilitiesChooser chooser, GraphicsDevice device)
 
-		GLCapabilities glc = new GLCapabilities();
+		GLCapabilities glc = new GLCapabilities(glProfile);
+		glc.setDoubleBuffered(true);
+		glc.setDepthBits(16);
 		glc.setStencilBits(1);
 		System.out.println("JOGL -- OpenGL Capabilities -- " +
 				"DepthBits:" + glc.getDepthBits() +
 				"; DoubleBuff:" + glc.getDoubleBuffered() +
 				"; HWAccel:" + glc.getHardwareAccelerated() +
-				"; StencilBits:" + glc.getStencilBits() +
-				"; FloatPBuf:" + glc.getPbufferFloatingPointBuffers());
+				"; StencilBits:" + glc.getStencilBits());
+				///"; FloatPBuf:" + glc.getPbufferFloatingPointBuffers());
 		glCanvas.setCurrent();
-		glContext = GLDrawableFactory.getFactory().createExternalGLContext();
+		glContext = GLDrawableFactory.getFactory(glProfile).createExternalGLContext();
 
 		glCanvas.addControlListener(new ControlListener(){
 			public void controlMoved(ControlEvent e) {
@@ -410,7 +420,7 @@ public class GLView {
 						Long startTime = System.nanoTime();
 						glCanvas.setCurrent();
 						glContext.makeCurrent();
-						gl = glContext.getGL ();
+						gl = glContext.getGL();
 						//-------------------------------
 						int width = glCanvas.getBounds().width;
 						int height= glCanvas.getBounds().height;
@@ -420,7 +430,7 @@ public class GLView {
 						gl.glClearColor(AvoColors.GL_COLOR4_BACKGND[0],AvoColors.GL_COLOR4_BACKGND[1],
 								AvoColors.GL_COLOR4_BACKGND[2],AvoColors.GL_COLOR4_BACKGND[3]);
 						// -------------------------------
-						gl.glMatrixMode(GL.GL_PROJECTION);
+						gl.glMatrixMode(GL2.GL_PROJECTION);
 						gl.glLoadIdentity();
 						glu.gluPerspective(viewing_angle, aspect, 1.0f, 1000.0f); // Perspective view
 
@@ -430,13 +440,13 @@ public class GLView {
 						gl.glRotatef(rotation_z, 0.0f, 0.0f, 1.0f);
 
 						// -------------------------------
-						gl.glMatrixMode(GL.GL_MODELVIEW);
-						gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
+						gl.glMatrixMode(GL2.GL_MODELVIEW);
+						gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
 						gl.glLoadIdentity();
 
 						cad_3DXYZ(0.0f,0.0f,0.0f,0.25f,false);
 
-						gl.glPolygonMode(GL.GL_FRONT, GL.GL_FILL);
+						gl.glPolygonMode(GL2.GL_FRONT, GL2.GL_FILL);
 
 						gl.glColor4f(0.7f, 0.7f, 0.7f, 1.0f);
 						gl.glLineWidth(2.5f);
@@ -467,15 +477,15 @@ public class GLView {
 
 
 						int v[]=new int[]{0,0,0,0};
-						gl.glGetIntegerv(GL.GL_SHADE_MODEL,v,0);
+						gl.glGetIntegerv(GL2.GL_SHADE_MODEL,v,0);
 						switch(v[0]){
-							case GL.GL_SMOOTH:
+							case GL2.GL_SMOOTH:
 								System.out.println("Shade model GL_SMOOTH");
 								break;
 							default:
 								System.out.println("Shade model " + v[0]);
 						}
-						System.out.println("Lighting " + gl.glIsEnabled(GL.GL_LIGHTING));
+						System.out.println("Lighting " + gl.glIsEnabled(GL2.GL_LIGHTING));
 
 
 						//
@@ -680,7 +690,7 @@ public class GLView {
 		if(AvoGlobal.menuet.getCurrentToolMode() == Menuet.MENUET_MODE_SKETCH ||
 				AvoGlobal.menuet.getCurrentToolMode() == Menuet.MENUET_MODE_BUILD){
 			gl.glColor4f(1.0f,0.0f,0.0f, 0.0f);
-			gl.glBegin(GL.GL_QUADS);
+			gl.glBegin(GL2.GL_QUADS);
 			gl.glVertex3f(-100.0f, 100.0f, 0.0f);
 			gl.glVertex3f( 100.0f, 100.0f, 0.0f);
 			gl.glVertex3f( 100.0f,-100.0f, 0.0f);
@@ -704,11 +714,11 @@ public class GLView {
 			gl.glColor4f(AvoColors.GL_COLOR4_GRID_LIGHT[0], AvoColors.GL_COLOR4_GRID_LIGHT[1],
 					AvoColors.GL_COLOR4_GRID_LIGHT[2], AvoColors.GL_COLOR4_GRID_LIGHT[3]);
 			// draw grid
-			gl.glDisable(GL.GL_LINE_SMOOTH);
+			gl.glDisable(GL2.GL_LINE_SMOOTH);
 			GLDynPrim.mesh(gl, -10.0, 10.0, -10.0, 10.0, 20, 20);
 
 			gl.glLineWidth(2);	//makes x and y axes thicker
-			gl.glBegin(GL.GL_LINES);
+			gl.glBegin(GL2.GL_LINES);
 			//draw X axis
 
 			gl.glColor4f(	AvoColors.GL_COLOR4_2D_X_AXIS[0], AvoColors.GL_COLOR4_2D_X_AXIS[1],
@@ -723,8 +733,8 @@ public class GLView {
 			gl.glEnd();
 
 			gl.glLineWidth(1);
-			gl.glEnable(GL.GL_LINE_SMOOTH);
-			gl.glEnable(GL.GL_DEPTH_TEST);
+			gl.glEnable(GL2.GL_LINE_SMOOTH);
+			gl.glEnable(GL2.GL_DEPTH_TEST);
 		}
 	}
 
@@ -736,7 +746,7 @@ public class GLView {
 
 
 	public void cad_3DX(float x, float y, float z, float size){
-		gl.glBegin(GL.GL_LINES);
+		gl.glBegin(GL2.GL_LINES);
 		gl.glVertex3f(x+size, y+size, z+size);
 		gl.glVertex3f(x-size, y-size, z-size);
 		gl.glVertex3f(x-size, y+size, z+size);
@@ -759,7 +769,7 @@ public class GLView {
 		float a = 0.85f;
 		float b = 1.0f-a;
 		float c = b*0.5f;
-		gl.glBegin(GL.GL_LINES);
+		gl.glBegin(GL2.GL_LINES);
 		gl.glColor4f(	AvoColors.GL_COLOR4_2D_X_AXIS[0], AvoColors.GL_COLOR4_2D_X_AXIS[1],
 				AvoColors.GL_COLOR4_2D_X_AXIS[2], AvoColors.GL_COLOR4_2D_X_AXIS[3]);
 		gl.glVertex3f(x+size, y, z);
@@ -821,7 +831,7 @@ public class GLView {
 	public void cad_2DCross(float x, float y, float z, float size){
 		float sizeB = size*0.7f;
 		gl.glLineWidth(2.0f);
-		gl.glBegin(GL.GL_LINES);
+		gl.glBegin(GL2.GL_LINES);
 		gl.glVertex3f(x+sizeB, y+sizeB, z);
 		gl.glVertex3f(x-sizeB, y-sizeB, z);
 		gl.glVertex3f(x-sizeB, y+sizeB, z);
@@ -832,26 +842,26 @@ public class GLView {
 
 	private void glInit(){
 		glContext.makeCurrent();
-		gl = glContext.getGL ();
+		gl = glContext.getGL();
 		glu = new GLU();
 
 		gl.glClearColor(AvoColors.GL_COLOR4_BACKGND[0],AvoColors.GL_COLOR4_BACKGND[1],
 				AvoColors.GL_COLOR4_BACKGND[2],AvoColors.GL_COLOR4_BACKGND[3]);
 		gl.glColor3f(1.0f, 0.0f, 0.0f);
-		gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);
-		gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
-		gl.glEnable(GL.GL_BLEND);
-		gl.glEnable(GL.GL_AUTO_NORMAL);
-		gl.glColorMaterial(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT_AND_DIFFUSE);
-		gl.glEnable(GL.GL_COLOR_MATERIAL);	// override material properties, makes coloring easier & faster
-		gl.glEnable(GL.GL_LINE_SMOOTH); // smooth rendering of lines
+		gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT, GL2.GL_NICEST);
+		gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA);
+		gl.glEnable(GL2.GL_BLEND);
+		gl.glEnable(GL2.GL_AUTO_NORMAL);
+		gl.glColorMaterial(GL2.GL_FRONT_AND_BACK, GL2.GL_AMBIENT_AND_DIFFUSE);
+		gl.glEnable(GL2.GL_COLOR_MATERIAL);	// override material properties, makes coloring easier & faster
+		gl.glEnable(GL2.GL_LINE_SMOOTH); // smooth rendering of lines
 		gl.glClearDepth(1.0);
 		gl.glClearStencil(0);
 		gl.glLineWidth(2.0f);
-		gl.glEnable(GL.GL_DEPTH_TEST);
-		gl.glEnable(GL.GL_SHADE_MODEL);
-		gl.glShadeModel(GL.GL_SMOOTH);
-		gl.glDepthFunc(GL.GL_LEQUAL);
+		gl.glEnable(GL2.GL_DEPTH_TEST);
+		gl.glEnable(GL2.GL_SHADE_MODEL);
+		gl.glShadeModel(GL2.GL_SMOOTH);
+		gl.glDepthFunc(GL2.GL_LEQUAL);
 
 		doProceduralShading(gl);
 
@@ -863,10 +873,10 @@ public class GLView {
 	}
 
 
-	private void configureGLLighting(GL gl)
+	private void configureGLLighting(GL2 gl)
 	{
 		float global_ambient[] = { 0.5f, 0.5f, 0.5f, 1.0f };
-		gl.glLightModelfv(GL.GL_LIGHT_MODEL_AMBIENT, global_ambient, 0);
+		gl.glLightModelfv(GL2.GL_LIGHT_MODEL_AMBIENT, global_ambient, 0);
 
 		// Create light components
 		float ambientLight[] = { 0.0f, 0.0f, 0.0f, 1.0f };
@@ -876,15 +886,15 @@ public class GLView {
 		float direction[] = { 50.0f, -50.0f, -50.0f, 0.0f };
 
 		// Assign created components to GL_LIGHT0
-		gl.glLightfv(GL.GL_LIGHT0, GL.GL_AMBIENT, ambientLight, 0);
-		gl.glLightfv(GL.GL_LIGHT0, GL.GL_DIFFUSE, diffuseLight, 0);
-		gl.glLightfv(GL.GL_LIGHT0, GL.GL_SPECULAR, specularLight, 0);
-		gl.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, position, 0);
-		gl.glLightfv(GL.GL_LIGHT0, GL.GL_SPOT_DIRECTION, direction, 0);
-		gl.glLightf(GL.GL_LIGHT0, GL.GL_SPOT_CUTOFF, 30);
+		gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_AMBIENT, ambientLight, 0);
+		gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_DIFFUSE, diffuseLight, 0);
+		gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_SPECULAR, specularLight, 0);
+		gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_POSITION, position, 0);
+		gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_SPOT_DIRECTION, direction, 0);
+		gl.glLightf(GL2.GL_LIGHT0, GL2.GL_SPOT_CUTOFF, 30);
 
-		gl.glEnable(GL.GL_COLOR_MATERIAL);
-		gl.glColorMaterial(GL.GL_FRONT_AND_BACK, GL.GL_AMBIENT_AND_DIFFUSE);
+		gl.glEnable(GL2.GL_COLOR_MATERIAL);
+		gl.glColorMaterial(GL2.GL_FRONT_AND_BACK, GL2.GL_AMBIENT_AND_DIFFUSE);
 		// now all subsequent glColor commands will also effect the lighting colors.
 
 		/*
@@ -896,24 +906,24 @@ public class GLView {
 	    gl.glLightf(GL.GL_LIGHT0, GL.GL_LINEAR_ATTENUATION, linearAttenuation);
 	    gl.glLightf(GL.GL_LIGHT0, GL.GL_QUADRATIC_ATTENUATION, quadraticAttenuation);
 		 */
-		gl.glLightf(GL.GL_LIGHT0, GL.GL_QUADRATIC_ATTENUATION, 0.08f);
+		gl.glLightf(GL2.GL_LIGHT0, GL2.GL_QUADRATIC_ATTENUATION, 0.08f);
 	}
 
-	private void turnGLLightsOn(GL gl){
-		gl.glEnable(GL.GL_LIGHT0);
-		gl.glEnable(GL.GL_LIGHTING);
+	private void turnGLLightsOn(GL2 gl){
+		gl.glEnable(GL2.GL_LIGHT0);
+		gl.glEnable(GL2.GL_LIGHTING);
 	}
 
-	private void turnGLLightsOff(GL gl){
-		gl.glDisable(GL.GL_LIGHTING);
-		gl.glDisable(GL.GL_LIGHT0);
+	private void turnGLLightsOff(GL2 gl){
+		gl.glDisable(GL2.GL_LIGHTING);
+		gl.glDisable(GL2.GL_LIGHT0);
 	}
 
-	private void doProceduralShading(GL gl){
+	private void doProceduralShading(GL2 gl){
 
 		// TODO: use FRAGMENT shading for pixel-by-pixel rendering of textures (procedural textures).
 
-		String extensions = gl.glGetString(GL.GL_EXTENSIONS);
+		String extensions = gl.glGetString(GL2.GL_EXTENSIONS);
 		/*
 		if(extensions.indexOf("GL_ARB_fragment_program") != -1){
 			System.out.println("Fragment Program Supported! :)");
@@ -1052,7 +1062,7 @@ public class GLView {
 	}
 
 	private void setMouseMatrixToModelview(){
-		gl.glGetDoublev( GL.GL_MODELVIEW_MATRIX, mouseModelview, 0 );
+		gl.glGetDoublev( GL2.GL_MODELVIEW_MATRIX, mouseModelview, 0 );
 	}
 
 	public double[] getWorldCoorFromMouse(int mouseX, int mouseY){
@@ -1065,15 +1075,15 @@ public class GLView {
 		double wcoord[] = new double[4];// wx, wy, wz;// returned xyz coords
 
 		//gl.glGetDoublev( GL.GL_MODELVIEW_MATRIX, modelview, 0 );
-		gl.glGetDoublev( GL.GL_PROJECTION_MATRIX, projection, 0 );
-		gl.glGetIntegerv( GL.GL_VIEWPORT, viewport, 0 );
+		gl.glGetDoublev( GL2.GL_PROJECTION_MATRIX, projection, 0 );
+		gl.glGetIntegerv( GL2.GL_VIEWPORT, viewport, 0 );
 
 		//TODO: more precision in XYZ lookup by using doubles instead of floats?
 
 		winX = (float)mouseX;
 		winY = (float)viewport[3] - (float)mouseY;
 
-		gl.glReadPixels( mouseX, (int)winY, 1, 1, GL.GL_DEPTH_COMPONENT, GL.GL_FLOAT, winZ );
+		gl.glReadPixels( mouseX, (int)winY, 1, 1, GL2.GL_DEPTH_COMPONENT, GL2.GL_FLOAT, winZ );
 		glu.gluUnProject((double)winX, (double)winY, (double)(winZ.get()), mouseModelview, 0, projection, 0, viewport, 0, wcoord, 0);
 
 		//System.out.println("World coords: (" + wcoord[0] + ", " + wcoord[1] + ", " + wcoord[2] + ")");
