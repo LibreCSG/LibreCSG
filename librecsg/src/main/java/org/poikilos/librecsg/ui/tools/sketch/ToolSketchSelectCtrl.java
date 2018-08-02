@@ -1,6 +1,6 @@
 package org.poikilos.librecsg.ui.tools.sketch;
 
-import javax.media.opengl.GL;
+import com.jogamp.opengl.GLContext;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;

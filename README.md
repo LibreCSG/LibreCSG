@@ -61,34 +61,23 @@ In task lists in this document, tasks are marked as complete by a date of comple
     * Download repository index updates on startup
     * Download Artifact Sources (optional)
     * Download Artifact JavaDoc (optional)
-    * restart Eclipses
+    * restart Eclipse
 * optionally update maven index from central manually (not tried)
   * Window, Show View, Other
     * Maven, Maven Repositories, Open
   * In the Maven Repositories view, open Global Repositories, right-click central, Rebuild Index
     * wait for index download to complete
 * add swt Maven dependency via Eclipse (see <https://stackoverflow.com/questions/9164893/how-do-i-add-a-maven-dependency-in-eclipse>):
-  * (skip this step, didn't work:) right-click the project, Maven, Add Dependency, search for swt in search box then click just plain "swt" in "org.eclipse" -- this will automatically fill in groupId: org.eclipse and artifactId: swt, version something like 3.3.0-v3346 (excluding version will break things), OK
-  * close Eclipse
-  * manually add the dependency to pom.xml also unless experimental feature of Eclipse to update pom.xml is enabled.
+  * right-click the project, Maven, Add Dependency, search for swt in search box then click you must choose the "swt-linux-gtk" in "org.eclipse" -- this will automatically fill in groupId: "org.eclipse" and artifactId: "swt-linux-gtk", version something like 3.0.1 (excluding version may not work), OK
+  * also add dependency javax.media (choose jai_core version for more popular version)
+* replace "import  javax.media.opengl.glu.GLU" with "import com.jogamp.opengl.glu.GLU"
+* replace "import  javax.media.opengl.GLDrawableFactory" with "import com.jogamp.opengl.GLDrawableFactory"
+* replace "import  javax.media.opengl.GLContext" with "import com.jogamp.opengl.GLContext"
+* replace "import  javax.media.opengl.GLCapabilities" with "import com.jogamp.opengl.GLCapabilities"
+* replace "import  javax.media.opengl.GL" with "import com.jogamp.opengl.GL"
+* replace "import  org.eclipse.swt.opengl.GLCanvas" with "import com.jogamp.opengl.swt.GLCanvas"
 ## not done yet:
-* replace "org.eclipse.swt.widgets.Display" with ""
-* replace "org.eclipse.swt.graphics.Color" with ""
-* replace "org.eclipse.swt.graphics.Image" with ""
-  * mostly used by org.poikilos.librecsg.backend.data.utilities.ImageUtils
-    (getIcon method returns icon for tool)
-* replace "org.eclipse.swt.graphics.ImageData" with ""
-* replace "org.eclipse.swt.custom.SashForm" with ""
-* replace "javax.media.opengl.GL" with ""
-* replace "org.eclipse.swt.SWT" with ""
-* replace "org.eclipse.swt.events.KeyEvent" with ""
-* replace "org.eclipse.swt.events.MouseEvent" with ""
-* replace "org.eclipse.swt.widgets.MessageBox" with ""
-* see org.poikilos.librecsg.ui.utilities.SWTUtils for:
-  * replace "org.eclipse.swt.graphics.Cursor" with ""
-  * replace "org.eclipse.swt.graphics.Rectangle" with ""
-  * replace "org.eclipse.swt.widgets.Composite" with ""
-  * replace "org.eclipse.swt.widgets.Shell" with ""
+* replace "org.eclipse.swt.opengl.GLData" ..
 * replace "" with ""
 (2017-05-31)
 * see also "Changes specific to forking" below
@@ -143,7 +132,7 @@ In task lists in this document, tasks are marked as complete by a date of comple
         -DgroupId=org.poikilos.librecsg \
         -DartifactId=librecsg
     # (output indicates that it maven applied -DarchetypeArtifactId=maven-archetype-quickstart by default)
-* Fedora packages not tried yet:
+* Fedora packages not tried:
   maven-jar-plugin maven-eclipse-plugin maven-dependency-plugin maven-dependency-tree
 
 ### Possible alternate names

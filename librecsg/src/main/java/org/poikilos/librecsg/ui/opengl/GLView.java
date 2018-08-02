@@ -5,11 +5,11 @@ import java.io.FileReader;
 import java.nio.FloatBuffer;
 import java.util.Iterator;
 
-import javax.media.opengl.GL;
-import javax.media.opengl.GLCapabilities;
-import javax.media.opengl.GLContext;
-import javax.media.opengl.GLDrawableFactory;
-import javax.media.opengl.glu.GLU;
+import com.jogamp.opengl.GL;
+import com.jogamp.opengl.GLCapabilities;
+import com.jogamp.opengl.GLContext;
+import com.jogamp.opengl.GLDrawableFactory;
+import com.jogamp.opengl.glu.GLU;
 import javax.swing.JOptionPane;
 
 import org.eclipse.swt.SWT;
@@ -25,7 +25,8 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Device;
-import org.eclipse.swt.opengl.GLCanvas;
+import com.jogamp.opengl.swt.GLCanvas;
+import com.jogamp.opengl.GLUniformData;
 import org.eclipse.swt.opengl.GLData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;

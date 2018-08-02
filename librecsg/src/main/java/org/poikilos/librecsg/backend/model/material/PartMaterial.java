@@ -1,6 +1,6 @@
 package org.poikilos.librecsg.backend.model.material;
 
-import javax.media.opengl.GL;
+import com.jogamp.opengl.GLContext;
 import org.eclipse.swt.graphics.Color;
 import org.poikilos.librecsg.backend.global.AvoGlobal;
 

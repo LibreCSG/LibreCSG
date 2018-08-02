@@ -2,7 +2,7 @@ package org.poikilos.librecsg.ui.tools.part;
 
 import java.util.Iterator;
 
-import javax.media.opengl.GL;
+import com.jogamp.opengl.GLContext;
 
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseEvent;

@@ -1,6 +1,6 @@
 package org.poikilos.librecsg.backend.model.CSG;
 
-import javax.media.opengl.GL;
+import com.jogamp.opengl.GLContext;
 
 
 //

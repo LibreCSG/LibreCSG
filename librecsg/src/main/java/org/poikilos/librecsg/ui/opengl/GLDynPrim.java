@@ -1,6 +1,6 @@
 package org.poikilos.librecsg.ui.opengl;
 
-import javax.media.opengl.GL;
+import com.jogamp.opengl.GLContext;
 
 import org.poikilos.librecsg.backend.adt.Point2D;
 import org.poikilos.librecsg.backend.adt.Point3D;

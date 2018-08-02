@@ -3,7 +3,7 @@ package org.poikilos.librecsg.backend.model.CSG;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.media.opengl.GL;
+import com.jogamp.opengl.GLContext;
 
 
 //

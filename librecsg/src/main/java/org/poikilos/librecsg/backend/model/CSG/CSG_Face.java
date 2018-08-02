@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.media.opengl.GL;
+import com.jogamp.opengl.GLContext;
 
 import org.poikilos.librecsg.backend.adt.Rotation3D;
 import org.poikilos.librecsg.backend.adt.Translation3D;

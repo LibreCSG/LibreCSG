@@ -2,7 +2,7 @@ package org.poikilos.librecsg.backend.model.sketch;
 
 import java.util.LinkedList;
 
-import javax.media.opengl.GL;
+import com.jogamp.opengl.GLContext;
 
 import org.poikilos.librecsg.backend.adt.Point2D;
 

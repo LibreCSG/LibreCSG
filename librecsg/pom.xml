@@ -36,9 +36,14 @@
       <version>2.3.1</version>
     </dependency>
     <dependency>
-      <groupId>org.eclipse</groupId>
-      <artifactId>swt</artifactId>
-      <version>3.3.0-v3346</version>
+    	<groupId>swt</groupId>
+    	<artifactId>swt-linux-gtk</artifactId>
+    	<version>3.0.1</version>
+    </dependency>
+    <dependency>
+    	<groupId>javax.media</groupId>
+    	<artifactId>jmf</artifactId>
+    	<version>2.1.1e</version>
     </dependency>
   </dependencies>
 
