@@ -88,7 +88,6 @@ In task lists in this document, tasks are marked as complete by a date of comple
 * (Menuet.java) improve syntax declaring array of linked lists
 ## not done yet:
 * replace "org.eclipse.swt.opengl.GLData" ..
-* replace "" with ""
 (2017-05-31)
 * see also "Changes specific to forking" below
 
